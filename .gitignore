@@ -1,0 +1,20 @@
+# Laravel backend
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+/vendor
+/public/build
+/public/storage
+/storage/*.key
+
+# React frontend
+frontend/node_modules
+frontend/build
+frontend/.env.local
+
+# General
+*.lock
+Thumbs.db
+.DS_Store
