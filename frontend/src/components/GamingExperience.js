@@ -75,8 +75,8 @@ const FeatureCard = ({ feature }) => (
                     objectFit: "cover",
                     transition: "0.3s",
                     "&:hover": {
-                        transform: "scale(1.05)",
-                        boxShadow: "0 0 5px #CF36E1",
+                        transform: "scale(0.9)",
+                        boxShadow: "0 0 2px #CF36E1",
                     },
                 }}
             />
