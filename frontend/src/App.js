@@ -167,7 +167,7 @@ import FeaturedGames from "./components/FeaturedGames";
 import GamingExperience from "./components/GamingExperience"; 
 //import Event from "./components/EventsSection"; 
 import { EventsSection as Event } from "./components/EventsSection";
- // make sure the path is correct
+ 
 
 function App() {
   return (
