@@ -76,7 +76,7 @@ const FeatureCard = ({ feature }) => (
                     transition: "0.3s",
                     "&:hover": {
                         transform: "scale(1.05)",
-                        boxShadow: "0 0 25px #CF36E1",
+                        boxShadow: "0 0 5px #CF36E1",
                     },
                 }}
             />
@@ -123,6 +123,7 @@ export default function GamingExperience() {
                 minHeight: "100vh",
                 background: "#000",
                 position: "relative",
+                
                 overflow: "hidden",
                 textAlign: "center",
                 "&::before": {
@@ -132,15 +133,17 @@ export default function GamingExperience() {
                     left: "50%",
                     width: "800px",
                     height: "800px",
+
+
                     background:
-                        "radial-gradient(circle, rgba(51,178,247,0.6), rgba(207,54,225,0.6), transparent 70%)",
+                        "radial-gradient(circle, rgba(51, 178, 247, 0.73), rgba(84, 14, 92, 0.6), transparent 80%)",
                     transform: "translate(-50%, -50%)",
                     filter: "blur(120px)",
                     zIndex: 0,
                 },
             }}
         >
-            <Box sx={{ position: "relative", zIndex: 1, mt: 5 }}>
+            <Box sx={{ position: "relative", zIndex: 1, mt: 5, }}>
 
                 <Typography
                     // variant="h3"
