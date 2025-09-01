@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@mui/material/styles";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import logo from '../assets/logo.png'
 
 const Navbar = () => {
@@ -49,7 +49,10 @@ const Navbar = () => {
         <Toolbar sx={{ justifyContent: "space-between", px: { xs: 4, md: 10 } }}>
           {/* Logo */}
           <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer",height:'50px' }}>
+            <Link to="/" style={{ textDecoration: "none" }}>
             <img src={logo} alt="Gameverse Logo" style={{  width: 200 }} />
+            </Link>
+            
           </Box>
 
           {/* Desktop Links */}

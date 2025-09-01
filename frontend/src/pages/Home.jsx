@@ -35,8 +35,8 @@ const GradientButton = styled(Button)(({ theme }) => ({
   },
 
   "&:hover": {
-    backgroundImage: "linear-gradient(to right, #33B2F7, #A905BC)",
-    color: "#fff",
+    background: "linear-gradient(to right, #33B2F7, #A905BC)",
+    color: "#fff", // text becomes visible
     "&::before": {
       background: "linear-gradient(to right, #33B2F7, #A905BC)",
     },
@@ -68,7 +68,7 @@ const Home = () => {
           variant="h2"
           sx={{
             fontWeight: "bold",
-            lineHeight: "80px",
+            lineHeight: { xs: "65px", sm: "80px", md: "80px" },
             fontSize: { xs: "40px", sm: "70px", md: "70px" },
             pt: 0,
           }}
@@ -127,21 +127,21 @@ const Home = () => {
           flex: 1,
           display: "flex",
           justifyContent: "center",
-          alignItems: "flex-start", // vertical align top
+          alignItems: "center",
           overflow: "hidden",
           height: "100vh",
-
+          mt: { xs: 4, md: 0 },
         }}
       >
-        <Box
-          component="img"
+        <img
           src={homeImg}
           alt="Gamer"
-          sx={{
-            width: "450px",
-            height: { xs: "auto", md: "100%" },    
-            objectFit: "cover",
-            display: "block", 
+          style={{
+            width: "100%",
+            maxWidth: "500px", // limit max size on large screens
+            height: "auto",    // keeps aspect ratio
+            objectFit: "contain",
+            display: "block",
           }}
         />
       </Box>
