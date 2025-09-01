@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* import React, { useEffect, useState } from "react";
+
 
 function App() {
   const [particles, setParticles] = useState([]);
@@ -57,7 +58,7 @@ function App() {
         position: "relative",
       }}
     >
-      {/* Background particles */}
+      {// Background particles }
       <svg
         style={{
           position: "absolute",
@@ -93,7 +94,7 @@ function App() {
           />
         ))}
 
-        {/* Glitter points */}
+        {// Glitter points }
         {glitters.map((g, i) => (
           <circle
             key={i}
@@ -110,7 +111,7 @@ function App() {
         ))}
       </svg>
 
-      {/* Coming Soon text */}
+      {// Coming Soon text }
       {showText && (
         <svg viewBox="0 0 1200 200" style={{ width: "80%", height: "auto" }}>
           <text
@@ -136,6 +137,7 @@ function App() {
           </text>
         </svg>
       )}
+      
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
@@ -146,8 +148,40 @@ function App() {
         }
       `}</style>
     </div>
+
+    
+  );
+}
+
+export default App; */
+
+// App.js
+import React from "react";
+import AboutGameVerse from './components/AboutGameVerse';
+import GalleryView from "./components/GalleryView";
+import { CssBaseline, Box } from "@mui/material";
+
+function App() {
+  return (
+    <>
+      {/* Reset default browser styles */}
+      <CssBaseline />
+
+      <Box
+        sx={{
+          bgcolor: "black",
+          minHeight: "100vh",
+        }}
+      >
+        {/* About Section */}
+        <AboutGameVerse />
+        <GalleryView />
+        
+      </Box>
+    </>
   );
 }
 
 export default App;
+
 
