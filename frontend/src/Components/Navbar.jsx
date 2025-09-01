@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@mui/material/styles";
+import { NavLink } from "react-router-dom";
 import logo from '../assets/logo.png'
 
 const Navbar = () => {
@@ -20,28 +21,28 @@ const Navbar = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const navLinks = ["Home", "Games", "About Us", "Contact"];
+  // const navLinks = ["Home", "Games", "About Us", "Contact"];
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const drawer = (
-    <Box
-      sx={{ width: 250, }}
-      role="presentation"
-      onClick={handleDrawerToggle}
-      onKeyDown={handleDrawerToggle}
-    >
-      <List>
-        {navLinks.map((text) => (
-          <ListItem button key={text} component="a" href={`${text.toLowerCase().replace(" ", "-")}`}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+  // const drawer = (
+  //   <Box
+  //     sx={{ width: 250, }}
+  //     role="presentation"
+  //     onClick={handleDrawerToggle}
+  //     onKeyDown={handleDrawerToggle}
+  //   >
+  //     <List>
+  //       {navLinks.map((text) => (
+  //         <ListItem button key={text} component="a" href={`${text.toLowerCase().replace(" ", "-")}`}>
+  //           <ListItemText primary={text} />
+  //         </ListItem>
+  //       ))}
+  //     </List>
+  //   </Box>
+  // );
   return (
     <>
       <AppBar position="fixed" sx={{  background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)"}}>
@@ -54,7 +55,7 @@ const Navbar = () => {
           {/* Desktop Links */}
           {!isMobile && (
             <Box sx={{ display: "flex",  gap: 3, alignItems: "center" }}>
-              {navLinks.map((item) => (
+              {/* {navLinks.map((item) => (
                 <Button
                   key={item}
                   href={`${item.toLowerCase().replace(" ", "-")}`}
@@ -67,7 +68,60 @@ const Navbar = () => {
                 >
                   {item}
                 </Button>
-              ))}
+              ))} */}
+
+              <Button
+                component={NavLink}
+                to="/"
+                sx={{
+                  color: "#ffffff",
+                  textTransform: "none",
+                  fontSize: 16,
+                  "&.active": { color: "#ff00ff" }, // active link highlight
+                  "&:hover": { color: "#ff00ff" },
+                }}
+              >
+                Home
+              </Button>
+              <Button
+                component={NavLink}
+                to="/games"
+                sx={{
+                  color: "#ffffff",
+                  textTransform: "none",
+                  fontSize: 16,
+                  "&.active": { color: "#ff00ff" },
+                  "&:hover": { color: "#ff00ff" },
+                }}
+              >
+                Games
+              </Button>
+              <Button
+                component={NavLink}
+                to="/about"
+                sx={{
+                  color: "#ffffff",
+                  textTransform: "none",
+                  fontSize: 16,
+                  "&.active": { color: "#ff00ff" },
+                  "&:hover": { color: "#ff00ff" },
+                }}
+              >
+                About Us
+              </Button>
+              <Button
+                component={NavLink}
+                to="/contact"
+                sx={{
+                  color: "#ffffff",
+                  textTransform: "none",
+                  fontSize: 16,
+                  "&.active": { color: "#ff00ff" },
+                  "&:hover": { color: "#ff00ff" },
+                }}
+              >
+                Contact
+              </Button>
               
             </Box>
           )}
@@ -92,8 +146,22 @@ const Navbar = () => {
 
       {/* Mobile Drawer */}
       <Drawer anchor="right"  open={drawerOpen} onClose={handleDrawerToggle}>
-        {drawer}
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ width: 250, p: 2 }}>
+          <List>
+            <ListItem button component={NavLink} to="/" onClick={handleDrawerToggle}>
+              <ListItemText primary="Home" />
+            </ListItem>
+            <ListItem button component={NavLink} to="/games" onClick={handleDrawerToggle}>
+              <ListItemText primary="Games" />
+            </ListItem>
+            <ListItem button component={NavLink} to="/about" onClick={handleDrawerToggle}>
+              <ListItemText primary="About Us" />
+            </ListItem>
+            <ListItem button component={NavLink} to="/contact" onClick={handleDrawerToggle}>
+              <ListItemText primary="Contact" />
+            </ListItem>
+          </List>
+
           <Button
             variant="contained"
             fullWidth
