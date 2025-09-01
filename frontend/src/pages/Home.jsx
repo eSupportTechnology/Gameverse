@@ -139,16 +139,12 @@ const Home = () => {
           alt="Gamer"
           sx={{
             width: "450px",
-            height: { xs: "auto", md: "100%" },     // fill parent vertically
+            height: { xs: "auto", md: "100%" },    
             objectFit: "cover",
-            display: "block",      // prevent inline-gap issues
+            display: "block", 
           }}
         />
       </Box>
-
-
-
-
     </Box>
 
 
