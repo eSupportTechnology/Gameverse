@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+/*import React, { useEffect, useState } from "react";
 
 function App() {
   const [particles, setParticles] = useState([]);
@@ -56,8 +56,8 @@ function App() {
         overflow: "hidden",
         position: "relative",
       }}
-    >
-      {/* Background particles */}
+    
+     
       <svg
         style={{
           position: "absolute",
@@ -93,8 +93,17 @@ function App() {
           />
         ))}
 
-        {/* Glitter points */}
-        {glitters.map((g, i) => (
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="8" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        {particles.map((p, i) => (
           <circle
             key={i}
             cx={g.x}
@@ -110,7 +119,7 @@ function App() {
         ))}
       </svg>
 
-      {/* Coming Soon text */}
+      
       {showText && (
         <svg viewBox="0 0 1200 200" style={{ width: "80%", height: "auto" }}>
           <text
@@ -145,6 +154,27 @@ function App() {
           20%, 22%, 24%, 55% { opacity: 0.3; }
         }
       `}</style>
+    </div>
+  );
+}
+
+export default App;
+*/
+
+
+import React from "react";
+import FeaturedGames from "./components/FeaturedGames";
+import GamingExperience from "./components/GamingExperience"; 
+//import Event from "./components/EventsSection"; 
+import { EventsSection as Event } from "./components/EventsSection";
+ 
+
+function App() {
+  return (
+    <div>
+      <FeaturedGames />
+      <GamingExperience />
+      <Event />
     </div>
   );
 }
