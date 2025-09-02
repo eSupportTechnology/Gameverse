@@ -2,9 +2,9 @@ import React from 'react'
 import homeImg from '../assets/homeImg.png'
 import { Box, Typography, Button, Stack } from "@mui/material";
 import { styled } from "@mui/system";
-import FeaturedGames from '../Components/FeaturedGames';
-import GamingExperience from '../Components/GamingExperience';
-import { EventsSection as Event } from '../Components/EventsSection';
+import FeaturedGames from '../components/FeaturedGames';
+import GamingExperience from '../components/GamingExperience';
+import { EventsSection as Event } from '../components/EventsSection';
 
 
 
@@ -154,6 +154,7 @@ const Home = () => {
       <FeaturedGames />
       <GamingExperience />
       <Event />
+      
     </>
 
 
