@@ -5,13 +5,11 @@ const GalleryView = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  // Define the specific gradients from the UI image
   const headerGradient = 'linear-gradient(to right, #A033FF, #D100FF, #00C3FF)';
   const imageBorderGradient = 'linear-gradient(to right, #9F00FF, #B86BFF, #00D3FE, #3C7CFA)';
 
-  // Array of all 8 image paths for the single row
   const galleryImages = [
-    '/assets/gallery-image1.jpg', 
+    '/assets/gallery-image1.jpg',
     '/assets/gallery-image2.jpg',
     '/assets/gallery-image3.jpg',
     '/assets/gallery-image4.jpg',
@@ -21,7 +19,6 @@ const GalleryView = () => {
     '/assets/gallery-image8.jpg',
   ];
 
-  // Function to apply gradient to text
   const applyGradientText = (gradient) => ({
     background: gradient,
     WebkitBackgroundClip: 'text',
@@ -29,16 +26,14 @@ const GalleryView = () => {
   });
 
   const imageCardStyle = {
-    flexShrink: 0, // Prevents images from shrinking
-    width: isMobile ? '280px' : '300px',
-    height: isMobile ? '180px' : '200px',
+    flexShrink: 0,
+    width: isMobile ? '220px' : '260px',
+    height: isMobile ? '140px' : '160px',
     position: 'relative',
     borderRadius: '16px',
     overflow: 'hidden',
     marginRight: isMobile ? '16px' : '24px',
-    '&:last-child': {
-      marginRight: 0,
-    },
+    '&:last-child': { marginRight: 0 },
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -57,7 +52,6 @@ const GalleryView = () => {
       maskComposite: 'exclude',
       pointerEvents: 'none',
     },
-    // Inner glow effect
     '&::after': {
       content: '""',
       position: 'absolute',
@@ -90,6 +84,7 @@ const GalleryView = () => {
         fontFamily: 'Roboto, sans-serif',
       }}
     >
+      {/* Header */}
       <Box sx={{ maxWidth: 900, textAlign: 'center', mb: isMobile ? 6 : 10 }}>
         <Typography
           variant={isMobile ? 'h3' : 'h2'}
@@ -122,35 +117,54 @@ const GalleryView = () => {
         </Typography>
       </Box>
 
-      {/* Single, horizontal scrolling row */}
+      {/* Scrollable 2-row gallery */}
       <Box
         sx={{
           width: '100%',
-          overflowX: 'auto', 
-          whiteSpace: 'nowrap', 
-          pb: 2, 
-          '&::-webkit-scrollbar': { display: 'none' }, 
-          msOverflowStyle: 'none', 
-          scrollbarWidth: 'none', 
-          display: 'flex',
-          justifyContent: 'flex-start',
+          overflowX: 'auto',
+          pb: 2,
+          '&::-webkit-scrollbar': { display: 'none' },
+          msOverflowStyle: 'none',
+          scrollbarWidth: 'none',
         }}
       >
-        {galleryImages.map((imageSrc, index) => (
-          <Box key={index} sx={imageCardStyle}>
-            <img
-              src={imageSrc}
-              alt={`Gaming setup ${index + 1}`}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block',
-                borderRadius: 'inherit',
-              }}
-            />
+        <Box sx={{ display: 'inline-flex', flexDirection: 'column', gap: 3 }}>
+          {/* First row - normal order */}
+          <Box sx={{ display: 'flex' }}>
+            {galleryImages.map((src, i) => (
+              <Box key={`row1-${i}`} sx={imageCardStyle}>
+                <img
+                  src={src}
+                  alt={`Gallery row1 item ${i + 1}`}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: 'inherit',
+                  }}
+                />
+              </Box>
+            ))}
           </Box>
-        ))}
+
+          {/* Second row - reversed order */}
+          <Box sx={{ display: 'flex' }}>
+            {galleryImages.slice().reverse().map((src, i) => (
+              <Box key={`row2-${i}`} sx={imageCardStyle}>
+                <img
+                  src={src}
+                  alt={`Gallery row2 item ${i + 1}`}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: 'inherit',
+                  }}
+                />
+              </Box>
+            ))}
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
