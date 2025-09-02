@@ -1,3 +1,5 @@
+
+
 import React from "react";
 import { Box, Grid, Card, CardMedia, CardContent, Typography, Button } from "@mui/material";
 
@@ -39,53 +41,39 @@ export default function FeaturedGames() {
     return (
         <Box
             component="section"
-            /*
             sx={{
-              bgcolor: "background.default",
-              background: "linear-gradient(to bottom, #0b0c10, #1f2833)",
-              py: 8,
-              px: 2,
-              color: "white",
-            }}*/
-
-            sx={{
-                bgcolor: "#0b0c10", // solid black background
+                bgcolor: "#0b0c10",
                 py: 8,
                 px: 2,
                 color: "white",
+                position: "relative",
+                overflow: "hidden",
             }}
         >
+            {/* Central glow effect */}
             <Box
                 sx={{
                     position: "absolute",
-                    top: "63%",
+                    top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: "40%",
-                    height: "200px",
-                    background: "radial-gradient(circle, rgba(218, 60, 205, 0.9) 5%, rgba(62, 112, 229, 0.88) 3%, transparent 100%)",
+                    width: "800px",
+                    height: "800px",
+                    background: "radial-gradient(circle, rgba(51, 178, 247, 0.73), rgba(84, 14, 92, 0.6), transparent 80%)",
+                    filter: "blur(120px)",
                     zIndex: 0,
-                    filter: "blur(100px)",
                 }}
             />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <Box sx={{ maxWidth: 1200, mx: "auto", textAlign: "center", mb: 6 }}>
+            <Box sx={{ 
+                maxWidth: 1200, 
+                mx: "auto", 
+                textAlign: "center", 
+                mb: 6,
+                position: "relative",
+                zIndex: 1,
+            }}>
                 <Typography
-                    //variant="h3"
                     fontSize="70px"
                     component="h2"
                     sx={{
@@ -108,40 +96,59 @@ export default function FeaturedGames() {
                 </Typography>
             </Box>
 
-
-            <Grid container spacing={4} justifyContent="center">
+            <Box sx={{ 
+                maxWidth: 1200, 
+                mx: "auto",
+                display: "grid",
+                gridTemplateColumns: {
+                    xs: "1fr",
+                    sm: "repeat(2, 1fr)",
+                    md: "repeat(3, 1fr)",
+                },
+                gap: 4,
+                mb: 6,
+                position: "relative",
+                zIndex: 1,
+            }}>
                 {games.map((game, idx) => (
-                    <Grid item key={idx} xs={12} sm={6} md={4}>
-                        <Card
-                            sx={{
-                                bgcolor: "#251C29",
-                                borderRadius: 2,
-                                overflow: "hidden",
-                                transition: "transform 0.3s",
-                                "&:hover": { transform: "scale(1.05)" },
-                            }}
-                        >
-                            <CardMedia
-                                component="img"
-                                height="200"
-                                image={game.img}
-                                alt={game.title}
-                            />
-                            <CardContent>
-                                <Typography variant="h6" color="#FFFFFF" sx={{ mb: 1 }}>
-                                    {game.title}
-                                </Typography>
-                                <Typography variant="body2" color="#FFFFFF" >
-                                    {game.desc}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
+                    <Card
+                        key={idx}
+                        sx={{
+                            bgcolor: "#251C29",
+                            borderRadius: 2,
+                            overflow: "hidden",
+                            transition: "transform 0.3s",
+                            "&:hover": { 
+                                transform: "scale(1.05)",
+                                boxShadow: "0 0 25px rgba(103, 58, 183, 0.5)",
+                            },
+                        }}
+                    >
+                        <CardMedia
+                            component="img"
+                            height="250"
+                            image={game.img}
+                            alt={game.title}
+                        />
+                        <CardContent>
+                            <Typography variant="h6" color="#FFFFFF" sx={{ mb: 1 }}>
+                                {game.title}
+                            </Typography>
+                            <Typography variant="body2" color="#FFFFFF" >
+                                {game.desc}
+                            </Typography>
+                        </CardContent>
+                    </Card>
                 ))}
-            </Grid>
-
-            {/* Button */}
-            <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
+            </Box>
+            
+            <Box sx={{ 
+                display: "flex", 
+                justifyContent: "center", 
+                mt: 6,
+                position: "relative",
+                zIndex: 1,
+            }}>
                 <Button
                     variant="contained"
                     sx={{
