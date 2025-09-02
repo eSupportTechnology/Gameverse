@@ -5,6 +5,9 @@ import { styled } from "@mui/system";
 import FeaturedGames from '../components/FeaturedGames';
 import GamingExperience from '../components/GamingExperience';
 import { EventsSection as Event } from '../components/EventsSection';
+import AboutGameVerse from '../components/AboutGameVerse';
+import GalleryView from '../components/GalleryView';
+
 
 
 
@@ -150,11 +153,12 @@ const Home = () => {
           />
         </Box>
       </Box>
+        <AboutGameVerse />
 
       <FeaturedGames />
       <GamingExperience />
       <Event />
-      
+        <GalleryView />
     </>
 
 
