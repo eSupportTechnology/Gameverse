@@ -83,6 +83,7 @@ export const EventsSection = () => {
     return (
         <Box
             sx={{
+                width:'100%',
                 background: "#000",
                 py: 8,
                 px: 2,
