@@ -150,10 +150,12 @@ const Home = () => {
           />
         </Box>
       </Box>
+        <AboutGameVerse />
 
       <FeaturedGames />
       <GamingExperience />
       <Event />
+        <GalleryView />
     </>
 
 
