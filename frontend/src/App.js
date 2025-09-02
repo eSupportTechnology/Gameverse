@@ -172,25 +172,5 @@ function App() {
 }
 
 export default App;
-*/
 
-
-import React from "react";
-import FeaturedGames from "./components/FeaturedGames";
-import GamingExperience from "./components/GamingExperience"; 
-//import Event from "./components/EventsSection"; 
-import { EventsSection as Event } from "./components/EventsSection";
- 
-
-function App() {
-  return (
-    <div>
-      <FeaturedGames />
-      <GamingExperience />
-      <Event />
-    </div>
-  );
-}
-
-export default App;
 
