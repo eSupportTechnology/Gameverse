@@ -6,7 +6,7 @@ import FeaturedGames from '../components/FeaturedGames';
 import GamingExperience from '../components/GamingExperience';
 import { EventsSection as Event } from '../components/EventsSection';
 import AboutGameVerse from '../components/AboutGameVerse';
-import GalleryView from '../components/GalleryView';
+import GalleryView from '../components/Gallery';
 
 
 
