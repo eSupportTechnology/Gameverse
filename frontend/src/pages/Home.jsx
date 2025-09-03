@@ -7,6 +7,7 @@ import GamingExperience from '../components/GamingExperience';
 import { EventsSection as Event } from '../components/EventsSection';
 import AboutGameVerse from '../components/AboutGameVerse';
 import GalleryView from '../components/Gallery';
+import BookingSection from '../components/BookingSection';
 
 
 
@@ -137,7 +138,7 @@ const Home = () => {
             alignItems: "center",
             overflow: "hidden",
             height: "100vh",
-            mt: { xs: 4, md: 0 },
+            // mt: { xs: 4, md: 0 },
           }}
         >
           <img
@@ -158,7 +159,8 @@ const Home = () => {
       <FeaturedGames />
       <GamingExperience />
       <Event />
-        <GalleryView />
+      <GalleryView />
+      <BookingSection/>
     </>
 
 
