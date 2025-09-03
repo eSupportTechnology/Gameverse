@@ -1,7 +1,6 @@
-
 import React from "react";
 import { Box, Grid, Typography, Card, CardMedia, Button } from "@mui/material";
-import { styled } from "@mui/system";
+import { fontSize, styled } from "@mui/system";
 
 
 const GradientText = styled(Typography)({
@@ -14,21 +13,45 @@ const GradientText = styled(Typography)({
     fontSize: "70px",
 });
 
-
 const GradientButton = styled(Button)({
+  position: "relative",
+  padding: "12px 28px",
+  borderRadius: "24px", // fully rounded corners
+  textTransform: "none",
+  fontWeight: 600,
+  display: "block",
+  margin: "40px auto 0",
+  color: "#fff",
+  background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
+  border: "none",
+  overflow: "hidden",
+  zIndex: 1,
+  transition: "all 0.3s ease",
+
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    borderRadius: "24px", // same as button
+    padding: "2px", // thickness of border
     background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
-    color: "#fff",
-    padding: "12px 28px",
-    borderRadius: "24px",
-    textTransform: "none",
-    fontWeight: 600,
-    display: "block",
-    margin: "40px auto 0",
-    "&:hover": {
-        opacity: 0.9,
-        background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
-    },
+    WebkitMask:
+      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) padding-box",
+    WebkitMaskComposite: "xor",
+    maskComposite: "exclude",
+    zIndex: -1,
+  },
+
+  "&:hover": {
+    background: "transparent",
+    color: "transparent",
+    WebkitBackgroundClip: "text",
+    backgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundImage: "linear-gradient(90deg, #33B2F7, #CF36E1)",
+  },
 });
+
 
 
 const GradientBorderCard = styled("div")({
