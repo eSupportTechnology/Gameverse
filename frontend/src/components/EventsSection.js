@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Box, Grid, Typography, Card, CardMedia, Button } from "@mui/material";
-import { styled } from "@mui/system";
+import { fontSize, styled } from "@mui/system";
 
 
 const GradientText = styled(Typography)({
@@ -32,7 +32,7 @@ const GradientButton = styled(Button)({
 
 
 const GradientBorderCard = styled("div")({
-    borderRadius: "24px",
+    borderRadius: "22px",
     padding: "1.5px",
     background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
     boxShadow: "0 10px 40px rgba(0,0,0,0.8), 0 0 60px rgba(51,178,247,0.2), 0 0 80px rgba(207,54,225,0.1)",
@@ -49,8 +49,8 @@ const InnerCard = styled(Card)({
     background: "radial-gradient(circle at center, #1a1a1a 0%, #000 100%)",
     color: "#fff",
     textAlign: "center",
-    padding: "20px",
-    minHeight: "480px",
+    padding: "0px",
+    minHeight: "460px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
@@ -107,7 +107,7 @@ export const EventsSection = () => {
 
             <Typography
                 variant="body1"
-                sx={{ color: "#aaa", textAlign: "center", maxWidth: "600px", margin: "0 auto 50px", position: "relative", zIndex: 1 }}
+                sx={{ color: "#aaa", textAlign: "center", maxWidth: "600px", margin: "0 auto 40px", position: "relative", zIndex: 1 }}
             >
                 Get ready to battle it out! Join our exciting events and competitive tournaments featuring top
                 games, epic challenges, and massive rewards. Whether you're a casual player or a pro, there's
@@ -124,25 +124,28 @@ export const EventsSection = () => {
                                         component="img"
                                         height="220"
                                         image={event.image}
+                                         
                                         alt={event.title}
                                         sx={{ width: "100%", display: "block" }}
                                     />
                                 </ImageWrapper>
-                                <Typography variant="subtitle2" sx={{ color: "#33B2F7", mb: 1 }}>UPCOMING</Typography>
+                                <GradientText sx={{ fontSize: "22px" }}>UPCOMING</GradientText>
                                 <Typography
                                     variant="h6"
                                     sx={{
                                         fontWeight: 700,
                                         mb: 1,
-                                        background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
+                                      //  background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
+                                      background: "White",
+                                        color: "white",
                                         WebkitBackgroundClip: "text",
                                         WebkitTextFillColor: "transparent",
                                     }}
                                 >
                                     {event.title}
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: "#aaa", mb: 1 }}>{event.date}</Typography>
-                                <Typography variant="body2" sx={{ color: "#CF36E1", fontWeight: 600 }}>{event.countdown}</Typography>
+                                 <GradientText  sx={{ color: "#aaa", mb: 1 ,fontSize:"20px"}}>{event.date}</GradientText>
+                                <Typography  sx={{ color: "#f8f0f9ff", fontWeight: 600,fontSize:"20px" }}>{event.countdown}</Typography>
                             </InnerCard>
                         </GradientBorderCard>
                     </Grid>

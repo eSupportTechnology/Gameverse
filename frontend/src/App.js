@@ -1,11 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Footter from "./Components/Footter";
+import Footter from "./components/Footter";
 import Games from "./pages/Games";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Navbar from "./Components/Navbar";
+import Navbar from "./components/Navbar";
 
 function App() {
   // const [particles, setParticles] = useState([]);
