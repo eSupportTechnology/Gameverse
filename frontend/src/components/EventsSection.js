@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Box, Grid, Typography, Card, CardMedia, Button } from "@mui/material";
-import { fontSize, styled } from "@mui/system";
+import { styled } from "@mui/system";
 
 
 const GradientText = styled(Typography)({
