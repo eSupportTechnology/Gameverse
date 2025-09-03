@@ -49,7 +49,7 @@ const Footter = () => {
           <Typography variant="h6" sx={{ mb: 2, fontSize: '14px' }}>
             QUICK LINK
           </Typography>
-          <Box sx={{ display: "flex", fontSize: '14px', flexDirection: "column", gap: 1 }}>
+          <Box sx={{ display: "flex", fontSize: '14px',lineHeight:'100%', flexDirection: "column", gap: 1 }}>
             <Link href="#" color="inherit" underline="hover">HOME</Link>
             <Link href="#" color="inherit" underline="hover">ABOUT US</Link>
             <Link href="#" color="inherit" underline="hover">GAMES</Link>
@@ -62,6 +62,7 @@ const Footter = () => {
           <Box
             component="iframe"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.454343614969!2d80.63331777373575!3d7.30274301362038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae367d431bdb637%3A0x43523ff88f06a6cd!2s666%20DS%20Senanayake%20Veediya%2C%20Kandy!5e0!3m2!1ssi!2slk!4v1756720951247!5m2!1ssi!2slk"
+            maxWidth="400px"
             width="100%"
             height="250"
             style={{ border: 0, borderRadius: "8px" }}
