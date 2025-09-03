@@ -6,7 +6,7 @@ import FeaturedGames from '../components/FeaturedGames';
 import GamingExperience from '../components/GamingExperience';
 import { EventsSection as Event } from '../components/EventsSection';
 import AboutGameVerse from '../components/AboutGameVerse';
-import GalleryView from '../components/GalleryView';
+import GalleryView from '../components/Gallery';
 
 
 
@@ -52,128 +52,113 @@ const GradientButton = styled(Button)(({ theme }) => ({
 const Home = () => {
   return (
     <>
-
       <Box
         component="section"
         sx={{
+          minHeight: "100vh",   // use minHeight instead of height to prevent issues
           width: "100%",
+          background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
           display: "flex",
-          flexDirection: "column",
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: "space-between",
           alignItems: "center",
           overflowX: "hidden",
+          px: { xs: 4, md: 10 },
+          color: "#fff",
+          position: "relative",
           boxSizing: "border-box",
         }}
       >
-        <Box
-          component="section"
-          sx={{
-            minHeight: "100vh",   // use minHeight instead of height to prevent issues
-            width: "100%",
-            background: "linear-gradient(90deg, #000000 0%, #1a0033 90%, #000000 100%)",
-            // backgroundColor: "#000000",
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            justifyContent: "space-between",
-            alignItems: "center",
-            overflowX: "hidden",
-            px: { xs: 4, md: 10 },
-            py: { xs: 4, md: 0 },
-            color: "#fff",
-            position: "relative",
-            boxSizing: "border-box",
-          }}
-        >
-          {/* Left Text Section */}
-          <Box sx={{ flex: 1, maxWidth: "600px", }}>
-            <Typography
-              variant="h2"
+        {/* Left Text Section */}
+        <Box sx={{ flex: 1, maxWidth: "600px", }}>
+          <Typography
+            variant="h2"
+            sx={{
+              fontWeight: "bold",
+              lineHeight: { xs: "65px", sm: "80px", md: "80px" },
+              fontSize: { xs: "40px", sm: "70px", md: "70px" },
+              pt: 0,
+            }}
+          >
+            STEP IN <br />
+            <Box
+              component="span"
               sx={{
-                fontWeight: "bold",
-                lineHeight: { xs: "65px", sm: "80px", md: "80px" },
-                fontSize: { xs: "40px", sm: "70px", md: "70px" },
-                pt: 0,
-              }}
-            >
-              STEP IN <br />
-              <Box
-                component="span"
-                sx={{
-                  background: "linear-gradient(to bottom, #33B2F7, #A905BC)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                GAME ON
-              </Box>
-              <br />
-              ESCAPE REALITY
-            </Typography>
-
-            <Typography
-              sx={{
-                mt: 2,
-                fontSize: "18px",
-                lineHeight: "28px",
-                color: "#FFFFFF",
-              }}
-            >
-              Sri Lanka’s No.1 ultimate neon gaming lounge experience, reserve your
-              gaming station online within seconds – Skip the lines, secure your
-              spot, and dive straight in to the action the moment you arrive.
-            </Typography>
-
-            <Typography
-              sx={{
-                mt: 2,
-                fontSize: "18px",
-                fontWeight: 500,
-                backgroundImage: "linear-gradient(to right, #33B2F7, #A905BC)",
+                background: "linear-gradient(to bottom, #33B2F7, #A905BC)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Opening Hours: 12 PM – 12 AM (Daily)
-            </Typography>
+              GAME ON
+            </Box>
+            <br />
+            ESCAPE REALITY
+          </Typography>
 
-            {/* Buttons */}
-            <Stack direction="row" spacing={2} mt={3}>
-              <GradientButton>Booking Now</GradientButton>
-              <GradientButton>View Games</GradientButton>
-            </Stack>
-          </Box>
-
-          {/* Right Image */}
-          <Box
+          <Typography
             sx={{
-              flex: 1,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              overflow: "hidden",
-              height: "100vh",
+              mt: 2,
+              fontSize: "18px",
+              lineHeight: "28px",
+              color: "#FFFFFF",
             }}
           >
-            <img
-              src={homeImg}
-              alt="Gamer"
-              style={{
-                width: "100%",
-                maxWidth: "500px", // limit max size on large screens
-                height: "auto",    // keeps aspect ratio
-                objectFit: "contain",
-                display: "block",
+            Sri Lanka’s No.1 ultimate neon gaming lounge experience, reserve your
+            gaming station online within seconds – Skip the lines, secure your
+            spot, and dive straight in to the action the moment you arrive.
+          </Typography>
 
-              }}
-            />
-          </Box>
+          <Typography
+            sx={{
+              mt: 2,
+              fontSize: "18px",
+              fontWeight: 500,
+              backgroundImage: "linear-gradient(to right, #33B2F7, #A905BC)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Opening Hours: 12 PM – 12 AM (Daily)
+          </Typography>
+
+          {/* Buttons */}
+          <Stack direction="row" spacing={2} mt={3}>
+            <GradientButton>Booking Now</GradientButton>
+            <GradientButton>View Games</GradientButton>
+          </Stack>
         </Box>
 
-        <AboutGameVerse />
-        <FeaturedGames />
-        <GamingExperience />
-        <Event />
-        <GalleryView />
+        {/* Right Image */}
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "hidden",
+            height: "100vh",
+            mt: { xs: 4, md: 0 },
+          }}
+        >
+          <img
+            src={homeImg}
+            alt="Gamer"
+            style={{
+              width: "100%",
+              maxWidth: "500px", // limit max size on large screens
+              height: "auto",    // keeps aspect ratio
+              objectFit: "contain",
+              display: "block",
+            }}
+          />
+        </Box>
       </Box>
+        <AboutGameVerse />
+
+      <FeaturedGames />
+      <GamingExperience />
+      <Event />
+        <GalleryView />
     </>
 
 
