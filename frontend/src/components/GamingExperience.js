@@ -120,7 +120,7 @@ export default function GamingExperience() {
             sx={{
                 py: 8,
                 px: { xs: 2, md: 8 },
-                minHeight: "100vh",
+                minHeight: "80vh",
                 background: "#000",
                 position: "relative",
                 
