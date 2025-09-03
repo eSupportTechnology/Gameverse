@@ -118,6 +118,7 @@ export default function GamingExperience() {
     return (
         <Box
             sx={{
+                width:'100%',
                 py: 8,
                 px: { xs: 2, md: 8 },
                 minHeight: "80vh",

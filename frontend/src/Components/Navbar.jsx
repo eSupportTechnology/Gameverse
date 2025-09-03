@@ -45,8 +45,8 @@ const Navbar = () => {
   // );
   return (
     <>
-      <AppBar position="fixed" sx={{  background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)"}}>
-        <Toolbar sx={{ justifyContent: "space-between", px: { xs: 4, md: 10 } }}>
+      <AppBar position="fixed" sx={{  background: "linear-gradient(90deg, #000000 0%, #1a0033 50%, #000000 100%)"}}>
+        <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2, md: 8 } }}>
           {/* Logo */}
           <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer",height:'50px' }}>
             <Link to="/" style={{ textDecoration: "none" }}>
