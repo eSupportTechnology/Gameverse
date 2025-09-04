@@ -51,7 +51,7 @@ const AboutGameVerse = () => {
   });
 
   const cardStyle = (borderGradient) => ({
-    background: "rgba(255, 255, 255, 0.08)",
+    background: "rgba(255, 255, 255, 0.11)",
     backdropFilter: "blur(12px)",
     borderRadius: "32px",
     padding: "16px 20px",
@@ -60,8 +60,8 @@ const AboutGameVerse = () => {
     alignItems: "center",
     gap: "16px",
     textAlign: "left",
-    width: isMobile ? "100%" : "363px",
-    height: "131px",
+    width: isMobile ? "180px" : "330px",
+    height: isMobile ? "100px" : "120px",
     position: "relative",
     overflow: "hidden",
 
@@ -89,8 +89,8 @@ const AboutGameVerse = () => {
   });
 
   const iconContainerStyle = (borderGradient) => ({
-    width: "80px",
-    height: "80px",
+    width: isMobile ? "60px" : "80px",
+    height: isMobile? "60px" : "80px",
     borderRadius: "12px",
     display: "flex",
     justifyContent: "center",
@@ -128,15 +128,17 @@ const AboutGameVerse = () => {
         fontFamily: "Inter, sans-serif",
       }}
     >
+
+      {/* Header */}
       <Box sx={{ maxWidth: 900, textAlign: "center", mb: isMobile ? 6 : 10 }}>
         <Typography
-          variant={isMobile ? "h3" : "h2"}
+          variant={isMobile ? "h4" : "h2"}
           sx={{
             ...applyGradientText(headerGradient),
             fontWeight: 800,
             mb: 3,
             fontFamily: "Inter, sans-serif",
-            fontSize: isMobile ? "3.5rem" : "4.5rem",
+            fontSize: isMobile ? "2.5rem" : "4rem",
             letterSpacing: "0.03em",
           }}
         >
@@ -162,7 +164,13 @@ const AboutGameVerse = () => {
         </Typography>
       </Box>
 
-      <Grid container spacing={isMobile ? 3 : 5} justifyContent="center">
+      {/* Cards */}
+      <Grid 
+        container 
+        spacing={isMobile ? 3 : 5} 
+        justifyContent="center" 
+        alignItems="stretch"
+      >
         {cardData.map((card, index) => (
           <Grid
             item
@@ -174,13 +182,14 @@ const AboutGameVerse = () => {
           >
             <Box sx={cardStyle(card.borderGradient)}>
               {/* Icon */}
-              <Box sx={iconContainerStyle(card.borderGradient)}>
+              <Box sx={
+                iconContainerStyle(card.borderGradient)}>
                 <img
                   src={card.icon}
                   alt={card.title}
                   style={{
-                    width: "45px",
-                    height: "45px",
+                    width: isMobile ? "35px" : "45px",
+                    height: isMobile ? "35px" : "45px",
                   }}
                 />
               </Box>
@@ -192,9 +201,15 @@ const AboutGameVerse = () => {
                   color: "#E0E0E0",
                   textAlign: "left",
                   fontFamily: "Inter, sans-serif",
-                  fontSize: isMobile ? "151px" : "25px",
+                  fontSize: isMobile ? "16px" : "20px",
+                  fontWeight: 600,
                   lineHeight: 1.4,
                   flex: 1,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical"
                 }}
               >
                 {card.title}
