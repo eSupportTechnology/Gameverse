@@ -11,7 +11,7 @@ import {
 import { styled } from "@mui/system";
 
 const GradientText = styled(Typography)({
-  background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
+  background: "linear-gradient(to bottom, #CF36E1, #15A2EF)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor: "transparent",
   fontWeight: 700,
@@ -78,7 +78,6 @@ const InnerCard = styled(Card)({
   background: "radial-gradient(circle at center, #1a1a1a 0%, #000 100%)",
   color: "#fff",
   textAlign: "center",
-  padding: "0px",
   minHeight: "460px",
   display: "flex",
   flexDirection: "column",
@@ -87,9 +86,8 @@ const InnerCard = styled(Card)({
 
 const ImageWrapper = styled("div")({
   position: "relative",
-  borderRadius: "16px",
+  borderRadius: "16px 16px 0 0",
   overflow: "hidden",
-  marginBottom: "16px",
   "&::after": {
     content: '""',
     position: "absolute",
@@ -158,19 +156,32 @@ export const EventsSection = () => {
           },
         }}
       >
-        <GradientText variant="h3" sx={{ fontFamily: "BRUSHSTRIKE" }}>
+        <GradientText
+          variant="h3"
+          sx={{
+            fontFamily: "BRUSHSTRIKE",
+            fontSize: "70px",
+            fontWeight: 400,
+            fontStyle: "normal",
+            background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            textAlign: "center",
+          }}
+        >
           Events & Tournaments
         </GradientText>
-
         <Typography
           variant="body1"
           sx={{
-            color: "#aaa",
+            color: "#bbb",
             textAlign: "center",
-            maxWidth: "600px",
+            maxWidth: "900px",
             margin: "0 auto 40px",
             position: "relative",
             zIndex: 1,
+            fontSize: "16px",
+            lineHeight: "1.6",
           }}
         >
           Get ready to battle it out! Join our exciting events and competitive
@@ -206,7 +217,6 @@ export const EventsSection = () => {
                     sx={{
                       fontWeight: 700,
                       mb: 1,
-                      //  background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
                       background: "White",
                       color: "white",
                       WebkitBackgroundClip: "text",

@@ -181,12 +181,14 @@ export default function FeaturedGames() {
               <Card
                 className="card-content"
                 sx={{
-                  bgcolor: "#251C29",
-                  borderRadius: "20px",
+                  bgcolor: "#000000",
                   overflow: "hidden",
+                  border: 2,
+                  borderColor: "linear-gradient(to right, #CF36E1, #15A2EF)",
                   position: "relative",
                   zIndex: 3,
                   transition: "all 0.3s ease",
+                  transform: "skewY(-3deg)",
                 }}
               >
                 <CardMedia
@@ -194,8 +196,17 @@ export default function FeaturedGames() {
                   height="220"
                   image={game.img}
                   alt={game.title}
+                  sx={{
+                    transform: "skewY(3deg) scale(1.1)", // reverse skew for image so it looks straight
+                    objectFit: "cover",
+                  }}
                 />
-                <CardContent>
+                <CardContent
+                  sx={{
+                    transform: "skewY(3deg)", // text should look normal
+                    p: 2,
+                  }}
+                >
                   <Typography
                     variant="h6"
                     color="#FFFFFF"
