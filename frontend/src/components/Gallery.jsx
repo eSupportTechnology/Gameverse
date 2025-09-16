@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme, GlobalStyles } from "@mui/material";
 
 const GalleryView = () => {
   const theme = useTheme();
@@ -72,10 +72,22 @@ const GalleryView = () => {
   };
 
   return (
+    <>
+    {/* Global font registration */}
+      <GlobalStyles
+        styles={{
+          "@font-face": {
+            fontFamily: "BRUSHSTRIKE",
+            src: `url("/fonts/BRUSHSTRIKE.ttf") format("truetype")`,
+            fontWeight: "normal",
+            fontStyle: "normal",
+          },
+        }}
+      />
     <Box
       sx={{
         minHeight: "100vh",
-        backgroundColor: "#0A0A0A",
+        background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
         color: "#fff",
         padding: isMobile ? "40px 20px" : "80px 40px",
         display: "flex",
@@ -90,10 +102,11 @@ const GalleryView = () => {
           variant={isMobile ? "h3" : "h2"}
           sx={{
             ...applyGradientText(headerGradient),
-            fontWeight: 800,
-            mb: 2,
-            fontFamily: "Montserrat, sans-serif",
-            fontSize: isMobile ? "3.5rem" : "4.5rem",
+            fontFamily: "BRUSHSTRIKE",
+            fontWeight: 400,        
+            fontSize: isMobile ? "48px" : "84px",
+            lineHeight: isMobile ? "52px" : "90px",    
+            mb: 3,
             letterSpacing: "0.03em",
           }}
         >
@@ -173,6 +186,7 @@ const GalleryView = () => {
         </Box>
       </Box>
     </Box>
+    </>
   );
 };
 
