@@ -173,12 +173,12 @@ export default function GamingExperience() {
       >
         <Box sx={{ position: "relative", zIndex: 1, mt: 5 }}>
           <Typography
-            fontSize="70px"
-            fontWeight={600} 
+            fontSize="84px"
+            fontWeight={400} 
             fontFamily= "BRUSHSTRIKE"
             gutterBottom
             sx={{
-              background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
+              background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               display: "inline-block",
