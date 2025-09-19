@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Grid,
   Typography,
   Card,
   CardMedia,
@@ -10,6 +9,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/system";
 
+// Gradient text for headings
 const GradientText = styled(Typography)({
   background: "linear-gradient(to bottom, #CF36E1, #15A2EF)",
   WebkitBackgroundClip: "text",
@@ -17,13 +17,13 @@ const GradientText = styled(Typography)({
   fontWeight: 700,
   textAlign: "center",
   marginBottom: "24px",
-  fontSize: "70px",
 });
 
+// Gradient button
 const GradientButton = styled(Button)({
   position: "relative",
   padding: "12px 28px",
-  borderRadius: "24px", // fully rounded corners
+  borderRadius: "24px",
   textTransform: "none",
   fontWeight: 600,
   display: "block",
@@ -34,13 +34,12 @@ const GradientButton = styled(Button)({
   overflow: "hidden",
   zIndex: 1,
   transition: "all 0.3s ease",
-
   "&::before": {
     content: '""',
     position: "absolute",
     inset: 0,
-    borderRadius: "24px", // same as button
-    padding: "2px", // thickness of border
+    borderRadius: "24px",
+    padding: "2px",
     background: "linear-gradient(90deg, #33B2F7, #CF36E1)",
     WebkitMask:
       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) padding-box",
@@ -48,7 +47,6 @@ const GradientButton = styled(Button)({
     maskComposite: "exclude",
     zIndex: -1,
   },
-
   "&:hover": {
     background: "transparent",
     color: "transparent",
@@ -59,6 +57,7 @@ const GradientButton = styled(Button)({
   },
 });
 
+// Gradient border card
 const GradientBorderCard = styled("div")({
   borderRadius: "22px",
   padding: "1.5px",
@@ -73,32 +72,78 @@ const GradientBorderCard = styled("div")({
   },
 });
 
-const InnerCard = styled(Card)({
+// Card with responsive width and height
+const InnerCard = styled(Card)(({ theme }) => ({
   borderRadius: "21px",
   background: "radial-gradient(circle at center, #1a1a1a 0%, #000 100%)",
   color: "#fff",
   textAlign: "center",
-  minHeight: "460px",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "flex-start",
-});
+  width: "90vw",
+  maxWidth: "360px",
+  height: "auto",
+  [theme.breakpoints.up("sm")]: {
+    width: "320px",
+    height: "420px",
+  },
+  [theme.breakpoints.up("md")]: {
+    width: "360px",
+    height: "420px",
+  },
+}));
 
-const ImageWrapper = styled("div")({
+// Image wrapper with responsive height
+const ImageWrapper = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: "16px 16px 0 0",
   overflow: "hidden",
-  "&::after": {
-    content: '""',
-    position: "absolute",
-    bottom: 0,
-    left: 0,
+  height: "200px",
+  "& img": {
     width: "100%",
-    height: "50%",
-    background: "linear-gradient(to top, rgba(0,0,0,0.9), transparent)",
+    height: "auto",
+    objectFit: "cover",
+    transition: "transform 0.3s ease",
   },
+  "&:hover img": {
+    transform: "scale(1.05)",
+  },
+  [theme.breakpoints.up("sm")]: {
+    height: "200px",
+  },
+  [theme.breakpoints.up("md")]: {
+    height: "220px",
+  },
+}));
+
+// Card content wrapper
+const CardContentWrapper = styled("div")({
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  padding: "16px",
 });
 
+// Countdown box
+const CountdownBox = styled(Box)(({ theme }) => ({
+  width: "80%",
+  maxWidth: "346px",
+  height: "48px",
+  borderRadius: "24px",
+  background:
+    "linear-gradient(90deg, rgba(169, 5, 188, 0.4) 0%, rgba(51, 178, 247, 0.4) 100%)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  margin: "8px auto 0",
+  [theme.breakpoints.down("sm")]: {
+    width: "90%",
+    height: "44px",
+  },
+}));
+
+// Event data
 const events = [
   {
     title: "Call of Duty Championship",
@@ -123,7 +168,6 @@ const events = [
 export const EventsSection = () => {
   return (
     <>
-      {/* Global font registration */}
       <GlobalStyles
         styles={{
           "@font-face": {
@@ -136,10 +180,13 @@ export const EventsSection = () => {
       />
       <Box
         sx={{
-          background: "#000",
-          py: 8,
+          background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          py: { xs: 6, sm: 8 },
           px: 2,
           position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           "&::before": {
             content: '""',
             position: "absolute",
@@ -160,17 +207,17 @@ export const EventsSection = () => {
           variant="h3"
           sx={{
             fontFamily: "BRUSHSTRIKE",
-            fontSize: "70px",
+            fontSize: { xs: "40px", sm: "55px", md: "70px" },
             fontWeight: 400,
             fontStyle: "normal",
             background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
-            textAlign: "center",
           }}
         >
           Events & Tournaments
         </GradientText>
+
         <Typography
           variant="body1"
           sx={{
@@ -178,10 +225,8 @@ export const EventsSection = () => {
             textAlign: "center",
             maxWidth: "900px",
             margin: "0 auto 40px",
-            position: "relative",
-            zIndex: 1,
-            fontSize: "16px",
-            lineHeight: "1.6",
+            fontSize: { xs: "14px", sm: "15px", md: "16px" },
+            lineHeight: 1.6,
           }}
         >
           Get ready to battle it out! Join our exciting events and competitive
@@ -190,26 +235,28 @@ export const EventsSection = () => {
           you to shine.
         </Typography>
 
-        <Grid
-          container
-          spacing={4}
-          justifyContent="center"
-          sx={{ position: "relative", zIndex: 1 }}
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: { xs: 2, sm: 3, md: 4 },
+            justifyContent: "center",
+            position: "relative",
+            zIndex: 1,
+          }}
         >
           {events.map((event, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <GradientBorderCard>
-                <InnerCard>
-                  <ImageWrapper>
-                    <CardMedia
-                      component="img"
-                      height="220"
-                      image={event.image}
-                      alt={event.title}
-                      sx={{ width: "100%", display: "block" }}
-                    />
-                  </ImageWrapper>
-                  <GradientText sx={{ fontSize: "22px" }}>
+            <GradientBorderCard key={index}>
+              <InnerCard>
+                <ImageWrapper>
+                  <CardMedia
+                    component="img"
+                    image={event.image}
+                    alt={event.title}
+                  />
+                </ImageWrapper>
+                <CardContentWrapper>
+                  <GradientText sx={{ fontSize: { xs: "18px", sm: "20px", md: "22px" } }}>
                     UPCOMING
                   </GradientText>
                   <Typography
@@ -221,27 +268,37 @@ export const EventsSection = () => {
                       color: "white",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
+                      fontSize: { xs: "16px", sm: "18px", md: "20px" },
                     }}
                   >
                     {event.title}
                   </Typography>
-                  <GradientText sx={{ color: "#aaa", mb: 1, fontSize: "20px" }}>
-                    {event.date}
-                  </GradientText>
-                  <Typography
+                  <GradientText
                     sx={{
-                      color: "#f8f0f9ff",
-                      fontWeight: 600,
-                      fontSize: "20px",
+                      color: "#aaa",
+                      mb: 1,
+                      fontSize: { xs: "16px", sm: "18px", md: "20px" },
                     }}
                   >
-                    {event.countdown}
-                  </Typography>
-                </InnerCard>
-              </GradientBorderCard>
-            </Grid>
+                    {event.date}
+                  </GradientText>
+
+                  <CountdownBox>
+                    <Typography
+                      sx={{
+                        color: "#fff",
+                        fontWeight: 600,
+                        fontSize: { xs: "16px", sm: "18px", md: "20px" },
+                      }}
+                    >
+                      {event.countdown}
+                    </Typography>
+                  </CountdownBox>
+                </CardContentWrapper>
+              </InnerCard>
+            </GradientBorderCard>
           ))}
-        </Grid>
+        </Box>
 
         <GradientButton>See All Events</GradientButton>
       </Box>
