@@ -148,11 +148,10 @@ export default function GamingExperience() {
       />
       <Box
         sx={{
-          width: "100%",
           py: 8,
           px: { xs: 2, md: 8 },
           minHeight: "80vh",
-          background: "#000",
+          background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
           position: "relative",
           overflow: "hidden",
           textAlign: "center",
