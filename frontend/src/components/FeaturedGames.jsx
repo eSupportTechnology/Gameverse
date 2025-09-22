@@ -1,27 +1,49 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Box,
-  Card,
-  CardMedia,
-  CardContent,
   Typography,
   Button,
   GlobalStyles,
+  useMediaQuery,
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 
 const games = [
-  { title: "PlayStation 5 Gaming", desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups", img: "./images/f1.jpg" },
-  { title: "PS5 + VR Gaming", desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups", img: "./images/f2.jpg" },
-  { title: "Car Simulator Gaming", desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups", img: "./images/f3.jpg" },
-  { title: "Car Simulator + VR Gaming", desc: "Classic billiards tables in a modern neon-lit vibe environment for competitive gameplay", img: "./images/f4.jpg" },
-  { title: "8 Ball Pool Gaming", desc: "Retro and modern arcade games with coin-operated machines for nostalgic gaming fun", img: "./images/f5.jpg" },
+  {
+    title: "PS5 Gaming",
+    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    img: "./images/f1.jpg",
+  },
+  {
+    title: "PS5 + VR Gaming",
+    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    img: "./images/f2.jpg",
+  },
+  {
+    title: "Car Simulator Gaming",
+    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    img: "./images/f3.jpg",
+  },
+  {
+    title: "Car Simulator + VR Gaming",
+    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    img: "./images/f4.jpg",
+  },
+  {
+    title: "8 Ball Pool Gaming",
+    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    img: "./images/f5.jpg",
+  },
 ];
 
 export default function FeaturedGames() {
-  const [viewportRef, embla] = useEmblaCarousel({ containScroll: "trimSnaps", slidesToScroll: 1 });
+  const [viewportRef, embla] = useEmblaCarousel({
+    containScroll: "trimSnaps",
+    align: "center",
+    slidesToScroll: 1,
+  });
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollSnaps, setScrollSnaps] = useState([]);
+  const isDesktop = useMediaQuery("(min-width:900px)");
 
   const onSelect = useCallback(() => {
     if (!embla) return;
@@ -30,13 +52,16 @@ export default function FeaturedGames() {
 
   useEffect(() => {
     if (!embla) return;
-    setScrollSnaps(embla.scrollSnapList());
     embla.on("select", onSelect);
     onSelect();
   }, [embla, onSelect]);
 
+  // 3 dots on desktop, 5 dots on mobile
+  const dotsToShow = isDesktop ? 3 : games.length;
+
   return (
     <>
+      {/* Custom font */}
       <GlobalStyles
         styles={{
           "@font-face": {
@@ -49,12 +74,10 @@ export default function FeaturedGames() {
       <Box
         component="section"
         sx={{
-          width: "100%",
-          bgcolor: "#0b0c10",
+          background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
           py: { xs: 6, md: 10 },
           px: { xs: 2, sm: 4 },
           color: "white",
-          position: "relative",
           overflow: "hidden",
         }}
       >
@@ -65,21 +88,20 @@ export default function FeaturedGames() {
             mx: "auto",
             textAlign: "center",
             mb: { xs: 4, md: 6 },
-            position: "relative",
-            zIndex: 1,
           }}
         >
           <Typography
             component="h2"
             sx={{
-              fontSize: { xs: "36px", sm: "48px", md: "84px" },
+              fontSize: { xs: "32px", sm: "44px", md: "72px" },
               fontFamily: "BRUSHSTRIKE",
-              fontWeight: "400",
+              fontWeight: 400,
               background:
                 "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              mb: 2,
+              mb: { xs: 1.5, md: 2 },
+              lineHeight: 1.1,
             }}
           >
             Featured Games
@@ -91,6 +113,7 @@ export default function FeaturedGames() {
               maxWidth: 700,
               mx: "auto",
               fontSize: { xs: "14px", md: "16px" },
+              px: { xs: 1, sm: 0 },
             }}
           >
             Dive into our hottest picks! From immersive VR worlds and thrilling
@@ -102,66 +125,133 @@ export default function FeaturedGames() {
         {/* Carousel */}
         <Box
           ref={viewportRef}
-          sx={{ overflow: "hidden", maxWidth: "1200px", mx: "auto" }}
+          sx={{
+            overflow: "hidden",
+            maxWidth: "1200px",
+            mx: "auto",
+          }}
         >
-          <Box sx={{ display: "flex", gap: 3 }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: { xs: 2, sm: 3 },
+              px: { xs: 1, sm: 0 },
+            }}
+          >
             {games.map((game, idx) => (
-              <Box key={idx} sx={{ flex: "0 0 32%", position: "relative" }}>
-                <Card
+              <Box
+                key={idx}
+                sx={{
+                  flex: "0 0 auto",
+                  width: { xs: 240, sm: 320, md: 360 },
+                  height: { xs: 320, sm: 380, md: 420 },
+                  position: "relative",
+                  clipPath: [
+                    "polygon(10% 0, 100% 0, 80% 100%, 0 90%)", // shape 1
+                    "polygon(15% 0, 98% 0, 100% 100%, 0 100%)", // shape 2
+                    "polygon(2% 0, 98% 0, 90% 100%, 0 100%)", // shape 3
+                    "polygon(20% 0, 95% 0, 98% 100%, 0% 100%)", // shape 4
+                    "polygon(0% 0, 100% 0, 80% 100%, 0 100%)", // shape 5
+                  ][idx % 5], 
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  "&:hover": { transform: "scale(1.03)" },
+                }}
+              >
+                {/* Background Image */}
+                <Box
+                  component="img"
+                  src={game.img}
+                  alt={game.title}
                   sx={{
-                    bgcolor: "#000",
-                    overflow: "hidden",
-                    borderRadius: 2,
-                    position: "relative",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    "&:hover": { transform: "scale(1.03)" },
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+
+                {/* Text Overlay with Gradient Border */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 2,
+                    right: 0,
+                    height: "28%", // take bottom portion
+                    clipPath: [
+                      "polygon(0% 0, 100% 0, 80% 100%, 0 90%)", // shape 1
+                      "polygon(3% 0, 100% 0, 100% 100%, 0 100%)", // shape 2
+                      "polygon(0% 0, 99% 0, 95% 100%, 0 100%)", // shape 3
+                      "polygon(3% 0, 98% 0, 100% 100%, 0% 100%)", // shape 4
+                      "polygon(0% 0, 100% 0, 80% 100%, 0 100%)", // shape 5
+                    ][idx % 5],
+                    "&::before": {
+                      content: '""',
+                      position: "absolute",
+                      inset: 0,
+                      padding: "2px",
+                    },
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    height="240"
-                    image={game.img}
-                    alt={game.title}
+                  <Box
                     sx={{
-                      objectFit: "cover",
-                      clipPath: "polygon(0 0, 100% 0, 100% 92%, 0 100%)", // angled bottom cut
+                      position: "relative",
+                      bgcolor: "rgba(0,0,0)",
+                      p: { xs: 1.5, sm: 2,md: 2  },
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "flex-start",
                     }}
-                  />
-                  <CardContent sx={{ p: 2, textAlign: "left" }}>
+                  >
                     <Typography
                       variant="h6"
-                      color="#FFFFFF"
-                      sx={{ mb: 1, fontSize: { xs: "16px", md: "18px" } }}
+                      sx={{
+                        mb: 0.5,
+                        fontSize: { xs: "10px", sm: "14px", md: "15px" },
+                        fontWeight: 600,
+                      }}
                     >
                       {game.title}
                     </Typography>
                     <Typography
                       variant="body2"
-                      color="#FFFFFF"
-                      sx={{ fontSize: { xs: "13px", md: "14px" } }}
+                      sx={{
+                        fontSize: { xs: "10px", sm: "8px", md: "12px" },
+                        color: "gray.300",
+                      }}
                     >
                       {game.desc}
                     </Typography>
-                  </CardContent>
-                </Card>
+                  </Box>
+                </Box>
               </Box>
             ))}
           </Box>
         </Box>
 
         {/* Dots */}
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 4, gap: 1 }}>
-          {scrollSnaps.map((_, idx) => (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            mt: 4,
+            gap: 1.5,
+          }}
+        >
+          {Array.from({ length: dotsToShow }).map((_, idx) => (
             <Box
               key={idx}
-              onClick={() => embla.scrollTo(idx)}
+              onClick={() => embla && embla.scrollTo(idx)}
               sx={{
                 width: selectedIndex === idx ? 12 : 8,
                 height: selectedIndex === idx ? 12 : 8,
                 borderRadius: "50%",
                 bgcolor: selectedIndex === idx ? "#D100FF" : "#555",
                 cursor: "pointer",
+                transition: "all 0.2s ease",
               }}
             />
           ))}
@@ -172,18 +262,16 @@ export default function FeaturedGames() {
           sx={{
             display: "flex",
             justifyContent: "center",
-            mt: 6,
-            position: "relative",
-            zIndex: 1,
+            mt: { xs: 4, md: 6 },
           }}
         >
           <Button
             sx={{
               px: { xs: 3, md: 5 },
-              py: 1.5,
+              py: { xs: 1, md: 1.5 },
               borderRadius: "50px",
               mb: 4,
-              fontWeight: "medium",
+              fontWeight: 500,
               fontSize: { xs: "14px", md: "16px" },
               color: "#fff",
               background: "linear-gradient(to right, #3b82f6, #ed31feff)",
@@ -194,31 +282,24 @@ export default function FeaturedGames() {
               "&::before": {
                 content: '""',
                 position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
+                inset: 0,
+                borderRadius: "30px",
                 padding: "2px",
-                borderRadius: "50px",
-                background: "linear-gradient(to right, #3b82f6, #ed31feff)",
+                background: "linear-gradient(to right, #A905BC, #33B2F7)",
                 WebkitMask:
                   "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                 WebkitMaskComposite: "xor",
                 maskComposite: "exclude",
-                opacity: 0,
-                transition: "opacity 0.3s ease",
-                zIndex: -1,
+                pointerEvents: "none",
               },
               "&:hover": {
                 background: "transparent",
-                color: "transparent",
-                WebkitBackgroundClip: "text",
+                backgroundImage: "linear-gradient(to right, #A905BC, #33B2F7)",
                 backgroundClip: "text",
+                WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                backgroundImage:
-                  "linear-gradient(to right, #3b82f6, #dd3aefff)",
                 "&::before": {
-                  opacity: 1,
+                  background: "linear-gradient(to right, #33B2F7, #A905BC)",
                 },
               },
             }}
