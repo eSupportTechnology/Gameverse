@@ -1,16 +1,13 @@
-import React from 'react'
-import homeImg from '../assets/homeImg.png'
+import React from "react";
+import homeImg from "../assets/homeImg.png";
 import { Box, Typography, Button, Stack } from "@mui/material";
 import { styled } from "@mui/system";
-import FeaturedGames from '../components/FeaturedGames';
-import GamingExperience from '../components/GamingExperience';
-import { EventsSection as Event } from '../components/EventsSection';
-import AboutGameVerse from '../components/AboutGameVerse';
-import GalleryView from '../components/Gallery';
-import BookingSection from '../components/BookingSection';
-
-
-
+import FeaturedGames from "../components/FeaturedGames";
+import GamingExperience from "../components/GamingExperience";
+import { EventsSection as Event } from "../components/EventsSection";
+import AboutGameVerse from "../components/AboutGameVerse";
+import GalleryView from "../components/Gallery";
+import BookingSection from "../components/BookingSection";
 
 const GradientButton = styled(Button)(({ theme }) => ({
   position: "relative",
@@ -43,7 +40,7 @@ const GradientButton = styled(Button)(({ theme }) => ({
 
   "&:hover": {
     background: "linear-gradient(to right, #33B2F7, #A905BC)",
-    color: "#fff", // text becomes visible
+    color: "#fff",
     "&::before": {
       background: "linear-gradient(to right, #33B2F7, #A905BC)",
     },
@@ -53,25 +50,29 @@ const GradientButton = styled(Button)(({ theme }) => ({
 const Home = () => {
   return (
     <>
+      {/* Hero Section */}
       <Box
         component="section"
         sx={{
-          minHeight: "100vh",   // use minHeight instead of height to prevent issues
+          minHeight: "100vh",
           width: "100%",
-          background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-between",
           alignItems: "center",
           overflowX: "hidden",
           px: { xs: 4, md: 10 },
-          color: "#fff",
           position: "relative",
+          color: "#fff",
+          background:
+            "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
           boxSizing: "border-box",
         }}
       >
-        {/* Left Text Section */}
-        <Box sx={{ flex: 1, maxWidth: "600px", }}>
+        {/* Left Text */}
+        <Box sx={{ flex: 1, maxWidth: "600px", zIndex: 3 }}>
           <Typography
             variant="h2"
             sx={{
@@ -104,9 +105,9 @@ const Home = () => {
               color: "#FFFFFF",
             }}
           >
-            Sri Lanka’s No.1 ultimate neon gaming lounge experience, reserve your
-            gaming station online within seconds – Skip the lines, secure your
-            spot, and dive straight in to the action the moment you arrive.
+            Sri Lanka’s No.1 ultimate neon gaming lounge experience, reserve
+            your gaming station online within seconds – Skip the lines, secure
+            your spot, and dive straight in to the action the moment you arrive.
           </Typography>
 
           <Typography
@@ -135,39 +136,53 @@ const Home = () => {
             flex: 1,
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
-            overflow: "hidden",
-            height: "100vh",
-            // mt: { xs: 4, md: 0 },
+            alignItems: "flex-end",
+            overflow: "visible",
+            position: "relative",
+            minHeight: "80vh",
           }}
         >
+          {/* Neon Glow */}
+          <Box
+            sx={{
+              position: "absolute",
+              top: "40%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: { xs: "60%", md: "80%" },
+              height: { xs: "60%", md: "60%" },
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, #CF36E1 0%, #33B2F7 60%, transparent 80%)",
+
+              zIndex: 1,
+              filter: "blur(150px)",
+            }}
+          />
           <img
             src={homeImg}
             alt="Gamer"
             style={{
               width: "100%",
-              maxWidth: "500px", // limit max size on large screens
-              height: "auto",    // keeps aspect ratio
+              maxWidth: "500px",
+              height: "auto",
               objectFit: "contain",
-              display: "block",
+              position: "relative",
+              zIndex: 2,
             }}
           />
         </Box>
       </Box>
-        <AboutGameVerse />
 
+      {/* Next Sections */}
+      <AboutGameVerse />
       <FeaturedGames />
       <GamingExperience />
       <Event />
       <GalleryView />
-      <BookingSection/>
+      <BookingSection />
     </>
+  );
+};
 
-
-
-
-
-  )
-}
-
-export default Home
+export default Home;
