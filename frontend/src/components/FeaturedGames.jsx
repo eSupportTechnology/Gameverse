@@ -42,6 +42,7 @@ export default function FeaturedGames() {
     align: "center",
     slidesToScroll: 1,
   });
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isDesktop = useMediaQuery("(min-width:900px)");
 
@@ -56,7 +57,6 @@ export default function FeaturedGames() {
     onSelect();
   }, [embla, onSelect]);
 
-  // 3 dots on desktop, 5 dots on mobile
   const dotsToShow = isDesktop ? 3 : games.length;
 
   return (
@@ -74,7 +74,8 @@ export default function FeaturedGames() {
       <Box
         component="section"
         sx={{
-          background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          background:
+            "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
           py: { xs: 6, md: 10 },
           px: { xs: 2, sm: 4 },
           color: "white",
@@ -110,7 +111,7 @@ export default function FeaturedGames() {
             variant="body1"
             sx={{
               color: "gray.400",
-              maxWidth: 700,
+              maxWidth: 950,
               mx: "auto",
               fontSize: { xs: "14px", md: "16px" },
               px: { xs: 1, sm: 0 },
@@ -147,16 +148,21 @@ export default function FeaturedGames() {
                   height: { xs: 320, sm: 380, md: 420 },
                   position: "relative",
                   clipPath: [
-                    "polygon(10% 0, 100% 0, 80% 100%, 0 90%)", // shape 1
-                    "polygon(15% 0, 98% 0, 100% 100%, 0 100%)", // shape 2
-                    "polygon(2% 0, 98% 0, 90% 100%, 0 100%)", // shape 3
-                    "polygon(20% 0, 95% 0, 98% 100%, 0% 100%)", // shape 4
-                    "polygon(0% 0, 100% 0, 80% 100%, 0 100%)", // shape 5
-                  ][idx % 5], 
+                    "polygon(10% 0, 100% 0, 80% 100%, 0 90%)",
+                    "polygon(15% 0, 98% 0, 100% 100%, 0 100%)",
+                    "polygon(2% 0, 98% 0, 90% 100%, 0 100%)",
+                    "polygon(20% 0, 95% 0, 98% 100%, 0% 100%)",
+                    "polygon(0% 0, 100% 0, 80% 100%, 0 100%)",
+                  ][idx % 5],
                   overflow: "hidden",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
-                  "&:hover": { transform: "scale(1.03)" },
+                  "&:hover": {
+                    transform: "scale(1.03)",
+                  },
+                  "&:hover .game-title": {
+                    color: "#33B2F7 !important",
+                  },
                 }}
               >
                 {/* Background Image */}
@@ -172,34 +178,21 @@ export default function FeaturedGames() {
                   }}
                 />
 
-                {/* Text Overlay with Gradient Border */}
+                {/* Text Overlay */}
                 <Box
                   sx={{
                     position: "absolute",
                     bottom: 0,
                     left: 2,
                     right: 0,
-                    height: "28%", // take bottom portion
-                    clipPath: [
-                      "polygon(0% 0, 100% 0, 80% 100%, 0 90%)", // shape 1
-                      "polygon(3% 0, 100% 0, 100% 100%, 0 100%)", // shape 2
-                      "polygon(0% 0, 99% 0, 95% 100%, 0 100%)", // shape 3
-                      "polygon(3% 0, 98% 0, 100% 100%, 0% 100%)", // shape 4
-                      "polygon(0% 0, 100% 0, 80% 100%, 0 100%)", // shape 5
-                    ][idx % 5],
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      inset: 0,
-                      padding: "2px",
-                    },
+                    height: "28%",
                   }}
                 >
                   <Box
                     sx={{
                       position: "relative",
                       bgcolor: "rgba(0,0,0)",
-                      p: { xs: 1.5, sm: 2,md: 2  },
+                      p: { xs: 1.5, sm: 2, md: 2 },
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
@@ -207,11 +200,14 @@ export default function FeaturedGames() {
                     }}
                   >
                     <Typography
+                      className="game-title"
                       variant="h6"
                       sx={{
                         mb: 0.5,
                         fontSize: { xs: "10px", sm: "14px", md: "15px" },
                         fontWeight: 600,
+                        transition: "color 0.3s ease",
+                        color: "white",
                       }}
                     >
                       {game.title}
