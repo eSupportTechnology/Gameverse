@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   Typography,
@@ -6,7 +6,6 @@ import {
   GlobalStyles,
   useMediaQuery,
 } from "@mui/material";
-import useEmblaCarousel from "embla-carousel-react";
 
 const games = [
   {
@@ -37,31 +36,124 @@ const games = [
 ];
 
 export default function FeaturedGames() {
-  const [viewportRef, embla] = useEmblaCarousel({
-    containScroll: "trimSnaps",
-    align: "center",
-    slidesToScroll: 1,
-  });
-
+  const scrollRef = useRef(null);
+  const [snaps, setSnaps] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isDesktop = useMediaQuery("(min-width:900px)");
 
-  const onSelect = useCallback(() => {
-    if (!embla) return;
-    setSelectedIndex(embla.selectedScrollSnap());
-  }, [embla]);
+  // number of visible items per slide
+  const visibleCount = isDesktop ? 3 : 1;
+  const dotsToShow = Math.max(games.length - visibleCount + 1, 1);
+
+  // calculate left offsets for each slide
+  const calcSnaps = useCallback(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const children = Array.from(container.querySelectorAll(".slide-item"));
+    const positions = children.map((child) => child.offsetLeft);
+    setSnaps(positions);
+  }, []);
 
   useEffect(() => {
-    if (!embla) return;
-    embla.on("select", onSelect);
-    onSelect();
-  }, [embla, onSelect]);
+    calcSnaps();
+    const container = scrollRef.current;
+    if (!container) return;
 
-  const dotsToShow = isDesktop ? 3 : games.length;
+    const imgs = Array.from(container.querySelectorAll("img"));
+    const onImgLoad = () => calcSnaps();
+    imgs.forEach((img) => img.addEventListener("load", onImgLoad));
+    window.addEventListener("resize", calcSnaps);
+    const t = setTimeout(calcSnaps, 120);
+
+    return () => {
+      imgs.forEach((img) => img.removeEventListener("load", onImgLoad));
+      window.removeEventListener("resize", calcSnaps);
+      clearTimeout(t);
+    };
+  }, [calcSnaps]);
+
+  // scroll to a particular snap
+  const scrollToSnap = (snapIndex) => {
+    const container = scrollRef.current;
+    if (!container || snaps.length === 0) return;
+    const left = snaps[snapIndex] || 0;
+    container.scrollTo({ left, behavior: "smooth" });
+  };
+
+  // Scroll to the starting slide of that dot
+  const handleDotClick = (dotIdx) => {
+    scrollToSnap(dotIdx); 
+  };
+
+  // Update active dot while scrolling
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container || snaps.length === 0) return;
+
+    const onScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      // Find the first fully visible item
+      let firstVisibleIndex = 0;
+      for (let i = 0; i < snaps.length; i++) {
+        if (scrollLeft <= snaps[i]) {
+          firstVisibleIndex = i;
+          break;
+        }
+      }
+      // Clamp the active dot to max possible dot
+      setSelectedIndex(Math.min(firstVisibleIndex, dotsToShow - 1));
+    };
+    container.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => container.removeEventListener("scroll", onScroll);
+  }, [snaps, dotsToShow]);
+
+  // drag-to-scroll
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+
+    const onPointerDown = (e) => {
+      isDown = true;
+      container.style.cursor = "grabbing";
+      startX = e.pageX ?? e.touches?.[0]?.pageX ?? 0;
+      scrollStart = container.scrollLeft;
+      if (e.pointerId) container.setPointerCapture?.(e.pointerId);
+      e.preventDefault();
+    };
+    const onPointerMove = (e) => {
+      if (!isDown) return;
+      const x = e.pageX ?? e.touches?.[0]?.pageX ?? 0;
+      container.scrollLeft = scrollStart + (startX - x);
+    };
+    const onPointerUp = (e) => {
+      isDown = false;
+      container.style.cursor = "grab";
+      if (e?.pointerId) container.releasePointerCapture?.(e.pointerId);
+    };
+
+    container.addEventListener("pointerdown", onPointerDown);
+    container.addEventListener("pointermove", onPointerMove);
+    container.addEventListener("pointerup", onPointerUp);
+    container.addEventListener("pointerleave", onPointerUp);
+    container.style.cursor = "grab";
+
+    return () => {
+      container.removeEventListener("pointerdown", onPointerDown);
+      container.removeEventListener("pointermove", onPointerMove);
+      container.removeEventListener("pointerup", onPointerUp);
+      container.removeEventListener("pointerleave", onPointerUp);
+      container.style.cursor = "";
+    };
+  }, []);
 
   return (
     <>
-      {/* Custom font */}
       <GlobalStyles
         styles={{
           "@font-face": {
@@ -76,7 +168,7 @@ export default function FeaturedGames() {
         sx={{
           background:
             "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
-          py: { xs: 6, md: 10 },
+          py: { xs: 4, md: 4 },
           px: { xs: 2, sm: 4 },
           color: "white",
           overflow: "hidden",
@@ -94,7 +186,7 @@ export default function FeaturedGames() {
           <Typography
             component="h2"
             sx={{
-              fontSize: { xs: "32px", sm: "44px", md: "72px" },
+              fontSize: { xs: "32px", sm: "44px", md: "75px" },
               fontFamily: "BRUSHSTRIKE",
               fontWeight: 400,
               background:
@@ -102,7 +194,7 @@ export default function FeaturedGames() {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               mb: { xs: 1.5, md: 2 },
-              lineHeight: 1.1,
+              lineHeight: 1.3,
             }}
           >
             Featured Games
@@ -125,12 +217,17 @@ export default function FeaturedGames() {
 
         {/* Carousel */}
         <Box
-          ref={viewportRef}
           sx={{
-            overflow: "hidden",
+            width: "100%",
+            overflowX: "auto",
+            pb: 2,
+            "&::-webkit-scrollbar": { display: "none" },
+            msOverflowStyle: "none",
+            scrollbarWidth: "none",
             maxWidth: "1200px",
             mx: "auto",
           }}
+          ref={scrollRef}
         >
           <Box
             sx={{
@@ -142,6 +239,7 @@ export default function FeaturedGames() {
             {games.map((game, idx) => (
               <Box
                 key={idx}
+                className="slide-item"
                 sx={{
                   flex: "0 0 auto",
                   width: { xs: 240, sm: 320, md: 360 },
@@ -157,15 +255,10 @@ export default function FeaturedGames() {
                   overflow: "hidden",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
-                  "&:hover": {
-                    transform: "scale(1.03)",
-                  },
-                  "&:hover .game-title": {
-                    color: "#33B2F7 !important",
-                  },
+                  "&:hover": { transform: "scale(1.03)" },
+                  "&:hover .game-title": { color: "#33B2F7 !important" },
                 }}
               >
-                {/* Background Image */}
                 <Box
                   component="img"
                   src={game.img}
@@ -177,8 +270,6 @@ export default function FeaturedGames() {
                     display: "block",
                   }}
                 />
-
-                {/* Text Overlay */}
                 <Box
                   sx={{
                     position: "absolute",
@@ -230,17 +321,12 @@ export default function FeaturedGames() {
 
         {/* Dots */}
         <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            mt: 4,
-            gap: 1.5,
-          }}
+          sx={{ display: "flex", justifyContent: "center", mt: 4, gap: 1.5 }}
         >
           {Array.from({ length: dotsToShow }).map((_, idx) => (
             <Box
               key={idx}
-              onClick={() => embla && embla.scrollTo(idx)}
+              onClick={() => handleDotClick(idx)}
               sx={{
                 width: selectedIndex === idx ? 12 : 8,
                 height: selectedIndex === idx ? 12 : 8,
