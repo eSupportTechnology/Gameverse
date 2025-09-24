@@ -12,9 +12,9 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import { NavLink, Link } from "react-router-dom";
-import logo from '../assets/logo.png'
+import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const theme = useTheme();
@@ -26,6 +26,31 @@ const Navbar = () => {
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
+
+  const GradientButton = styled(Button)(() => ({
+  padding: "8px 18px",
+  minWidth: "100px", 
+  borderRadius: "10px",
+  fontWeight: "bold",
+  textTransform: "none",
+  transition: "all 0.3s ease-in-out",
+  background: "transparent",
+  color: "#A905BC", // text color
+  border: "2px solid #A905BC",
+
+  "&:hover": {
+    borderColor: "#33B2F7",
+    color: "#33B2F7",
+    boxShadow: "0 0 8px rgba(51,178,247,0.5)",
+  },
+
+  "&:active": {
+    borderColor: "#15A2EF",
+    color: "#15A2EF",
+  },
+}));
+
+
 
   // const drawer = (
   //   <Box
@@ -45,19 +70,31 @@ const Navbar = () => {
   // );
   return (
     <>
-      <AppBar position="fixed" sx={{  background: "linear-gradient(90deg, #000000 0%, #1a0033 50%, #000000 100%)"}}>
+      <AppBar
+        position="fixed"
+        sx={{
+          background:
+            "linear-gradient(90deg, #000000 0%, #1a0033 50%, #000000 100%)",
+        }}
+      >
         <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2, md: 8 } }}>
           {/* Logo */}
-          <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer",height:'50px' }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+              height: "50px",
+            }}
+          >
             <Link to="/" style={{ textDecoration: "none" }}>
-            <img src={logo} alt="Gameverse Logo" style={{  width: 200 }} />
+              <img src={logo} alt="Gameverse Logo" style={{ width: 200 }} />
             </Link>
-            
           </Box>
 
           {/* Desktop Links */}
           {!isMobile && (
-            <Box sx={{ display: "flex",  gap: 3, alignItems: "center" }}>
+            <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
               {/* {navLinks.map((item) => (
                 <Button
                   key={item}
@@ -99,19 +136,7 @@ const Navbar = () => {
               >
                 Games
               </Button>
-              <Button
-                component={NavLink}
-                to="/about"
-                sx={{
-                  color: "#ffffff",
-                  textTransform: "none",
-                  fontSize: 16,
-                  "&.active": { color: "#ff00ff" },
-                  "&:hover": { color: "#ff00ff" },
-                }}
-              >
-                About Us
-              </Button>
+
               <Button
                 component={NavLink}
                 to="/contact"
@@ -123,20 +148,12 @@ const Navbar = () => {
                   "&:hover": { color: "#ff00ff" },
                 }}
               >
-                Contact
+                Contact Us
               </Button>
-              
             </Box>
           )}
 
-          {!isMobile && (
-            <Button
-                variant="contained"
-                sx={{ backgroundColor: "gray", borderRadius: 2, "&:hover": { backgroundColor: "#555" } }}
-              >
-                Log in
-              </Button>
-          )}
+          {!isMobile && <GradientButton>Log in</GradientButton>}
 
           {/* Mobile Hamburger */}
           {isMobile && (
@@ -148,37 +165,51 @@ const Navbar = () => {
       </AppBar>
 
       {/* Mobile Drawer */}
-      <Drawer anchor="right"  open={drawerOpen} onClose={handleDrawerToggle}>
+      <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerToggle}>
         <Box sx={{ width: 250, p: 2 }}>
           <List>
-            <ListItem button component={NavLink} to="/" onClick={handleDrawerToggle}>
+            <ListItem
+              button
+              component={NavLink}
+              to="/"
+              onClick={handleDrawerToggle}
+            >
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem button component={NavLink} to="/games" onClick={handleDrawerToggle}>
+            <ListItem
+              button
+              component={NavLink}
+              to="/games"
+              onClick={handleDrawerToggle}
+            >
               <ListItemText primary="Games" />
             </ListItem>
-            <ListItem button component={NavLink} to="/about" onClick={handleDrawerToggle}>
+            <ListItem
+              button
+              component={NavLink}
+              to="/about"
+              onClick={handleDrawerToggle}
+            >
               <ListItemText primary="About Us" />
             </ListItem>
-            <ListItem button component={NavLink} to="/contact" onClick={handleDrawerToggle}>
+            <ListItem
+              button
+              component={NavLink}
+              to="/contact"
+              onClick={handleDrawerToggle}
+            >
               <ListItemText primary="Contact" />
             </ListItem>
           </List>
 
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{ backgroundColor: "gray", borderRadius: 2, "&:hover": { backgroundColor: "#555" } }}
-          >
-            Log in
-          </Button>
+          <GradientButton>Log in</GradientButton>
         </Box>
       </Drawer>
 
       {/* Spacer to prevent content behind navbar */}
       <Toolbar />
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
