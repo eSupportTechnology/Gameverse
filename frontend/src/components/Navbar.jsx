@@ -184,14 +184,14 @@ const Navbar = () => {
             >
               <ListItemText primary="Games" />
             </ListItem>
-            <ListItem
+            {/* <ListItem
               button
               component={NavLink}
               to="/about"
               onClick={handleDrawerToggle}
             >
               <ListItemText primary="About Us" />
-            </ListItem>
+            </ListItem> */}
             <ListItem
               button
               component={NavLink}
