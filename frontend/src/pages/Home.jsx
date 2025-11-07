@@ -69,6 +69,23 @@ const Home = () => {
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           boxSizing: "border-box",
+          // 👇 fade effect
+
+
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            height: "150px",
+            background:
+              "linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.6), transparent)",
+            pointerEvents: "none",
+            zIndex: 3,
+            // filter: "blur(10px)",
+          },
+
         }}
       >
         {/* Left Text */}
@@ -136,13 +153,14 @@ const Home = () => {
             flex: 1,
             display: "flex",
             justifyContent: "center",
-            alignItems: "flex-end",
+            alignItems: "flex-start",
             overflow: "visible",
             position: "relative",
             minHeight: "80vh",
+            mb: 2
           }}
         >
-          {/* Neon Glow */}
+
           <Box
             sx={{
               position: "absolute",
@@ -165,13 +183,21 @@ const Home = () => {
             style={{
               width: "100%",
               maxWidth: "500px",
-              height: "auto",
+              maxHeight: '762px',
+              // height: "auto",
               objectFit: "contain",
               position: "relative",
               zIndex: 2,
             }}
           />
         </Box>
+
+
+
+
+
+
+
       </Box>
 
       {/* Next Sections */}
