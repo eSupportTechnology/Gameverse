@@ -138,6 +138,7 @@ const AboutGameVerse = () => {
 
       <Box
         sx={{
+          position: "relative",
           minHeight: "100vh",
           background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
           color: "#fff",
@@ -146,6 +147,21 @@ const AboutGameVerse = () => {
           flexDirection: "column",
           alignItems: "center",
           fontFamily: "Inter, sans-serif",
+          marginTop: "-2px",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "150px",
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.6), transparent)",
+            zIndex: 2,
+            pointerEvents: "none",
+            // filter: "blur(20px)",
+          },
+
         }}
       >
         {/* Header */}
