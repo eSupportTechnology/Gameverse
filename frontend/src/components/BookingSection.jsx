@@ -43,10 +43,10 @@ const BookingSection = () => {
     <div>
       <Box
         sx={{
-          bgcolor: "black",
-          py: { xs: 2, sm: 4 },
+          bgcolor: "#0A0D17",
+          py: { xs: 2, sm: 2 },
           textAlign: "center",
-          border: "none"
+          border: "none",
         }}
       >
         {/* Gradient Text */}

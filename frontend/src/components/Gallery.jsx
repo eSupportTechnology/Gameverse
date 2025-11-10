@@ -57,23 +57,23 @@ const GalleryView = () => {
       position: "absolute",
       inset: "2px",
       borderRadius: "inherit",
-      boxShadow: "inset 0 0 10px 2px rgba(160, 51, 255, 0.4)", 
+      boxShadow: "inset 0 0 10px 2px rgba(160, 51, 255, 0.4)",
       pointerEvents: "none",
     },
 
     transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
     "&:hover": {
       transform: "scale(1.03)",
-      boxShadow: "0 8px 30px rgba(160, 51, 255, 0.6)", 
+      boxShadow: "0 8px 30px rgba(160, 51, 255, 0.6)",
       "&::after": {
-        boxShadow: "inset 0 0 15px 3px rgba(160, 51, 255, 0.6)", 
+        boxShadow: "inset 0 0 15px 3px rgba(160, 51, 255, 0.6)",
       },
     },
   };
 
   return (
     <>
-    {/* Global font registration */}
+      {/* Global font registration */}
       <GlobalStyles
         styles={{
           "@font-face": {
@@ -84,95 +84,76 @@ const GalleryView = () => {
           },
         }}
       />
-    <Box
-      sx={{
-        minHeight: "100vh",
-        background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
-        color: "#fff",
-        padding: isMobile ? "40px 20px" : "80px 40px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        fontFamily: "Roboto, sans-serif",
-      }}
-    >
-      {/* Header */}
-      <Box sx={{ maxWidth: 900, textAlign: "center", mb: isMobile ? 6 : 10 }}>
-        <Typography
-          variant={isMobile ? "h3" : "h2"}
-          sx={{
-            ...applyGradientText(headerGradient),
-            fontFamily: "BRUSHSTRIKE",
-            fontWeight: 400,        
-            fontSize: isMobile ? "48px" : "84px",
-            lineHeight: isMobile ? "52px" : "90px",    
-            mb: 3,
-            letterSpacing: "0.03em",
-          }}
-        >
-          Gallery View
-        </Typography>
-        <Typography
-          variant="h6"
-          sx={{
-            color: "#FFFFFF",
-            mb: isMobile ? 5 : 8,
-            fontFamily: "Inter, sans-serif",
-            lineHeight: 1.5,
-            fontSize: isMobile ? "1rem" : "1.09rem",
-            maxWidth: "900px",
-            margin: "0 auto",
-            fontWeight: 400,
-            textAlign: "center",
-          }}
-        >
-          Get ready to battle it out! Join our exciting events and competitive
-          tournaments featuring top games, epic challenges, and massive rewards.
-          Whether you're a casual player or a pro, there's always a stage for
-          you to shine.
-        </Typography>
-      </Box>
-
-      {/* Scrollable 2-row gallery */}
       <Box
         sx={{
-          width: "100%",
-          overflowX: "auto",
-          pb: 2,
-          "&::-webkit-scrollbar": { display: "none" },
-          msOverflowStyle: "none",
-          scrollbarWidth: "none",
+          minHeight: "100vh",
+          // background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          // background: "radial-gradient(circle, #01010a 0%, #1a0033 20%, #0A0D17 100%)",
+          bgcolor: "#0A0D17",
+          color: "#fff",
+          padding: isMobile ? "40px 20px" : "60px 40px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          fontFamily: "Roboto, sans-serif",
         }}
       >
-        <Box sx={{ display: "inline-flex", flexDirection: "column", gap: 3 }}>
-          {/* First row - normal order */}
-          <Box sx={{ display: "flex" }}>
-            {galleryImages.map((src, i) => (
-              <Box key={`row1-${i}`} sx={imageCardStyle}>
-                <img
-                  src={src}
-                  alt={`Gallery row1 item ${i + 1}`}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: "inherit",
-                  }}
-                />
-              </Box>
-            ))}
-          </Box>
+        {/* Header */}
+        <Box sx={{ maxWidth: 900, textAlign: "center", mb: isMobile ? 6 : 10 }}>
+          <Typography
+            variant={isMobile ? "h3" : "h2"}
+            sx={{
+              ...applyGradientText(headerGradient),
+              fontFamily: "BRUSHSTRIKE",
+              fontWeight: 400,
+              fontSize: isMobile ? "48px" : "84px",
+              lineHeight: isMobile ? "52px" : "90px",
+              mb: 3,
+              letterSpacing: "0.03em",
+            }}
+          >
+            Gallery View
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              color: "#FFFFFF",
+              mb: isMobile ? 5 : 8,
+              fontFamily: "Inter, sans-serif",
+              lineHeight: 1.5,
+              fontSize: isMobile ? "1rem" : "1.09rem",
+              maxWidth: "900px",
+              margin: "0 auto",
+              fontWeight: 400,
+              textAlign: "center",
+            }}
+          >
+            Get ready to battle it out! Join our exciting events and competitive
+            tournaments featuring top games, epic challenges, and massive rewards.
+            Whether you're a casual player or a pro, there's always a stage for
+            you to shine.
+          </Typography>
+        </Box>
 
-          {/* Second row - reversed order */}
-          <Box sx={{ display: "flex" }}>
-            {galleryImages
-              .slice()
-              .reverse()
-              .map((src, i) => (
-                <Box key={`row2-${i}`} sx={imageCardStyle}>
+        {/* Scrollable 2-row gallery */}
+        <Box
+          sx={{
+            width: "100%",
+            overflowX: "auto",
+            pb: 2,
+            "&::-webkit-scrollbar": { display: "none" },
+            msOverflowStyle: "none",
+            scrollbarWidth: "none",
+          }}
+        >
+          <Box sx={{ display: "inline-flex", flexDirection: "column", gap: 3 }}>
+            {/* First row - normal order */}
+            <Box sx={{ display: "flex" }}>
+              {galleryImages.map((src, i) => (
+                <Box key={`row1-${i}`} sx={imageCardStyle}>
                   <img
                     src={src}
-                    alt={`Gallery row2 item ${i + 1}`}
+                    alt={`Gallery row1 item ${i + 1}`}
                     style={{
                       width: "100%",
                       height: "100%",
@@ -182,10 +163,31 @@ const GalleryView = () => {
                   />
                 </Box>
               ))}
+            </Box>
+
+            {/* Second row - reversed order */}
+            <Box sx={{ display: "flex" }}>
+              {galleryImages
+                .slice()
+                .reverse()
+                .map((src, i) => (
+                  <Box key={`row2-${i}`} sx={imageCardStyle}>
+                    <img
+                      src={src}
+                      alt={`Gallery row2 item ${i + 1}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "inherit",
+                      }}
+                    />
+                  </Box>
+                ))}
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
     </>
   );
 };

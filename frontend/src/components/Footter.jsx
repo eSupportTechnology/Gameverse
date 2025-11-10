@@ -16,9 +16,9 @@ const Footter = () => {
   return (
     <Box
       sx={{
-        background: "linear-gradient(to top, #4E0256, #000000)",
+        background: "linear-gradient(to top, #4E0256, #0A0D17)",
         color: "#fff",
-        py: { xs: 3, sm: 6 },
+        py: { xs: 3, sm: 1 },
         px: { xs: 2, sm: 6, md: 10 },
       }}
     >
@@ -27,7 +27,7 @@ const Footter = () => {
         sx={{
           background: "rgba(255, 255, 255, 0.16)",
           borderRadius: { xs: "16px", sm: "32px", md: "90px" },
-          width: { xs: "90%", sm: "90%", md: "1100px" },
+          width: { xs: "90%", sm: "90%", md: "90%" },
           mx: "auto",
           my: { xs: 2, md: 6 },
           p: { xs: 2, sm: 4, md: 6 },

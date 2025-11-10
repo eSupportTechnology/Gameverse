@@ -148,10 +148,10 @@ export default function GamingExperience() {
       />
       <Box
         sx={{
-          py: 8,
           px: { xs: 2, md: 8 },
           minHeight: "80vh",
-          background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          // background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          background: "radial-gradient(circle, #01010a 0%, #0A0D17 50%, #0A0D17 100%)",
           position: "relative",
           overflow: "hidden",
           textAlign: "center",
@@ -173,8 +173,8 @@ export default function GamingExperience() {
         <Box sx={{ position: "relative", zIndex: 1, mt: 5 }}>
           <Typography
             fontSize="84px"
-            fontWeight={400} 
-            fontFamily= "BRUSHSTRIKE"
+            fontWeight={400}
+            fontFamily="BRUSHSTRIKE"
             gutterBottom
             sx={{
               background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
