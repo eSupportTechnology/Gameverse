@@ -138,9 +138,10 @@ const AboutGameVerse = () => {
 
       <Box
         sx={{
-          position: "relative",
-          minHeight: "100vh",
-          background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          position: "relative",      // forces full viewport width
+          overflow: "hidden",
+          // background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          background: "radial-gradient(circle, #01010a 10%, #0A0D17 50%, #0A0D17 100%)",
           color: "#fff",
           padding: isMobile ? "40px 20px" : "80px 40px",
           display: "flex",
@@ -151,21 +152,21 @@ const AboutGameVerse = () => {
           "&::before": {
             content: '""',
             position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "150px",
+            top: "50%",
+            left: "50%",
+            width: "800px",
+            height: "800px",
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.6), transparent)",
-            zIndex: 2,
-            pointerEvents: "none",
-            // filter: "blur(20px)",
+              "radial-gradient(circle, rgba(51, 178, 247, 0.73), rgba(84, 14, 92, 0.6), transparent 50%)",
+            transform: "translate(-50%, -50%)",
+            filter: "blur(120px)",
+            zIndex: 0,
           },
 
         }}
       >
         {/* Header */}
-        <Box sx={{ maxWidth: 900, textAlign: "center", mb: isMobile ? 6 : 10 }}>
+        <Box sx={{ maxWidth: 900, textAlign: "center", mb: isMobile ? 6 : 8 }}>
           <Typography
             variant={isMobile ? "h4" : "h2"}
             sx={{

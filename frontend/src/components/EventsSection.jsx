@@ -180,26 +180,28 @@ export const EventsSection = () => {
       />
       <Box
         sx={{
-          background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
-          py: { xs: 6, sm: 8 },
+          // background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          background: "radial-gradient(circle, #01010a 0%, #0A0D17 50%, #0A0D17 100%)",
+          py: { xs: 4, sm: 4 },
           px: 2,
           position: "relative",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          // overflow: 'hidden',
           "&::before": {
             content: '""',
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: "700px",
+            width: { xs: "200px", sm: "600px", md: '700px' },
             height: "700px",
             background:
               "radial-gradient(circle, rgba(51,178,247,0.15) 0%, rgba(207,54,225,0.1) 100%)",
             transform: "translate(-50%, -50%)",
             zIndex: 0,
             borderRadius: "50%",
-            filter: "blur(100px)",
+            filter: "blur(120px)",
           },
         }}
       >

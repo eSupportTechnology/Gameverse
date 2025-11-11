@@ -161,17 +161,33 @@ export default function FeaturedGames() {
             src: `url("/fonts/BRUSHSTRIKE.ttf") format("truetype")`,
           },
         }}
+        
       />
 
       <Box
         component="section"
         sx={{
-          background:
-            "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
-          py: { xs: 4, md: 4 },
+          position: "relative",
+          // background:
+          //   "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          background: "radial-gradient(circle, #01010a 0%, #0A0D17 50%, #0A0D17 100%)",
+          py: { xs: 4, md: 2 },
           px: { xs: 2, sm: 4 },
           color: "white",
           overflow: "hidden",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: "60%",
+            left: "50%",
+            width: "800px",
+            height: "800px",
+            background:
+              "radial-gradient(circle, rgba(51, 178, 247, 0.73), rgba(84, 14, 92, 0.6), transparent 50%)",
+            transform: "translate(-50%, -50%)",
+            filter: "blur(120px)",
+            zIndex: 0,
+          },
         }}
       >
         {/* Header */}

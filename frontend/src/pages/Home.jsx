@@ -50,6 +50,7 @@ const GradientButton = styled(Button)(({ theme }) => ({
 const Home = () => {
   return (
     <>
+
       {/* Hero Section */}
       <Box
         component="section"
@@ -69,9 +70,8 @@ const Home = () => {
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           boxSizing: "border-box",
-          // 👇 fade effect
-
-
+          
+          //  fade effect
           "&::after": {
             content: '""',
             position: "absolute",
@@ -79,12 +79,12 @@ const Home = () => {
             left: 0,
             width: "100%",
             height: "150px",
-            background:
-              "linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.6), transparent)",
+            background: "linear-gradient(to top, rgba(10,13,23,1), rgba(10,13,23,0.7), rgba(10,13,23,0))",
             pointerEvents: "none",
             zIndex: 3,
             // filter: "blur(10px)",
           },
+
 
         }}
       >
@@ -157,10 +157,9 @@ const Home = () => {
             overflow: "visible",
             position: "relative",
             minHeight: "80vh",
-            mb: 2
+            mb: 1
           }}
         >
-
           <Box
             sx={{
               position: "absolute",
@@ -192,12 +191,6 @@ const Home = () => {
           />
         </Box>
 
-
-
-
-
-
-
       </Box>
 
       {/* Next Sections */}
@@ -207,6 +200,8 @@ const Home = () => {
       <Event />
       <GalleryView />
       <BookingSection />
+
+
     </>
   );
 };
