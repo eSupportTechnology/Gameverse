@@ -155,18 +155,29 @@ function App() {
     // </div>
     <div
       style={{
-        width: "100%",        
+        width: "100%",
+        backgroundColor: "#000000",
+        minHeight: "100vh",
       }}
     >
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/games" element={<Games />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-      <Footter/>
-      
+      <div
+        style={{
+          maxWidth: "1400px",
+          margin: "0 auto",
+          backgroundColor: "#01010a",
+          minHeight: "100vh",
+          boxShadow: "0 0 50px rgba(0, 0, 0, 0.8)",
+        }}
+      >
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+        <Footter/>
+      </div>
     </div>
   );
 }

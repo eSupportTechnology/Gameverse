@@ -116,7 +116,8 @@ const Navbar = () => {
                 sx={{
                   color: "#ffffff",
                   textTransform: "none",
-                  fontSize: 16,
+                  fontSize: 18,
+                  fontWeight: "bold",
                   "&.active": { color: "#ff00ff" }, // active link highlight
                   "&:hover": { color: "#ff00ff" },
                 }}
@@ -129,7 +130,8 @@ const Navbar = () => {
                 sx={{
                   color: "#ffffff",
                   textTransform: "none",
-                  fontSize: 16,
+                  fontSize: 18,
+                  fontWeight: "bold",
                   "&.active": { color: "#ff00ff" },
                   "&:hover": { color: "#ff00ff" },
                 }}
@@ -143,7 +145,8 @@ const Navbar = () => {
                 sx={{
                   color: "#ffffff",
                   textTransform: "none",
-                  fontSize: 16,
+                  fontSize: 18,
+                  fontWeight: "bold",
                   "&.active": { color: "#ff00ff" },
                   "&:hover": { color: "#ff00ff" },
                 }}

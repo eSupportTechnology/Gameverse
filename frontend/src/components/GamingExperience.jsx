@@ -100,7 +100,7 @@ const FeatureCard = ({ feature }) => (
       <Typography
         className="feature-title"
         variant="h6"
-        fontWeight="bold"
+        fontWeight="normal"
         sx={{
           color: "#fff",
           cursor: "pointer",
