@@ -180,8 +180,7 @@ export const EventsSection = () => {
       />
       <Box
         sx={{
-          // background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
-          background: "radial-gradient(circle, #01010a 0%, #0A0D17 50%, #0A0D17 100%)",
+          bgcolor: "#0A0D17",
           py: { xs: 4, sm: 4 },
           px: 2,
           position: "relative",

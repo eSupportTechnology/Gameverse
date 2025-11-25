@@ -65,8 +65,7 @@ const Home = () => {
           px: { xs: 4, md: 10 },
           position: "relative",
           color: "#fff",
-          background:
-            "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
+          bgcolor: "#0A0D17",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           boxSizing: "border-box",

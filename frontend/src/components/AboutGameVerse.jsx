@@ -140,8 +140,7 @@ const AboutGameVerse = () => {
         sx={{
           position: "relative",      // forces full viewport width
           overflow: "hidden",
-          // background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
-          background: "radial-gradient(circle, #01010a 10%, #0A0D17 50%, #0A0D17 100%)",
+          bgcolor: "#0A0D17",
           color: "#fff",
           padding: isMobile ? "40px 20px" : "80px 40px",
           display: "flex",
