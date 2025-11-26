@@ -311,73 +311,134 @@ export default function FeaturedGames() {
                   width: { xs: 240, sm: 320, md: 360 },
                   height: { xs: 320, sm: 380, md: 420 },
                   position: "relative",
-                  clipPath: [
-                    "polygon(10% 0, 100% 0, 80% 100%, 0 90%)",
-                    "polygon(15% 0, 98% 0, 100% 100%, 0 100%)",
-                    "polygon(2% 0, 98% 0, 90% 100%, 0 100%)",
-                    "polygon(20% 0, 95% 0, 98% 100%, 0% 100%)",
-                    "polygon(0% 0, 100% 0, 80% 100%, 0 100%)",
-                  ][idx % 5],
-                  overflow: "hidden",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
-                  "&:hover": { transform: "scale(1.03)" },
+                  paddingBottom: "4px",
+                  "&:hover": { 
+                    transform: "scale(1.03)",
+                  },
                   "&:hover .game-title": { color: "#33B2F7 !important" },
+                  "&:hover .bottom-glow": {
+                    opacity: 1,
+                  },
                 }}
               >
                 <Box
-                  component="img"
-                  src={game.img}
-                  alt={game.title}
                   sx={{
                     width: "100%",
                     height: "100%",
-                    objectFit: "cover",
-                    display: "block",
-                  }}
-                />
-                <Box
-                  sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 2,
-                    right: 0,
-                    height: "28%",
+                    clipPath: [
+                      "polygon(10% 0, 100% 0, 80% 100%, 0 90%)",
+                      "polygon(15% 0, 98% 0, 100% 100%, 0 100%)",
+                      "polygon(2% 0, 98% 0, 90% 100%, 0 100%)",
+                      "polygon(20% 0, 95% 0, 98% 100%, 0% 100%)",
+                      "polygon(0% 0, 100% 0, 80% 100%, 0 100%)",
+                    ][idx % 5],
+                    overflow: "hidden",
+                    border: "2px solid rgba(51, 178, 247, 0.5)",
+                    transition: "all 0.3s ease",
+                    position: "relative",
                   }}
                 >
+                  {/* Bottom white line on hover */}
+                  <Box
+                    className="bottom-glow"
+                    sx={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: "2px",
+                      background: "#FFFFFF",
+                      opacity: 0,
+                      transition: "opacity 0.3s ease",
+                      zIndex: 10,
+                    }}
+                  />
+                  <Box
+                    component="img"
+                    src={game.img}
+                    alt={game.title}
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
+                  {/* Booking Now Button */}
                   <Box
                     sx={{
-                      position: "relative",
-                      bgcolor: "rgba(0,0,0)",
-                      p: { xs: 1.5, sm: 2, md: 2 },
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "flex-start",
+                      position: "absolute",
+                      bottom: "28%",
+                      left: 0,
+                      right: 0,
+                      zIndex: 2,
                     }}
                   >
-                    <Typography
-                      className="game-title"
-                      variant="h6"
+                    <Button
                       sx={{
-                        mb: 0.5,
-                        fontSize: { xs: "10px", sm: "14px", md: "15px" },
-                        fontWeight: 600,
-                        transition: "color 0.3s ease",
-                        color: "white",
+                        width: "100%",
+                        py: { xs: 1.2, md: 1.5 },
+                        borderRadius: 0,
+                        fontWeight: "bold",
+                        fontSize: { xs: "14px", md: "16px" },
+                        textTransform: "none",
+                        color: "#fff",
+                        background: "linear-gradient(to right, #A905BC, #33B2F7)",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          background: "linear-gradient(to right, #33B2F7, #A905BC)",
+                        },
                       }}
                     >
-                      {game.title}
-                    </Typography>
-                    <Typography
-                      variant="body2"
+                      Booking Now
+                    </Button>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 2,
+                      right: 0,
+                      height: "28%",
+                    }}
+                  >
+                    <Box
                       sx={{
-                        fontSize: { xs: "10px", sm: "8px", md: "12px" },
-                        color: "gray.300",
+                        position: "relative",
+                        bgcolor: "rgba(0,0,0)",
+                        p: { xs: 1.5, sm: 2, md: 2 },
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "flex-start",
                       }}
                     >
-                      {game.desc}
-                    </Typography>
+                      <Typography
+                        className="game-title"
+                        variant="h6"
+                        sx={{
+                          mb: 0.5,
+                          fontSize: { xs: "10px", sm: "14px", md: "15px" },
+                          fontWeight: 600,
+                          transition: "color 0.3s ease",
+                          color: "white",
+                        }}
+                      >
+                        {game.title}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontSize: { xs: "10px", sm: "8px", md: "12px" },
+                          color: "gray.300",
+                        }}
+                      >
+                        {game.desc}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
               </Box>
