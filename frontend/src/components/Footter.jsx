@@ -31,7 +31,7 @@ const Footer = () => {
       {/* ==================== FOOTER PILL CONTAINER ==================== */}
       <Box
         sx={{
-          background: "#120d1c",
+          background: "#1c1e2bff",
           borderRadius: { xs: "30px", md: "100px" },
           width: { xs: "95%", md: "90%" },
           maxWidth: "1300px", // Slightly tighter max width to help centering
@@ -46,7 +46,7 @@ const Footer = () => {
         */}
         <Grid 
           container 
-          columnSpacing={{ xs: 2, md: 4, lg: 8 }} 
+          columnSpacing={{ xs: 2, md: 8, lg: 24 }} 
           rowSpacing={4}
           justifyContent="center"
           alignItems="center"
@@ -125,7 +125,7 @@ const Footer = () => {
           <Grid item xs={12} md={4.5} lg={4}>
             <Box
               sx={{
-                width: "100%",
+                width: "120%",
                 height: "200px",
                 borderRadius: "25px",
                 overflow: "hidden",
