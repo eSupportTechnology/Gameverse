@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Box, Typography, useMediaQuery, useTheme, GlobalStyles } from "@mui/material";
 
 const GalleryView = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const scrollRef = useRef(null);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
   const headerGradient = "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)";
   const imageBorderGradient =
@@ -71,6 +73,59 @@ const GalleryView = () => {
     },
   };
 
+  // Auto-play functionality with Intersection Observer
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsAutoPlaying(true);
+          } else {
+            setIsAutoPlaying(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Auto-scroll effect
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container || !isAutoPlaying) return;
+
+    let scrollDirection = 1; // 1 for right, -1 for left
+    const scrollSpeed = 1; // pixels per frame
+
+    const autoScroll = () => {
+      if (!container) return;
+
+      container.scrollLeft += scrollSpeed * scrollDirection;
+
+      // Reverse direction at edges
+      if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
+        scrollDirection = -1;
+      } else if (container.scrollLeft <= 0) {
+        scrollDirection = 1;
+      }
+    };
+
+    const intervalId = setInterval(autoScroll, 20);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isAutoPlaying]);
+
   return (
     <>
       {/* Global font registration */}
@@ -137,6 +192,7 @@ const GalleryView = () => {
 
         {/* Scrollable 2-row gallery */}
         <Box
+          ref={scrollRef}
           sx={{
             width: "100%",
             overflowX: "auto",

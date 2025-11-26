@@ -40,6 +40,8 @@ export default function FeaturedGames() {
   const [snaps, setSnaps] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isDesktop = useMediaQuery("(min-width:900px)");
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const autoPlayIntervalRef = useRef(null);
 
   // number of visible items per slide
   const visibleCount = isDesktop ? 3 : 1;
@@ -151,6 +153,56 @@ export default function FeaturedGames() {
       container.style.cursor = "";
     };
   }, []);
+
+  // Auto-play functionality with Intersection Observer
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsAutoPlaying(true);
+          } else {
+            setIsAutoPlaying(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Auto-scroll effect
+  useEffect(() => {
+    if (!isAutoPlaying || snaps.length === 0) {
+      if (autoPlayIntervalRef.current) {
+        clearInterval(autoPlayIntervalRef.current);
+        autoPlayIntervalRef.current = null;
+      }
+      return;
+    }
+
+    autoPlayIntervalRef.current = setInterval(() => {
+      setSelectedIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % dotsToShow;
+        scrollToSnap(nextIndex);
+        return nextIndex;
+      });
+    }, 3000); // Change slide every 3 seconds
+
+    return () => {
+      if (autoPlayIntervalRef.current) {
+        clearInterval(autoPlayIntervalRef.current);
+      }
+    };
+  }, [isAutoPlaying, snaps, dotsToShow]);
 
   return (
     <>
