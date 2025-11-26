@@ -9,7 +9,7 @@ const GradientButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
   transition: "all 0.3s ease-in-out",
   color: "#fff",
-  background: "linear-gradient(to right, #A905BC, #33B2F7)",
+  background: "linear-gradient(to right, #33B2F7, #A905BC)",
 
   "&::before": {
     content: '""',

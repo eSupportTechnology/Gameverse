@@ -16,18 +16,7 @@ import { useTheme, styled } from "@mui/material/styles";
 import { NavLink, Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
-const Navbar = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  // const navLinks = ["Home", "Games", "About Us", "Contact"];
-
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  };
-
-  const GradientButton = styled(Button)(() => ({
+const GradientButton = styled(Button)(() => ({
   padding: "8px 18px",
   minWidth: "100px", 
   borderRadius: "10px",
@@ -35,7 +24,7 @@ const Navbar = () => {
   textTransform: "none",
   transition: "all 0.3s ease-in-out",
   background: "transparent",
-  color: "#A905BC", // text color
+  color: "#A905BC",
   border: "2px solid #A905BC",
 
   "&:hover": {
@@ -49,6 +38,17 @@ const Navbar = () => {
     color: "#15A2EF",
   },
 }));
+
+const Navbar = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // const navLinks = ["Home", "Games", "About Us", "Contact"];
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen);
+  };
 
 
 
@@ -156,7 +156,7 @@ const Navbar = () => {
             </Box>
           )}
 
-          {!isMobile && <GradientButton>Log in</GradientButton>}
+          {!isMobile && <GradientButton>Sign in</GradientButton>}
 
           {/* Mobile Hamburger */}
           {isMobile && (
@@ -205,7 +205,7 @@ const Navbar = () => {
             </ListItem>
           </List>
 
-          <GradientButton>Log in</GradientButton>
+          <GradientButton>Sign in</GradientButton>
         </Box>
       </Drawer>
 
