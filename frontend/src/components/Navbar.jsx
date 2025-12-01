@@ -13,23 +13,10 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme, styled } from "@mui/material/styles";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 
-const Navbar = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  // const navLinks = ["Home", "Games", "About Us", "Contact"];
-
-  const navigate =useNavigate();
-
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  };
-
-  const GradientButton = styled(Button)(() => ({
+const GradientButton = styled(Button)(() => ({
   padding: "8px 18px",
   minWidth: "100px", 
   borderRadius: "10px",
@@ -37,7 +24,7 @@ const Navbar = () => {
   textTransform: "none",
   transition: "all 0.3s ease-in-out",
   background: "transparent",
-  color: "#A905BC", // text color
+  color: "#A905BC",
   border: "2px solid #A905BC",
 
   "&:hover": {
@@ -51,6 +38,22 @@ const Navbar = () => {
     color: "#15A2EF",
   },
 }));
+
+const Navbar = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // const navLinks = ["Home", "Games", "About Us", "Contact"];
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
+  // Check if Games link should be active (includes booking page)
+  const isGamesActive = location.pathname === '/games' || location.pathname === '/booking';
 
 
 
@@ -130,7 +133,7 @@ const Navbar = () => {
                 component={NavLink}
                 to="/games"
                 sx={{
-                  color: "#ffffff",
+                  color: isGamesActive ? "#ff00ff" : "#ffffff",
                   textTransform: "none",
                   fontSize: 18,
                   fontWeight: "bold",
@@ -186,6 +189,9 @@ const Navbar = () => {
               component={NavLink}
               to="/games"
               onClick={handleDrawerToggle}
+              sx={{
+                color: isGamesActive ? "#ff00ff" : "inherit",
+              }}
             >
               <ListItemText primary="Games" />
             </ListItem>
@@ -207,7 +213,7 @@ const Navbar = () => {
             </ListItem>
           </List>
 
-          <GradientButton>Log in</GradientButton>
+          <GradientButton>Sign in</GradientButton>
         </Box>
       </Drawer>
 

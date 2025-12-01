@@ -5,6 +5,7 @@ import Footter from "./components/Footter";
 import Games from "./pages/Games";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Booking from "./pages/Booking";
 import Navbar from "./components/Navbar";
 import SingUp from "./pages/SingUp";
 import SignIn from "./pages/SignIn";
@@ -175,7 +176,6 @@ function App() {
     <div
       style={{
         width: "100%",
-        backgroundColor: "#000000",
         minHeight: "100vh",
       }}
     >
@@ -195,6 +195,7 @@ function App() {
             <Route path="/games" element={<Games />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/booking" element={<Booking />} />
           </Route>
 
           <Route element={<SubLayout />}>

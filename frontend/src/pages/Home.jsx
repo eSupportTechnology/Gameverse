@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import homeImg from "../assets/homeImg.png";
 import { Box, Typography, Button, Stack } from "@mui/material";
 import { styled } from "@mui/system";
@@ -9,7 +10,45 @@ import AboutGameVerse from "../components/AboutGameVerse";
 import GalleryView from "../components/Gallery";
 import BookingSection from "../components/BookingSection";
 
-const GradientButton = styled(Button)(({ theme }) => ({
+const SolidGradientButton = styled(Button)(({ theme }) => ({
+  position: "relative",
+  padding: "12px 24px",
+  borderRadius: "30px",
+  background: "linear-gradient(to right, #33B2F7, #A905BC)",
+  border: "none",
+  fontWeight: "bold",
+  overflow: "hidden",
+  textTransform: "none",
+  transition: "all 0.3s ease-in-out",
+  color: "#fff",
+
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    borderRadius: "30px",
+    padding: "2px",
+    background: "linear-gradient(to right, #A905BC, #33B2F7)",
+    WebkitMask:
+      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    WebkitMaskComposite: "destination-out",
+    maskComposite: "exclude",
+    pointerEvents: "none",
+  },
+
+  "&:hover": {
+    background: "transparent",
+    color: "transparent",
+    backgroundImage: "linear-gradient(to right, #A905BC, #33B2F7)",
+    backgroundClip: "text",
+    WebkitBackgroundClip: "text",
+    "&::before": {
+      background: "linear-gradient(to right, #33B2F7, #A905BC)",
+    },
+  },
+}));
+
+const OutlineGradientButton = styled(Button)(({ theme }) => ({
   position: "relative",
   padding: "12px 24px",
   borderRadius: "30px",
@@ -48,6 +87,8 @@ const GradientButton = styled(Button)(({ theme }) => ({
 }));
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <>
 
@@ -140,9 +181,26 @@ const Home = () => {
           </Typography>
 
           {/* Buttons */}
-          <Stack direction="row" spacing={2} mt={3}>
-            <GradientButton>Booking Now</GradientButton>
-            <GradientButton>View Games</GradientButton>
+          <Stack 
+            direction="row" 
+            spacing={2} 
+            mt={3}
+            sx={{
+              "& .booking-btn": {
+                background: "linear-gradient(to right, #33B2F7, #A905BC)",
+                color: "#fff",
+              },
+              "&:hover .booking-btn": {
+                background: "transparent",
+                color: "transparent",
+                backgroundImage: "linear-gradient(to right, #A905BC, #33B2F7)",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+              },
+            }}
+          >
+            <SolidGradientButton className="booking-btn" onClick={() => navigate('/booking')}>Booking Now</SolidGradientButton>
+            <OutlineGradientButton>View Events</OutlineGradientButton>
           </Stack>
         </Box>
 
