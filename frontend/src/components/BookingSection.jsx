@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import { Box, Typography, Button, styled } from "@mui/material";
 
 const GradientButton = styled(Button)(({ theme }) => ({
@@ -39,6 +40,8 @@ const GradientButton = styled(Button)(({ theme }) => ({
 
 
 const BookingSection = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <Box
@@ -63,7 +66,7 @@ const BookingSection = () => {
           Your seat is waiting — Book Now and Game On!
         </Typography>
 
-        <GradientButton>Booking Now</GradientButton>
+        <GradientButton onClick={() => navigate('/booking')}>Booking Now</GradientButton>
 
       </Box>
     </div>

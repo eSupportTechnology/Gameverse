@@ -6,6 +6,7 @@ import {
   GlobalStyles,
   useMediaQuery,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const games = [
   {
@@ -36,6 +37,7 @@ const games = [
 ];
 
 export default function FeaturedGames() {
+  const navigate = useNavigate();
   const scrollRef = useRef(null);
   const [snaps, setSnaps] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -119,24 +121,34 @@ export default function FeaturedGames() {
     let isDown = false;
     let startX = 0;
     let scrollStart = 0;
+    let hasMoved = false;
 
     const onPointerDown = (e) => {
+      // Don't interfere with buttons or interactive elements
+      if (e.target.closest('button') || e.target.closest('a')) {
+        return;
+      }
       isDown = true;
+      hasMoved = false;
       container.style.cursor = "grabbing";
       startX = e.pageX ?? e.touches?.[0]?.pageX ?? 0;
       scrollStart = container.scrollLeft;
       if (e.pointerId) container.setPointerCapture?.(e.pointerId);
-      e.preventDefault();
     };
     const onPointerMove = (e) => {
       if (!isDown) return;
+      hasMoved = true;
       const x = e.pageX ?? e.touches?.[0]?.pageX ?? 0;
-      container.scrollLeft = scrollStart + (startX - x);
+      const diff = Math.abs(startX - x);
+      if (diff > 5) {
+        container.scrollLeft = scrollStart + (startX - x);
+      }
     };
     const onPointerUp = (e) => {
       isDown = false;
       container.style.cursor = "grab";
       if (e?.pointerId) container.releasePointerCapture?.(e.pointerId);
+      hasMoved = false;
     };
 
     container.addEventListener("pointerdown", onPointerDown);
@@ -373,10 +385,19 @@ export default function FeaturedGames() {
                       bottom: "28%",
                       left: 0,
                       right: 0,
-                      zIndex: 2,
+                      zIndex: 10,
+                      pointerEvents: "auto",
                     }}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onPointerMove={(e) => e.stopPropagation()}
                   >
                     <Button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log("Navigating to booking page");
+                        navigate("/booking");
+                      }}
                       sx={{
                         width: "100%",
                         py: { xs: 1.2, md: 1.5 },
@@ -474,47 +495,6 @@ export default function FeaturedGames() {
             mt: { xs: 4, md: 6 },
           }}
         >
-          <Button
-            sx={{
-              px: { xs: 3, md: 5 },
-              py: { xs: 1, md: 1.5 },
-              borderRadius: "50px",
-              mb: 4,
-              fontWeight: 500,
-              fontSize: { xs: "14px", md: "16px" },
-              color: "#fff",
-              background: "linear-gradient(to right, #3b82f6, #ed31feff)",
-              position: "relative",
-              overflow: "hidden",
-              border: "none",
-              transition: "all 0.3s ease",
-              "&::before": {
-                content: '""',
-                position: "absolute",
-                inset: 0,
-                borderRadius: "30px",
-                padding: "2px",
-                background: "linear-gradient(to right, #A905BC, #33B2F7)",
-                WebkitMask:
-                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                WebkitMaskComposite: "xor",
-                maskComposite: "exclude",
-                pointerEvents: "none",
-              },
-              "&:hover": {
-                background: "transparent",
-                backgroundImage: "linear-gradient(to right, #A905BC, #33B2F7)",
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                "&::before": {
-                  background: "linear-gradient(to right, #33B2F7, #A905BC)",
-                },
-              },
-            }}
-          >
-            View All Games & Pricing
-          </Button>
         </Box>
       </Box>
     </>

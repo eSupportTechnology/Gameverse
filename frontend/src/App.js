@@ -5,6 +5,7 @@ import Footter from "./components/Footter";
 import Games from "./pages/Games";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Booking from "./pages/Booking";
 import Navbar from "./components/Navbar";
 
 function App() {
@@ -165,6 +166,7 @@ function App() {
         <Route path="/games" element={<Games />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/booking" element={<Booking />} />
       </Routes>
       <Footter/>
     </div>
