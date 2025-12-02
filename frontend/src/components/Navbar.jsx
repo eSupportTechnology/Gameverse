@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme, styled } from "@mui/material/styles";
-import { NavLink, Link, useLocation } from "react-router-dom";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const GradientButton = styled(Button)(() => ({
@@ -44,6 +44,7 @@ const Navbar = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // const navLinks = ["Home", "Games", "About Us", "Contact"];
 
@@ -160,7 +161,7 @@ const Navbar = () => {
             </Box>
           )}
 
-          {!isMobile && <GradientButton>Sign in</GradientButton>}
+          {!isMobile && <GradientButton onClick={()=>navigate('/sing-in')}>Sign in</GradientButton>}
 
           {/* Mobile Hamburger */}
           {isMobile && (
