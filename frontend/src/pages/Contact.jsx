@@ -7,10 +7,43 @@ import {
   Grid,
   GlobalStyles,
 } from "@mui/material";
+import axios from "axios";
 import astronaut from "../assets/astronaut.png";
 import BookingSection from "../components/BookingSection";
 
 const Contact = () => {
+  const [formData, setFormData] = React.useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  //Input change handler
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  //Submit function
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post("http://127.0.0.1:8000/api/contact", formData);
+      alert(res.data.message);
+
+      setFormData({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } catch (error) {
+    console.error(error.response?.data || error.message);
+    alert("Failed to send message");
+    }
+  };
+
   return (
     <>
       {/* font-face */}
@@ -113,6 +146,9 @@ const Contact = () => {
               >
                 <TextField
                   placeholder="Last Name"
+                  name="last_name" 
+                  value={formData.last_name} 
+                  onChange={handleChange}
                   variant="outlined"
                   fullWidth
                   InputProps={{
@@ -128,6 +164,9 @@ const Contact = () => {
 
                 <TextField
                   placeholder="First Name"
+                  name="first_name" 
+                  value={formData.first_name} 
+                  onChange={handleChange}
                   variant="outlined"
                   fullWidth
                   InputProps={{
@@ -144,6 +183,9 @@ const Contact = () => {
 
               <TextField
                 placeholder="Email"
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange}
                 variant="outlined"
                 fullWidth
                 InputProps={{
@@ -159,6 +201,9 @@ const Contact = () => {
 
               <TextField
                 placeholder="Phone Number"
+                name="phone" 
+                value={formData.phone} 
+                onChange={handleChange}
                 variant="outlined"
                 fullWidth
                 InputProps={{
@@ -173,8 +218,10 @@ const Contact = () => {
               />
 
               <TextField
-                multiline
-                rows={4}
+                name="message" 
+                value={formData.message} 
+                onChange={handleChange} 
+                multiline rows={4} 
                 placeholder="Message"
                 variant="outlined"
                 fullWidth
@@ -190,6 +237,7 @@ const Contact = () => {
 
               <Button
                 fullWidth
+                onClick={handleSubmit}
                 sx={{
                   py: 1.5,
                   borderRadius: "5px",
