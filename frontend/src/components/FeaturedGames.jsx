@@ -77,12 +77,12 @@ export default function FeaturedGames() {
   }, [calcSnaps]);
 
   // scroll to a particular snap
-  const scrollToSnap = (snapIndex) => {
+  const scrollToSnap = useCallback((snapIndex) => {
     const container = scrollRef.current;
     if (!container || snaps.length === 0) return;
     const left = snaps[snapIndex] || 0;
     container.scrollTo({ left, behavior: "smooth" });
-  };
+  }, [snaps]);
 
   // Scroll to the starting slide of that dot
   const handleDotClick = (dotIdx) => {
@@ -121,7 +121,6 @@ export default function FeaturedGames() {
     let isDown = false;
     let startX = 0;
     let scrollStart = 0;
-    let hasMoved = false;
 
     const onPointerDown = (e) => {
       // Don't interfere with buttons or interactive elements
@@ -129,7 +128,6 @@ export default function FeaturedGames() {
         return;
       }
       isDown = true;
-      hasMoved = false;
       container.style.cursor = "grabbing";
       startX = e.pageX ?? e.touches?.[0]?.pageX ?? 0;
       scrollStart = container.scrollLeft;
@@ -137,7 +135,6 @@ export default function FeaturedGames() {
     };
     const onPointerMove = (e) => {
       if (!isDown) return;
-      hasMoved = true;
       const x = e.pageX ?? e.touches?.[0]?.pageX ?? 0;
       const diff = Math.abs(startX - x);
       if (diff > 5) {
@@ -148,7 +145,6 @@ export default function FeaturedGames() {
       isDown = false;
       container.style.cursor = "grab";
       if (e?.pointerId) container.releasePointerCapture?.(e.pointerId);
-      hasMoved = false;
     };
 
     container.addEventListener("pointerdown", onPointerDown);
@@ -214,7 +210,7 @@ export default function FeaturedGames() {
         clearInterval(autoPlayIntervalRef.current);
       }
     };
-  }, [isAutoPlaying, snaps, dotsToShow]);
+  }, [isAutoPlaying, snaps, dotsToShow, scrollToSnap]);
 
   return (
     <>
@@ -230,6 +226,7 @@ export default function FeaturedGames() {
 
       <Box
         component="section"
+        id="featured-games"
         sx={{
           position: "relative",
           bgcolor: "#0A0D17",
