@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import homeImg from "../assets/homeImg.png";
 import { Box, Typography, Button, Stack } from "@mui/material";
 import { styled } from "@mui/system";
@@ -87,7 +86,6 @@ const OutlineGradientButton = styled(Button)(({ theme }) => ({
 }));
 
 const Home = () => {
-  const navigate = useNavigate();
 
   return (
     <>
@@ -199,8 +197,8 @@ const Home = () => {
               },
             }}
           >
-            <SolidGradientButton className="booking-btn" onClick={() => navigate('/booking')}>Booking Now</SolidGradientButton>
-            <OutlineGradientButton>View Events</OutlineGradientButton>
+            <SolidGradientButton className="booking-btn" onClick={() => document.getElementById('featured-games')?.scrollIntoView({ behavior: 'smooth' })}>Booking Now</SolidGradientButton>
+            <OutlineGradientButton onClick={() => document.getElementById('events-section')?.scrollIntoView({ behavior: 'smooth' })}>View Events</OutlineGradientButton>
           </Stack>
         </Box>
 

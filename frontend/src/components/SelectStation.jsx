@@ -69,12 +69,21 @@ const SelectStation = ({ onNext, selectedStation }) => {
   }, [selectedStation]);
 
   const handleSelect = (stationId) => {
+    console.log("=== handleSelect called ===");
     console.log("Station selected:", stationId);
+    console.log("Current selectedStationId before update:", selectedStationId);
     setSelectedStationId(stationId);
+    console.log("setSelectedStationId called with:", stationId);
     if (onNext) {
       onNext(stationId);
     }
   };
+
+  // Debug log
+  useEffect(() => {
+    console.log("SelectStation - selectedStationId:", selectedStationId);
+    console.log("SelectStation - selectedStation prop:", selectedStation);
+  }, [selectedStationId, selectedStation]);
 
   // Calculate snap positions
   const calcSnaps = useCallback(() => {
@@ -147,6 +156,10 @@ const SelectStation = ({ onNext, selectedStation }) => {
     let scrollStart = 0;
 
     const onPointerDown = (e) => {
+      // Don't interfere with button clicks
+      if (e.target.closest('button') || e.target.closest('.select-btn')) {
+        return;
+      }
       isDown = true;
       container.style.cursor = "grabbing";
       startX = e.pageX ?? e.touches?.[0]?.pageX ?? 0;
@@ -261,6 +274,7 @@ const SelectStation = ({ onNext, selectedStation }) => {
       >
         {stations.map((station, idx) => {
           const isSelected = selectedStationId === station.id;
+          console.log(`Station ${station.id}: isSelected = ${isSelected}, selectedStationId = ${selectedStationId}`);
           return (
           <Box
             key={station.id}
@@ -275,13 +289,13 @@ const SelectStation = ({ onNext, selectedStation }) => {
                 transform: "scale(1.03)",
               },
               "&:hover .bottom-glow": {
-                opacity: 1,
+                opacity: "1 !important",
               },
               "&:hover .select-btn": {
-                opacity: 1,
+                opacity: "1 !important",
               },
               "&:hover .selected-banner": {
-                opacity: 1,
+                opacity: "1 !important",
               },
             }}
           >
@@ -329,68 +343,54 @@ const SelectStation = ({ onNext, selectedStation }) => {
                 }}
               />
 
-              {/* Select Button - Visible only on hover */}
+              {/* Select / Selected Button - Visible when selected or on hover */}
               <Box
                 className="select-btn"
                 sx={{
                   position: "absolute",
-                  bottom: "30%",
+                  bottom: { xs: "25%", md: "27%" },
                   left: 0,
                   right: 0,
                   zIndex: 10,
-                  opacity: 0,
+                  opacity: isSelected ? 1 : 0,
                   transition: "opacity 0.3s ease",
                 }}
               >
-                <SelectButton 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelect(station.id);
-                  }}
-                  sx={{
-                    background: isSelected 
-                      ? "#4CAF50 !important" 
-                      : "linear-gradient(to right, #A905BC, #33B2F7)",
-                    "&:hover": {
-                      background: isSelected 
-                        ? "#45a049 !important" 
-                        : "linear-gradient(to right, #33B2F7, #A905BC)",
-                    },
-                  }}
-                >
-                  {isSelected ? "Selected" : "Select"}
-                </SelectButton>
-              </Box>
-
-              {/* Selected Banner - Shows above station info when selected and on hover */}
-              {isSelected && (
-                <Box
-                  className="selected-banner"
-                  sx={{
-                    position: "absolute",
-                    bottom: { xs: 106, md: 120 },
-                    left: 0,
-                    right: 0,
-                    bgcolor: "#4CAF50",
-                    py: { xs: 1.5, md: 2 },
-                    zIndex: 3,
-                    textAlign: "center",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                  }}
-                >
-                  <Typography
+                {isSelected ? (
+                  <Box
                     sx={{
-                      color: "#fff",
-                      fontWeight: "bold",
-                      fontSize: { xs: "16px", md: "18px" },
-                      letterSpacing: "0.5px",
+                      width: "100%",
+                      py: 1.5,
+                      bgcolor: "#4CAF50",
+                      textAlign: "center",
+                      cursor: "default",
+                      boxShadow: "0 4px 6px rgba(0,0,0,0.2)",
                     }}
                   >
-                    Selected
-                  </Typography>
-                </Box>
-              )}
+                    <Typography
+                      sx={{
+                        color: "#fff",
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      Selected
+                    </Typography>
+                  </Box>
+                ) : (
+                  <SelectButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log('Button clicked for station:', station.id);
+                      handleSelect(station.id);
+                    }}
+                  >
+                    Select
+                  </SelectButton>
+                )}
+              </Box>
 
               {/* Station Info */}
               <Box

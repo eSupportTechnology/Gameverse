@@ -179,6 +179,7 @@ export const EventsSection = () => {
         }}
       />
       <Box
+        id="events-section"
         sx={{
           bgcolor: "#0A0D17",
           py: { xs: 4, sm: 4 },

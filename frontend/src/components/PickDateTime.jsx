@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, IconButton } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, Typography, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
