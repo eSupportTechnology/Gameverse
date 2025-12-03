@@ -51,7 +51,7 @@ const Footer = () => {
         >
           
           {/* --- Left Column: Contact Info --- */}
-          <Grid size={{ xs: 12, md: 4.5, lg: 4 }}>
+          <Grid item xs={12} md={4.5} lg={4}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}> {/* Reduced gap from 2.5 to 2 */}
               <Box sx={{ display: "flex", alignItems: "center" }}> {/* Align items center ensures icon and text line up */}
                 <LocationOn sx={{ mr: 2, fontSize: 20, color: "#fff" }} />
@@ -90,7 +90,7 @@ const Footer = () => {
           </Grid>
 
           {/* --- Middle Column: Quick Link --- */}
-          <Grid size={{ xs: 12, md: 2.5, lg: 2 }}>
+          <Grid item xs={12} md={2.5} lg={2}>
              {/* Flex container to center the content block within the column if needed, or keep left aligned */}
              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: {xs: 'center', md: 'flex-start'}, pl: {md: 2} }}>
                 <Typography
@@ -120,7 +120,7 @@ const Footer = () => {
           </Grid>
 
           {/* --- Right Column: Map --- */}
-          <Grid size={{ xs: 12, md: 4.5, lg: 4 }}>
+          <Grid item xs={12} md={4.5} lg={4}>
             <Box
               sx={{
                 width: "120%",

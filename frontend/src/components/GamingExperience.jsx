@@ -202,7 +202,7 @@ export default function GamingExperience() {
 
           <Grid container justifyContent="center" sx={{ mb: 6 }}>
             {firstRowFeatures.map((feature, i) => (
-              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i} sx={{ m: 4 }}>
+              <Grid item xs={12} sm={6} md={3} key={i} sx={{ m: 4 }}>
                 <FeatureCard feature={feature} />
               </Grid>
             ))}
@@ -210,7 +210,7 @@ export default function GamingExperience() {
 
           <Grid container justifyContent="center">
             {secondRowFeatures.map((feature, i) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i} sx={{ m: 4 }}>
+              <Grid item xs={12} sm={6} md={4} key={i} sx={{ m: 4 }}>
                 <FeatureCard feature={feature} />
               </Grid>
             ))}
