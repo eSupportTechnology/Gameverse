@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import homeImg from "../assets/homeImg.png";
 import { Box, Typography, Button, Stack } from "@mui/material";
 import { styled } from "@mui/system";
@@ -86,7 +87,20 @@ const OutlineGradientButton = styled(Button)(({ theme }) => ({
 }));
 
 const Home = () => {
+  const location = useLocation();
 
+  useEffect(() => {
+    // if navigated here with a flag to scroll, do it
+    if (location?.state?.scrollToFeatured) {
+      const el = document.getElementById("featured-games");
+      if (el) {
+        // smooth scroll then clear history state
+        setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 50);
+        // clear the state so repeated navigation doesn't re-scroll
+        window.history.replaceState({}, document.title);
+      }
+    }
+  }, [location]);
   return (
     <>
 
