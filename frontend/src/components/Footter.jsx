@@ -5,8 +5,6 @@ import {
   Typography,
   IconButton,
   Link,
-  Button,
-  Container,
   Divider,
 } from "@mui/material";
 import { LocationOn, Phone, Email, AccessTime } from "@mui/icons-material";

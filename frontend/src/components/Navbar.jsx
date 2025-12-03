@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme, styled } from "@mui/material/styles";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const GradientButton = styled(Button)(() => ({
@@ -43,12 +43,17 @@ const Navbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // const navLinks = ["Home", "Games", "About Us", "Contact"];
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
+
+  // Check if Games link should be active (includes booking page)
+  const isGamesActive = location.pathname === '/games' || location.pathname === '/booking';
 
 
 
@@ -128,7 +133,7 @@ const Navbar = () => {
                 component={NavLink}
                 to="/games"
                 sx={{
-                  color: "#ffffff",
+                  color: isGamesActive ? "#ff00ff" : "#ffffff",
                   textTransform: "none",
                   fontSize: 18,
                   fontWeight: "bold",
@@ -156,7 +161,7 @@ const Navbar = () => {
             </Box>
           )}
 
-          {!isMobile && <GradientButton>Sign in</GradientButton>}
+          {!isMobile && <GradientButton onClick={()=>navigate('/sing-in')}>Sign in</GradientButton>}
 
           {/* Mobile Hamburger */}
           {isMobile && (
@@ -184,6 +189,9 @@ const Navbar = () => {
               component={NavLink}
               to="/games"
               onClick={handleDrawerToggle}
+              sx={{
+                color: isGamesActive ? "#ff00ff" : "inherit",
+              }}
             >
               <ListItemText primary="Games" />
             </ListItem>

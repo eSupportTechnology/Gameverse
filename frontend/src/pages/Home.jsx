@@ -86,6 +86,7 @@ const OutlineGradientButton = styled(Button)(({ theme }) => ({
 }));
 
 const Home = () => {
+
   return (
     <>
 
@@ -196,8 +197,8 @@ const Home = () => {
               },
             }}
           >
-            <SolidGradientButton className="booking-btn">Booking Now</SolidGradientButton>
-            <OutlineGradientButton>View Events</OutlineGradientButton>
+            <SolidGradientButton className="booking-btn" onClick={() => document.getElementById('featured-games')?.scrollIntoView({ behavior: 'smooth' })}>Booking Now</SolidGradientButton>
+            <OutlineGradientButton onClick={() => document.getElementById('events-section')?.scrollIntoView({ behavior: 'smooth' })}>View Events</OutlineGradientButton>
           </Stack>
         </Box>
 
