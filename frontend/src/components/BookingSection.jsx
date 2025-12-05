@@ -42,6 +42,18 @@ const GradientButton = styled(Button)(({ theme }) => ({
 const BookingSection = () => {
   const navigate = useNavigate();
 
+  const handleBookingClick = () => {
+    const el = document.getElementById("featured-games");
+    if (el) {
+      // If we're on a page that has the section, scroll to it
+      el.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
+    // Otherwise navigate to home and tell Home to scroll after mount
+    navigate("/", { state: { scrollToFeatured: true } });
+  };
+
   return (
     <div>
       <Box
@@ -66,7 +78,7 @@ const BookingSection = () => {
           Your seat is waiting — Book Now and Game On!
         </Typography>
 
-        <GradientButton onClick={() => navigate('/booking')}>Booking Now</GradientButton>
+        <GradientButton onClick={handleBookingClick}>Booking Now</GradientButton>
 
       </Box>
     </div>
