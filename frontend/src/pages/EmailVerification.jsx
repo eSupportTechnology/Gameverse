@@ -96,6 +96,9 @@ const boldPath = `
 `;
 
 const EmailVerification = () => {
+  // state to track if code sent already
+  const [codeSent, setCodeSent] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -133,13 +136,37 @@ const EmailVerification = () => {
     }
   };
 
-  const handleVerifyEmail = async () => {
-    const verificationCode = code.join("");
-
+  // New function to send verification code (initial and resend)
+  const sendVerificationCode = async () => {
     if (!email) {
       toast.warning("Please enter your email.");
       return;
     }
+    try {
+      await axios.post("http://127.0.0.1:8000/api/send-verification-code", {
+        email,
+      });
+      toast.success("Verification code sent! Check your email.");
+      setCodeSent(true);
+      setCode(Array(6).fill("")); // reset code input
+      inputRefs.current[0]?.focus();
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to send verification code."
+      );
+    }
+  };
+
+  // Adjust handleVerifyEmail to just verify the code if codeSent is true
+  const handleVerifyEmail = async () => {
+    if (!codeSent) {
+      // send code on first click
+      sendVerificationCode();
+      return;
+    }
+
+    // verify code
+    const verificationCode = code.join("");
     if (verificationCode.length !== 6) {
       toast.warning("Enter full 6-digit code.");
       return;
@@ -150,7 +177,6 @@ const EmailVerification = () => {
         email,
         code: verificationCode,
       });
-
       const resetToken = res.data.reset_token;
 
       sessionStorage.setItem("reset_token", resetToken);
@@ -309,7 +335,7 @@ const EmailVerification = () => {
                 textAnchor="middle"
                 dominantBaseline="middle"
               >
-                Verify Email
+                {codeSent ? "Verify Code" : "Verify Email"}
               </text>
             </SvgBorder>
           </Box>
@@ -378,6 +404,7 @@ const EmailVerification = () => {
                   fullWidth
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={codeSent} // disable email input once code sent
                 />
               </Box>
 
@@ -386,7 +413,7 @@ const EmailVerification = () => {
                   Verification Code
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2 }}>
-                  {Array.from({ length: 6 }).map((_, index) => (
+                  {code.map((digit, index) => (
                     <FixedLabelTextField
                       key={index}
                       inputRef={(el) => (inputRefs.current[index] = el)}
@@ -398,11 +425,10 @@ const EmailVerification = () => {
                           color: "white",
                         },
                       }}
-                      sx={{
-                        width: "80px",
-                      }}
+                      value={digit}
                       onChange={(e) => handleInputChange(e, index)}
                       onKeyDown={(e) => handleBackspace(e, index)}
+                      sx={{ width: "80px" }}
                     />
                   ))}
                 </Box>
@@ -414,6 +440,7 @@ const EmailVerification = () => {
                   Didn’t have a code.?
                   <Box
                     component="span"
+                    onClick={sendVerificationCode}
                     sx={{
                       ml: 1,
                       backgroundImage:
