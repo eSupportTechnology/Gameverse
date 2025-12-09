@@ -534,8 +534,11 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
     );
 
     public static $classMap = array (
-        'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
-        'App\\Http\\Middleware\\CorsMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/CorsMiddleware.php',
+        'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
+        'App\\Http\\Controllers\\ContactController' => __DIR__ . '/../..' . '/app/Http/Controllers/ContactController.php',
+        'App\\Http\\Controllers\\PasswordResetController' => __DIR__ . '/../..' . '/app/Http/Controllers/PasswordResetController.php',
+        'App\\Mail\\VerificationCodeMail' => __DIR__ . '/../..' . '/app/Mail/VerificationCodeMail.php',
+        'App\\Models\\Contact' => __DIR__ . '/../..' . '/app/Models/Contact.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
