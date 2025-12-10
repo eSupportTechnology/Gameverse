@@ -10,4 +10,4 @@
 </table>
 </td>
 </tr>
-<?php /**PATH E:\web developmet\E support\Game-center\Gameverse\backend\vendor\laravel\framework\src\Illuminate\Mail/resources/views/html/footer.blade.php ENDPATH**/ ?>
+<?php /**PATH F:\esupport\Gameverse\backend\vendor\laravel\framework\src\Illuminate\Mail/resources/views/html/footer.blade.php ENDPATH**/ ?>

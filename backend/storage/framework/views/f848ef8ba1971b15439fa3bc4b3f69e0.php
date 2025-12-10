@@ -61,4 +61,4 @@ width: 100% !important;
 </table>
 </body>
 </html>
-<?php /**PATH E:\web developmet\E support\Game-center\Gameverse\backend\vendor\laravel\framework\src\Illuminate\Mail/resources/views/html/layout.blade.php ENDPATH**/ ?>
+<?php /**PATH F:\esupport\Gameverse\backend\vendor\laravel\framework\src\Illuminate\Mail/resources/views/html/layout.blade.php ENDPATH**/ ?>

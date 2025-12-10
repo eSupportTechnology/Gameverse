@@ -1,17 +1,11 @@
-import React, { useRef, useState } from "react";
-import {
-  Box,
-  TextField,
-  Typography,
-  GlobalStyles,
-} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Box, TextField, Typography, GlobalStyles } from "@mui/material";
 import { styled } from "@mui/system";
-import singup from '../assets/singup-img.png'
-import { useNavigate } from "react-router-dom";
+import singup from "../assets/singup-img.png";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import backIcon from '../assets/back-icon.png'
+import backIcon from "../assets/back-icon.png";
 import { toast } from "react-toastify";
-
 
 const Frame = styled(Box)({
   maxWidth: "900px",
@@ -37,10 +31,11 @@ const Frame = styled(Box)({
 
 const FixedLabelTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
-    background: "rgba(0,0,0,0.3)",
+    border: "1px solid #3741519E",
+    background: "#29254B94",
+    borderRadius: "8px",
     backdropFilter: "blur(100px)",
     color: "#8E8D97",
-    borderRadius: 8,
     "& .MuiOutlinedInput-input": {
       padding: "8px 12px",
       fontSize: "16px",
@@ -101,12 +96,24 @@ const boldPath = `
 `;
 
 const EmailVerification = () => {
+  // state to track if code sent already
+  const [codeSent, setCodeSent] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [code, setCode] = useState(Array(6).fill(""));
   const [email, setEmail] = useState("");
   const inputRefs = useRef([]);
 
+  // Get email from previous page
+  const passedEmail = location.state?.email || "";
+
+  useEffect(() => {
+    if (passedEmail) {
+      setEmail(passedEmail);
+    }
+  }, [passedEmail]);
 
   const handleInputChange = (e, index) => {
     const value = e.target.value;
@@ -118,46 +125,69 @@ const EmailVerification = () => {
 
       // Move to next input
       if (index < 5) {
-        inputRefs.current[index + 1].focus();
+        inputRefs.current[index + 1]?.focus();
       }
     }
   };
 
   const handleBackspace = (e, index) => {
     if (e.key === "Backspace" && !code[index] && index > 0) {
-      inputRefs.current[index - 1].focus();
+      inputRefs.current[index - 1]?.focus();
     }
   };
 
-  const verificationCode = code.join("");
+  // New function to send verification code (initial and resend)
+  const sendVerificationCode = async () => {
+    if (!email) {
+      toast.warning("Please enter your email.");
+      return;
+    }
+    try {
+      await axios.post("http://127.0.0.1:8000/api/send-verification-code", {
+        email,
+      });
+      toast.success("Verification code sent! Check your email.");
+      setCodeSent(true);
+      setCode(Array(6).fill("")); // reset code input
+      inputRefs.current[0]?.focus();
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to send verification code."
+      );
+    }
+  };
 
-  // handle Email verification
+  // Adjust handleVerifyEmail to just verify the code if codeSent is true
   const handleVerifyEmail = async () => {
-    const verificationCode = code.join("");
+    if (!codeSent) {
+      // send code on first click
+      sendVerificationCode();
+      return;
+    }
 
-    if (!email) { toast.warning("Please enter your email."); return; }
-    if (verificationCode.length !== 6) { toast.warning("Enter full 6-digit code."); return; }
+    // verify code
+    const verificationCode = code.join("");
+    if (verificationCode.length !== 6) {
+      toast.warning("Enter full 6-digit code.");
+      return;
+    }
 
     try {
       const res = await axios.post("http://127.0.0.1:8000/api/verify-code", {
         email,
         code: verificationCode,
       });
-
       const resetToken = res.data.reset_token;
 
-      sessionStorage.setItem('reset_token', resetToken);
-      sessionStorage.setItem('reset_email', email);
+      sessionStorage.setItem("reset_token", resetToken);
+      sessionStorage.setItem("reset_email", email);
 
       toast.success("Email verified.");
-      navigate('/reset-password');
-
+      navigate("/reset-password");
     } catch (error) {
       toast.error(error.response?.data?.message || "Verification failed.");
     }
   };
-
-
 
   return (
     <>
@@ -228,8 +258,9 @@ const EmailVerification = () => {
               strokeWidth="6"
               fill="none"
               style={{
-                filter: 'drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 8px #ff00ff)',
-                transition: 'all 0.3s ease-in-out',
+                filter:
+                  "drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 8px #ff00ff)",
+                transition: "all 0.3s ease-in-out",
               }}
             />
           </SvgBorder>
@@ -271,7 +302,7 @@ const EmailVerification = () => {
               width: 300,
               height: 70,
               zIndex: 5,
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
             <SvgBorder
@@ -304,7 +335,7 @@ const EmailVerification = () => {
                 textAnchor="middle"
                 dominantBaseline="middle"
               >
-                Verify Email
+                {codeSent ? "Verify Code" : "Verify Email"}
               </text>
             </SvgBorder>
           </Box>
@@ -333,7 +364,14 @@ const EmailVerification = () => {
                 p: { xs: 2, sm: 3 },
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", mb: 0.5 }}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 3,
+                  cursor: "pointer",
+                  mb: 0.5,
+                }}
               >
                 <Box
                   onClick={() => navigate("/sing-in")}
@@ -341,7 +379,7 @@ const EmailVerification = () => {
                   src={backIcon}
                   alt="back-icon"
                   sx={{
-                    width: 22
+                    width: 22,
                   }}
                 />
 
@@ -366,6 +404,7 @@ const EmailVerification = () => {
                   fullWidth
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={codeSent} // disable email input once code sent
                 />
               </Box>
 
@@ -374,7 +413,7 @@ const EmailVerification = () => {
                   Verification Code
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2 }}>
-                  {Array.from({ length: 6 }).map((_, index) => (
+                  {code.map((digit, index) => (
                     <FixedLabelTextField
                       key={index}
                       inputRef={(el) => (inputRefs.current[index] = el)}
@@ -386,23 +425,22 @@ const EmailVerification = () => {
                           color: "white",
                         },
                       }}
-                      sx={{
-                        width: "80px",
-                      }}
+                      value={digit}
                       onChange={(e) => handleInputChange(e, index)}
                       onKeyDown={(e) => handleBackspace(e, index)}
+                      sx={{ width: "80px" }}
                     />
                   ))}
                 </Box>
-
               </Box>
 
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 {/* Resend code */}
                 <Typography sx={{ color: "white", fontSize: "12px" }}>
                   Didn’t have a code.?
                   <Box
                     component="span"
+                    onClick={sendVerificationCode}
                     sx={{
                       ml: 1,
                       backgroundImage:
@@ -437,7 +475,7 @@ const EmailVerification = () => {
         />
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default EmailVerification
+export default EmailVerification;

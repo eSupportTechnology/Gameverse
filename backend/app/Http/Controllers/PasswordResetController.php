@@ -7,13 +7,15 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 use App\Mail\VerificationCodeMail;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+
 
 class PasswordResetController extends Controller
 {
-     public function sendCode(Request $request)
+    // SEND CODE
+    public function sendCode(Request $request)
     {
         $request->validate(['email' => 'required|email']);
 
@@ -31,7 +33,7 @@ class PasswordResetController extends Controller
         $now = Carbon::now();
         $expiresAt = $now->copy()->addMinutes(15);
 
-        // upsert into password_resets
+        // upsert into password_resets table
         DB::table('password_resets')->updateOrInsert(
             ['email' => $email],
             [
@@ -42,8 +44,13 @@ class PasswordResetController extends Controller
             ]
         );
 
-        // send email
-        Mail::to($email)->send(new VerificationCodeMail($code));
+        // send email with try-catch for error handling
+        try {
+            Mail::to($email)->send(new VerificationCodeMail($code));
+        } catch (\Exception $e) {
+            \Log::error('Email sending failed: ' . $e->getMessage());
+            return response()->json(['message' => 'Failed to send email.'], 500);
+        }
 
         return response()->json(['message' => 'Verification code sent.'], 200);
     }
@@ -67,8 +74,8 @@ class PasswordResetController extends Controller
             return response()->json(['message' => 'Code expired.'], 410);
         }
 
-        // check code match
-        if ($row->code !== $request->code) {
+        // cast to string for strict comparison
+        if ((string) $row->code !== (string) $request->code) {
             return response()->json(['message' => 'Invalid code.'], 422);
         }
 

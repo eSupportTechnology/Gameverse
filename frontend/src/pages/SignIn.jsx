@@ -4,15 +4,15 @@ import {
   TextField,
   Typography,
   GlobalStyles,
-  IconButton, InputAdornment
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { styled } from "@mui/system";
-import singup from '../assets/singup-img.png'
+import singup from "../assets/singup-img.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-
 
 /* ------------------------ FRAME BACKGROUND ------------------------ */
 
@@ -40,19 +40,23 @@ const Frame = styled(Box)({
 
 const FixedLabelTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
-    background: "rgba(0,0,0,0.3)",
-    backdropFilter: "blur(100px)",
-    color: "#8E8D97",
-    paddingTop: "6px",
-    borderRadius: 8,
-    "& .MuiOutlinedInput-input": {
-      padding: "10px 12px",
-      fontSize: "16px",
-      color: "white",
+    background: "#29254B94",
+    backdropFilter: "blur(16px)",
+    borderRadius: "8px",
+    color: "#fff",
+    border: "1px solid #3741519E",
+
+    "&:hover": {
+      borderColor: "#ff00ff",
     },
-    "& input::placeholder": {
-      color: "rgba(255,255,255,0.7)",
-      opacity: 1,
+
+    "& fieldset": {
+      border: "none",
+    },
+
+    "& .MuiOutlinedInput-input": {
+      padding: "14px 14px",
+      fontSize: "15px",
     },
   },
 });
@@ -104,11 +108,10 @@ const boldPath = `
   Z
 `;
 
-
 /* ------------------------ SIGN-IN COMPONENT ------------------------ */
 
 const SignIn = () => {
-  const [isHover, setIsHover] = useState(false);
+  // const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -116,8 +119,7 @@ const SignIn = () => {
     password: "",
   });
 
-  const [showPassword, setShowPassword] = useState(true);
-
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -145,8 +147,6 @@ const SignIn = () => {
       localStorage.setItem("authToken", userData.token);
 
       navigate("/");
-
-
     } catch (err) {
       console.error("Login error:", err.response?.data || err.message);
       toast.error(err.response?.data?.message || "Login failed!");
@@ -154,17 +154,22 @@ const SignIn = () => {
   };
 
   // Send Email verification code
-  const handleSendVerification = async (email) => {
+  // const handleSendVerification = async () => {
+  //   if (!formData.email) {
+  //     toast.error("Enter your email first");
+  //     return;
+  //   }
 
-    try {
-      await axios.post("http://127.0.0.1:8000/api/send-verification-code", { email });
-      // navigate to email-verify page (pass email so user doesn't retype)
-      navigate('/email-verify', { state: { email } });
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to send code.');
-    }
-  };
+  //   try {
+  //     await axios.post("http://127.0.0.1:8000/api/send-verification-code", {
+  //       email: formData.email,
+  //     });
 
+  //     navigate("/email-verify", { state: { email: formData.email } });
+  //   } catch (err) {
+  //     toast.error(err.response?.data?.message || "Failed to send code.");
+  //   }
+  // };
 
   return (
     <>
@@ -190,7 +195,7 @@ const SignIn = () => {
             content: '""',
             position: "absolute",
             top: "50%",
-            left: "20%", 
+            left: "20%",
             width: { xs: "500px", sm: "650px", md: "800px" },
             height: { xs: "500px", sm: "650px", md: "800px" },
             background:
@@ -235,8 +240,9 @@ const SignIn = () => {
               strokeWidth="6"
               fill="none"
               style={{
-                filter: 'drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 8px #ff00ff)',
-                transition: 'all 0.3s ease-in-out',
+                filter:
+                  "drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 8px #ff00ff)",
+                transition: "all 0.3s ease-in-out",
               }}
             />
           </SvgBorder>
@@ -278,7 +284,7 @@ const SignIn = () => {
               width: 300,
               height: 70,
               zIndex: 5,
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
             <SvgBorder
@@ -340,7 +346,14 @@ const SignIn = () => {
                 p: { xs: 2, sm: 3 },
               }}
             >
-              <Typography sx={{ color: "white", mb: 0.5, fontSize: "32px", fontWeight: 700 }}>
+              <Typography
+                sx={{
+                  color: "white",
+                  mb: 0.5,
+                  fontSize: "32px",
+                  fontWeight: 700,
+                }}
+              >
                 Welcome Back
               </Typography>
               <Box>
@@ -363,17 +376,19 @@ const SignIn = () => {
                 <FixedLabelTextField
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="*********"
                   fullWidth
                   value={formData.password}
                   onChange={handleChange}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton sx={{ color: "#868A93" }} onClick={() => setShowPassword(!showPassword)} edge="end">
-
+                        <IconButton
+                          sx={{ color: "#868A93" }}
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
                           {showPassword ? <Visibility /> : <VisibilityOff />}
-
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -381,10 +396,10 @@ const SignIn = () => {
                 />
               </Box>
 
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 {/* Link to Sign Up */}
                 <Typography sx={{ color: "white", fontSize: "12px" }}>
-                  Don’t have an account?
+                  Didn't have a account.?
                   <Box
                     component="span"
                     sx={{
@@ -395,7 +410,7 @@ const SignIn = () => {
                       WebkitTextFillColor: "transparent",
                       cursor: "pointer",
                     }}
-                    onClick={() => navigate('/sing-up')}
+                    onClick={() => navigate("/sing-up")}
                   >
                     Sign Up
                   </Box>
@@ -414,7 +429,11 @@ const SignIn = () => {
                       WebkitTextFillColor: "transparent",
                       cursor: "pointer",
                     }}
-                    onClick={() => handleSendVerification(formData.email)}
+                    onClick={() =>
+                      navigate("/email-verify", {
+                        state: { email: formData.email },
+                      })
+                    }
                   >
                     Reset
                   </Box>

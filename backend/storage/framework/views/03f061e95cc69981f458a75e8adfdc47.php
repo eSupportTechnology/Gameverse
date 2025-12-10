@@ -11,4 +11,4 @@
 
 <?php echo strip_tags($footer ?? ''); ?>
 
-<?php /**PATH E:\web developmet\E support\Game-center\Gameverse\backend\vendor\laravel\framework\src\Illuminate\Mail/resources/views/text/layout.blade.php ENDPATH**/ ?>
+<?php /**PATH F:\esupport\Gameverse\backend\vendor\laravel\framework\src\Illuminate\Mail/resources/views/text/layout.blade.php ENDPATH**/ ?>

@@ -13,4 +13,4 @@ Thanks,<br>
 <?php echo new \Illuminate\Support\EncodedHtmlString(config('app.name')); ?>
 
 <?php echo $__env->renderComponent(); ?>
-<?php /**PATH E:\web developmet\E support\Game-center\Gameverse\backend\resources\views/emails/verification_code.blade.php ENDPATH**/ ?>
+<?php /**PATH F:\esupport\Gameverse\backend\resources\views/emails/verification_code.blade.php ENDPATH**/ ?>

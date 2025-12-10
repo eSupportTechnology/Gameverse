@@ -13,8 +13,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
-
 const Frame = styled(Box)({
   maxWidth: "900px",
   width: "100%",
@@ -46,10 +44,11 @@ const SvgBorder = styled("svg")({
 
 const FixedLabelTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
-    background: "rgba(0,0,0,0.3)",
+    border: "1px solid #3741519E",
+    background: "#29254B94",
+    borderRadius: "8px",
     backdropFilter: "blur(100px)",
     color: "#8E8D97",
-    borderRadius: 8,
     "& .MuiOutlinedInput-input": {
       padding: "10px 12px",
       fontSize: "16px",
