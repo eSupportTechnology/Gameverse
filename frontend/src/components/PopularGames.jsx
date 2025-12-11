@@ -47,6 +47,17 @@ const PopularGames = () => {
         color: 'white',
         overflow: 'hidden',
         mt: '-24px',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '140px',
+          background: 'linear-gradient(to bottom, rgba(10,13,23,0) 0%, rgba(10,13,23,0.7) 55%, #0A0D17 100%)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        },
         }}
       >
         <Box sx={{ position: 'relative', zIndex: 2, maxWidth: '1400px', mx: 'auto' }}>

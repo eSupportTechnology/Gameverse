@@ -19,6 +19,17 @@ const GamesHero = () => {
         overflowX: 'hidden',
         px: { xs: 4, md: 10 },
         boxSizing: 'border-box',
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: -1,
+          height: '140px',
+          background: 'linear-gradient(to bottom, rgba(10,13,23,0) 0%, rgba(10,13,23,0.85) 55%, #0A0D17 100%)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        },
       }}
     >
         {/* Left Content */}
@@ -26,6 +37,7 @@ const GamesHero = () => {
             flex: 1, 
             maxWidth: '600px',
             zIndex: 3, 
+            position: 'relative',
         }}>
           <Typography
             sx={{
