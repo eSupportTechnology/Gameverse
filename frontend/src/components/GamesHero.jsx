@@ -77,7 +77,7 @@ const GamesHero = () => {
 
           <Typography
             sx={{
-              color: 'rgba(184, 193, 236, 0.9)',
+              color: 'rgba(250, 250, 251, 0.9)',
               fontSize: { xs: '16px', md: '18px' },
               lineHeight: 1.8,
               mb: 4,
