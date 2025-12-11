@@ -1,9 +1,13 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 const EventsTournaments = () => {
-  const navigate = useNavigate();
+  const scrollToPopularGames = () => {
+    const target = document.getElementById('popular-games');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const tournaments = [
     {
@@ -288,7 +292,7 @@ const EventsTournaments = () => {
             Your seat is waiting — Book Now and Game On!
           </Typography>
           <Button
-            onClick={() => navigate('/booking', { state: { from: '/games' } })}
+            onClick={scrollToPopularGames}
             sx={{
               px: 5,
               py: 1.5,
