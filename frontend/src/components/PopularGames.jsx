@@ -42,33 +42,22 @@ const PopularGames = () => {
         sx={{
         position: 'relative',
         bgcolor: '#0A0D17',
-        py: { xs: 4, md: 2 },
+        py: { xs: 6, md: 6 },
         px: { xs: 2, sm: 4 },
         color: 'white',
         overflow: 'hidden',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '200px',
-            background: 'linear-gradient(to bottom, rgba(10,13,23,1) 0%, rgba(10,13,23,0.8) 40%, rgba(10,13,23,0) 100%)',
-            pointerEvents: 'none',
-            zIndex: 1,
-          },
-          '&::after': {
-            content: '""',
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '800px',
-            height: '800px',
-            background: 'radial-gradient(circle, rgba(51, 178, 247, 0.3), rgba(169, 5, 188, 0.25), transparent 70%)',
-            transform: 'translate(-50%, -50%)',
-            filter: 'blur(150px)',
-            zIndex: 0,
-          },
+        mt: '-24px',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '140px',
+          background: 'linear-gradient(to bottom, rgba(10,13,23,0) 0%, rgba(10,13,23,0.7) 55%, #0A0D17 100%)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        },
         }}
       >
         <Box sx={{ position: 'relative', zIndex: 2, maxWidth: '1400px', mx: 'auto' }}>
@@ -189,7 +178,7 @@ const PopularGames = () => {
                     }}
                   >
                     <Button
-                      onClick={() => navigate('/booking')}
+                      onClick={() => navigate('/booking', { state: { from: '/games' } })}
                       sx={{
                         width: '100%',
                         py: { xs: 1.2, md: 1.5 },

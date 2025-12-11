@@ -263,40 +263,32 @@ const EventsTournaments = () => {
         </Box>
 
         {/* Footer CTA */}
-        <Box sx={{ textAlign: 'center', pt: { xs: 4, md: 6 } }}>
+        <Box
+          sx={{
+            textAlign: 'center',
+            pt: { xs: 4, md: 6 },
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 3,
+          }}
+        >
           <Typography
             sx={{
               fontSize: { xs: '24px', sm: '32px', md: '42px' },
               fontWeight: 700,
               mb: 4,
               lineHeight: 1.4,
+              background: 'linear-gradient(90deg, #9b36ff 0%, #7e4aff 30%, #3368ff 70%, #05a9ff 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              display: 'inline-block',
             }}
           >
-            <Box component="span" sx={{ color: '#A033FF' }}>Your seat is waiting —</Box>{' '}
-            <Box
-              component="span"
-              sx={{
-                background: 'linear-gradient(to right, #7b4aff, #33B2F7)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Book Now
-            </Box>{' '}
-            <Box component="span" sx={{ color: '#ffffff' }}>and</Box>{' '}
-            <Box
-              component="span"
-              sx={{
-                background: 'linear-gradient(to right, #33B2F7, #00ffff)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Game On!
-            </Box>
+            Your seat is waiting — Book Now and Game On!
           </Typography>
           <Button
-            onClick={() => navigate('/booking')}
+            onClick={() => navigate('/booking', { state: { from: '/games' } })}
             sx={{
               px: 5,
               py: 1.5,

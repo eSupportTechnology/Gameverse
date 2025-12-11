@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, Button, GlobalStyles } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SelectStation from "../components/SelectStation";
 import PickDateTime from "../components/PickDateTime";
@@ -8,6 +8,8 @@ import PlayerInfo from "../components/PlayerInfo";
 
 const Booking = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const backTarget = location.state?.from || "/";
   const [bookingData, setBookingData] = useState({
     station: null,
     dateTime: null,
@@ -45,7 +47,7 @@ const Booking = () => {
         <Box sx={{ maxWidth: "1400px", mx: "auto", mb: 4 }}>
           <Button
             startIcon={<ArrowBackIcon sx={{ fontSize: "20px" }} />}
-            onClick={() => navigate("/")}
+            onClick={() => navigate(backTarget)}
             sx={{
               color: "#A905BC",
               textTransform: "none",

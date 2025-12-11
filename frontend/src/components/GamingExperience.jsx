@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Grid,
   Typography,
   Card,
   CardContent,
@@ -58,7 +57,7 @@ const FeatureCard = ({ feature }) => (
       textAlign: "center",
       cursor: "pointer",
       color: "#fff",
-      minHeight: 250,
+      minHeight: 230,
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -83,9 +82,9 @@ const FeatureCard = ({ feature }) => (
         src={feature.image}
         alt={feature.title}
         sx={{
-          width: 160,
-          height: 160,
-          borderRadius: 5,
+          width: 150,
+          height: 150,
+          borderRadius: 6,
           objectFit: "cover",
           cursor: "pointer",
           transition: "0.3s",
@@ -200,21 +199,37 @@ export default function GamingExperience() {
             experience like no other.
           </Typography>
 
-          <Grid container justifyContent="center" sx={{ mb: 6 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: { xs: 3, sm: 4, md: 5 },
+              mb: 6,
+            }}
+          >
             {firstRowFeatures.map((feature, i) => (
-              <Grid item xs={12} sm={6} md={3} key={i} sx={{ m: 4 }}>
+              <Box key={i} sx={{ flex: "0 0 auto", width: { xs: "70%", sm: "45%", md: "22%" } }}>
                 <FeatureCard feature={feature} />
-              </Grid>
+              </Box>
             ))}
-          </Grid>
+          </Box>
 
-          <Grid container justifyContent="center">
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: { xs: 3, sm: 4, md: 5 },
+              mb: 2,
+            }}
+          >
             {secondRowFeatures.map((feature, i) => (
-              <Grid item xs={12} sm={6} md={4} key={i} sx={{ m: 4 }}>
+              <Box key={i} sx={{ flex: "0 0 auto", width: { xs: "70%", sm: "45%", md: "26%" } }}>
                 <FeatureCard feature={feature} />
-              </Grid>
+              </Box>
             ))}
-          </Grid>
+          </Box>
         </Box>
       </Box>
     </>
