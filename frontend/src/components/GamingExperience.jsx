@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Box,
+  Grid,
   Typography,
   Card,
   CardContent,
@@ -57,7 +58,7 @@ const FeatureCard = ({ feature }) => (
       textAlign: "center",
       cursor: "pointer",
       color: "#fff",
-      minHeight: 230,
+      minHeight: 250,
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -82,9 +83,9 @@ const FeatureCard = ({ feature }) => (
         src={feature.image}
         alt={feature.title}
         sx={{
-          width: 150,
-          height: 150,
-          borderRadius: 6,
+          width: 160,
+          height: 160,
+          borderRadius: 5,
           objectFit: "cover",
           cursor: "pointer",
           transition: "0.3s",
@@ -199,37 +200,21 @@ export default function GamingExperience() {
             experience like no other.
           </Typography>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: { xs: 3, sm: 4, md: 5 },
-              mb: 6,
-            }}
-          >
+          <Grid container justifyContent="center" sx={{ mb: 6 }}>
             {firstRowFeatures.map((feature, i) => (
-              <Box key={i} sx={{ flex: "0 0 auto", width: { xs: "70%", sm: "45%", md: "22%" } }}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i} sx={{ m: 4 }}>
                 <FeatureCard feature={feature} />
-              </Box>
+              </Grid>
             ))}
-          </Box>
+          </Grid>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: { xs: 3, sm: 4, md: 5 },
-              mb: 2,
-            }}
-          >
+          <Grid container justifyContent="center">
             {secondRowFeatures.map((feature, i) => (
-              <Box key={i} sx={{ flex: "0 0 auto", width: { xs: "70%", sm: "45%", md: "26%" } }}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i} sx={{ m: 4 }}>
                 <FeatureCard feature={feature} />
-              </Box>
+              </Grid>
             ))}
-          </Box>
+          </Grid>
         </Box>
       </Box>
     </>
