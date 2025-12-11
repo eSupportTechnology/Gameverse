@@ -335,7 +335,7 @@ const EmailVerification = () => {
                 textAnchor="middle"
                 dominantBaseline="middle"
               >
-                {codeSent ? "Verify Code" : "Verify Email"}
+                Verify Code
               </text>
             </SvgBorder>
           </Box>
@@ -398,14 +398,47 @@ const EmailVerification = () => {
                 <Typography sx={{ color: "white", mb: 0.5, fontSize: "16px" }}>
                   E mail
                 </Typography>
-                <FixedLabelTextField
-                  name="email"
-                  placeholder="Enter your email"
-                  fullWidth
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={codeSent} // disable email input once code sent
-                />
+                <Box sx={{ position: "relative", width: "100%" }}>
+                  <FixedLabelTextField
+                    name="email"
+                    placeholder="Enter your email"
+                    fullWidth
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={codeSent}
+                  />
+                  <Box
+                    onClick={!email ? null : sendVerificationCode}
+                    sx={{
+                      position: "absolute",
+                      right: "-150px", 
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      px: 2,
+                      py: 1,
+                      borderRadius: "8px",
+                      cursor: email ? "pointer" : "not-allowed",
+                      background: email
+                        ? "linear-gradient(90deg, #CF36E1, #D100FF, #33B2F7)"
+                        : "#555",
+                      opacity: email ? 1 : 0.4,
+                      transition: "0.3s",
+                      width: "80px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "white",
+                        fontSize: "14px",
+                        fontWeight: 600,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      Send
+                    </Typography>
+                  </Box>
+                </Box>
               </Box>
 
               <Box>
