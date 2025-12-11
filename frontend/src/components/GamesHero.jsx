@@ -9,55 +9,23 @@ const GamesHero = () => {
     <Box
       sx={{
         position: 'relative',
-        minHeight: { xs: '80vh', md: '100vh' },
+        minHeight: '100vh',
+        width: '100%',
         bgcolor: '#0A0D17',
         display: 'flex',
+        flexDirection: { xs: 'column', md: 'row' },
         alignItems: 'center',
-        overflow: 'hidden',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          width: '800px',
-          height: '800px',
-          background: 'radial-gradient(circle, rgba(51, 178, 247, 0.3), rgba(169, 5, 188, 0.25), transparent 70%)',
-          transform: 'translate(-50%, -50%)',
-          filter: 'blur(150px)',
-          zIndex: 0,
-        },
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          height: '200px',
-          background: 'linear-gradient(to top, rgba(10,13,23,1) 0%, rgba(10,13,23,0.8) 40%, rgba(10,13,23,0) 100%)',
-          pointerEvents: 'none',
-          zIndex: 1,
-        },
+        justifyContent: 'space-between',
+        overflowX: 'hidden',
+        px: { xs: 4, md: 10 },
+        boxSizing: 'border-box',
       }}
     >
-      <Box
-        sx={{
-          position: 'relative',
-          zIndex: 2,
-          width: '100%',
-          maxWidth: '1440px',
-          mx: 'auto',
-          px: { xs: 3, sm: 4, md: 6, lg: 8 },
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
         {/* Left Content */}
         <Box sx={{ 
             flex: 1, 
-            maxWidth: { xs: '100%', md: '650px' },
-            zIndex: 2, 
+            maxWidth: '600px',
+            zIndex: 3, 
         }}>
           <Typography
             sx={{
@@ -74,7 +42,7 @@ const GamesHero = () => {
             sx={{
               fontSize: { xs: '40px', sm: '56px', md: '72px' },
               fontWeight: 700,
-              background: 'linear-gradient(90deg, #A033FF 0%, #D100FF 50%, #00C3FF 100%)',
+              background: "linear-gradient(to bottom, #33B2F7, #A905BC)",
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               lineHeight: 1.1,
@@ -111,10 +79,12 @@ const GamesHero = () => {
 
           <Typography
             sx={{
-              color: '#33B2F7',
               fontSize: { xs: '16px', md: '18px' },
-              fontWeight: 600,
+              fontWeight: 500,
               mb: 5,
+              backgroundImage: 'linear-gradient(to right, #33B2F7, #A905BC)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
             }}
           >
             Opening Hours: 12 PM – 12 AM (Daily)
@@ -122,21 +92,23 @@ const GamesHero = () => {
 
           <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
             <Button
-              onClick={() => navigate('/booking')}
+              onClick={() => navigate('/booking', { state: { from: '/games' } })}
               sx={{
                 px: 5,
-                py: 1.8,
-                background: 'linear-gradient(92deg, #33B2F7 0%, #A905BC 100%)',
+                py: 1.5,
+                background: 'linear-gradient(to right, #33B2F7, #A905BC)',
                 color: 'white',
-                borderRadius: '50px',
+                borderRadius: '30px',
                 fontWeight: 700,
                 fontSize: '16px',
                 textTransform: 'none',
-                boxShadow: '0 0 20px rgba(169, 5, 188, 0.4)',
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 0 30px rgba(169, 5, 188, 0.6)',
+                  background: 'transparent',
+                  color: 'transparent',
+                  backgroundImage: 'linear-gradient(to right, #A905BC, #33B2F7)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
                 },
               }}
             >
@@ -150,19 +122,37 @@ const GamesHero = () => {
                 }
               }}
               sx={{
+                position: 'relative',
                 px: 5,
-                py: 1.8,
+                py: 1.5,
                 background: 'transparent',
-                color: 'white',
-                borderRadius: '50px',
+                color: 'transparent',
+                borderRadius: '30px',
                 fontWeight: 700,
                 fontSize: '16px',
                 textTransform: 'none',
-                border: '1px solid rgba(255,255,255,0.2)',
+                backgroundImage: 'linear-gradient(to right, #A905BC, #33B2F7)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
                 transition: 'all 0.3s ease',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: '30px',
+                  padding: '2px',
+                  background: 'linear-gradient(to right, #A905BC, #33B2F7)',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'destination-out',
+                  maskComposite: 'exclude',
+                  pointerEvents: 'none',
+                },
                 '&:hover': {
-                    borderColor: '#33B2F7',
-                    background: 'rgba(51, 178, 247, 0.1)',
+                  background: 'linear-gradient(to right, #33B2F7, #A905BC)',
+                  color: '#fff',
+                  '&::before': {
+                    background: 'linear-gradient(to right, #33B2F7, #A905BC)',
+                  },
                 },
               }}
             >
@@ -174,29 +164,47 @@ const GamesHero = () => {
         {/* Right Image */}
         <Box
           sx={{
-            flex: 1.1, // Increased flex slightly to allow more room
+            flex: 1,
             display: 'flex',
-            justifyContent: 'center', // Centered
-            alignItems: 'center',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            overflow: 'visible',
             position: 'relative',
-            mt: { xs: 6, md: 0 },
+            minHeight: '100vh',
+            mt: { xs: 4, md: 0 },
           }}
         >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '40%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: { xs: '70%', md: '90%' },
+              height: { xs: '70%', md: '70%' },
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, #CF36E1 0%, #33B2F7 60%, transparent 80%)',
+              zIndex: 1,
+              filter: 'blur(150px)',
+            }}
+          />
           <Box
             component="img"
             src="/assets/Picture1.png"
             alt="Gaming Characters"
             sx={{
               width: '100%',
-              // INCREASED SIZES: Large enough to be dominant, but not overflowing
-              maxWidth: { xs: '400px', md: '650px', lg: '800px' }, 
+              maxWidth: { xs: '450px', sm: '550px', md: '700px', lg: '850px' },
               height: 'auto',
               objectFit: 'contain',
-              filter: 'drop-shadow(0 0 60px rgba(51, 178, 247, 0.15))',
+              position: 'relative',
+              zIndex: 2,
+              display: 'block',
+              maskImage: 'linear-gradient(to top, transparent 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,1) 30%)',
+              WebkitMaskImage: 'linear-gradient(to top, transparent 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,1) 30%)',
             }}
           />
         </Box>
-      </Box>
     </Box>
   );
 };

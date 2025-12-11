@@ -24,9 +24,9 @@ const OtherGames = () => {
   ];
 
   const cardVariants = [
-    "polygon(15% 0, 98% 0, 100% 100%, 0 100%)",
-    "polygon(10% 0, 100% 0, 80% 100%, 0 90%)",
-    "polygon(2% 0, 98% 0, 90% 100%, 0 100%)",
+    "polygon(10% 0, 100% 0, 88% 100%, 0 92%)",
+    "polygon(14% 0, 100% 0, 100% 100%, 0 100%)",
+    "polygon(6% 0, 98% 0, 94% 100%, 0 100%)",
   ];
 
   return (
@@ -105,18 +105,14 @@ const OtherGames = () => {
                 sx={{
                   flex: '0 0 auto',
                   width: { xs: '100%', sm: '320px', md: '360px' },
-                  height: { xs: '380px', sm: '400px', md: '440px' },
+                  height: { xs: '420px', sm: '440px', md: '500px' },
                   position: 'relative',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
+                  boxShadow: '0 20px 50px rgba(0,0,0,0.35)',
                   '&:hover': {
-                    transform: 'scale(1.03)',
-                  },
-                  '&:hover .game-title': { 
-                    color: '#33B2F7 !important' 
-                  },
-                  '&:hover .bottom-glow': {
-                    opacity: 1,
+                    transform: 'scale(1.02)',
+                    boxShadow: '0 25px 60px rgba(0,0,0,0.45)',
                   },
                 }}
               >
@@ -126,27 +122,10 @@ const OtherGames = () => {
                     height: '100%',
                     clipPath,
                     overflow: 'hidden',
-                    border: '2px solid rgba(51, 178, 247, 0.5)',
                     transition: 'all 0.3s ease',
                     position: 'relative',
                   }}
                 >
-                  {/* Bottom white line on hover */}
-                  <Box
-                    className="bottom-glow"
-                    sx={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: '2px',
-                      background: '#FFFFFF',
-                      opacity: 0,
-                      transition: 'opacity 0.3s ease',
-                      zIndex: 10,
-                    }}
-                  />
-                  
                   {/* Image */}
                   <Box
                     component="img"
@@ -165,31 +144,33 @@ const OtherGames = () => {
                     sx={{
                       position: 'absolute',
                       bottom: 0,
-                      left: 2,
+                      left: 0,
                       right: 0,
-                      height: '28%',
+                      height: '32%',
                     }}
                   >
                     <Box
                       sx={{
                         position: 'relative',
-                        bgcolor: 'rgba(0,0,0)',
-                        p: { xs: 1.5, sm: 2, md: 2 },
+                        bgcolor: '#000',
+                        p: { xs: 1.75, sm: 2, md: 2.25 },
                         height: '100%',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'flex-start',
+                        alignItems: 'center',
                       }}
                     >
                       <Typography
                         className="game-title"
                         variant="h6"
                         sx={{
-                          mb: 0.5,
-                          fontSize: { xs: '14px', sm: '15px', md: '16px' },
-                          fontWeight: 600,
+                          mb: 1,
+                          fontSize: { xs: '15px', sm: '16px', md: '18px' },
+                          fontWeight: 700,
                           transition: 'color 0.3s ease',
                           color: 'white',
+                          textAlign: 'center',
                         }}
                       >
                         {game.title}
@@ -197,9 +178,11 @@ const OtherGames = () => {
                       <Typography
                         variant="body2"
                         sx={{
-                          fontSize: { xs: '11px', sm: '12px', md: '13px' },
-                          color: '#B8C1EC',
-                          opacity: 0.8,
+                          fontSize: { xs: '12px', sm: '13px', md: '14px' },
+                          color: '#FFFFFF',
+                          opacity: 0.9,
+                          textAlign: 'center',
+                          lineHeight: 1.6,
                         }}
                       >
                         {game.description}

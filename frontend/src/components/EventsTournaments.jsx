@@ -296,7 +296,7 @@ const EventsTournaments = () => {
             </Box>
           </Typography>
           <Button
-            onClick={() => navigate('/booking')}
+            onClick={() => navigate('/booking', { state: { from: '/games' } })}
             sx={{
               px: 5,
               py: 1.5,
