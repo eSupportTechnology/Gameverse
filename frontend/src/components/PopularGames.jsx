@@ -39,6 +39,7 @@ const PopularGames = () => {
       
       <Box
         component="section"
+        id="popular-games"
         sx={{
         position: 'relative',
         bgcolor: '#0A0D17',

@@ -8,6 +8,7 @@ import {
   GlobalStyles,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 // Gradient text for headings
 const GradientText = styled(Typography)({
@@ -166,6 +167,8 @@ const events = [
 ];
 
 export const EventsSection = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <GlobalStyles
@@ -301,8 +304,9 @@ export const EventsSection = () => {
             </GradientBorderCard>
           ))}
         </Box>
-
-        <GradientButton>See All Events</GradientButton>
+        <GradientButton onClick={() => navigate('/games#events-section')}>
+          See All Events
+        </GradientButton>
       </Box>
     </>
   );
