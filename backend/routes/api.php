@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EventController;
 
 // Auth
 Route::post('/register', [AuthController::class, 'register']);
@@ -16,3 +17,6 @@ Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']
 
 // Contact Form
 Route::post('/contact', [ContactController::class, 'store']);
+
+// Events
+Route::get('/events', [EventController::class, 'index']);
