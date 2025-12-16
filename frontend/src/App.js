@@ -54,8 +54,8 @@ function App() {
           </Route>
 
           <Route element={<SubLayout />}>
-            <Route path="/sing-up" element={<SingUp />} />
-            <Route path="/sing-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SingUp />} />
+            <Route path="/sign-in" element={<SignIn />} />
             <Route path="/email-verify" element={<EmailVerification />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
