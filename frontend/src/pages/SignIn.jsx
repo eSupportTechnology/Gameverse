@@ -111,7 +111,6 @@ const boldPath = `
 /* ------------------------ SIGN-IN COMPONENT ------------------------ */
 
 const SignIn = () => {
-  // const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -133,43 +132,34 @@ const SignIn = () => {
         password: formData.password,
       });
 
+      // IMPORTANT: Store userId and token (matching what Navbar expects)
+      localStorage.setItem("userId", res.data.user.id);
+      localStorage.setItem("token", res.data.token);
+      
+      // Store complete user data for Navbar to fetch
       const userData = {
         id: res.data.user.id,
         firstName: res.data.user.firstName,
         lastName: res.data.user.lastName,
         email: res.data.user.email,
-        token: res.data.token,
       };
+      localStorage.setItem("mockUserData", JSON.stringify(userData));
+
+      // Also keep authToken for other API calls if needed
+      localStorage.setItem("authToken", res.data.token);
 
       toast.success("Login successful!");
 
-      // Save token for future requests
-      localStorage.setItem("authToken", userData.token);
+      // Trigger storage event to update Navbar
+      window.dispatchEvent(new Event("storage"));
 
+      // Navigate to home
       navigate("/");
     } catch (err) {
       console.error("Login error:", err.response?.data || err.message);
       toast.error(err.response?.data?.message || "Login failed!");
     }
   };
-
-  // Send Email verification code
-  // const handleSendVerification = async () => {
-  //   if (!formData.email) {
-  //     toast.error("Enter your email first");
-  //     return;
-  //   }
-
-  //   try {
-  //     await axios.post("http://127.0.0.1:8000/api/send-verification-code", {
-  //       email: formData.email,
-  //     });
-
-  //     navigate("/email-verify", { state: { email: formData.email } });
-  //   } catch (err) {
-  //     toast.error(err.response?.data?.message || "Failed to send code.");
-  //   }
-  // };
 
   return (
     <>
@@ -328,15 +318,16 @@ const SignIn = () => {
               position: "relative",
               height: "100%",
               display: "flex",
-              justifyContent: { xs: "center", md: "flex-start" }, // MIRRORED
+              justifyContent: { xs: "center", md: "flex-start" },
               alignItems: "center",
-              pl: { xs: 0, sm: 2, md: 5 }, // MIRRORED
+              pl: { xs: 0, sm: 2, md: 5 },
               pr: { xs: 0, sm: 2, md: 0 },
             }}
           >
             {/* ----- FORM ----- */}
             <Box
               component="form"
+              onSubmit={handleLogin}
               sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -366,6 +357,7 @@ const SignIn = () => {
                   fullWidth
                   value={formData.email}
                   onChange={handleChange}
+                  required
                 />
               </Box>
 
@@ -380,6 +372,7 @@ const SignIn = () => {
                   fullWidth
                   value={formData.password}
                   onChange={handleChange}
+                  required
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -410,7 +403,7 @@ const SignIn = () => {
                       WebkitTextFillColor: "transparent",
                       cursor: "pointer",
                     }}
-                    onClick={() => navigate("/sing-up")}
+                    onClick={() => navigate("/sign-up")}
                   >
                     Sign Up
                   </Box>

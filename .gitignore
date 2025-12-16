@@ -1,21 +1,23 @@
-# Laravel backend
-*.log
+# OS
 .DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
 .env
-.env.backup
-.env.production
+.env.*
+!.env.example
+
+# Laravel
 /vendor
 /public/build
 /public/storage
 /storage/*.key
 
-# React frontend
+# React
 frontend/node_modules
 frontend/build
 frontend/.env.local
 
-# General
-*.lock
-Thumbs.db
-.DS_Store
-backend/vendor/symfony/finder/Tests/Fixtures/gitignore/search_root/dir/c.txt
