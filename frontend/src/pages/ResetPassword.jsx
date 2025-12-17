@@ -4,16 +4,16 @@ import {
   TextField,
   Typography,
   GlobalStyles,
-  IconButton, InputAdornment
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { styled } from "@mui/system";
-import singup from '../assets/singup-img.png'
+import singup from "../assets/singup-img.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import backIcon from '../assets/back-icon.png'
+import backIcon from "../assets/back-icon.png";
 import { toast } from "react-toastify";
-
 
 const Frame = styled(Box)({
   maxWidth: "900px",
@@ -122,8 +122,8 @@ const ResetPassword = () => {
       return;
     }
 
-    const reset_token = sessionStorage.getItem('reset_token');
-    const email = sessionStorage.getItem('reset_email');
+    const reset_token = sessionStorage.getItem("reset_token");
+    const email = sessionStorage.getItem("reset_email");
 
     if (!reset_token || !email) {
       toast.error("Missing reset token. Restart the reset flow.");
@@ -131,11 +131,11 @@ const ResetPassword = () => {
     }
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/reset-password", {
+      const res = await axios.post("http://127.0.0.1:8001/api/reset-password", {
         email,
         password: formData.password,
         password_confirmation: formData.confirmPassword,
-        reset_token
+        reset_token,
       });
 
       toast.success("Reset successful!");
@@ -143,10 +143,9 @@ const ResetPassword = () => {
       const token = res.data.token;
       localStorage.setItem("authToken", token);
 
-      sessionStorage.removeItem('reset_token');
-      sessionStorage.removeItem('reset_email');
-      navigate('/sing-in');
-
+      sessionStorage.removeItem("reset_token");
+      sessionStorage.removeItem("reset_email");
+      navigate("/sing-in");
     } catch (err) {
       toast.error(err.response?.data?.message || "Reset failed!");
     }
@@ -176,7 +175,7 @@ const ResetPassword = () => {
             content: '""',
             position: "absolute",
             top: "50%",
-            left: "20%", 
+            left: "20%",
             width: { xs: "500px", sm: "650px", md: "800px" },
             height: { xs: "500px", sm: "650px", md: "800px" },
             background:
@@ -221,8 +220,9 @@ const ResetPassword = () => {
               strokeWidth="6"
               fill="none"
               style={{
-                filter: 'drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 8px #ff00ff)',
-                transition: 'all 0.3s ease-in-out',
+                filter:
+                  "drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 8px #ff00ff)",
+                transition: "all 0.3s ease-in-out",
               }}
             />
           </SvgBorder>
@@ -264,7 +264,7 @@ const ResetPassword = () => {
               width: 300,
               height: 70,
               zIndex: 5,
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
             <SvgBorder
@@ -308,9 +308,9 @@ const ResetPassword = () => {
               position: "relative",
               height: "100%",
               display: "flex",
-              justifyContent: { xs: "center", md: "flex-start" }, 
+              justifyContent: { xs: "center", md: "flex-start" },
               alignItems: "center",
-              pl: { xs: 0, sm: 2, md: 5 }, 
+              pl: { xs: 0, sm: 2, md: 5 },
               pr: { xs: 0, sm: 2, md: 0 },
             }}
           >
@@ -326,7 +326,14 @@ const ResetPassword = () => {
                 p: { xs: 2, sm: 3 },
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", mb: 0.5 }}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 3,
+                  cursor: "pointer",
+                  mb: 0.5,
+                }}
               >
                 <Box
                   onClick={() => navigate("/sing-in")}
@@ -334,7 +341,7 @@ const ResetPassword = () => {
                   src={backIcon}
                   alt="back-icon"
                   sx={{
-                    width: 22
+                    width: 22,
                   }}
                 />
 
@@ -364,18 +371,18 @@ const ResetPassword = () => {
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton sx={{ color: "#868A93" }} onClick={() => setShowPassword(!showPassword)} edge="end">
-
+                        <IconButton
+                          sx={{ color: "#868A93" }}
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
                           {/* Correct behavior */}
                           {showPassword ? <Visibility /> : <VisibilityOff />}
-
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
                 />
-
-
               </Box>
 
               {/* Confirm Password */}
@@ -393,15 +400,24 @@ const ResetPassword = () => {
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton sx={{ color: "#868A93" }} onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
-                          {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                        <IconButton
+                          sx={{ color: "#868A93" }}
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          edge="end"
+                        >
+                          {showConfirmPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
                 />
               </Box>
-
             </Box>
           </Box>
         </Frame>
@@ -423,7 +439,7 @@ const ResetPassword = () => {
         />
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default ResetPassword
+export default ResetPassword;

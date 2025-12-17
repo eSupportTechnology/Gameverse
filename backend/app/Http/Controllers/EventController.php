@@ -13,7 +13,13 @@ class EventController extends Controller
             $events = DB::table('events')
                 ->select('id', 'name', 'date', 'thumbnail')
                 ->orderBy('date', 'asc')
-                ->get();
+                ->get()
+                ->map(function ($event) {
+                    if ($event->thumbnail) {
+                        $event->thumbnail = asset('storage/' . $event->thumbnail);
+                    }
+                    return $event;
+                });
 
             return response()->json($events);
         } catch (\Exception $e) {
