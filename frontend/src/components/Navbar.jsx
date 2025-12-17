@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -18,7 +18,7 @@ import logo from "../assets/logo.png";
 
 const GradientButton = styled(Button)(() => ({
   padding: "8px 18px",
-  minWidth: "100px", 
+  minWidth: "100px",
   borderRadius: "10px",
   fontWeight: "bold",
   textTransform: "none",
@@ -53,9 +53,49 @@ const Navbar = () => {
   };
 
   // Check if Games link should be active (includes booking page)
-  const isGamesActive = location.pathname === '/games' || location.pathname === '/booking';
+  const isGamesActive =
+    location.pathname === "/games" || location.pathname === "/booking";
 
+  // reactive user state (initial read)
+  const [storedUser, setStoredUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user"));
+    } catch (e) {
+      return null;
+    }
+  });
 
+  useEffect(() => {
+    // when other tabs change the storage, update user as well
+    const onStorage = (e) => {
+      if (e.key === "user") {
+        setStoredUser(e.newValue ? JSON.parse(e.newValue) : null);
+      }
+    };
+    window.addEventListener("storage", onStorage);
+
+    // in-tab event when SignIn dispatches
+    const onUserUpdated = () => {
+      console.log("userUpdated event fired");
+      try {
+        setStoredUser(JSON.parse(localStorage.getItem("user")));
+      } catch {
+        setStoredUser(null);
+      }
+    };
+    window.addEventListener("userUpdated", onUserUpdated);
+
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("userUpdated", onUserUpdated);
+    };
+  }, []);
+
+  const getInitials = (firstName, lastName) => {
+    const f = firstName?.charAt(0)?.toUpperCase() || "";
+    const l = lastName?.charAt(0)?.toUpperCase() || "";
+    return f + l || "U";
+  };
 
   // const drawer = (
   //   <Box
@@ -161,7 +201,66 @@ const Navbar = () => {
             </Box>
           )}
 
-          {!isMobile && <GradientButton onClick={()=>navigate('/sing-in')}>Sign in</GradientButton>}
+          {/* Desktop user info or sign in */}
+          {!isMobile &&
+            (storedUser ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/my-account")}
+              >
+                <Box
+                  sx={{
+                    width: 42,
+                    height: 42,
+                    borderRadius: "50%",
+                    backgroundColor: "#F1F1F1",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#1A1A1A",
+                    fontWeight: 600,
+                    fontSize: 16,
+                    userSelect: "none",
+                  }}
+                >
+                  {getInitials(storedUser.firstName, storedUser.lastName)}
+                </Box>
+
+                <Box>
+                  <Box
+                    sx={{
+                      color: "#FFFFFF",
+                      fontWeight: 600,
+                      fontSize: "16px",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {storedUser.firstName} {storedUser.lastName}
+                  </Box>
+
+                  <Box
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      background: "linear-gradient(90deg, #33B2F7, #A905BC)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    My Account
+                  </Box>
+                </Box>
+              </Box>
+            ) : (
+              <GradientButton onClick={() => navigate("/sing-in")}>
+                Sign in
+              </GradientButton>
+            ))}
 
           {/* Mobile Hamburger */}
           {isMobile && (
@@ -195,14 +294,6 @@ const Navbar = () => {
             >
               <ListItemText primary="Games" />
             </ListItem>
-            {/* <ListItem
-              button
-              component={NavLink}
-              to="/about"
-              onClick={handleDrawerToggle}
-            >
-              <ListItemText primary="About Us" />
-            </ListItem> */}
             <ListItem
               button
               component={NavLink}
@@ -213,7 +304,78 @@ const Navbar = () => {
             </ListItem>
           </List>
 
-          <GradientButton>Sign in</GradientButton>
+          {/* Mobile user info or sign in */}
+          {isMobile &&
+            (storedUser ? (
+              <Box
+                sx={{ display: "flex", alignItems: "center", gap: 1.5, mt: 3 }}
+              >
+                <Box
+                  sx={{
+                    width: 42,
+                    height: 42,
+                    borderRadius: "50%",
+                    backgroundColor: "#F1F1F1",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#1A1A1A",
+                    fontWeight: 600,
+                    fontSize: 16,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setDrawerOpen(false);
+                    navigate("/my-account");
+                  }}
+                >
+                  {getInitials(storedUser.firstName, storedUser.lastName)}
+                </Box>
+
+                <Box
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setDrawerOpen(false);
+                    navigate("/my-account");
+                  }}
+                >
+                  <Box
+                    sx={{
+                      color: "#000000",
+                      fontWeight: 600,
+                      fontSize: "16px",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {storedUser.firstName} {storedUser.lastName}
+                  </Box>
+
+                  <Box
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      background: "linear-gradient(90deg, #33B2F7, #A905BC)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    My Account
+                  </Box>
+                </Box>
+              </Box>
+            ) : (
+              <Box sx={{ mt: 3 }}>
+                <GradientButton
+                  onClick={() => {
+                    setDrawerOpen(false);
+                    navigate("/sing-in");
+                  }}
+                  fullWidth
+                >
+                  Sign in
+                </GradientButton>
+              </Box>
+            ))}
         </Box>
       </Drawer>
 

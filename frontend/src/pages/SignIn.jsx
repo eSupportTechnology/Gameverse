@@ -143,8 +143,12 @@ const SignIn = () => {
 
       toast.success("Login successful!");
 
-      // Save token for future requests
+      // after saving:
       localStorage.setItem("authToken", userData.token);
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      // notify other components in same tab
+      window.dispatchEvent(new Event("userUpdated"));
 
       navigate("/");
     } catch (err) {
