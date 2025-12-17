@@ -143,7 +143,7 @@ const EmailVerification = () => {
       return;
     }
     try {
-      await axios.post("http://127.0.0.1:8000/api/send-verification-code", {
+      await axios.post("http://127.0.0.1:8001/api/send-verification-code", {
         email,
       });
       toast.success("Verification code sent! Check your email.");
@@ -173,7 +173,7 @@ const EmailVerification = () => {
     }
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/verify-code", {
+      const res = await axios.post("http://127.0.0.1:8001/api/verify-code", {
         email,
         code: verificationCode,
       });
@@ -411,7 +411,7 @@ const EmailVerification = () => {
                     onClick={!email ? null : sendVerificationCode}
                     sx={{
                       position: "absolute",
-                      right: "-150px", 
+                      right: "-150px",
                       top: "50%",
                       transform: "translateY(-50%)",
                       px: 2,

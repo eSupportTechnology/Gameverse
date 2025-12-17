@@ -4,11 +4,12 @@ import {
   TextField,
   Typography,
   GlobalStyles,
-  IconButton, InputAdornment
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {styled } from "@mui/system";
-import singup from '../assets/singup-img.png'
+import { styled } from "@mui/system";
+import singup from "../assets/singup-img.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -61,9 +62,6 @@ const FixedLabelTextField = styled(TextField)({
   },
 });
 
-
-
-
 const borderPath = `
 M 24 0
 H 80
@@ -99,7 +97,6 @@ const boldPath = `
   Z
 `;
 
-
 const SingUp = () => {
   const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
@@ -120,49 +117,51 @@ const SingUp = () => {
   };
 
   const handleSubmit = async () => {
-  // Frontend password confirmation
-  if (formData.password !== formData.confirmPassword) {
-    alert("Passwords do not match!");
-    return;
-  }
+    // Frontend password confirmation
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
 
-  try {
-    // Call the backend API using axios
-    const res = await axios.post("http://127.0.0.1:8000/api/register", {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      password: formData.password,
-    });
+    try {
+      // Call the backend API using axios
+      const res = await axios.post("http://127.0.0.1:8001/api/register", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+      });
 
-    // Format the response (optional)
-    const userData = {
-      id: res.data.user.id,
-      firstName: res.data.user.firstName,
-      lastName: res.data.user.lastName,
-      email: res.data.user.email,
-      token: res.data.token,
-    };
+      // Format the response (optional)
+      const userData = {
+        id: res.data.user.id,
+        firstName: res.data.user.firstName,
+        lastName: res.data.user.lastName,
+        email: res.data.user.email,
+        token: res.data.token,
+      };
 
-    localStorage.setItem("authToken", userData.token);
-    toast.success("Registration successful!")
+      localStorage.setItem("authToken", userData.token);
+      toast.success("Registration successful!");
 
-    // Reset the form
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+      // Reset the form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
 
-    navigate('/')
-
-  } catch (err) {
-    console.error("Error registering user:", err.response?.data || err.message);
-    toast.error(err.response?.data?.message || "Registration failed!");
-  }
-};
+      navigate("/");
+    } catch (err) {
+      console.error(
+        "Error registering user:",
+        err.response?.data || err.message
+      );
+      toast.error(err.response?.data?.message || "Registration failed!");
+    }
+  };
 
   return (
     <>
@@ -232,8 +231,9 @@ const SingUp = () => {
               strokeWidth="6"
               fill="none"
               style={{
-                filter: 'drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 8px #ff00ff)',
-                transition: 'all 0.3s ease-in-out',
+                filter:
+                  "drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 8px #ff00ff)",
+                transition: "all 0.3s ease-in-out",
               }}
             />
           </SvgBorder>
@@ -243,13 +243,17 @@ const SingUp = () => {
               position: "absolute",
               top: 0,
               left: { xs: 10, sm: 20, md: 110 },
-              width: 150,     // Add width
-              height: 70,     // Add height
+              width: 150, // Add width
+              height: 70, // Add height
               zIndex: 5,
-
             }}
           >
-            <SvgBorder width="100%" height="100%" viewBox="0 0 150 70" preserveAspectRatio="none">
+            <SvgBorder
+              width="100%"
+              height="100%"
+              viewBox="0 0 150 70"
+              preserveAspectRatio="none"
+            >
               <path
                 d="M0 0 H120 L110 30 L10 30 Z"
                 stroke="#ff00ff"
@@ -265,7 +269,6 @@ const SingUp = () => {
             </SvgBorder>
           </Box>
 
-
           <Box
             onClick={handleSubmit}
             sx={{
@@ -275,17 +278,34 @@ const SingUp = () => {
               width: 300,
               height: 70,
               zIndex: 5,
-              cursor:"pointer"
+              cursor: "pointer",
             }}
           >
-            <SvgBorder width="100%" height="100%" viewBox="0 0 300 70" preserveAspectRatio="none">
+            <SvgBorder
+              width="100%"
+              height="100%"
+              viewBox="0 0 300 70"
+              preserveAspectRatio="none"
+            >
               <defs>
-                <linearGradient id="signupGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient
+                  id="signupGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
                   <stop offset="0%" stopColor="#B210C1" />
                   <stop offset="100%" stopColor="#0F0F18" />
                 </linearGradient>
 
-                <linearGradient id="hoverGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient
+                  id="hoverGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
                   <stop offset="0%" stopColor="#0F0F18" />
                   <stop offset="100%" stopColor="#B210C1" />
                 </linearGradient>
@@ -326,7 +346,6 @@ const SingUp = () => {
             </SvgBorder>
           </Box>
 
-
           <Box
             sx={{
               position: "relative",
@@ -359,7 +378,9 @@ const SingUp = () => {
                 }}
               >
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
+                  <Typography
+                    sx={{ color: "white", mb: 0.5, fontSize: "14px" }}
+                  >
                     First Name
                   </Typography>
                   <FixedLabelTextField
@@ -372,7 +393,9 @@ const SingUp = () => {
                 </Box>
 
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
+                  <Typography
+                    sx={{ color: "white", mb: 0.5, fontSize: "14px" }}
+                  >
                     Last Name
                   </Typography>
                   <FixedLabelTextField
@@ -414,18 +437,18 @@ const SingUp = () => {
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton sx={{ color: "#868A93" }} onClick={() => setShowPassword(!showPassword)} edge="end">
-
+                        <IconButton
+                          sx={{ color: "#868A93" }}
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
                           {/* Correct behavior */}
                           {showPassword ? <Visibility /> : <VisibilityOff />}
-
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
                 />
-
-
               </Box>
 
               {/* Confirm Password */}
@@ -443,8 +466,18 @@ const SingUp = () => {
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton sx={{ color: "#868A93" }} onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
-                          {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                        <IconButton
+                          sx={{ color: "#868A93" }}
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          edge="end"
+                        >
+                          {showConfirmPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -466,7 +499,7 @@ const SingUp = () => {
                       fontWeight: 500,
                       cursor: "pointer",
                     }}
-                    onClick={() => navigate('/sing-in')}
+                    onClick={() => navigate("/sing-in")}
                   >
                     Sign In
                   </Box>
@@ -493,9 +526,8 @@ const SingUp = () => {
           }}
         />
       </Box>
-
     </>
-  )
-}
+  );
+};
 
-export default SingUp
+export default SingUp;

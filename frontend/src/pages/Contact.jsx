@@ -28,7 +28,10 @@ const Contact = () => {
   //Submit function
   const handleSubmit = async () => {
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/contact", formData);
+      const res = await axios.post(
+        "http://127.0.0.1:8001/api/contact",
+        formData
+      );
       alert(res.data.message);
 
       setFormData({
@@ -39,8 +42,8 @@ const Contact = () => {
         message: "",
       });
     } catch (error) {
-    console.error(error.response?.data || error.message);
-    alert("Failed to send message");
+      console.error(error.response?.data || error.message);
+      alert("Failed to send message");
     }
   };
 
@@ -146,8 +149,8 @@ const Contact = () => {
               >
                 <TextField
                   placeholder="Last Name"
-                  name="last_name" 
-                  value={formData.last_name} 
+                  name="last_name"
+                  value={formData.last_name}
                   onChange={handleChange}
                   variant="outlined"
                   fullWidth
@@ -164,8 +167,8 @@ const Contact = () => {
 
                 <TextField
                   placeholder="First Name"
-                  name="first_name" 
-                  value={formData.first_name} 
+                  name="first_name"
+                  value={formData.first_name}
                   onChange={handleChange}
                   variant="outlined"
                   fullWidth
@@ -183,8 +186,8 @@ const Contact = () => {
 
               <TextField
                 placeholder="Email"
-                name="email" 
-                value={formData.email} 
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
                 variant="outlined"
                 fullWidth
@@ -201,8 +204,8 @@ const Contact = () => {
 
               <TextField
                 placeholder="Phone Number"
-                name="phone" 
-                value={formData.phone} 
+                name="phone"
+                value={formData.phone}
                 onChange={handleChange}
                 variant="outlined"
                 fullWidth
@@ -218,10 +221,11 @@ const Contact = () => {
               />
 
               <TextField
-                name="message" 
-                value={formData.message} 
-                onChange={handleChange} 
-                multiline rows={4} 
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                multiline
+                rows={4}
                 placeholder="Message"
                 variant="outlined"
                 fullWidth
