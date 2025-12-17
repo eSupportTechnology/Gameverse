@@ -1,0 +1,25 @@
+# Laravel backend
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+/vendor
+/public/build
+/public/storage
+/storage
+/bootstrap/cache
+
+# React frontend
+frontend/node_modules
+frontend/build
+frontend/.env.local
+
+# General
+*.lock
+Thumbs.db
+.DS_Store
+backend/vendor/symfony/finder/Tests/Fixtures/gitignore/search_root/dir/c.txt
+frontend/config-overrides.js
+frontend/package-lock.json
+frontend/package.json
