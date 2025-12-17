@@ -1,0 +1,137 @@
+import { useState } from "react";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
+export default function Security() {
+  const [showPassword, setShowPassword] = useState({
+    current: false,
+    new: false,
+    confirm: false,
+  });
+
+  const togglePassword = (field) => {
+    setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
+  };
+
+  const textFieldStyles = {
+    "& .MuiOutlinedInput-root": {
+      width: "100%",
+      height: 52,
+      borderRadius: "8px",
+      color: "#fff",
+      backgroundColor: "rgba(41,37,75,0.58)",
+      "& fieldset": { border: "1px solid rgba(255,255,255,0.2)" },
+      "&:hover fieldset": { borderColor: "#7C3AED" },
+      "&.Mui-focused fieldset": { borderColor: "#2563EB" },
+    },
+    "& input": { padding: "14px 16px", color: "#fff" },
+    "& input::placeholder": { color: "#9CA3AF", opacity: 1 },
+  };
+
+  return (
+    <Box sx={{ pl: 12, maxWidth: 640 }}>
+      <Typography sx={{ color: "#fff", fontSize: 22, fontWeight: 600, mb: 1 }}>
+        Sign-In & Security
+      </Typography>
+      <Typography sx={{ color: "#9CA3AF", mb: 4 }}>
+        Control how you sign in and secure your account.
+      </Typography>
+
+      <Box sx={{ display: "grid", gap: 2 }}>
+        <Typography sx={{ color: "#9CA3AF", fontSize: 13 }}>
+          Current Password*
+        </Typography>
+        <TextField
+          type={showPassword.current ? "text" : "password"}
+          placeholder="Enter current password"
+          sx={textFieldStyles}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => togglePassword("current")}
+                  edge="end"
+                >
+                  {showPassword.current ? (
+                    <VisibilityOff sx={{ color: "#9CA3AF" }} />
+                  ) : (
+                    <Visibility sx={{ color: "#9CA3AF" }} />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <Typography sx={{ color: "#9CA3AF", fontSize: 13 }}>
+          New Password*
+        </Typography>
+        <TextField
+          type={showPassword.new ? "text" : "password"}
+          placeholder="Enter new password"
+          sx={textFieldStyles}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => togglePassword("new")} edge="end">
+                  {showPassword.new ? (
+                    <VisibilityOff sx={{ color: "#9CA3AF" }} />
+                  ) : (
+                    <Visibility sx={{ color: "#9CA3AF" }} />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <Typography sx={{ color: "#9CA3AF", fontSize: 13 }}>
+          Confirm Password
+        </Typography>
+        <TextField
+          type={showPassword.confirm ? "text" : "password"}
+          placeholder="Confirm new password"
+          sx={textFieldStyles}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => togglePassword("confirm")}
+                  edge="end"
+                >
+                  {showPassword.confirm ? (
+                    <VisibilityOff sx={{ color: "#9CA3AF" }} />
+                  ) : (
+                    <Visibility sx={{ color: "#9CA3AF" }} />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <Button
+          sx={{
+            mt: 2,
+            width: 140,
+            background: "linear-gradient(90deg,#C026D3,#2563EB)",
+            color: "#fff",
+            textTransform: "none",
+            fontWeight: 600,
+            "&:hover": { background: "linear-gradient(90deg,#7C3AED,#2563EB)" },
+          }}
+        >
+          Update
+        </Button>
+      </Box>
+    </Box>
+  );
+}
