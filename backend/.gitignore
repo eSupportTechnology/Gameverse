@@ -10,10 +10,6 @@
 /storage
 /bootstrap/cache
 
-# React frontend
-frontend/node_modules
-frontend/build
-frontend/.env.local
 
 # General
 *.lock
