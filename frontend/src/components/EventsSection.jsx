@@ -132,27 +132,26 @@ const CountdownBox = styled(Box)(({ theme }) => ({
 
 const EventsSection = () => {
   const [tournaments, setTournaments] = useState([]);
-  const ADMIN_BASE_URL = "http://localhost:8000";
   const navigate = useNavigate();
 
-  // Fetch events
   useEffect(() => {
     axios
       .get("http://localhost:8001/api/events")
       .then((response) => {
         const sortedEvents = response.data.sort((a, b) => b.id - a.id);
-        const recentThreeEvents = sortedEvents.slice(0, 3); // Only 3 most recent
-        const eventsWithTimer = recentThreeEvents.map((event) => ({
-          ...event,
-          thumbnail: event.thumbnail.replace(
-            /^http:\/\/localhost:8001/,
-            ADMIN_BASE_URL
-          ),
-          timeLeft: calculateTimeLeft(event.date),
-        }));
+        const recentThreeEvents = sortedEvents.slice(0, 3);
+        const eventsWithTimer = recentThreeEvents
+          .sort((a, b) => b.id - a.id)
+          .map((event) => ({
+            ...event,
+            timeLeft: calculateTimeLeft(event.date),
+          }));
+
         setTournaments(eventsWithTimer);
       })
-      .catch((error) => console.error("Error fetching events:", error));
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+      });
   }, []);
 
   // Timer

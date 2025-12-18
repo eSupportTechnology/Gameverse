@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\GalleryController;
 
 // Auth
 Route::post('/register', [AuthController::class, 'register']);
@@ -22,4 +23,4 @@ Route::post('/contact', [ContactController::class, 'store']);
 Route::get('/events', [EventController::class, 'index']);
 
 //Gallery
-Route::get('/galleries', fn() => Gallery::all());
+Route::get('/galleries', [GalleryController::class, 'index']);
