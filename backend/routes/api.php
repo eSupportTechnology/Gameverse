@@ -20,3 +20,6 @@ Route::post('/contact', [ContactController::class, 'store']);
 
 // Events
 Route::get('/events', [EventController::class, 'index']);
+
+//Gallery
+Route::get('/galleries', fn() => Gallery::all());
