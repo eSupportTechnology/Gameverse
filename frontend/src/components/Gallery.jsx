@@ -1,5 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Box, Typography, useMediaQuery, useTheme, GlobalStyles } from "@mui/material";
+import {
+  Box,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  GlobalStyles,
+} from "@mui/material";
 
 const GalleryView = () => {
   const theme = useTheme();
@@ -19,10 +25,10 @@ const GalleryView = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/galleries")
+    fetch("http://localhost:8001/api/galleries")
       .then((res) => res.json())
       .then((data) => setGalleryImages(data))
-      .catch((err) => console.log(err));
+      .catch(console.error);
   }, []);
 
   const imageCardStyle = {
@@ -106,7 +112,10 @@ const GalleryView = () => {
 
       container.scrollLeft += scrollSpeed * scrollDirection;
 
-      if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
+      if (
+        container.scrollLeft >=
+        container.scrollWidth - container.clientWidth
+      ) {
         scrollDirection = -1;
       } else if (container.scrollLeft <= 0) {
         scrollDirection = 1;
@@ -173,7 +182,10 @@ const GalleryView = () => {
               textAlign: "center",
             }}
           >
-            Get ready to battle it out! Join our exciting events and tournaments.
+            Get ready to battle it out! Join our exciting events and competitive
+            tournaments featuring top games, epic challenges, and massive
+            rewards. Whether you're a casual player or a pro, there's always a
+            stage for you to shine.{" "}
           </Typography>
         </Box>
 
@@ -189,15 +201,14 @@ const GalleryView = () => {
           }}
         >
           <Box sx={{ display: "inline-flex", flexDirection: "column", gap: 3 }}>
-            
             {/* FIRST ROW */}
             <Box sx={{ display: "flex" }}>
               {galleryImages.length > 0 ? (
                 galleryImages.map((img, i) => (
                   <Box key={`row1-${i}`} sx={imageCardStyle}>
                     <img
-                      src={`http://localhost:8000/storage/gallery/${img.image}`}
-                      alt={img.image}
+                      src={img.image}
+                      alt="gallery"
                       style={{
                         width: "100%",
                         height: "100%",
@@ -230,8 +241,8 @@ const GalleryView = () => {
                   .map((img, i) => (
                     <Box key={`row2-${i}`} sx={imageCardStyle}>
                       <img
-                        src={`http://localhost:8000/storage/gallery/${img.image}`}
-                        alt={img.image}
+                        src={img.image}
+                        alt="gallery"
                         style={{
                           width: "100%",
                           height: "100%",

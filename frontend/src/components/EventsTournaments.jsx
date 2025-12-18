@@ -4,24 +4,17 @@ import axios from "axios";
 
 const EventsTournaments = () => {
   const [tournaments, setTournaments] = useState([]);
-  const ADMIN_BASE_URL = "http://localhost:8000";
 
   useEffect(() => {
     axios
-      .get("http://localhost:8001/api/events") // client backend API
+      .get("http://localhost:8001/api/events")
       .then((response) => {
-        const sortedEvents = response.data.sort((a, b) => b.id - a.id);
-
-        // Prepend admin backend base URL if thumbnail is a relative path
-        const eventsWithTimer = sortedEvents.map((event) => ({
-          ...event,
-          thumbnail: event.thumbnail.replace(
-            /^http:\/\/localhost:8001/,
-            ADMIN_BASE_URL
-          ),
-
-          timeLeft: calculateTimeLeft(event.date),
-        }));
+        const eventsWithTimer = response.data
+          .sort((a, b) => b.id - a.id)
+          .map((event) => ({
+            ...event,
+            timeLeft: calculateTimeLeft(event.date),
+          }));
 
         setTournaments(eventsWithTimer);
       })

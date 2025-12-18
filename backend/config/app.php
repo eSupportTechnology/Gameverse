@@ -27,6 +27,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'admin_base_url' => env('ADMIN_BASE_URL', 'http://localhost:8000'),
 
     /*
     |--------------------------------------------------------------------------
