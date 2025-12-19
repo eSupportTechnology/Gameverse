@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import dayjs from "dayjs";
+
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -37,14 +41,102 @@ const textFieldStyles = {
   },
 };
 
+/* COMPONENT */
+
 export default function PersonalInfo() {
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(false);
+
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    dob: null,
+  });
+
+  /* ---------- Fetch Logged-in User ---------- */
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          console.warn("No token found in localStorage");
+          setLoading(false);
+          return;
+        }
+
+        const res = await axios.get("http://localhost:8001/api/me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        setForm({
+          firstName: res.data.firstName || "",
+          lastName: res.data.lastName || "",
+          email: res.data.email || "",
+          phone: res.data.phone || "",
+          dob: res.data.dob ? dayjs(res.data.dob) : null,
+        });
+      } catch (error) {
+        console.error("Failed to fetch user", error);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  /* ---------- Update Profile ---------- */
+  const handleUpdate = async () => {
+    try {
+      setSaving(true);
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        alert("You are not authenticated!");
+        setSaving(false);
+        return;
+      }
+
+      await axios.put(
+        "http://localhost:8001/api/profile",
+        {
+          firstName: form.firstName,
+          lastName: form.lastName,
+          phone: form.phone,
+          dob: form.dob ? form.dob.format("YYYY-MM-DD") : null,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      alert("Profile updated successfully ");
+    } catch (err) {
+      console.error("Update failed", err);
+      alert("Failed to update profile");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) {
+    return <Typography sx={{ color: "#fff" }}>Loading...</Typography>;
+  }
+
+  if (error) {
+    return (
+      <Typography sx={{ color: "#fff" }}>
+        Failed to load profile. Please try again later.
+      </Typography>
+    );
+  }
+
   return (
-    <Box
-      sx={{
-        pl: 12,       // ✅ aligns with ProfileSidebar divider
-        pt: 0.5,     // subtle vertical alignment polish
-      }}
-    >
+    <Box sx={{ pl: 12, pt: 0.5 }}>
       <Typography sx={{ color: "#fff", fontSize: 22, fontWeight: 600 }}>
         Profile Information
       </Typography>
@@ -58,6 +150,8 @@ export default function PersonalInfo() {
           <TextField
             fullWidth
             placeholder="Enter first name"
+            value={form.firstName}
+            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
             sx={textFieldStyles}
           />
         </Box>
@@ -67,6 +161,8 @@ export default function PersonalInfo() {
           <TextField
             fullWidth
             placeholder="Enter last name"
+            value={form.lastName}
+            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
             sx={textFieldStyles}
           />
         </Box>
@@ -76,6 +172,7 @@ export default function PersonalInfo() {
           <TextField
             fullWidth
             placeholder="alex123@gmail.com"
+            value={form.email}
             sx={textFieldStyles}
           />
         </Box>
@@ -83,14 +180,21 @@ export default function PersonalInfo() {
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}>
           <Box>
             <Typography sx={fieldLabelStyles}>Telephone</Typography>
-            <TextField fullWidth placeholder="+94" sx={textFieldStyles} />
+            <TextField
+              fullWidth
+              placeholder="+94"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              sx={textFieldStyles}
+            />
           </Box>
 
           <Box>
             <Typography sx={fieldLabelStyles}>DOB</Typography>
-
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
+                value={form.dob}
+                onChange={(newValue) => setForm({ ...form, dob: newValue })}
                 format="DD/MM/YYYY"
                 slotProps={{
                   textField: {
@@ -132,6 +236,7 @@ export default function PersonalInfo() {
         </Box>
 
         <Button
+          onClick={handleUpdate}
           sx={{
             mt: 3,
             width: 140,
@@ -143,7 +248,7 @@ export default function PersonalInfo() {
             fontWeight: 500,
           }}
         >
-          Update
+          {saving ? "Updating..." : "Update"}
         </Button>
       </Box>
     </Box>

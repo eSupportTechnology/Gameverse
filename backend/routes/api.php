@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProfileController;
 
 // Auth
 Route::post('/register', [AuthController::class, 'register']);
@@ -20,3 +21,10 @@ Route::post('/contact', [ContactController::class, 'store']);
 
 // Events
 Route::get('/events', [EventController::class, 'index']);
+
+// profile
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/me', [ProfileController::class, 'me']);
+    Route::put('/profile', [ProfileController::class, 'update']);
+    Route::put('/change-password', [ProfileController::class, 'changePassword']);
+});
