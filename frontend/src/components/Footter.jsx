@@ -11,8 +11,17 @@ import { LocationOn, Phone, Email, AccessTime } from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import { Link as RouterLink } from "react-router-dom";
 
 const Footer = () => {
+  const handleFooterNavigation = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -25,7 +34,6 @@ const Footer = () => {
         py: 4,
       }}
     >
-  
       {/* ==================== FOOTER PILL CONTAINER ==================== */}
       <Box
         sx={{
@@ -42,81 +50,137 @@ const Footer = () => {
         {/* justifyContent="center" -> Groups columns in the middle 
            columnSpacing -> Adds specific space between the grouped columns
         */}
-        <Grid 
-          container 
-          columnSpacing={{ xs: 2, md: 8, lg: 24 }} 
+        <Grid
+          container
+          columnSpacing={{ xs: 2, md: 8, lg: 24 }}
           rowSpacing={4}
           justifyContent="center"
           alignItems="center"
         >
-          
           {/* --- Left Column: Contact Info --- */}
           <Grid item xs={12} md={4.5} lg={4}>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}> {/* Reduced gap from 2.5 to 2 */}
-              <Box sx={{ display: "flex", alignItems: "center" }}> {/* Align items center ensures icon and text line up */}
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {" "}
+              {/* Reduced gap from 2.5 to 2 */}
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {" "}
+                {/* Align items center ensures icon and text line up */}
                 <LocationOn sx={{ mr: 2, fontSize: 20, color: "#fff" }} />
-                <Typography variant="body2" sx={{ fontSize: "14px", color: "#ccc" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: "14px", color: "#ccc" }}
+                >
                   666 Trincomalee Street, Matale
                 </Typography>
               </Box>
-
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Phone sx={{ mr: 2, fontSize: 20, color: "#fff" }} />
-                <Typography variant="body2" sx={{ fontSize: "14px", color: "#ccc" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: "14px", color: "#ccc" }}
+                >
                   071 7111882 / 066 2224321
                 </Typography>
               </Box>
-
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Email sx={{ mr: 2, fontSize: 20, color: "#fff" }} />
-                <Typography variant="body2" sx={{ fontSize: "14px", color: "#ccc" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: "14px", color: "#ccc" }}
+                >
                   Gameverse.ltd@gmail.com
                 </Typography>
               </Box>
-
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <AccessTime sx={{ mr: 2, fontSize: 20, color: "#fff" }} />
-                <Typography variant="body2" sx={{ fontSize: "14px", color: "#ccc" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: "14px", color: "#ccc" }}
+                >
                   Opening Hours: 12 PM – 12 AM (Daily)
                 </Typography>
               </Box>
-
               <Box sx={{ mt: 1, display: "flex", gap: 1.5, ml: 0.5 }}>
-                <IconButton size="small" sx={{ color: "white", p:0 }}><FacebookIcon fontSize="small" /></IconButton>
-                <IconButton size="small" sx={{ color: "white", p:0 }}><YouTubeIcon fontSize="small" /></IconButton>
-                <IconButton size="small" sx={{ color: "white", p:0 }}><InstagramIcon fontSize="small" /></IconButton>
+                <IconButton size="small" sx={{ color: "white", p: 0 }}>
+                  <FacebookIcon fontSize="small" />
+                </IconButton>
+                <IconButton size="small" sx={{ color: "white", p: 0 }}>
+                  <YouTubeIcon fontSize="small" />
+                </IconButton>
+                <IconButton size="small" sx={{ color: "white", p: 0 }}>
+                  <InstagramIcon fontSize="small" />
+                </IconButton>
               </Box>
             </Box>
           </Grid>
 
           {/* --- Middle Column: Quick Link --- */}
           <Grid item xs={12} md={2.5} lg={2}>
-             {/* Flex container to center the content block within the column if needed, or keep left aligned */}
-             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: {xs: 'center', md: 'flex-start'}, pl: {md: 2} }}>
-                <Typography
-                  variant="subtitle1"
+            {/* Flex container to center the content block within the column if needed, or keep left aligned */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: { xs: "center", md: "flex-start" },
+                pl: { md: 2 },
+              }}
+            >
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  fontWeight: "bold",
+                  mb: 2,
+                  fontSize: "14px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                }}
+              >
+                QUICK LINK
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                <Link
+                  component={RouterLink}
+                  to="/"
+                  underline="none"
+                  onClick={handleFooterNavigation}
                   sx={{
-                    fontWeight: "bold",
-                    mb: 2,
-                    fontSize: "14px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.5px",
+                    fontSize: "13px",
+                    color: "#ccc",
+                    "&:hover": { color: "#fff" },
                   }}
                 >
-                  QUICK LINK
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}> {/* Reduced gap from 1.5 to 1 */}
-                  <Link href="#" color="#ccc" underline="none" sx={{ fontSize: "13px", "&:hover": { color: "#fff" } }}>
-                    HOME
-                  </Link>
-                  <Link href="#" color="#ccc" underline="none" sx={{ fontSize: "13px", "&:hover": { color: "#fff" } }}>
-                    GAMES
-                  </Link>
-                  <Link href="#" color="#ccc" underline="none" sx={{ fontSize: "13px", "&:hover": { color: "#fff" } }}>
-                    CONTACT US
-                  </Link>
-                </Box>
-             </Box>
+                  HOME
+                </Link>
+
+                <Link
+                  component={RouterLink}
+                  to="/games"
+                  underline="none"
+                  onClick={handleFooterNavigation}
+                  sx={{
+                    fontSize: "13px",
+                    color: "#ccc",
+                    "&:hover": { color: "#fff" },
+                  }}
+                >
+                  GAMES
+                </Link>
+
+                <Link
+                  component={RouterLink}
+                  to="/contact"
+                  underline="none"
+                  onClick={handleFooterNavigation}
+                  sx={{
+                    fontSize: "13px",
+                    color: "#ccc",
+                    "&:hover": { color: "#fff" },
+                  }}
+                >
+                  CONTACT US
+                </Link>
+              </Box>
+            </Box>
           </Grid>
 
           {/* --- Right Column: Map --- */}
@@ -128,7 +192,7 @@ const Footer = () => {
                 borderRadius: "25px",
                 overflow: "hidden",
                 border: "1px solid rgba(255,255,255,0.05)",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.5)"
+                boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
               }}
             >
               <iframe
@@ -145,13 +209,13 @@ const Footer = () => {
         </Grid>
 
         {/* --- Divider Line --- */}
-        <Divider 
-            sx={{ 
-                backgroundColor: "rgba(255,255,255,0.1)", 
-                mt: 5, 
-                mb: 3,
-                width: "100%",
-            }} 
+        <Divider
+          sx={{
+            backgroundColor: "rgba(255,255,255,0.1)",
+            mt: 5,
+            mb: 3,
+            width: "100%",
+          }}
         />
 
         {/* --- Copyright --- */}
@@ -163,7 +227,6 @@ const Footer = () => {
             Copyright © 2025 GAMEVERSE. All Right Reserved.
           </Typography>
         </Box>
-
       </Box>
     </Box>
   );
