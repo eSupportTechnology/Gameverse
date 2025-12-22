@@ -60,7 +60,7 @@ const EventsTournaments = () => {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
-  console.log(tournaments);
+
   return (
     <Box
       component="section"
