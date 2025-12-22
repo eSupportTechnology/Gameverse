@@ -45,13 +45,13 @@ const Navbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
-  
+
   const navigate = useNavigate();
   const location = useLocation();
 
   // const navLinks = ["Home", "Games", "About Us", "Contact"];
 
- /* ---------- Account Menu ---------- */
+  /* ---------- Account Menu ---------- */
   const [accountAnchorEl, setAccountAnchorEl] = useState(null);
   const isAccountMenuOpen = Boolean(accountAnchorEl);
 
@@ -258,7 +258,11 @@ const Navbar = () => {
 
           {/* Mobile Hamburger */}
           {isMobile && (
-            <IconButton color="inherit" edge="end" onClick={() => setDrawerOpen(true)}>
+            <IconButton
+              color="inherit"
+              edge="end"
+              onClick={() => setDrawerOpen(true)}
+            >
               <MenuIcon />
             </IconButton>
           )}
@@ -272,22 +276,47 @@ const Navbar = () => {
         onClose={() => setAccountAnchorEl(null)}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#0F172A",
+            borderRadius: "8px",
+            minWidth: 160,
+          },
+        }}
       >
         <MenuItem
           onClick={() => {
             setAccountAnchorEl(null);
             navigate("/my-account");
           }}
+          sx={{
+            color: "#F5F5F5",
+            "&:hover": {
+              backgroundColor: "#070F1E",
+            },
+          }}
         >
           My Account
         </MenuItem>
-        <MenuItem onClick={handleLogout} sx={{ color: "error.main" }}>
+        <MenuItem
+          onClick={handleLogout}
+          sx={{
+            color: "#F5F5F5",
+            "&:hover": {
+              backgroundColor: "#070F1E",
+            },
+          }}
+        >
           Logout
         </MenuItem>
       </Menu>
 
       {/* Mobile Drawer */}
-      <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
         <Box sx={{ width: 250, p: 2 }}>
           <List>
             <ListItem button component={NavLink} to="/">

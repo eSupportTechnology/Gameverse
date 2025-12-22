@@ -72,18 +72,21 @@ export default function BookingDetails() {
           </Typography>
         </Box>
 
-        {/* Button */}
         <Button
           fullWidth
           sx={{
-            backgroundColor: "#16A34A",
+            backgroundColor: "transparent",
             color: "#fff",
             textTransform: "none",
             fontWeight: 600,
-            borderRadius: 6,
+            borderRadius: 999,
             py: 1.2,
+            border: "1px solid rgba(255,255,255,0.7)",
+            transition: "all 0.25s ease",
+
             "&:hover": {
-              backgroundColor: "#15803D",
+              backgroundColor: "#16A34A",
+              border: "1px solid #16A34A",
             },
           }}
         >
