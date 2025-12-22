@@ -1,17 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
+  const currentDate = new Date();
+  const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
+  const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [selectedDate, setSelectedDate] = useState(selectedDateTime?.date || null);
   const [selectedTime, setSelectedTime] = useState(selectedDateTime?.time || null);
+  const datesScrollRef = useRef(null);
 
-  // Generate dates for November 2025
+  // Get number of days in the current month
+  const getDaysInMonth = (month, year) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  // Get month name
+  const getMonthName = (month) => {
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    return months[month];
+  };
+
+  // Navigate to previous month
+  const handlePrevMonth = () => {
+    if (currentMonth === 0) {
+      setCurrentMonth(11);
+      setCurrentYear(currentYear - 1);
+    } else {
+      setCurrentMonth(currentMonth - 1);
+    }
+    setSelectedDate(null);
+  };
+
+  // Navigate to next month
+  const handleNextMonth = () => {
+    if (currentMonth === 11) {
+      setCurrentMonth(0);
+      setCurrentYear(currentYear + 1);
+    } else {
+      setCurrentMonth(currentMonth + 1);
+    }
+    setSelectedDate(null);
+  };
+
+  // Generate dates for current month
+  const daysInMonth = getDaysInMonth(currentMonth, currentYear);
   const dates = [];
-  for (let i = 3; i <= 12; i++) {
+  for (let i = 1; i <= daysInMonth; i++) {
     dates.push(i);
   }
+
+  // Scroll dates left
+  const scrollDatesLeft = () => {
+    if (datesScrollRef.current) {
+      datesScrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  // Scroll dates right
+  const scrollDatesRight = () => {
+    if (datesScrollRef.current) {
+      datesScrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
 
   // Generate time slots
   const timeSlots = [
@@ -117,15 +172,15 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           clipPath: "polygon(3% 0, 97% 0, 100% 100%, 0 100%)",
         }}
       >
-        <IconButton sx={{ color: "white" }}>
+        <IconButton onClick={handlePrevMonth} sx={{ color: "white" }}>
           <ChevronLeftIcon />
         </IconButton>
         <Typography
           sx={{ mx: 4, fontSize: "20px", fontWeight: "bold", minWidth: 150, textAlign: "center" }}
         >
-          November 2025
+          {getMonthName(currentMonth)} {currentYear}
         </Typography>
-        <IconButton sx={{ color: "white" }}>
+        <IconButton onClick={handleNextMonth} sx={{ color: "white" }}>
           <ChevronRightIcon />
         </IconButton>
       </Box>
@@ -135,44 +190,74 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
         sx={{
           maxWidth: "1400px",
           mx: "auto",
-          display: "flex",
-          gap: 2,
           mb: 4,
-          overflowX: "auto",
-          pb: 2,
-          "&::-webkit-scrollbar": { height: "8px" },
-          "&::-webkit-scrollbar-track": { bgcolor: "rgba(255,255,255,0.1)" },
-          "&::-webkit-scrollbar-thumb": { bgcolor: "#33B2F7", borderRadius: "4px" },
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
         }}
       >
-        <IconButton sx={{ color: "white", minWidth: "40px" }}>
+        <IconButton 
+          onClick={scrollDatesLeft}
+          sx={{ 
+            color: "white", 
+            minWidth: "40px",
+            bgcolor: "rgba(0,0,0,0.5)",
+            "&:hover": { bgcolor: "rgba(0,0,0,0.7)" }
+          }}
+        >
           <ChevronLeftIcon />
         </IconButton>
-        {dates.map((date) => (
-          <Box
-            key={date}
-            onClick={() => handleDateSelect(date)}
-            sx={{
-              minWidth: 60,
-              textAlign: "center",
-              py: 1.5,
-              px: 2,
-              bgcolor: selectedDate === date ? "rgba(51, 178, 247, 0.3)" : "rgba(255,255,255,0.05)",
-              border: selectedDate === date ? "2px solid #33B2F7" : "1px solid rgba(255,255,255,0.1)",
-              borderRadius: "6px",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                bgcolor: "rgba(51, 178, 247, 0.2)",
-              },
-            }}
-          >
-            <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-              {date.toString().padStart(2, "0")}
-            </Typography>
-          </Box>
-        ))}
-        <IconButton sx={{ color: "white", minWidth: "40px" }}>
+        
+        <Box
+          ref={datesScrollRef}
+          sx={{
+            flex: 1,
+            display: "flex",
+            gap: 2,
+            overflowX: "auto",
+            pb: 2,
+            scrollBehavior: "smooth",
+            "&::-webkit-scrollbar": { height: "8px" },
+            "&::-webkit-scrollbar-track": { bgcolor: "rgba(255,255,255,0.1)" },
+            "&::-webkit-scrollbar-thumb": { bgcolor: "#33B2F7", borderRadius: "4px" },
+          }}
+        >
+          {dates.map((date) => (
+            <Box
+              key={date}
+              onClick={() => handleDateSelect(date)}
+              sx={{
+                minWidth: 60,
+                textAlign: "center",
+                py: 1.5,
+                px: 2,
+                bgcolor: selectedDate === date ? "rgba(51, 178, 247, 0.3)" : "rgba(255,255,255,0.05)",
+                border: selectedDate === date ? "2px solid #33B2F7" : "1px solid rgba(255,255,255,0.1)",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  bgcolor: "rgba(51, 178, 247, 0.2)",
+                },
+              }}
+            >
+              <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                {date.toString().padStart(2, "0")}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+        
+        <IconButton 
+          onClick={scrollDatesRight}
+          sx={{ 
+            color: "white", 
+            minWidth: "40px",
+            bgcolor: "rgba(0,0,0,0.5)",
+            "&:hover": { bgcolor: "rgba(0,0,0,0.7)" }
+          }}
+        >
           <ChevronRightIcon />
         </IconButton>
       </Box>
