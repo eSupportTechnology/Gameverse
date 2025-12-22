@@ -10,13 +10,16 @@ class EventController extends Controller
     public function index()
     {
         try {
+            $adminBaseUrl = rtrim(config('app.admin_base_url'), '/');
+
             $events = DB::table('events')
                 ->select('id', 'name', 'date', 'thumbnail')
                 ->orderBy('date', 'asc')
                 ->get()
-                ->map(function ($event) {
+                ->map(function ($event) use ($adminBaseUrl) {
                     if ($event->thumbnail) {
-                        $event->thumbnail = asset('storage/' . $event->thumbnail);
+                        $event->thumbnail =
+                            $adminBaseUrl . '/storage/' . $event->thumbnail;
                     }
                     return $event;
                 });
@@ -25,7 +28,7 @@ class EventController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Failed to fetch events',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }

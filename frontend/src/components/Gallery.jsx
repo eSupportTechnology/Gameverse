@@ -1,32 +1,35 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Box, Typography, useMediaQuery, useTheme, GlobalStyles } from "@mui/material";
+import {
+  Box,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  GlobalStyles,
+} from "@mui/material";
 
 const GalleryView = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const scrollRef = useRef(null);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const [galleryImages, setGalleryImages] = useState([]);
 
   const headerGradient = "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)";
   const imageBorderGradient =
     "linear-gradient(to right, #9F00FF, #B86BFF, #00D3FE, #3C7CFA)";
-
-  const galleryImages = [
-    "/assets/gallery-image1.jpg",
-    "/assets/gallery-image2.jpg",
-    "/assets/gallery-image3.jpg",
-    "/assets/gallery-image4.jpg",
-    "/assets/gallery-image5.jpg",
-    "/assets/gallery-image6.jpg",
-    "/assets/gallery-image7.jpg",
-    "/assets/gallery-image8.jpg",
-  ];
 
   const applyGradientText = (gradient) => ({
     background: gradient,
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
   });
+
+  useEffect(() => {
+    fetch("http://localhost:8001/api/galleries")
+      .then((res) => res.json())
+      .then((data) => setGalleryImages(data))
+      .catch(console.error);
+  }, []);
 
   const imageCardStyle = {
     flexShrink: 0,
@@ -73,7 +76,6 @@ const GalleryView = () => {
     },
   };
 
-  // Auto-play functionality with Intersection Observer
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
@@ -98,21 +100,22 @@ const GalleryView = () => {
     };
   }, []);
 
-  // Auto-scroll effect
   useEffect(() => {
     const container = scrollRef.current;
     if (!container || !isAutoPlaying) return;
 
-    let scrollDirection = 1; // 1 for right, -1 for left
-    const scrollSpeed = 1; // pixels per frame
+    let scrollDirection = 1;
+    const scrollSpeed = 1;
 
     const autoScroll = () => {
       if (!container) return;
 
       container.scrollLeft += scrollSpeed * scrollDirection;
 
-      // Reverse direction at edges
-      if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
+      if (
+        container.scrollLeft >=
+        container.scrollWidth - container.clientWidth
+      ) {
         scrollDirection = -1;
       } else if (container.scrollLeft <= 0) {
         scrollDirection = 1;
@@ -128,7 +131,6 @@ const GalleryView = () => {
 
   return (
     <>
-      {/* Global font registration */}
       <GlobalStyles
         styles={{
           "@font-face": {
@@ -142,8 +144,6 @@ const GalleryView = () => {
       <Box
         sx={{
           minHeight: "100vh",
-          // background: "linear-gradient(90deg, #01010a 0%, #1a0033 50%, #000000 100%)",
-          // background: "radial-gradient(circle, #01010a 0%, #1a0033 20%, #0A0D17 100%)",
           bgcolor: "#0A0D17",
           color: "#fff",
           padding: isMobile ? "40px 20px" : "60px 40px",
@@ -153,7 +153,6 @@ const GalleryView = () => {
           fontFamily: "Roboto, sans-serif",
         }}
       >
-        {/* Header */}
         <Box sx={{ maxWidth: 900, textAlign: "center", mb: isMobile ? 6 : 10 }}>
           <Typography
             variant={isMobile ? "h3" : "h2"}
@@ -184,13 +183,12 @@ const GalleryView = () => {
             }}
           >
             Get ready to battle it out! Join our exciting events and competitive
-            tournaments featuring top games, epic challenges, and massive rewards.
-            Whether you're a casual player or a pro, there's always a stage for
-            you to shine.
+            tournaments featuring top games, epic challenges, and massive
+            rewards. Whether you're a casual player or a pro, there's always a
+            stage for you to shine.{" "}
           </Typography>
         </Box>
 
-        {/* Scrollable 2-row gallery */}
         <Box
           ref={scrollRef}
           sx={{
@@ -203,34 +201,14 @@ const GalleryView = () => {
           }}
         >
           <Box sx={{ display: "inline-flex", flexDirection: "column", gap: 3 }}>
-            {/* First row - normal order */}
+            {/* FIRST ROW */}
             <Box sx={{ display: "flex" }}>
-              {galleryImages.map((src, i) => (
-                <Box key={`row1-${i}`} sx={imageCardStyle}>
-                  <img
-                    src={src}
-                    alt={`Gallery row1 item ${i + 1}`}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: "inherit",
-                    }}
-                  />
-                </Box>
-              ))}
-            </Box>
-
-            {/* Second row - reversed order */}
-            <Box sx={{ display: "flex" }}>
-              {galleryImages
-                .slice()
-                .reverse()
-                .map((src, i) => (
-                  <Box key={`row2-${i}`} sx={imageCardStyle}>
+              {galleryImages.length > 0 ? (
+                galleryImages.map((img, i) => (
+                  <Box key={`row1-${i}`} sx={imageCardStyle}>
                     <img
-                      src={src}
-                      alt={`Gallery row2 item ${i + 1}`}
+                      src={img.image}
+                      alt="gallery"
                       style={{
                         width: "100%",
                         height: "100%",
@@ -239,8 +217,43 @@ const GalleryView = () => {
                       }}
                     />
                   </Box>
-                ))}
+                ))
+              ) : (
+                <Typography
+                  sx={{
+                    fontSize: "1.2rem",
+                    opacity: 0.8,
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
+                  📸 No gallery images available
+                </Typography>
+              )}
             </Box>
+
+            {/* SECOND ROW */}
+            {galleryImages.length > 1 && (
+              <Box sx={{ display: "flex" }}>
+                {galleryImages
+                  .slice()
+                  .reverse()
+                  .map((img, i) => (
+                    <Box key={`row2-${i}`} sx={imageCardStyle}>
+                      <img
+                        src={img.image}
+                        alt="gallery"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: "inherit",
+                        }}
+                      />
+                    </Box>
+                  ))}
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
