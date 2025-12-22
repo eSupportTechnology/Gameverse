@@ -1,39 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Box, Typography, Button, styled, useMediaQuery } from "@mui/material";
 
-const stations = [
-  {
-    id: 1,
-    title: "PS5 Station 1",
-    desc: "Latest PS5 games with 4K graphics and immersive\ngameplay on premium gaming setups",
-    img: "./images/f1.jpg",
-  },
-  {
-    id: 2,
-    title: "PS5 Station 2",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
-    img: "./images/f2.jpg",
-  },
-  {
-    id: 3,
-    title: "PS5 Station 3",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
-    img: "./images/f3.jpg",
-  },
-  {
-    id: 4,
-    title: "PS5 Station 4",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
-    img: "./images/f4.jpg",
-  },
-  {
-    id: 5,
-    title: "PS5 Station 5",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
-    img: "./images/f5.jpg",
-  },
-];
-
 const SelectButton = styled(Button)(() => ({
   width: "100%",
   py: 1.5,
@@ -49,14 +16,16 @@ const SelectButton = styled(Button)(() => ({
   },
 }));
 
-const SelectStation = ({ onNext, selectedStation }) => {
+const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
   const scrollRef = useRef(null);
   const [snaps, setSnaps] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isDesktop = useMediaQuery("(min-width:900px)");
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const autoPlayIntervalRef = useRef(null);
-  const [selectedStationId, setSelectedStationId] = useState(selectedStation || null);
+  const [selectedStationId, setSelectedStationId] = useState(
+    selectedStation || null
+  );
 
   const visibleCount = isDesktop ? 3 : 1;
   const dotsToShow = Math.max(stations.length - visibleCount + 1, 1);
@@ -157,7 +126,7 @@ const SelectStation = ({ onNext, selectedStation }) => {
 
     const onPointerDown = (e) => {
       // Don't interfere with button clicks
-      if (e.target.closest('button') || e.target.closest('.select-btn')) {
+      if (e.target.closest("button") || e.target.closest(".select-btn")) {
         return;
       }
       isDown = true;
@@ -236,6 +205,27 @@ const SelectStation = ({ onNext, selectedStation }) => {
     };
   }, [isAutoPlaying, snaps, dotsToShow]);
 
+  const PS5_FALLBACK_IMAGES = {
+    "PS5 Station 1": "/Images/f1.jpg",
+    "PS5 Station 2": "/Images/f2.jpg",
+    "PS5 Station 3": "/Images/f3.jpg",
+    "PS5 Station 4": "/Images/f4.jpg",
+    "PS5 Station 5": "/Images/f5.jpg",
+  };
+
+  const getStationImage = (station) => {
+    // Backend image exists
+    if (station.img) return station.img;
+
+    // PS5 station fallback
+    if (station.title?.startsWith("PS5")) {
+      return PS5_FALLBACK_IMAGES[station.title] || "/Images/f1.jpg";
+    }
+
+    // Default fallback
+    return "/Images/f1.jpg";
+  };
+
   return (
     <Box
       sx={{
@@ -274,163 +264,166 @@ const SelectStation = ({ onNext, selectedStation }) => {
       >
         {stations.map((station, idx) => {
           const isSelected = selectedStationId === station.id;
-          console.log(`Station ${station.id}: isSelected = ${isSelected}, selectedStationId = ${selectedStationId}`);
+          console.log(
+            `Station ${station.id}: isSelected = ${isSelected}, selectedStationId = ${selectedStationId}`
+          );
           return (
-          <Box
-            key={station.id}
-            className="slide-item"
-            sx={{
-              position: "relative",
-              minWidth: { xs: "85%", sm: "45%", md: "30%" },
-              height: { xs: 400, md: 450 },
-              scrollSnapAlign: "start",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                transform: "scale(1.03)",
-              },
-              "&:hover .bottom-glow": {
-                opacity: "1 !important",
-              },
-              "&:hover .select-btn": {
-                opacity: "1 !important",
-              },
-              "&:hover .selected-banner": {
-                opacity: "1 !important",
-              },
-            }}
-          >
             <Box
+              key={station.id}
+              className="slide-item"
               sx={{
-                width: "100%",
-                height: "100%",
-                clipPath: [
-                  "polygon(10% 0, 100% 0, 80% 100%, 0 90%)",
-                  "polygon(15% 0, 98% 0, 100% 100%, 0 100%)",
-                  "polygon(2% 0, 98% 0, 90% 100%, 0 100%)",
-                  "polygon(10% 0, 100% 0, 90% 100%, 0 100%)",
-                  "polygon(5% 0, 95% 0, 100% 100%, 0 95%)",
-                ][idx % 5],
-                overflow: "hidden",
-                border: "2px solid rgba(51, 178, 247, 0.5)",
                 position: "relative",
+                minWidth: { xs: "85%", sm: "45%", md: "30%" },
+                height: { xs: 400, md: 450 },
+                scrollSnapAlign: "start",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  transform: "scale(1.03)",
+                },
+                "&:hover .bottom-glow": {
+                  opacity: "1 !important",
+                },
+                "&:hover .select-btn": {
+                  opacity: "1 !important",
+                },
+                "&:hover .selected-banner": {
+                  opacity: "1 !important",
+                },
               }}
             >
-              {/* Bottom white line on hover */}
               <Box
-                className="bottom-glow"
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: "2px",
-                  background: "#FFFFFF",
-                  opacity: 0,
-                  transition: "opacity 0.3s ease",
-                  zIndex: 10,
-                }}
-              />
-
-              <Box
-                component="img"
-                src={station.img}
-                alt={station.title}
                 sx={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
-
-              {/* Select / Selected Button - Visible when selected or on hover */}
-              <Box
-                className="select-btn"
-                sx={{
-                  position: "absolute",
-                  bottom: { xs: "25%", md: "27%" },
-                  left: 0,
-                  right: 0,
-                  zIndex: 10,
-                  opacity: isSelected ? 1 : 0,
-                  transition: "opacity 0.3s ease",
+                  clipPath: [
+                    "polygon(10% 0, 100% 0, 80% 100%, 0 90%)",
+                    "polygon(15% 0, 98% 0, 100% 100%, 0 100%)",
+                    "polygon(2% 0, 98% 0, 90% 100%, 0 100%)",
+                    "polygon(10% 0, 100% 0, 90% 100%, 0 100%)",
+                    "polygon(5% 0, 95% 0, 100% 100%, 0 95%)",
+                  ][idx % 5],
+                  overflow: "hidden",
+                  border: "2px solid rgba(51, 178, 247, 0.5)",
+                  position: "relative",
                 }}
               >
-                {isSelected ? (
-                  <Box
-                    sx={{
-                      width: "100%",
-                      py: 1.5,
-                      bgcolor: "#4CAF50",
-                      textAlign: "center",
-                      cursor: "default",
-                      boxShadow: "0 4px 6px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    <Typography
+                {/* Bottom white line on hover */}
+                <Box
+                  className="bottom-glow"
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "2px",
+                    background: "#FFFFFF",
+                    opacity: 0,
+                    transition: "opacity 0.3s ease",
+                    zIndex: 10,
+                  }}
+                />
+
+                <Box
+                  component="img"
+                  src={getStationImage(station)}
+                  alt={station.name}
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+
+                {/* Select / Selected Button - Visible when selected or on hover */}
+                <Box
+                  className="select-btn"
+                  sx={{
+                    position: "absolute",
+                    bottom: { xs: "25%", md: "27%" },
+                    left: 0,
+                    right: 0,
+                    zIndex: 10,
+                    opacity: isSelected ? 1 : 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                >
+                  {isSelected ? (
+                    <Box
                       sx={{
-                        color: "#fff",
-                        fontWeight: "bold",
-                        fontSize: "16px",
-                        letterSpacing: "0.5px",
+                        width: "100%",
+                        py: 1.5,
+                        bgcolor: "#4CAF50",
+                        textAlign: "center",
+                        cursor: "default",
+                        boxShadow: "0 4px 6px rgba(0,0,0,0.2)",
                       }}
                     >
-                      Selected
-                    </Typography>
-                  </Box>
-                ) : (
-                  <SelectButton
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      console.log('Button clicked for station:', station.id);
-                      handleSelect(station.id);
+                      <Typography
+                        sx={{
+                          color: "#fff",
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          letterSpacing: "0.5px",
+                        }}
+                      >
+                        Selected
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <SelectButton
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log("Button clicked for station:", station.id);
+                        handleSelect(station.id);
+                      }}
+                    >
+                      Select
+                    </SelectButton>
+                  )}
+                </Box>
+
+                {/* Station Info */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    bgcolor: "rgba(0,0,0,0.9)",
+                    p: { xs: 2, md: 3 },
+                    textAlign: "center",
+                    zIndex: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      mb: 1,
+                      fontSize: { xs: "18px", md: "20px" },
+                      fontWeight: 600,
+                      color: "#33B2F7",
                     }}
                   >
-                    Select
-                  </SelectButton>
-                )}
-              </Box>
-
-              {/* Station Info */}
-              <Box
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  bgcolor: "rgba(0,0,0,0.9)",
-                  p: { xs: 2, md: 3 },
-                  textAlign: "center",
-                  zIndex: 2,
-                }}
-              >
-                <Typography
-                  variant="h6"
-                  sx={{
-                    mb: 1,
-                    fontSize: { xs: "18px", md: "20px" },
-                    fontWeight: 600,
-                    color: "#33B2F7",
-                  }}
-                >
-                  {station.title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontSize: { xs: "10px", md: "12px" },
-                    color: "gray.300",
-                    lineHeight: 2.1,
-                    whiteSpace: "pre-line",
-                  }}
-                >
-                  {station.desc}
-                </Typography>
+                    {station.name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: { xs: "10px", md: "12px" },
+                      color: "gray.300",
+                      lineHeight: 2.1,
+                      whiteSpace: "pre-line",
+                    }}
+                  >
+                    {station.description ||
+                      "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups"}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
-        );
+          );
         })}
       </Box>
 
