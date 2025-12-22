@@ -10,7 +10,7 @@ import {
 import { LocationOn, Phone, Email, AccessTime } from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import YouTubeIcon from "@mui/icons-material/YouTube";
+import { FaTiktok } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
 
 const Footer = () => {
@@ -79,7 +79,21 @@ const Footer = () => {
                   variant="body2"
                   sx={{ fontSize: "14px", color: "#ccc" }}
                 >
-                  071 7111882 / 066 2224321
+                  <Link
+                    href="tel:0717111882"
+                    underline="none"
+                    sx={{ color: "#ccc", mr: 1 }}
+                  >
+                    071 7111882
+                  </Link>
+                  /
+                  <Link
+                    href="tel:0662224321"
+                    underline="none"
+                    sx={{ color: "#ccc", ml: 1 }}
+                  >
+                    066 2224321
+                  </Link>
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -88,7 +102,16 @@ const Footer = () => {
                   variant="body2"
                   sx={{ fontSize: "14px", color: "#ccc" }}
                 >
-                  Gameverse.ltd@gmail.com
+                  <Link
+                    href="mailto:Gameverse.ltd@gmail.com"
+                    underline="none"
+                    sx={{
+                      color: "#ccc",
+                      "&:hover": { color: "#fff" },
+                    }}
+                  >
+                    Gameverse.ltd@gmail.com
+                  </Link>
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -101,15 +124,35 @@ const Footer = () => {
                 </Typography>
               </Box>
               <Box sx={{ mt: 1, display: "flex", gap: 1.5, ml: 0.5 }}>
-                <IconButton size="small" sx={{ color: "white", p: 0 }}>
-                  <FacebookIcon fontSize="small" />
-                </IconButton>
-                <IconButton size="small" sx={{ color: "white", p: 0 }}>
-                  <YouTubeIcon fontSize="small" />
-                </IconButton>
-                <IconButton size="small" sx={{ color: "white", p: 0 }}>
-                  <InstagramIcon fontSize="small" />
-                </IconButton>
+                <a
+                  href="https://www.facebook.com/share/17kPm9jmgS/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconButton size="small" sx={{ color: "white", p: 0 }}>
+                    <FacebookIcon fontSize="small" />
+                  </IconButton>
+                </a>
+
+                <a
+                  href="https://www.tiktok.com/@gameverse.lk?_r=1&_t=ZS-92QgqKm25pp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconButton size="small" sx={{ color: "white", p: 0 }}>
+                    <FaTiktok size={16} />
+                  </IconButton>
+                </a>
+
+                <a
+                  href="https://www.instagram.com/gameverse.lk?igsh=eHBnZW81dDc5bWwx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconButton size="small" sx={{ color: "white", p: 0 }}>
+                    <InstagramIcon fontSize="small" />
+                  </IconButton>
+                </a>
               </Box>
             </Box>
           </Grid>
