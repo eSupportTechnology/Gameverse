@@ -11,6 +11,7 @@ import SingUp from "./pages/SingUp";
 import SignIn from "./pages/SignIn";
 import EmailVerification from "./pages/EmailVerification";
 import ResetPassword from "./pages/ResetPassword";
+import MyAccount from "./pages/MyAccount.jsx";
 import { ToastContainer } from "react-toastify";
 
 function MainLayout() {
@@ -51,6 +52,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/booking" element={<Booking />} />
+            <Route path="/my-account" element={<MyAccount />} />
           </Route>
 
           <Route element={<SubLayout />}>

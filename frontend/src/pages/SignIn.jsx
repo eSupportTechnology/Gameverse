@@ -128,7 +128,7 @@ const SignIn = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/login", {
+      const res = await axios.post("http://127.0.0.1:8001/api/login", {
         email: formData.email,
         password: formData.password,
       });
@@ -143,8 +143,12 @@ const SignIn = () => {
 
       toast.success("Login successful!");
 
-      // Save token for future requests
+      // after saving:
       localStorage.setItem("authToken", userData.token);
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      // notify other components in same tab
+      window.dispatchEvent(new Event("userUpdated"));
 
       navigate("/");
     } catch (err) {

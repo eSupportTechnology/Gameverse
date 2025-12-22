@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -10,6 +10,8 @@ import {
   ListItem,
   ListItemText,
   useMediaQuery,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme, styled } from "@mui/material/styles";
@@ -18,7 +20,7 @@ import logo from "../assets/logo.png";
 
 const GradientButton = styled(Button)(() => ({
   padding: "8px 18px",
-  minWidth: "100px", 
+  minWidth: "100px",
   borderRadius: "10px",
   fontWeight: "bold",
   textTransform: "none",
@@ -43,19 +45,51 @@ const Navbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const location = useLocation();
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   // const navLinks = ["Home", "Games", "About Us", "Contact"];
 
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
+  /* ---------- Account Menu ---------- */
+  const [accountAnchorEl, setAccountAnchorEl] = useState(null);
+  const isAccountMenuOpen = Boolean(accountAnchorEl);
+
+  /* ---------- User State ---------- */
+  const [storedUser, setStoredUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user"));
+    } catch {
+      return null;
+    }
+  });
+
+  useEffect(() => {
+    const onUserUpdated = () => {
+      try {
+        setStoredUser(JSON.parse(localStorage.getItem("user")));
+      } catch {
+        setStoredUser(null);
+      }
+    };
+    window.addEventListener("userUpdated", onUserUpdated);
+    return () => window.removeEventListener("userUpdated", onUserUpdated);
+  }, []);
+
+  /* ---------- Helpers ---------- */
+  const getInitials = (firstName, lastName) =>
+    (firstName?.[0] || "") + (lastName?.[0] || "");
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    window.dispatchEvent(new Event("userUpdated"));
+    setAccountAnchorEl(null);
+    navigate("/");
   };
 
-  // Check if Games link should be active (includes booking page)
-  const isGamesActive = location.pathname === '/games' || location.pathname === '/booking';
-
-
+  const isGamesActive =
+    location.pathname === "/games" || location.pathname === "/booking";
 
   // const drawer = (
   //   <Box
@@ -161,63 +195,158 @@ const Navbar = () => {
             </Box>
           )}
 
-          {!isMobile && <GradientButton onClick={()=>navigate('/sing-in')}>Sign in</GradientButton>}
+          {/* Desktop user info or sign in */}
+          {!isMobile &&
+            (storedUser ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  cursor: "pointer",
+                }}
+                onClick={(e) => setAccountAnchorEl(e.currentTarget)}
+              >
+                <Box
+                  sx={{
+                    width: 42,
+                    height: 42,
+                    borderRadius: "50%",
+                    backgroundColor: "#F1F1F1",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#1A1A1A",
+                    fontWeight: 600,
+                    fontSize: 16,
+                    userSelect: "none",
+                  }}
+                >
+                  {getInitials(storedUser.firstName, storedUser.lastName)}
+                </Box>
+
+                <Box>
+                  <Box
+                    sx={{
+                      color: "#FFFFFF",
+                      fontWeight: 600,
+                      fontSize: "16px",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {storedUser.firstName} {storedUser.lastName}
+                  </Box>
+
+                  <Box
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      background: "linear-gradient(90deg, #33B2F7, #A905BC)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    My Account
+                  </Box>
+                </Box>
+              </Box>
+            ) : (
+              <GradientButton onClick={() => navigate("/sing-in")}>
+                Sign in
+              </GradientButton>
+            ))}
 
           {/* Mobile Hamburger */}
           {isMobile && (
-            <IconButton color="inherit" edge="end" onClick={handleDrawerToggle}>
+            <IconButton
+              color="inherit"
+              edge="end"
+              onClick={() => setDrawerOpen(true)}
+            >
               <MenuIcon />
             </IconButton>
           )}
         </Toolbar>
       </AppBar>
 
+      {/* Account Dropdown */}
+      <Menu
+        anchorEl={accountAnchorEl}
+        open={isAccountMenuOpen}
+        onClose={() => setAccountAnchorEl(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#0F172A",
+            borderRadius: "8px",
+            minWidth: 160,
+          },
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            setAccountAnchorEl(null);
+            navigate("/my-account");
+          }}
+          sx={{
+            color: "#F5F5F5",
+            "&:hover": {
+              backgroundColor: "#070F1E",
+            },
+          }}
+        >
+          My Account
+        </MenuItem>
+        <MenuItem
+          onClick={handleLogout}
+          sx={{
+            color: "#F5F5F5",
+            "&:hover": {
+              backgroundColor: "#070F1E",
+            },
+          }}
+        >
+          Logout
+        </MenuItem>
+      </Menu>
+
       {/* Mobile Drawer */}
-      <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerToggle}>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
         <Box sx={{ width: 250, p: 2 }}>
           <List>
-            <ListItem
-              button
-              component={NavLink}
-              to="/"
-              onClick={handleDrawerToggle}
-            >
+            <ListItem button component={NavLink} to="/">
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem
-              button
-              component={NavLink}
-              to="/games"
-              onClick={handleDrawerToggle}
-              sx={{
-                color: isGamesActive ? "#ff00ff" : "inherit",
-              }}
-            >
+            <ListItem button component={NavLink} to="/games">
               <ListItemText primary="Games" />
             </ListItem>
-            {/* <ListItem
-              button
-              component={NavLink}
-              to="/about"
-              onClick={handleDrawerToggle}
-            >
-              <ListItemText primary="About Us" />
-            </ListItem> */}
-            <ListItem
-              button
-              component={NavLink}
-              to="/contact"
-              onClick={handleDrawerToggle}
-            >
-              <ListItemText primary="Contact" />
+            <ListItem button component={NavLink} to="/contact">
+              <ListItemText primary="Contact Us" />
             </ListItem>
           </List>
 
-          <GradientButton>Sign in</GradientButton>
+          {storedUser ? (
+            <Button
+              fullWidth
+              sx={{ mt: 2, color: "error.main", fontWeight: 600 }}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          ) : (
+            <GradientButton fullWidth onClick={() => navigate("/sing-in")}>
+              Sign in
+            </GradientButton>
+          )}
         </Box>
       </Drawer>
 
-      {/* Spacer to prevent content behind navbar */}
+      {/* Spacer */}
       <Toolbar />
     </>
   );

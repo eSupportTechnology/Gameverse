@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -8,6 +8,7 @@ import {
   GlobalStyles,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 // Gradient text for headings
@@ -84,14 +85,8 @@ const InnerCard = styled(Card)(({ theme }) => ({
   width: "90vw",
   maxWidth: "360px",
   height: "auto",
-  [theme.breakpoints.up("sm")]: {
-    width: "320px",
-    height: "420px",
-  },
-  [theme.breakpoints.up("md")]: {
-    width: "360px",
-    height: "420px",
-  },
+  [theme.breakpoints.up("sm")]: { width: "320px", height: "420px" },
+  [theme.breakpoints.up("md")]: { width: "360px", height: "420px" },
 }));
 
 // Image wrapper with responsive height
@@ -102,19 +97,13 @@ const ImageWrapper = styled("div")(({ theme }) => ({
   height: "200px",
   "& img": {
     width: "100%",
-    height: "auto",
+    height: "100%",
     objectFit: "cover",
     transition: "transform 0.3s ease",
   },
-  "&:hover img": {
-    transform: "scale(1.05)",
-  },
-  [theme.breakpoints.up("sm")]: {
-    height: "200px",
-  },
-  [theme.breakpoints.up("md")]: {
-    height: "220px",
-  },
+  "&:hover img": { transform: "scale(1.05)" },
+  [theme.breakpoints.up("sm")]: { height: "200px" },
+  [theme.breakpoints.up("md")]: { height: "220px" },
 }));
 
 // Card content wrapper
@@ -138,36 +127,55 @@ const CountdownBox = styled(Box)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   margin: "8px auto 0",
-  [theme.breakpoints.down("sm")]: {
-    width: "90%",
-    height: "44px",
-  },
+  [theme.breakpoints.down("sm")]: { width: "90%", height: "44px" },
 }));
 
-// Event data
-const events = [
-  {
-    title: "Call of Duty Championship",
-    date: "AUG 25, 2025",
-    countdown: "3d 14h 25m 3s",
-    image: "/images/e2.jpg",
-  },
-  {
-    title: "Pubg Championship",
-    date: "SEP 08, 2025",
-    countdown: "10d 12h 15m 12s",
-    image: "/images/e1.jpg",
-  },
-  {
-    title: "Car Game Championship",
-    date: "SEP 15, 2025",
-    countdown: "17d 08h 25m 2s",
-    image: "/images/e3.jpg",
-  },
-];
-
-export const EventsSection = () => {
+const EventsSection = () => {
+  const [tournaments, setTournaments] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8001/api/events")
+      .then((response) => {
+        const sortedEvents = response.data.sort((a, b) => b.id - a.id);
+        const recentThreeEvents = sortedEvents.slice(0, 3);
+        const eventsWithTimer = recentThreeEvents
+          .sort((a, b) => b.id - a.id)
+          .map((event) => ({
+            ...event,
+            timeLeft: calculateTimeLeft(event.date),
+          }));
+
+        setTournaments(eventsWithTimer);
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+      });
+  }, []);
+
+  // Timer
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTournaments((prev) =>
+        prev.map((t) => ({ ...t, timeLeft: calculateTimeLeft(t.date) }))
+      );
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const calculateTimeLeft = (dateString) => {
+    const eventDate = new Date(dateString + "T00:00:00");
+    const now = new Date();
+    const diff = eventDate - now;
+    if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    return {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / (1000 * 60)) % 60),
+      seconds: Math.floor((diff / 1000) % 60),
+    };
+  };
 
   return (
     <>
@@ -191,13 +199,12 @@ export const EventsSection = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          // overflow: 'hidden',
           "&::before": {
             content: '""',
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: { xs: "200px", sm: "600px", md: '700px' },
+            width: { xs: "200px", sm: "600px", md: "700px" },
             height: "700px",
             background:
               "radial-gradient(circle, rgba(51,178,247,0.15) 0%, rgba(207,54,225,0.1) 100%)",
@@ -250,18 +257,22 @@ export const EventsSection = () => {
             zIndex: 1,
           }}
         >
-          {events.map((event, index) => (
-            <GradientBorderCard key={index}>
+          {tournaments.map((tournament) => (
+            <GradientBorderCard key={tournament.id}>
               <InnerCard>
                 <ImageWrapper>
                   <CardMedia
                     component="img"
-                    image={event.image}
-                    alt={event.title}
+                    image={tournament.thumbnail}
+                    alt={tournament.name}
+                    onError={(e) =>
+                      (e.target.src =
+                        "https://via.placeholder.com/400x250?text=No+Image")
+                    }
                   />
                 </ImageWrapper>
                 <CardContentWrapper>
-                  <GradientText sx={{ fontSize: { xs: "18px", sm: "20px", md: "22px" } }}>
+                  <GradientText sx={{ fontSize: "18px" }}>
                     UPCOMING
                   </GradientText>
                   <Typography
@@ -273,30 +284,20 @@ export const EventsSection = () => {
                       color: "white",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
-                      fontSize: { xs: "16px", sm: "18px", md: "20px" },
+                      fontSize: "20px",
                     }}
                   >
-                    {event.title}
+                    {tournament.name}
                   </Typography>
-                  <GradientText
-                    sx={{
-                      color: "#aaa",
-                      mb: 1,
-                      fontSize: { xs: "16px", sm: "18px", md: "20px" },
-                    }}
-                  >
-                    {event.date}
+                  <GradientText sx={{ color: "#aaa", mb: 1, fontSize: "16px" }}>
+                    {tournament.date}
                   </GradientText>
 
                   <CountdownBox>
-                    <Typography
-                      sx={{
-                        color: "#fff",
-                        fontWeight: 600,
-                        fontSize: { xs: "16px", sm: "18px", md: "20px" },
-                      }}
-                    >
-                      {event.countdown}
+                    <Typography sx={{ color: "#fff", fontWeight: 600 }}>
+                      {tournament.timeLeft.days}d {tournament.timeLeft.hours}h{" "}
+                      {tournament.timeLeft.minutes}m{" "}
+                      {tournament.timeLeft.seconds}s
                     </Typography>
                   </CountdownBox>
                 </CardContentWrapper>
@@ -304,10 +305,13 @@ export const EventsSection = () => {
             </GradientBorderCard>
           ))}
         </Box>
-        <GradientButton onClick={() => navigate('/games#events-section')}>
+
+        <GradientButton onClick={() => navigate("/games#events-section")}>
           See All Events
         </GradientButton>
       </Box>
     </>
   );
 };
+
+export default EventsSection;

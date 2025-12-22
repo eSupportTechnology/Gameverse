@@ -5,7 +5,9 @@ import { Box, Typography, Button, Stack } from "@mui/material";
 import { styled } from "@mui/system";
 import FeaturedGames from "../components/FeaturedGames";
 import GamingExperience from "../components/GamingExperience";
-import { EventsSection as Event } from "../components/EventsSection";
+import EventsSection, {
+  EventsSection as Event,
+} from "../components/EventsSection";
 import AboutGameVerse from "../components/AboutGameVerse";
 import GalleryView from "../components/Gallery";
 import BookingSection from "../components/BookingSection";
@@ -103,7 +105,6 @@ const Home = () => {
   }, [location]);
   return (
     <>
-
       {/* Hero Section */}
       <Box
         component="section"
@@ -122,7 +123,7 @@ const Home = () => {
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           boxSizing: "border-box",
-          
+
           //  fade effect
           "&::after": {
             content: '""',
@@ -131,13 +132,12 @@ const Home = () => {
             left: 0,
             width: "100%",
             height: "150px",
-            background: "linear-gradient(to top, rgba(10,13,23,1), rgba(10,13,23,0.7), rgba(10,13,23,0))",
+            background:
+              "linear-gradient(to top, rgba(10,13,23,1), rgba(10,13,23,0.7), rgba(10,13,23,0))",
             pointerEvents: "none",
             zIndex: 3,
             // filter: "blur(10px)",
           },
-
-
         }}
       >
         {/* Left Text */}
@@ -193,9 +193,9 @@ const Home = () => {
           </Typography>
 
           {/* Buttons */}
-          <Stack 
-            direction="row" 
-            spacing={2} 
+          <Stack
+            direction="row"
+            spacing={2}
             mt={3}
             sx={{
               "& .booking-btn": {
@@ -211,8 +211,25 @@ const Home = () => {
               },
             }}
           >
-            <SolidGradientButton className="booking-btn" onClick={() => document.getElementById('featured-games')?.scrollIntoView({ behavior: 'smooth' })}>Booking Now</SolidGradientButton>
-            <OutlineGradientButton onClick={() => document.getElementById('events-section')?.scrollIntoView({ behavior: 'smooth' })}>View Events</OutlineGradientButton>
+            <SolidGradientButton
+              className="booking-btn"
+              onClick={() =>
+                document
+                  .getElementById("featured-games")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              Booking Now
+            </SolidGradientButton>
+            <OutlineGradientButton
+              onClick={() =>
+                document
+                  .getElementById("events-section")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              View Events
+            </OutlineGradientButton>
           </Stack>
         </Box>
 
@@ -226,7 +243,7 @@ const Home = () => {
             overflow: "visible",
             position: "relative",
             minHeight: "80vh",
-            mb: 1
+            mb: 1,
           }}
         >
           <Box
@@ -251,7 +268,7 @@ const Home = () => {
             style={{
               width: "100%",
               maxWidth: "500px",
-              maxHeight: '762px',
+              maxHeight: "762px",
               // height: "auto",
               objectFit: "contain",
               position: "relative",
@@ -259,18 +276,15 @@ const Home = () => {
             }}
           />
         </Box>
-
       </Box>
 
       {/* Next Sections */}
       <AboutGameVerse />
       <FeaturedGames />
       <GamingExperience />
-      <Event />
+      <EventsSection />
       <GalleryView />
       <BookingSection />
-
-
     </>
   );
 };

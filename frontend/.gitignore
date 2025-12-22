@@ -1,9 +1,13 @@
-# Dependencies
-node_modules/
-package-lock.json
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# React frontend
+frontend/node_modules
+frontend/build
+frontend/.env.local
+vendor
+# Backend vendor (stop tracking all vendor)
+backend/vendor
 
-# Optional: if you don't want package.json either
-package.json
+# General
+*.lock
+Thumbs.db
+.DS_Store
+
