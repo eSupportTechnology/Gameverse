@@ -5,6 +5,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SelectStation from "../components/SelectStation";
 import PickDateTime from "../components/PickDateTime";
 import PlayerInfo from "../components/PlayerInfo";
+import axios from "axios";
 
 const Booking = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Booking = () => {
     station: null,
     dateTime: null,
   });
-
+  const [stations, setStations] = useState([]);
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -27,6 +28,21 @@ const Booking = () => {
   const handleDateTimeSelect = (dateTime) => {
     setBookingData({ ...bookingData, dateTime });
   };
+  const stationType = location.state?.stationType;
+
+  useEffect(() => {
+    const fetchStations = async () => {
+      const res = await axios.get("http://localhost:8001/api/stations");
+      if (res.data.status === "success") {
+        setStations(res.data.data);
+      }
+    };
+    fetchStations();
+  }, []);
+
+  const filteredStations = stationType
+    ? stations.filter((s) => s.type === stationType)
+    : stations;
 
   return (
     <>
@@ -42,7 +58,14 @@ const Booking = () => {
         }}
       />
 
-      <Box sx={{ bgcolor: "#0A0D17", minHeight: "100vh", py: 6, px: { xs: 2, md: 4 } }}>
+      <Box
+        sx={{
+          bgcolor: "#0A0D17",
+          minHeight: "100vh",
+          py: 6,
+          px: { xs: 2, md: 4 },
+        }}
+      >
         {/* Back Button */}
         <Box sx={{ maxWidth: "1400px", mx: "auto", mb: 4 }}>
           <Button
@@ -69,8 +92,7 @@ const Booking = () => {
                 margin: 0,
               },
             }}
-          >
-          </Button>
+          ></Button>
         </Box>
 
         {/* Main Header */}
@@ -82,7 +104,8 @@ const Booking = () => {
               fontSize: { xs: "40px", sm: "55px", md: "84px" },
               fontWeight: 400,
               fontStyle: "normal",
-              background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
+              background:
+                "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               mb: 3,
@@ -102,15 +125,16 @@ const Booking = () => {
             }}
           >
             Get ready to battle it out! Join our exciting events and competitive
-            tournaments featuring top games, epic challenges, and massive rewards.
-            Whether you're a casual player or a pro, there's always a stage for
-            you to shine.
+            tournaments featuring top games, epic challenges, and massive
+            rewards. Whether you're a casual player or a pro, there's always a
+            stage for you to shine.
           </Typography>
         </Box>
 
         {/* Select Station Section */}
-        <SelectStation 
-          onNext={handleStationSelect} 
+        <SelectStation
+          stations={filteredStations}
+          onNext={handleStationSelect}
           selectedStation={bookingData.station}
         />
 
