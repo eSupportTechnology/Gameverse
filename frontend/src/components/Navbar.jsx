@@ -10,6 +10,8 @@ import {
   ListItem,
   ListItemText,
   useMediaQuery,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme, styled } from "@mui/material/styles";
@@ -43,40 +45,27 @@ const Navbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const location = useLocation();
+  
   const navigate = useNavigate();
+  const location = useLocation();
 
   // const navLinks = ["Home", "Games", "About Us", "Contact"];
 
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  };
+ /* ---------- Account Menu ---------- */
+  const [accountAnchorEl, setAccountAnchorEl] = useState(null);
+  const isAccountMenuOpen = Boolean(accountAnchorEl);
 
-  // Check if Games link should be active (includes booking page)
-  const isGamesActive =
-    location.pathname === "/games" || location.pathname === "/booking";
-
-  // reactive user state (initial read)
+  /* ---------- User State ---------- */
   const [storedUser, setStoredUser] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem("user"));
-    } catch (e) {
+    } catch {
       return null;
     }
   });
 
   useEffect(() => {
-    // when other tabs change the storage, update user as well
-    const onStorage = (e) => {
-      if (e.key === "user") {
-        setStoredUser(e.newValue ? JSON.parse(e.newValue) : null);
-      }
-    };
-    window.addEventListener("storage", onStorage);
-
-    // in-tab event when SignIn dispatches
     const onUserUpdated = () => {
-      console.log("userUpdated event fired");
       try {
         setStoredUser(JSON.parse(localStorage.getItem("user")));
       } catch {
@@ -84,18 +73,23 @@ const Navbar = () => {
       }
     };
     window.addEventListener("userUpdated", onUserUpdated);
-
-    return () => {
-      window.removeEventListener("storage", onStorage);
-      window.removeEventListener("userUpdated", onUserUpdated);
-    };
+    return () => window.removeEventListener("userUpdated", onUserUpdated);
   }, []);
 
-  const getInitials = (firstName, lastName) => {
-    const f = firstName?.charAt(0)?.toUpperCase() || "";
-    const l = lastName?.charAt(0)?.toUpperCase() || "";
-    return f + l || "U";
+  /* ---------- Helpers ---------- */
+  const getInitials = (firstName, lastName) =>
+    (firstName?.[0] || "") + (lastName?.[0] || "");
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    window.dispatchEvent(new Event("userUpdated"));
+    setAccountAnchorEl(null);
+    navigate("/");
   };
+
+  const isGamesActive =
+    location.pathname === "/games" || location.pathname === "/booking";
 
   // const drawer = (
   //   <Box
@@ -211,7 +205,7 @@ const Navbar = () => {
                   gap: 1,
                   cursor: "pointer",
                 }}
-                onClick={() => navigate("/my-account")}
+                onClick={(e) => setAccountAnchorEl(e.currentTarget)}
               >
                 <Box
                   sx={{
@@ -264,122 +258,66 @@ const Navbar = () => {
 
           {/* Mobile Hamburger */}
           {isMobile && (
-            <IconButton color="inherit" edge="end" onClick={handleDrawerToggle}>
+            <IconButton color="inherit" edge="end" onClick={() => setDrawerOpen(true)}>
               <MenuIcon />
             </IconButton>
           )}
         </Toolbar>
       </AppBar>
 
+      {/* Account Dropdown */}
+      <Menu
+        anchorEl={accountAnchorEl}
+        open={isAccountMenuOpen}
+        onClose={() => setAccountAnchorEl(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <MenuItem
+          onClick={() => {
+            setAccountAnchorEl(null);
+            navigate("/my-account");
+          }}
+        >
+          My Account
+        </MenuItem>
+        <MenuItem onClick={handleLogout} sx={{ color: "error.main" }}>
+          Logout
+        </MenuItem>
+      </Menu>
+
       {/* Mobile Drawer */}
-      <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerToggle}>
+      <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 250, p: 2 }}>
           <List>
-            <ListItem
-              button
-              component={NavLink}
-              to="/"
-              onClick={handleDrawerToggle}
-            >
+            <ListItem button component={NavLink} to="/">
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem
-              button
-              component={NavLink}
-              to="/games"
-              onClick={handleDrawerToggle}
-              sx={{
-                color: isGamesActive ? "#ff00ff" : "inherit",
-              }}
-            >
+            <ListItem button component={NavLink} to="/games">
               <ListItemText primary="Games" />
             </ListItem>
-            <ListItem
-              button
-              component={NavLink}
-              to="/contact"
-              onClick={handleDrawerToggle}
-            >
-              <ListItemText primary="Contact" />
+            <ListItem button component={NavLink} to="/contact">
+              <ListItemText primary="Contact Us" />
             </ListItem>
           </List>
 
-          {/* Mobile user info or sign in */}
-          {isMobile &&
-            (storedUser ? (
-              <Box
-                sx={{ display: "flex", alignItems: "center", gap: 1.5, mt: 3 }}
-              >
-                <Box
-                  sx={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: "50%",
-                    backgroundColor: "#F1F1F1",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#1A1A1A",
-                    fontWeight: 600,
-                    fontSize: 16,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    setDrawerOpen(false);
-                    navigate("/my-account");
-                  }}
-                >
-                  {getInitials(storedUser.firstName, storedUser.lastName)}
-                </Box>
-
-                <Box
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => {
-                    setDrawerOpen(false);
-                    navigate("/my-account");
-                  }}
-                >
-                  <Box
-                    sx={{
-                      color: "#000000",
-                      fontWeight: 600,
-                      fontSize: "16px",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    {storedUser.firstName} {storedUser.lastName}
-                  </Box>
-
-                  <Box
-                    sx={{
-                      fontSize: "13px",
-                      fontWeight: 500,
-                      background: "linear-gradient(90deg, #33B2F7, #A905BC)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
-                    My Account
-                  </Box>
-                </Box>
-              </Box>
-            ) : (
-              <Box sx={{ mt: 3 }}>
-                <GradientButton
-                  onClick={() => {
-                    setDrawerOpen(false);
-                    navigate("/sing-in");
-                  }}
-                  fullWidth
-                >
-                  Sign in
-                </GradientButton>
-              </Box>
-            ))}
+          {storedUser ? (
+            <Button
+              fullWidth
+              sx={{ mt: 2, color: "error.main", fontWeight: 600 }}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          ) : (
+            <GradientButton fullWidth onClick={() => navigate("/sing-in")}>
+              Sign in
+            </GradientButton>
+          )}
         </Box>
       </Drawer>
 
-      {/* Spacer to prevent content behind navbar */}
+      {/* Spacer */}
       <Toolbar />
     </>
   );

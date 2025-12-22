@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import {
   Box,
   Typography,
@@ -15,6 +16,12 @@ export default function Security() {
     current: false,
     new: false,
     confirm: false,
+  });
+
+  const [form, setForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   const togglePassword = (field) => {
@@ -36,6 +43,47 @@ export default function Security() {
     "& input::placeholder": { color: "#9CA3AF", opacity: 1 },
   };
 
+  const handleUpdatePassword = async () => {
+    if (form.newPassword !== form.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      alert("You are not authenticated!");
+      return;
+    }
+
+    try {
+      await axios.put(
+        "http://localhost:8001/api/change-password",
+        {
+          currentPassword: form.currentPassword,
+          newPassword: form.newPassword,
+          newPassword_confirmation: form.confirmPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("Password updated successfully");
+
+      setForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Password update failed");
+    }
+  };
+
   return (
     <Box sx={{ pl: 12, maxWidth: 640 }}>
       <Typography sx={{ color: "#fff", fontSize: 22, fontWeight: 600, mb: 1 }}>
@@ -53,6 +101,10 @@ export default function Security() {
           type={showPassword.current ? "text" : "password"}
           placeholder="Enter current password"
           sx={textFieldStyles}
+          value={form.currentPassword}
+          onChange={(e) =>
+            setForm({ ...form, currentPassword: e.target.value })
+          }
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -78,6 +130,8 @@ export default function Security() {
           type={showPassword.new ? "text" : "password"}
           placeholder="Enter new password"
           sx={textFieldStyles}
+          value={form.newPassword}
+          onChange={(e) => setForm({ ...form, newPassword: e.target.value })}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -100,6 +154,10 @@ export default function Security() {
           type={showPassword.confirm ? "text" : "password"}
           placeholder="Confirm new password"
           sx={textFieldStyles}
+          value={form.confirmPassword}
+          onChange={(e) =>
+            setForm({ ...form, confirmPassword: e.target.value })
+          }
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -119,6 +177,7 @@ export default function Security() {
         />
 
         <Button
+          onClick={handleUpdatePassword}
           sx={{
             mt: 2,
             width: 140,
