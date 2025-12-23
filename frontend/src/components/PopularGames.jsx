@@ -10,7 +10,7 @@ const PopularGames = () => {
   const popularGames = [
     {
       id: 1,
-      title: "Arcade Machine",
+      title: "PS5 Stations",
       descLines: [
         "Latest PS5 games with 4K graphics",
         "and immersive gameplay",
@@ -20,7 +20,7 @@ const PopularGames = () => {
     },
     {
       id: 2,
-      title: "Archery Gaming",
+      title: "Pool Tables",
       descLines: [
         "Latest PS5 games with 4K graphics",
         "and immersive gameplay",
@@ -30,7 +30,7 @@ const PopularGames = () => {
     },
     {
       id: 3,
-      title: "Carrom Gaming",
+      title: "Racing Simulators",
       descLines: [
         "Latest PS5 games with 4K graphics",
         "and immersive gameplay",
