@@ -11,36 +11,39 @@ import { useNavigate } from "react-router-dom";
 const games = [
   {
     title: "PS5 Stations",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    description:
+      "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
     descLines: [
       "Latest PS5 games with 4K graphics",
       "and immersive gameplay",
       "on premium gaming setups",
     ],
     img: "./images/f1.jpg",
-    category: 'ps5',
+    category: "ps5",
   },
   {
     title: "Pool Tables",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    description:
+      "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
     descLines: [
       "Latest PS5 games with 4K graphics",
       "and immersive gameplay",
       "on premium gaming setups",
     ],
     img: "./images/f5.jpg",
-    category: 'pool',
+    category: "pool",
   },
   {
     title: "Racing Simulators",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    description:
+      "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
     descLines: [
       "Latest PS5 games with 4K graphics",
       "and immersive gameplay",
       "on premium gaming setups",
     ],
     img: "./images/f3.jpg",
-    category: 'racing',
+    category: "racing",
   },
 ];
 
@@ -85,16 +88,19 @@ export default function FeaturedGames() {
   }, [calcSnaps]);
 
   // scroll to a particular snap
-  const scrollToSnap = useCallback((snapIndex) => {
-    const container = scrollRef.current;
-    if (!container || snaps.length === 0) return;
-    const left = snaps[snapIndex] || 0;
-    container.scrollTo({ left, behavior: "smooth" });
-  }, [snaps]);
+  const scrollToSnap = useCallback(
+    (snapIndex) => {
+      const container = scrollRef.current;
+      if (!container || snaps.length === 0) return;
+      const left = snaps[snapIndex] || 0;
+      container.scrollTo({ left, behavior: "smooth" });
+    },
+    [snaps]
+  );
 
   // Scroll to the starting slide of that dot
   const handleDotClick = (dotIdx) => {
-    scrollToSnap(dotIdx); 
+    scrollToSnap(dotIdx);
   };
 
   // Update active dot while scrolling
@@ -132,7 +138,7 @@ export default function FeaturedGames() {
 
     const onPointerDown = (e) => {
       // Don't interfere with buttons or interactive elements
-      if (e.target.closest('button') || e.target.closest('a')) {
+      if (e.target.closest("button") || e.target.closest("a")) {
         return;
       }
       isDown = true;
@@ -229,7 +235,6 @@ export default function FeaturedGames() {
             src: `url("/fonts/BRUSHSTRIKE.ttf") format("truetype")`,
           },
         }}
-        
       />
 
       <Box
@@ -400,7 +405,17 @@ export default function FeaturedGames() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        navigate("/booking", { state: { from: '/', stationCategory: game.category } });
+                        navigate("/booking", {
+                          state: {
+                            from: "/games",
+                            stationType:
+                              game.title === "PS5 Stations"
+                                ? "PlayStation"
+                                : game.title === "Pool Tables"
+                                ? "Pool"
+                                : "Simulator",
+                          },
+                        });
                       }}
                       sx={{
                         width: "100%",
@@ -410,10 +425,12 @@ export default function FeaturedGames() {
                         fontSize: { xs: "17px", md: "19px" },
                         textTransform: "none",
                         color: "#fff",
-                        background: "linear-gradient(to right, #A905BC, #33B2F7)",
+                        background:
+                          "linear-gradient(to right, #A905BC, #33B2F7)",
                         transition: "all 0.3s ease",
                         "&:hover": {
-                          background: "linear-gradient(to right, #33B2F7, #A905BC)",
+                          background:
+                            "linear-gradient(to right, #33B2F7, #A905BC)",
                         },
                       }}
                     >
@@ -465,12 +482,16 @@ export default function FeaturedGames() {
                           lineHeight: 1.32,
                         }}
                       >
-                        {(game.descLines ?? [game.desc]).map((line, idx) => (
-                          <React.Fragment key={idx}>
-                            {line}
-                            {idx !== (game.descLines?.length ?? 1) - 1 && <br />}
-                          </React.Fragment>
-                        ))}
+                        {(game.descLines ?? [game.description]).map(
+                          (line, idx) => (
+                            <React.Fragment key={idx}>
+                              {line}
+                              {idx !== (game.descLines?.length ?? 1) - 1 && (
+                                <br />
+                              )}
+                            </React.Fragment>
+                          )
+                        )}
                       </Typography>
                     </Box>
                   </Box>
@@ -487,8 +508,7 @@ export default function FeaturedGames() {
             justifyContent: "center",
             mt: { xs: 4, md: 6 },
           }}
-        >
-        </Box>
+        ></Box>
       </Box>
     </>
   );
