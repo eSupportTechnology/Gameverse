@@ -10,23 +10,32 @@ const PopularGames = () => {
   const popularGames = [
     {
       id: 1,
-      title: "PS5 Stations",
-      description:
-        "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+      title: "Arcade Machine",
+      descLines: [
+        "Latest PS5 games with 4K graphics",
+        "and immersive gameplay",
+        "on premium gaming setups",
+      ],
       image: "/Images/f1.jpg",
     },
     {
       id: 2,
-      title: "Pool Tables",
-      description:
-        "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+      title: "Archery Gaming",
+      descLines: [
+        "Latest PS5 games with 4K graphics",
+        "and immersive gameplay",
+        "on premium gaming setups",
+      ],
       image: "/Images/f5.jpg",
     },
     {
       id: 3,
-      title: "Racing Simulators",
-      description:
-        "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+      title: "Carrom Gaming",
+      descLines: [
+        "Latest PS5 games with 4K graphics",
+        "and immersive gameplay",
+        "on premium gaming setups",
+      ],
       image: "/Images/f3.jpg",
     },
   ];
@@ -196,7 +205,7 @@ const PopularGames = () => {
                   <Box
                     sx={{
                       position: "absolute",
-                      bottom: "28%",
+                      bottom: "32%",
                       left: 0,
                       right: 0,
                       zIndex: 10,
@@ -207,12 +216,7 @@ const PopularGames = () => {
                         navigate("/booking", {
                           state: {
                             from: "/games",
-                            stationType:
-                              game.title === "PS5 Stations"
-                                ? "PlayStation"
-                                : game.title === "Pool Tables"
-                                ? "Pool"
-                                : "Simulator",
+                            stationType: game.title,
                           },
                         })
                       }
@@ -240,29 +244,31 @@ const PopularGames = () => {
                     sx={{
                       position: "absolute",
                       bottom: 0,
-                      left: 2,
+                      left: 0,
                       right: 0,
-                      height: "28%",
+                      height: "32%",
                     }}
                   >
                     <Box
                       sx={{
                         position: "relative",
                         bgcolor: "rgba(0,0,0)",
-                        p: { xs: 1.5, sm: 2, md: 2 },
+                        p: { xs: 1.2, sm: 1.45, md: 1.7 },
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "flex-start",
+                        alignItems: "center",
+                        textAlign: "center",
                       }}
                     >
                       <Typography
                         className="game-title"
                         variant="h6"
                         sx={{
-                          mb: 0.5,
-                          fontSize: { xs: "14px", sm: "15px", md: "16px" },
-                          fontWeight: 600,
+                          mb: 0.3,
+                          fontSize: { xs: "16px", sm: "18px", md: "20px" },
+                          fontWeight: 700,
                           transition: "color 0.3s ease",
                           color: "white",
                         }}
@@ -270,14 +276,19 @@ const PopularGames = () => {
                         {game.title}
                       </Typography>
                       <Typography
-                        variant="body2"
+                        variant="body1"
                         sx={{
-                          fontSize: { xs: "11px", sm: "12px", md: "13px" },
-                          color: "#B8C1EC",
-                          opacity: 0.8,
+                          fontSize: { xs: "12px", sm: "13px", md: "14px" },
+                          color: "rgba(255,255,255,0.92)",
+                          lineHeight: 1.35,
                         }}
                       >
-                        {game.description}
+                        {game.descLines.map((line, lineIdx) => (
+                          <React.Fragment key={lineIdx}>
+                            {line}
+                            {lineIdx !== game.descLines.length - 1 && <br />}
+                          </React.Fragment>
+                        ))}
                       </Typography>
                     </Box>
                   </Box>

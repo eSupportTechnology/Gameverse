@@ -387,7 +387,7 @@ export default function FeaturedGames() {
                   <Box
                     sx={{
                       position: "absolute",
-                      bottom: "30%",
+                      bottom: "36%",
                       left: 0,
                       right: 0,
                       zIndex: 10,
@@ -407,7 +407,7 @@ export default function FeaturedGames() {
                         py: { xs: 1.1, md: 1.3 },
                         borderRadius: 0,
                         fontWeight: "bold",
-                        fontSize: { xs: "16px", md: "18px" },
+                        fontSize: { xs: "17px", md: "19px" },
                         textTransform: "none",
                         color: "#fff",
                         background: "linear-gradient(to right, #A905BC, #33B2F7)",
@@ -427,14 +427,14 @@ export default function FeaturedGames() {
                       bottom: 0,
                       left: 2,
                       right: 0,
-                      height: "38%",
+                      height: "44%",
                     }}
                   >
                     <Box
                       sx={{
                         position: "relative",
                         bgcolor: "rgba(0,0,0)",
-                        p: { xs: 1.3, sm: 1.7, md: 1.9 },
+                        p: { xs: 1.4, sm: 1.85, md: 2.1 },
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
@@ -449,7 +449,7 @@ export default function FeaturedGames() {
                         variant="h6"
                         sx={{
                           mb: 0.1,
-                          fontSize: { xs: "18px", sm: "21px", md: "24px" },
+                          fontSize: { xs: "19px", sm: "22px", md: "24px" },
                           fontWeight: 700,
                           transition: "color 0.3s ease",
                           color: "#FFFFFF",
@@ -460,7 +460,7 @@ export default function FeaturedGames() {
                       <Typography
                         variant="body1"
                         sx={{
-                          fontSize: { xs: "12px", sm: "13px", md: "15px" },
+                          fontSize: { xs: "14px", sm: "15px", md: "16px" },
                           color: "#FFFFFF",
                           lineHeight: 1.32,
                         }}
