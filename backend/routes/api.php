@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\StationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
@@ -32,3 +33,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update']);
     Route::put('/change-password', [ProfileController::class, 'changePassword']);
 });
+
+Route::get('/stations', [StationController::class, 'index']);
