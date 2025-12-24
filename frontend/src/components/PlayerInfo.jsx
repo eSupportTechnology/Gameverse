@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -46,7 +46,14 @@ const BookingDetailsModal = ({ open, onClose, data }) => {
       }}
     >
       {/* Header */}
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
         <Typography variant="h6" fontWeight="bold">
           Booking Details
         </Typography>
@@ -57,10 +64,19 @@ const BookingDetailsModal = ({ open, onClose, data }) => {
 
       {/* Details List */}
       <Box sx={{ mb: 2 }}>
-        <DetailRow label="Player Name" value={`${data.firstName} ${data.lastName}`} />
-        <DetailRow label="Phone Number" value={data.contactNumber || "071 3226865"} />
+        <DetailRow
+          label="Player Name"
+          value={`${data.firstName} ${data.lastName}`}
+        />
+        <DetailRow
+          label="Phone Number"
+          value={data.contactNumber || "071 3226865"}
+        />
         <DetailRow label="Station" value={data.station || "PS5 Station 1"} />
-        <DetailRow label="VR Play" value={data.vrPlay === "yes" ? "Yes" : "No"} />
+        <DetailRow
+          label="VR Play"
+          value={data.vrPlay === "yes" ? "Yes" : "No"}
+        />
         <DetailRow label="Date" value="11/08/2025" />
         <DetailRow label="Start Time" value="12.00 pm" />
         <DetailRow label="Duration" value="02h 00min" />
@@ -167,38 +183,99 @@ const CheckoutModal = ({ open, onClose, onPaySuccess, amount }) => {
       }}
     >
       <Box sx={{ p: 4 }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-          <Typography variant="h6" fontWeight="bold">Checkout Details</Typography>
-          <IconButton onClick={onClose} sx={{ color: "gray" }}><CloseIcon /></IconButton>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
+          <Typography variant="h6" fontWeight="bold">
+            Checkout Details
+          </Typography>
+          <IconButton onClick={onClose} sx={{ color: "gray" }}>
+            <CloseIcon />
+          </IconButton>
         </Box>
 
         <Box sx={{ mb: 3 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
             <Typography variant="body2">Total:</Typography>
-            <Typography variant="body2" fontWeight="bold">LKR {amount || "845.00"}</Typography>
+            <Typography variant="body2" fontWeight="bold">
+              LKR {amount || "845.00"}
+            </Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
             <Typography variant="body2">Discount</Typography>
-            <Typography variant="body2" color="gray">...........</Typography>
+            <Typography variant="body2" color="gray">
+              ...........
+            </Typography>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between", pt: 1, borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-            <Typography variant="subtitle1" fontWeight="bold">Balance:</Typography>
-            <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "#A905BC" }}>LKR {amount || "845.00"}</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              pt: 1,
+              borderTop: "1px solid rgba(255,255,255,0.1)",
+            }}
+          >
+            <Typography variant="subtitle1" fontWeight="bold">
+              Balance:
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              fontWeight="bold"
+              sx={{ color: "#A905BC" }}
+            >
+              LKR {amount || "845.00"}
+            </Typography>
           </Box>
         </Box>
 
-        <Typography variant="caption" color="gray" display="block" sx={{ mb: 1 }}>
+        <Typography
+          variant="caption"
+          color="gray"
+          display="block"
+          sx={{ mb: 1 }}
+        >
           All transactions are secure and encrypted.
         </Typography>
         <FormControlLabel
-          control={<Checkbox sx={{ color: "gray", "&.Mui-checked": { color: "#A905BC" }, padding: "4px 9px" }} />}
-          label={<Typography variant="caption" color="gray">Add default payment method</Typography>}
+          control={
+            <Checkbox
+              sx={{
+                color: "gray",
+                "&.Mui-checked": { color: "#A905BC" },
+                padding: "4px 9px",
+              }}
+            />
+          }
+          label={
+            <Typography variant="caption" color="gray">
+              Add default payment method
+            </Typography>
+          }
           sx={{ mb: 2 }}
         />
 
-        <Box sx={{ bgcolor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", p: 2, mb: 3 }}>
-          <Typography variant="caption" color="gray" sx={{ mb: 1, display: "block" }}>Credit Card</Typography>
-          
+        <Box
+          sx={{
+            bgcolor: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: "8px",
+            p: 2,
+            mb: 3,
+          }}
+        >
+          <Typography
+            variant="caption"
+            color="gray"
+            sx={{ mb: 1, display: "block" }}
+          >
+            Credit Card
+          </Typography>
+
           {/* Card Number Input */}
           <TextField
             fullWidth
@@ -211,14 +288,29 @@ const CheckoutModal = ({ open, onClose, onPaySuccess, amount }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <Box sx={{ display: "flex", gap: 1 }}>
-                    <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#EB001B" }} />
-                    <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#F79E1B", ml: -1 }} />
+                    <Box
+                      sx={{
+                        width: 12,
+                        height: 12,
+                        borderRadius: "50%",
+                        bgcolor: "#EB001B",
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        width: 12,
+                        height: 12,
+                        borderRadius: "50%",
+                        bgcolor: "#F79E1B",
+                        ml: -1,
+                      }}
+                    />
                   </Box>
                 </InputAdornment>
               ),
             }}
           />
-          
+
           <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
             {/* Expiration Date Input */}
             <TextField
@@ -238,10 +330,16 @@ const CheckoutModal = ({ open, onClose, onPaySuccess, amount }) => {
               value={cardDetails.cvc}
               onChange={handleCvcChange}
               sx={modalInputStyle}
-              InputProps={{ endAdornment: (<InputAdornment position="end"><LockIcon sx={{ fontSize: 16, color: "gray" }} /></InputAdornment>) }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <LockIcon sx={{ fontSize: 16, color: "gray" }} />
+                  </InputAdornment>
+                ),
+              }}
             />
           </Box>
-          
+
           {/* Name on Card Input */}
           <TextField
             fullWidth
@@ -287,7 +385,11 @@ const modalInputStyle = {
 };
 
 // --- 3. Main Component ---
-const PlayerInfo = ({ selectedStation, selectedDateTime }) => {
+const PlayerInfo = ({
+  onPlayerInfoChange,
+  selectedStation,
+  selectedDateTime,
+}) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -303,52 +405,130 @@ const PlayerInfo = ({ selectedStation, selectedDateTime }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleBookingClick = () => {
-    setIsCheckoutOpen(true);
-  };
+  // const handleBookingClick = () => {
+  //   setIsCheckoutOpen(true);
+  // };
 
   const handlePaymentSuccess = () => {
     setIsCheckoutOpen(false); // Close checkout
-    setIsReceiptOpen(true);   // Open receipt
+    setIsReceiptOpen(true); // Open receipt
   };
+
+  useEffect(() => {
+    if (onPlayerInfoChange) onPlayerInfoChange(formData);
+  }, [formData, onPlayerInfoChange]);
 
   return (
     <Box sx={{ color: "white", mb: 8 }}>
-      <Typography variant="h4" sx={{ textAlign: "center", fontWeight: "bold", fontSize: { xs: "24px", md: "32px" }, mb: 6 }}>
+      <Typography
+        variant="h4"
+        sx={{
+          textAlign: "center",
+          fontWeight: "bold",
+          fontSize: { xs: "24px", md: "32px" },
+          mb: 6,
+        }}
+      >
         Player Info
       </Typography>
 
       <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
         {/* Name Fields */}
-        <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 4, mb: 4 }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+            gap: 4,
+            mb: 4,
+          }}
+        >
           <Box>
-            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>First Name</Typography>
-            <TextField fullWidth name="firstName" placeholder="Enter your first name" value={formData.firstName} onChange={handleChange} sx={mainInputStyle} />
+            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
+              First Name
+            </Typography>
+            <TextField
+              fullWidth
+              name="firstName"
+              placeholder="Enter your first name"
+              value={formData.firstName}
+              onChange={handleChange}
+              sx={mainInputStyle}
+            />
           </Box>
           <Box>
-            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>Last Name</Typography>
-            <TextField fullWidth name="lastName" placeholder="Enter your second name" value={formData.lastName} onChange={handleChange} sx={mainInputStyle} />
+            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
+              Last Name
+            </Typography>
+            <TextField
+              fullWidth
+              name="lastName"
+              placeholder="Enter your second name"
+              value={formData.lastName}
+              onChange={handleChange}
+              sx={mainInputStyle}
+            />
           </Box>
         </Box>
 
         {/* Contact and VR Play */}
-        <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 4, mb: 6 }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+            gap: 4,
+            mb: 6,
+          }}
+        >
           <Box>
-            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>Contact Number</Typography>
-            <TextField fullWidth name="contactNumber" placeholder="Contact Number" value={formData.contactNumber} onChange={handleChange} sx={mainInputStyle} />
+            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
+              Contact Number
+            </Typography>
+            <TextField
+              fullWidth
+              name="contactNumber"
+              placeholder="Contact Number"
+              value={formData.contactNumber}
+              onChange={handleChange}
+              sx={mainInputStyle}
+            />
           </Box>
           <Box>
-            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>VR Play</Typography>
-            <RadioGroup row name="vrPlay" value={formData.vrPlay} onChange={handleChange} sx={{ gap: 2, height: "56px" }}>
-              <CustomRadioOption value="yes" label="Yes" currentValue={formData.vrPlay} onClick={() => setFormData({ ...formData, vrPlay: "yes" })} />
-              <CustomRadioOption value="no" label="No" currentValue={formData.vrPlay} onClick={() => setFormData({ ...formData, vrPlay: "no" })} />
+            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
+              VR Play
+            </Typography>
+            <RadioGroup
+              row
+              name="vrPlay"
+              value={formData.vrPlay}
+              onChange={handleChange}
+              sx={{ gap: 2, height: "56px" }}
+            >
+              <CustomRadioOption
+                value="yes"
+                label="Yes"
+                currentValue={formData.vrPlay}
+                onClick={() => setFormData({ ...formData, vrPlay: "yes" })}
+              />
+              <CustomRadioOption
+                value="no"
+                label="No"
+                currentValue={formData.vrPlay}
+                onClick={() => setFormData({ ...formData, vrPlay: "no" })}
+              />
             </RadioGroup>
           </Box>
         </Box>
 
-        <Box sx={{ width: "100%", height: "1px", bgcolor: "rgba(255,255,255,0.1)", mb: 6 }} />
+        <Box
+          sx={{
+            width: "100%",
+            height: "1px",
+            bgcolor: "rgba(255,255,255,0.1)",
+            mb: 6,
+          }}
+        />
 
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 3 }}>
+        {/* <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 3 }}>
           <Box><Typography sx={{ fontSize: "25px", fontWeight: "bold", mb: 1, color: "white" }}>Amount</Typography></Box>
           <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
             <Typography sx={{ fontSize: "25px", fontWeight: "bold", background: "linear-gradient(to right, #A905BC, #33B2F7)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
@@ -365,18 +545,18 @@ const PlayerInfo = ({ selectedStation, selectedDateTime }) => {
               Booking Session
             </Button>
           </Box>
-        </Box>
+        </Box> */}
       </Box>
 
       {/* Modals */}
-      <CheckoutModal 
-        open={isCheckoutOpen} 
-        onClose={() => setIsCheckoutOpen(false)} 
+      <CheckoutModal
+        open={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
         onPaySuccess={handlePaymentSuccess}
         amount="845.00"
       />
-      
-      <BookingDetailsModal 
+
+      <BookingDetailsModal
         open={isReceiptOpen}
         onClose={() => setIsReceiptOpen(false)}
         data={{
@@ -406,20 +586,36 @@ const CustomRadioOption = ({ value, label, currentValue, onClick }) => (
   <Box
     sx={{
       flex: 1,
-      bgcolor: currentValue === value ? "rgba(51, 178, 247, 0.1)" : "rgba(255,255,255,0.05)",
-      border: currentValue === value ? "1px solid #33B2F7" : "1px solid rgba(255,255,255,0.1)",
+      bgcolor:
+        currentValue === value
+          ? "rgba(51, 178, 247, 0.1)"
+          : "rgba(255,255,255,0.05)",
+      border:
+        currentValue === value
+          ? "1px solid #33B2F7"
+          : "1px solid rgba(255,255,255,0.1)",
       borderRadius: "4px",
       display: "flex",
       alignItems: "center",
       cursor: "pointer",
       transition: "all 0.3s ease",
-      "&:hover": { bgcolor: "rgba(51, 178, 247, 0.08)", borderColor: "rgba(51, 178, 247, 0.5)" },
+      "&:hover": {
+        bgcolor: "rgba(51, 178, 247, 0.08)",
+        borderColor: "rgba(51, 178, 247, 0.5)",
+      },
     }}
     onClick={onClick}
   >
     <FormControlLabel
       value={value}
-      control={<Radio sx={{ color: "rgba(255,255,255,0.3)", "&.Mui-checked": { color: "#33B2F7" } }} />}
+      control={
+        <Radio
+          sx={{
+            color: "rgba(255,255,255,0.3)",
+            "&.Mui-checked": { color: "#33B2F7" },
+          }}
+        />
+      }
       label={label}
       sx={{ color: "white", width: "100%", m: 0, ml: 1, pointerEvents: "none" }}
     />

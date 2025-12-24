@@ -15,19 +15,18 @@ const Booking = () => {
     station: null,
     dateTime: null,
   });
+  const [playerInfo, setPlayerInfo] = useState({
+    firstName: "",
+    lastName: "",
+    contactNumber: "",
+    vrPlay: "yes",
+  });
+
   const [stations, setStations] = useState([]);
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const handleStationSelect = (stationId) => {
-    setBookingData({ ...bookingData, station: stationId });
-  };
-
-  const handleDateTimeSelect = (dateTime) => {
-    setBookingData({ ...bookingData, dateTime });
-  };
   const stationType = location.state?.stationType;
 
   useEffect(() => {
@@ -43,6 +42,56 @@ const Booking = () => {
   const filteredStations = stationType
     ? stations.filter((s) => s.type === stationType)
     : stations;
+
+  const handleStationSelect = (stationId) =>
+    setBookingData({ ...bookingData, station: stationId });
+
+  const handleDateTimeSelect = (dateTime) =>
+    setBookingData({ ...bookingData, dateTime });
+
+  const handlePlayerInfoChange = (data) => setPlayerInfo(data);
+
+  const handleBookingSubmit = async () => {
+    if (!bookingData.station || !bookingData.dateTime) {
+      alert("Please select a station and date/time.");
+      return;
+    }
+
+    const date = bookingData.dateTime?.date;
+    const time = bookingData.dateTime?.time?.replace(".", ":");
+
+    if (!date || !time) {
+      alert("Invalid date or time selected.");
+      return;
+    }
+
+    const payload = {
+      user_id: null,
+      nfc_card_number: null,
+      customer_name: `${playerInfo.firstName} ${playerInfo.lastName}`,
+      phone_number: playerInfo.contactNumber,
+      station: bookingData.station,
+      booking_date: date,
+      start_time: time,
+      duration: "1h 0m",
+      amount: 0,
+      vr_play: playerInfo.vrPlay,
+    };
+
+    console.log("Booking payload:", payload);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8001/api/bookings",
+        payload
+      );
+      alert("Booking successful!");
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create booking");
+    }
+  };
 
   return (
     <>
@@ -138,18 +187,48 @@ const Booking = () => {
           selectedStation={bookingData.station}
         />
 
-        {/* Pick Date & Time Section */}
         <PickDateTime
           onNext={handleDateTimeSelect}
           selectedStation={bookingData.station}
           selectedDateTime={bookingData.dateTime}
         />
 
-        {/* Player Info Section */}
         <PlayerInfo
           selectedStation={bookingData.station}
           selectedDateTime={bookingData.dateTime}
+          onPlayerInfoChange={handlePlayerInfoChange}
         />
+
+        {/* Submit Button */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            gap: 2,
+          }}
+        >
+          <Button
+            onClick={handleBookingSubmit}
+            sx={{
+              px: 8,
+              py: 1.8,
+              borderRadius: "30px",
+              fontWeight: "bold",
+              fontSize: "18px",
+              textTransform: "none",
+              color: "#fff",
+              background: "linear-gradient(to right, #33B2F7, #A905BC)",
+              boxShadow: "0 4px 15px rgba(51, 178, 247, 0.4)",
+              "&:hover": {
+                background: "linear-gradient(to right, #A905BC, #33B2F7)",
+                boxShadow: "0 6px 20px rgba(169, 5, 188, 0.5)",
+              },
+            }}
+          >
+            Booking Session
+          </Button>
+        </Box>
       </Box>
     </>
   );

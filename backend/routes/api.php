@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\StationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
@@ -35,3 +36,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/stations', [StationController::class, 'index']);
+Route::post('/bookings', [BookingController::class, 'store']);

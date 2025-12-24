@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -7,8 +7,12 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   const currentDate = new Date();
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
-  const [selectedDate, setSelectedDate] = useState(selectedDateTime?.date || null);
-  const [selectedTime, setSelectedTime] = useState(selectedDateTime?.time || null);
+  const [selectedDate, setSelectedDate] = useState(
+    selectedDateTime?.date || null
+  );
+  const [selectedTime, setSelectedTime] = useState(
+    selectedDateTime?.time || null
+  );
   const datesScrollRef = useRef(null);
 
   // Get number of days in the current month
@@ -19,8 +23,18 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   // Get month name
   const getMonthName = (month) => {
     const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
     return months[month];
   };
@@ -57,14 +71,14 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   // Scroll dates left
   const scrollDatesLeft = () => {
     if (datesScrollRef.current) {
-      datesScrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+      datesScrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
     }
   };
 
   // Scroll dates right
   const scrollDatesRight = () => {
     if (datesScrollRef.current) {
-      datesScrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+      datesScrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
 
@@ -122,8 +136,12 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
     { time: "01.30", status: "Available" },
   ];
 
-  const handleDateSelect = (date) => {
-    setSelectedDate(date);
+  const handleDateSelect = (day) => {
+    const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(
+      2,
+      "0"
+    )}-${String(day).padStart(2, "0")}`;
+    setSelectedDate(fullDate);
   };
 
   const handleTimeSelect = (time, status) => {
@@ -132,11 +150,11 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedDate && selectedTime) {
       onNext({ date: selectedDate, time: selectedTime });
     }
-  }, [selectedDate, selectedTime, onNext]);
+  }, [selectedDate, selectedTime]);
 
   return (
     <Box
@@ -176,7 +194,13 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           <ChevronLeftIcon />
         </IconButton>
         <Typography
-          sx={{ mx: 4, fontSize: "20px", fontWeight: "bold", minWidth: 150, textAlign: "center" }}
+          sx={{
+            mx: 4,
+            fontSize: "20px",
+            fontWeight: "bold",
+            minWidth: 150,
+            textAlign: "center",
+          }}
         >
           {getMonthName(currentMonth)} {currentYear}
         </Typography>
@@ -197,18 +221,18 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           gap: 2,
         }}
       >
-        <IconButton 
+        <IconButton
           onClick={scrollDatesLeft}
-          sx={{ 
-            color: "white", 
+          sx={{
+            color: "white",
             minWidth: "40px",
             bgcolor: "rgba(0,0,0,0.5)",
-            "&:hover": { bgcolor: "rgba(0,0,0,0.7)" }
+            "&:hover": { bgcolor: "rgba(0,0,0,0.7)" },
           }}
         >
           <ChevronLeftIcon />
         </IconButton>
-        
+
         <Box
           ref={datesScrollRef}
           sx={{
@@ -220,42 +244,54 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
             scrollBehavior: "smooth",
             "&::-webkit-scrollbar": { height: "8px" },
             "&::-webkit-scrollbar-track": { bgcolor: "rgba(255,255,255,0.1)" },
-            "&::-webkit-scrollbar-thumb": { bgcolor: "#33B2F7", borderRadius: "4px" },
+            "&::-webkit-scrollbar-thumb": {
+              bgcolor: "#33B2F7",
+              borderRadius: "4px",
+            },
           }}
         >
-          {dates.map((date) => (
-            <Box
-              key={date}
-              onClick={() => handleDateSelect(date)}
-              sx={{
-                minWidth: 60,
-                textAlign: "center",
-                py: 1.5,
-                px: 2,
-                bgcolor: selectedDate === date ? "rgba(51, 178, 247, 0.3)" : "rgba(255,255,255,0.05)",
-                border: selectedDate === date ? "2px solid #33B2F7" : "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "6px",
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                "&:hover": {
-                  bgcolor: "rgba(51, 178, 247, 0.2)",
-                },
-              }}
-            >
-              <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-                {date.toString().padStart(2, "0")}
-              </Typography>
-            </Box>
-          ))}
+          {dates.map((day) => {
+            const fullDate = `${currentYear}-${String(
+              currentMonth + 1
+            ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            return (
+              <Box
+                key={day}
+                onClick={() => handleDateSelect(day)}
+                sx={{
+                  minWidth: 60,
+                  textAlign: "center",
+                  py: 1.5,
+                  px: 2,
+                  bgcolor:
+                    selectedDate === fullDate
+                      ? "rgba(51, 178, 247, 0.3)"
+                      : "rgba(255,255,255,0.05)",
+                  border:
+                    selectedDate === fullDate
+                      ? "2px solid #33B2F7"
+                      : "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  "&:hover": { bgcolor: "rgba(51, 178, 247, 0.2)" },
+                }}
+              >
+                <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                  {String(day).padStart(2, "0")}
+                </Typography>
+              </Box>
+            );
+          })}
         </Box>
-        
-        <IconButton 
+
+        <IconButton
           onClick={scrollDatesRight}
-          sx={{ 
-            color: "white", 
+          sx={{
+            color: "white",
             minWidth: "40px",
             bgcolor: "rgba(0,0,0,0.5)",
-            "&:hover": { bgcolor: "rgba(0,0,0,0.7)" }
+            "&:hover": { bgcolor: "rgba(0,0,0,0.7)" },
           }}
         >
           <ChevronRightIcon />
@@ -329,7 +365,6 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           </Box>
         ))}
       </Box>
-
     </Box>
   );
 };
