@@ -7,6 +7,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const games = [
   {
@@ -39,15 +40,53 @@ const games = [
 export default function FeaturedGames() {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
-  const [snaps, setSnaps] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const isDesktop = useMediaQuery("(min-width:900px)");
-  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const autoPlayIntervalRef = useRef(null);
 
+  const [snaps, setSnaps] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+
+  const isDesktop = useMediaQuery("(min-width:900px)");
   // number of visible items per slide
   const visibleCount = isDesktop ? 3 : 1;
   const dotsToShow = Math.max(games.length - visibleCount + 1, 1);
+
+  const [isCheckingAuth, setIsCheckingAuth] = useState(false);
+
+  // AUTH CHECK
+  const checkAuth = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) return false; // user is not logged in
+
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // return true only if user data exists
+      return res.status === 200 && res.data;
+    } catch (error) {
+      console.error(
+        "Auth check failed:",
+        error.response?.status,
+        error.message
+      );
+      return false;
+    }
+  };
+
+  const handleBookingClick = async () => {
+    setIsCheckingAuth(true);
+    const isLoggedIn = await checkAuth();
+    setIsCheckingAuth(false);
+
+    if (!isLoggedIn) {
+      alert("Please login to continue booking!");
+      navigate("/sing-in");
+      return;
+    }
+    navigate("/booking");
+  };
 
   // calculate left offsets for each slide
   const calcSnaps = useCallback(() => {
@@ -77,16 +116,19 @@ export default function FeaturedGames() {
   }, [calcSnaps]);
 
   // scroll to a particular snap
-  const scrollToSnap = useCallback((snapIndex) => {
-    const container = scrollRef.current;
-    if (!container || snaps.length === 0) return;
-    const left = snaps[snapIndex] || 0;
-    container.scrollTo({ left, behavior: "smooth" });
-  }, [snaps]);
+  const scrollToSnap = useCallback(
+    (snapIndex) => {
+      const container = scrollRef.current;
+      if (!container || snaps.length === 0) return;
+      const left = snaps[snapIndex] || 0;
+      container.scrollTo({ left, behavior: "smooth" });
+    },
+    [snaps]
+  );
 
   // Scroll to the starting slide of that dot
   const handleDotClick = (dotIdx) => {
-    scrollToSnap(dotIdx); 
+    scrollToSnap(dotIdx);
   };
 
   // Update active dot while scrolling
@@ -124,7 +166,7 @@ export default function FeaturedGames() {
 
     const onPointerDown = (e) => {
       // Don't interfere with buttons or interactive elements
-      if (e.target.closest('button') || e.target.closest('a')) {
+      if (e.target.closest("button") || e.target.closest("a")) {
         return;
       }
       isDown = true;
@@ -221,7 +263,6 @@ export default function FeaturedGames() {
             src: `url("/fonts/BRUSHSTRIKE.ttf") format("truetype")`,
           },
         }}
-        
       />
 
       <Box
@@ -323,7 +364,7 @@ export default function FeaturedGames() {
                   cursor: "pointer",
                   transition: "all 0.3s ease",
                   paddingBottom: "4px",
-                  "&:hover": { 
+                  "&:hover": {
                     transform: "scale(1.03)",
                   },
                   "&:hover .game-title": { color: "#33B2F7 !important" },
@@ -392,9 +433,9 @@ export default function FeaturedGames() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log("Navigating to booking page");
-                        navigate("/booking");
+                        handleBookingClick();
                       }}
+                      disabled={isCheckingAuth} // disable while checking auth
                       sx={{
                         width: "100%",
                         py: { xs: 1.2, md: 1.5 },
@@ -403,14 +444,16 @@ export default function FeaturedGames() {
                         fontSize: { xs: "14px", md: "16px" },
                         textTransform: "none",
                         color: "#fff",
-                        background: "linear-gradient(to right, #A905BC, #33B2F7)",
+                        background:
+                          "linear-gradient(to right, #A905BC, #33B2F7)",
                         transition: "all 0.3s ease",
                         "&:hover": {
-                          background: "linear-gradient(to right, #33B2F7, #A905BC)",
+                          background:
+                            "linear-gradient(to right, #33B2F7, #A905BC)",
                         },
                       }}
                     >
-                      Booking Now
+                      {isCheckingAuth ? "Checking..." : "Booking Now"}
                     </Button>
                   </Box>
 
@@ -491,8 +534,7 @@ export default function FeaturedGames() {
             justifyContent: "center",
             mt: { xs: 4, md: 6 },
           }}
-        >
-        </Box>
+        ></Box>
       </Box>
     </>
   );

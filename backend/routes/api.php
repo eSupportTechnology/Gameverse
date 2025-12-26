@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BookingController;
 
 // Auth
 Route::post('/register', [AuthController::class, 'register']);
@@ -35,3 +36,8 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/stations', [StationController::class, 'index']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/bookings', [BookingController::class, 'store']);
+    Route::get('/bookings/my', [BookingController::class, 'myBookings']);
+});
