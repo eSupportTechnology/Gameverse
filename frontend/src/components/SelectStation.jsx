@@ -23,7 +23,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
   const isDesktop = useMediaQuery("(min-width:900px)");
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const autoPlayIntervalRef = useRef(null);
-  const [selectedStationId, setSelectedStationId] = useState(
+  const [selectedStationName, setSelectedStationName] = useState(
     selectedStation || null
   );
 
@@ -33,26 +33,9 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
   // Sync local state with prop
   useEffect(() => {
     if (selectedStation !== undefined && selectedStation !== null) {
-      setSelectedStationId(selectedStation);
+      setSelectedStationName(selectedStation);
     }
   }, [selectedStation]);
-
-  const handleSelect = (stationId) => {
-    console.log("=== handleSelect called ===");
-    console.log("Station selected:", stationId);
-    console.log("Current selectedStationId before update:", selectedStationId);
-    setSelectedStationId(stationId);
-    console.log("setSelectedStationId called with:", stationId);
-    if (onNext) {
-      onNext(stationId);
-    }
-  };
-
-  // Debug log
-  useEffect(() => {
-    console.log("SelectStation - selectedStationId:", selectedStationId);
-    console.log("SelectStation - selectedStation prop:", selectedStation);
-  }, [selectedStationId, selectedStation]);
 
   // Calculate snap positions
   const calcSnaps = useCallback(() => {
@@ -226,6 +209,11 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
     return "/Images/f1.jpg";
   };
 
+  const handleSelect = (station) => {
+    setSelectedStationName(station.name);
+    if (onNext) onNext(station.name);
+  };
+
   return (
     <Box
       sx={{
@@ -263,10 +251,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
         }}
       >
         {stations.map((station, idx) => {
-          const isSelected = selectedStationId === station.id;
-          console.log(
-            `Station ${station.id}: isSelected = ${isSelected}, selectedStationId = ${selectedStationId}`
-          );
+          const isSelected = selectedStationName === station.name;
           return (
             <Box
               key={station.id}
@@ -375,8 +360,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log("Button clicked for station:", station.id);
-                        handleSelect(station.id);
+                        handleSelect(station);
                       }}
                     >
                       Select

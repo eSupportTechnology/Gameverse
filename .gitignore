@@ -27,3 +27,5 @@ Thumbs.db
 backend/vendor/symfony/finder/Tests/Fixtures/gitignore/search_root/dir/c.txt
 frontend/config-overrides.js
 frontend/package-lock.json
+frontend/package-lock.json
+frontend/package.json

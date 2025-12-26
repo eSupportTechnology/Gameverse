@@ -11,29 +11,40 @@ import axios from "axios";
 
 const games = [
   {
-    title: "PS5 Gaming",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    title: "PS5 Stations",
+    description:
+      "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    descLines: [
+      "Latest PS5 games with 4K graphics",
+      "and immersive gameplay",
+      "on premium gaming setups",
+    ],
     img: "./images/f1.jpg",
+    category: "ps5",
   },
   {
-    title: "PS5 + VR Gaming",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
-    img: "./images/f2.jpg",
-  },
-  {
-    title: "Car Simulator Gaming",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
-    img: "./images/f3.jpg",
-  },
-  {
-    title: "Car Simulator + VR Gaming",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
-    img: "./images/f4.jpg",
-  },
-  {
-    title: "8 Ball Pool Gaming",
-    desc: "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    title: "Pool Tables",
+    description:
+      "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    descLines: [
+      "Latest PS5 games with 4K graphics",
+      "and immersive gameplay",
+      "on premium gaming setups",
+    ],
     img: "./images/f5.jpg",
+    category: "pool",
+  },
+  {
+    title: "Racing Simulators",
+    description:
+      "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    descLines: [
+      "Latest PS5 games with 4K graphics",
+      "and immersive gameplay",
+      "on premium gaming setups",
+    ],
+    img: "./images/f3.jpg",
+    category: "racing",
   },
 ];
 
@@ -358,8 +369,8 @@ export default function FeaturedGames() {
                 className="slide-item"
                 sx={{
                   flex: "0 0 auto",
-                  width: { xs: 240, sm: 320, md: 360 },
-                  height: { xs: 320, sm: 380, md: 420 },
+                  width: { xs: 240, sm: 320, md: 380 },
+                  height: { xs: 320, sm: 420, md: 500 },
                   position: "relative",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
@@ -420,7 +431,7 @@ export default function FeaturedGames() {
                   <Box
                     sx={{
                       position: "absolute",
-                      bottom: "28%",
+                      bottom: "36%",
                       left: 0,
                       right: 0,
                       zIndex: 10,
@@ -433,15 +444,25 @@ export default function FeaturedGames() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        handleBookingClick();
+                        navigate("/booking", {
+                          state: {
+                            from: "/games",
+                            stationType:
+                              game.title === "PS5 Stations"
+                                ? "PlayStation"
+                                : game.title === "Pool Tables"
+                                ? "Pool"
+                                : "Simulator",
+                          },
+                        });
                       }}
                       disabled={isCheckingAuth} // disable while checking auth
                       sx={{
                         width: "100%",
-                        py: { xs: 1.2, md: 1.5 },
+                        py: { xs: 1.1, md: 1.3 },
                         borderRadius: 0,
                         fontWeight: "bold",
-                        fontSize: { xs: "14px", md: "16px" },
+                        fontSize: { xs: "17px", md: "19px" },
                         textTransform: "none",
                         color: "#fff",
                         background:
@@ -463,41 +484,54 @@ export default function FeaturedGames() {
                       bottom: 0,
                       left: 2,
                       right: 0,
-                      height: "28%",
+                      height: "44%",
                     }}
                   >
                     <Box
                       sx={{
                         position: "relative",
                         bgcolor: "rgba(0,0,0)",
-                        p: { xs: 1.5, sm: 2, md: 2 },
+                        p: { xs: 1.4, sm: 1.85, md: 2.1 },
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
-                        justifyContent: "flex-start",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        textAlign: "center",
+                        gap: 0.5,
                       }}
                     >
                       <Typography
                         className="game-title"
                         variant="h6"
                         sx={{
-                          mb: 0.5,
-                          fontSize: { xs: "10px", sm: "14px", md: "15px" },
-                          fontWeight: 600,
+                          mb: 0.1,
+                          fontSize: { xs: "19px", sm: "22px", md: "24px" },
+                          fontWeight: 700,
                           transition: "color 0.3s ease",
-                          color: "white",
+                          color: "#FFFFFF",
                         }}
                       >
                         {game.title}
                       </Typography>
                       <Typography
-                        variant="body2"
+                        variant="body1"
                         sx={{
-                          fontSize: { xs: "10px", sm: "8px", md: "12px" },
-                          color: "gray.300",
+                          fontSize: { xs: "14px", sm: "15px", md: "16px" },
+                          color: "#FFFFFF",
+                          lineHeight: 1.32,
                         }}
                       >
-                        {game.desc}
+                        {(game.descLines ?? [game.description]).map(
+                          (line, idx) => (
+                            <React.Fragment key={idx}>
+                              {line}
+                              {idx !== (game.descLines?.length ?? 1) - 1 && (
+                                <br />
+                              )}
+                            </React.Fragment>
+                          )
+                        )}
                       </Typography>
                     </Box>
                   </Box>
@@ -505,26 +539,6 @@ export default function FeaturedGames() {
               </Box>
             ))}
           </Box>
-        </Box>
-
-        {/* Dots */}
-        <Box
-          sx={{ display: "flex", justifyContent: "center", mt: 4, gap: 1.5 }}
-        >
-          {Array.from({ length: dotsToShow }).map((_, idx) => (
-            <Box
-              key={idx}
-              onClick={() => handleDotClick(idx)}
-              sx={{
-                width: selectedIndex === idx ? 12 : 8,
-                height: selectedIndex === idx ? 12 : 8,
-                borderRadius: "50%",
-                bgcolor: selectedIndex === idx ? "#D100FF" : "#555",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
-            />
-          ))}
         </Box>
 
         {/* Button */}
