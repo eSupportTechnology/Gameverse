@@ -10,7 +10,11 @@ import axios from "axios";
 const Booking = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const stationType = location.state?.stationType;
   const backTarget = location.state?.from || "/";
+
+  const [stations, setStations] = useState([]);
   const [bookingData, setBookingData] = useState({
     station: null,
     dateTime: null,
@@ -22,21 +26,22 @@ const Booking = () => {
     vrPlay: "yes",
   });
 
-  const [stations, setStations] = useState([]);
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const stationType = location.state?.stationType;
 
   useEffect(() => {
-    const fetchStations = async () => {
-      const res = await axios.get("http://localhost:8001/api/stations");
-      if (res.data.status === "success") {
-        setStations(res.data.data);
-      }
-    };
-    fetchStations();
+    window.scrollTo(0, 0);
+
+    axios
+      .get("http://localhost:8001/api/stations")
+      .then((res) => {
+        if (res.data.status === "success") {
+          setStations(res.data.data);
+        }
+      })
+      .catch(console.error);
   }, []);
 
   const filteredStations = stationType
@@ -85,8 +90,11 @@ const Booking = () => {
         "http://localhost:8001/api/bookings",
         payload
       );
-      alert("Booking successful!");
-      navigate("/");
+
+      if (res.status === 201 || res.status === 200) {
+        alert("Booking successful!");
+        navigate("/");
+      }
     } catch (err) {
       console.error(err);
       alert("Failed to create booking");

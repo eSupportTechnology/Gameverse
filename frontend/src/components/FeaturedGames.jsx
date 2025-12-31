@@ -7,7 +7,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const games = [
   {
@@ -54,6 +53,7 @@ export default function FeaturedGames() {
   const autoPlayIntervalRef = useRef(null);
 
   const [snaps, setSnaps] = useState([]);
+  
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
@@ -62,41 +62,27 @@ export default function FeaturedGames() {
   const visibleCount = isDesktop ? 3 : 1;
   const dotsToShow = Math.max(games.length - visibleCount + 1, 1);
 
-  const [isCheckingAuth, setIsCheckingAuth] = useState(false);
+  const handleBookingClick = (game) => {
+  const token = localStorage.getItem("authToken");
 
-  // AUTH CHECK
-  const checkAuth = async () => {
-    const token = localStorage.getItem("authToken");
-    if (!token) return false; // user is not logged in
 
-    try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      // return true only if user data exists
-      return res.status === 200 && res.data;
-    } catch (error) {
-      console.error(
-        "Auth check failed:",
-        error.response?.status,
-        error.message
-      );
-      return false;
-    }
-  };
-
-  const handleBookingClick = async () => {
-    setIsCheckingAuth(true);
-    const isLoggedIn = await checkAuth();
-    setIsCheckingAuth(false);
-
-    if (!isLoggedIn) {
+    if (!token) {
       alert("Please login to continue booking!");
       navigate("/sing-in");
       return;
     }
-    navigate("/booking");
+
+    navigate("/booking", {
+      state: {
+        from: "/games",
+        stationType:
+          game.title === "PS5 Stations"
+            ? "PlayStation"
+            : game.title === "Pool Tables"
+            ? "Pool"
+            : "Simulator",
+      },
+    });
   };
 
   // calculate left offsets for each slide
@@ -367,6 +353,7 @@ export default function FeaturedGames() {
               <Box
                 key={idx}
                 className="slide-item"
+                 onClick={() => handleDotClick(idx)}
                 sx={{
                   flex: "0 0 auto",
                   width: { xs: 240, sm: 320, md: 380 },
@@ -444,19 +431,9 @@ export default function FeaturedGames() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        navigate("/booking", {
-                          state: {
-                            from: "/games",
-                            stationType:
-                              game.title === "PS5 Stations"
-                                ? "PlayStation"
-                                : game.title === "Pool Tables"
-                                ? "Pool"
-                                : "Simulator",
-                          },
-                        });
+                        handleBookingClick(game);
                       }}
-                      disabled={isCheckingAuth} // disable while checking auth
+                      
                       sx={{
                         width: "100%",
                         py: { xs: 1.1, md: 1.3 },
@@ -474,7 +451,7 @@ export default function FeaturedGames() {
                         },
                       }}
                     >
-                      {isCheckingAuth ? "Checking..." : "Booking Now"}
+                       Booking Now
                     </Button>
                   </Box>
 
