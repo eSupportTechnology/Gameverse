@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { Box, Typography, Button, GlobalStyles } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SelectStation from "../components/SelectStation";
+import { Box, Button, GlobalStyles, Typography } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import PickDateTime from "../components/PickDateTime";
 import PlayerInfo from "../components/PlayerInfo";
-import axios from "axios";
+import SelectStation from "../components/SelectStation";
 
 const Booking = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const stationType = location.state?.stationType;
   const backTarget = location.state?.from || "/";
-
-  const [stations, setStations] = useState([]);
   const [bookingData, setBookingData] = useState({
     station: null,
     dateTime: null,
@@ -26,22 +22,21 @@ const Booking = () => {
     vrPlay: "yes",
   });
 
+  const [stations, setStations] = useState([]);
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  const stationType = location.state?.stationType;
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
-    axios
-      .get("http://localhost:8001/api/stations")
-      .then((res) => {
-        if (res.data.status === "success") {
-          setStations(res.data.data);
-        }
-      })
-      .catch(console.error);
+    const fetchStations = async () => {
+      const res = await axios.get("http://localhost:8001/api/stations");
+      if (res.data.status === "success") {
+        setStations(res.data.data);
+      }
+    };
+    fetchStations();
   }, []);
 
   const filteredStations = stationType
@@ -57,6 +52,8 @@ const Booking = () => {
   const handlePlayerInfoChange = (data) => setPlayerInfo(data);
 
   const handleBookingSubmit = async () => {
+    const token = localStorage.getItem("authToken");
+
     if (!bookingData.station || !bookingData.dateTime) {
       alert("Please select a station and date/time.");
       return;
@@ -71,7 +68,6 @@ const Booking = () => {
     }
 
     const payload = {
-      user_id: null,
       nfc_card_number: null,
       customer_name: `${playerInfo.firstName} ${playerInfo.lastName}`,
       phone_number: playerInfo.contactNumber,
@@ -87,14 +83,18 @@ const Booking = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8001/api/bookings",
-        payload
+        "http://127.0.0.1:8001/api/bookings",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
-      if (res.status === 201 || res.status === 200) {
-        alert("Booking successful!");
-        navigate("/");
-      }
+      console.log("Booking created:", res.data);
+      alert("Booking successful!");
+      navigate("/");
     } catch (err) {
       console.error(err);
       alert("Failed to create booking");
