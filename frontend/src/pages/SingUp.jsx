@@ -117,34 +117,21 @@ const SingUp = () => {
   };
 
   const handleSubmit = async () => {
-    // Frontend password confirmation
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
     try {
-      // Call the backend API using axios
-      const res = await axios.post("http://127.0.0.1:8001/api/register", {
+      await axios.post("http://127.0.0.1:8001/api/register", {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
         password: formData.password,
       });
 
-      // Format the response (optional)
-      const userData = {
-        id: res.data.user.id,
-        firstName: res.data.user.firstName,
-        lastName: res.data.user.lastName,
-        email: res.data.user.email,
-        token: res.data.token,
-      };
+      toast.success("Registration successful! Please sign in.");
 
-      localStorage.setItem("authToken", userData.token);
-      toast.success("Registration successful!");
-
-      // Reset the form
       setFormData({
         firstName: "",
         lastName: "",
@@ -153,12 +140,9 @@ const SingUp = () => {
         confirmPassword: "",
       });
 
-      navigate("/");
+      navigate("/sing-in");
     } catch (err) {
-      console.error(
-        "Error registering user:",
-        err.response?.data || err.message
-      );
+      console.error(err);
       toast.error(err.response?.data?.message || "Registration failed!");
     }
   };

@@ -29,13 +29,6 @@ class BookingController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        // Ensure user is authenticated
-        if (!$request->user()) {
-           return response()->json([
-              'success' => false,
-              'message' => 'Please login to continue booking'
-           ], 401);
-        }
 
         $validator = Validator::make($request->all(), [
             'nfc_card_number' => 'nullable|string|max:255',
@@ -70,7 +63,6 @@ class BookingController extends Controller
                 'message' => 'Booking created successfully',
                 'data' => $booking
             ], 201);
-            
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
