@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const PopularGames = [
+const games = [
   {
     title: "PS5 Stations",
     description:
@@ -50,15 +50,40 @@ const PopularGames = [
 export default function FeaturedGames() {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
-  const [snaps, setSnaps] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const isDesktop = useMediaQuery("(min-width:900px)");
-  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const autoPlayIntervalRef = useRef(null);
 
+  const [snaps, setSnaps] = useState([]);
+  
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+
+  const isDesktop = useMediaQuery("(min-width:900px)");
   // number of visible items per slide
   const visibleCount = isDesktop ? 3 : 1;
-  const dotsToShow = Math.max(PopularGames.length - visibleCount + 1, 1);
+  const dotsToShow = Math.max(games.length - visibleCount + 1, 1);
+
+  const handleBookingClick = (game) => {
+  const token = localStorage.getItem("authToken");
+
+
+    if (!token) {
+      alert("Please login to continue booking!");
+      navigate("/sing-in");
+      return;
+    }
+
+    navigate("/booking", {
+      state: {
+        from: "/games",
+        stationType:
+          game.title === "PS5 Stations"
+            ? "PlayStation"
+            : game.title === "Pool Tables"
+            ? "Pool"
+            : "Simulator",
+      },
+    });
+  };
 
   // calculate left offsets for each slide
   const calcSnaps = useCallback(() => {
@@ -324,10 +349,11 @@ export default function FeaturedGames() {
               px: { xs: 1, sm: 0 },
             }}
           >
-            {PopularGames.map((game, idx) => (
+            {games.map((game, idx) => (
               <Box
                 key={idx}
                 className="slide-item"
+                 onClick={() => handleDotClick(idx)}
                 sx={{
                   flex: "0 0 auto",
                   width: { xs: 240, sm: 320, md: 380 },
@@ -405,18 +431,9 @@ export default function FeaturedGames() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        navigate("/booking", {
-                          state: {
-                            from: "/games",
-                            stationType:
-                              game.title === "PS5 Stations"
-                                ? "PlayStation"
-                                : game.title === "Pool Tables"
-                                ? "Pool"
-                                : "Simulator",
-                          },
-                        });
+                        handleBookingClick(game);
                       }}
+                      
                       sx={{
                         width: "100%",
                         py: { xs: 1.1, md: 1.3 },
@@ -434,7 +451,7 @@ export default function FeaturedGames() {
                         },
                       }}
                     >
-                      Booking Now
+                       Booking Now
                     </Button>
                   </Box>
 
