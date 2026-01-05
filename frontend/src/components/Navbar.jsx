@@ -116,7 +116,12 @@ const Navbar = () => {
             "linear-gradient(90deg, #000000 0%, #1a0033 50%, #000000 100%)",
         }}
       >
-        <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2, md: 8 } }}>
+        <Toolbar
+          sx={{
+            justifyContent: "space-between",
+            px: { xs: 1.5, sm: 3, md: 8 },
+          }}
+        >
           {/* Logo */}
           <Box
             sx={{
@@ -127,7 +132,14 @@ const Navbar = () => {
             }}
           >
             <Link to="/" style={{ textDecoration: "none" }}>
-              <img src={logo} alt="Gameverse Logo" style={{ width: 200 }} />
+              <img
+                src={logo}
+                alt="Gameverse Logo"
+                style={{
+                  width: isMobile ? 140 : 200,
+                  height: "auto",
+                }}
+              />
             </Link>
           </Box>
 
@@ -261,6 +273,7 @@ const Navbar = () => {
             <IconButton
               color="inherit"
               edge="end"
+              sx={{ p: 1.5 }}
               onClick={() => setDrawerOpen(true)}
             >
               <MenuIcon />
@@ -319,13 +332,29 @@ const Navbar = () => {
       >
         <Box sx={{ width: 250, p: 2 }}>
           <List>
-            <ListItem button component={NavLink} to="/">
+            <ListItem
+              button
+              component={NavLink}
+              to="/"
+              onClick={() => setDrawerOpen(false)}
+            >
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem button component={NavLink} to="/games">
+
+            <ListItem
+              button
+              component={NavLink}
+              to="/games"
+              onClick={() => setDrawerOpen(false)}
+            >
               <ListItemText primary="Games" />
             </ListItem>
-            <ListItem button component={NavLink} to="/contact">
+            <ListItem
+              button
+              component={NavLink}
+              to="/contact"
+              onClick={() => setDrawerOpen(false)}
+            >
               <ListItemText primary="Contact Us" />
             </ListItem>
           </List>
