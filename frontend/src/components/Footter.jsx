@@ -39,7 +39,7 @@ const Footer = () => {
         sx={{
           background: "#1c1e2bff",
           borderRadius: { xs: "30px", md: "100px" },
-          width: { xs: "95%", md: "90%" },
+          width: { xs: "80%", md: "90%" },
           maxWidth: "1300px", // Slightly tighter max width to help centering
           mx: "auto",
           px: { xs: 4, md: 6 },
@@ -165,7 +165,7 @@ const Footer = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: { xs: "center", md: "flex-start" },
-                pl: { md: 2 },
+                pl: { xs: 0, md: 2 },
               }}
             >
               <Typography
@@ -230,12 +230,13 @@ const Footer = () => {
           <Grid item xs={12} md={4.5} lg={4}>
             <Box
               sx={{
-                width: "120%",
+                width: "100%",
                 height: "200px",
                 borderRadius: "25px",
                 overflow: "hidden",
                 border: "1px solid rgba(255,255,255,0.05)",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
+                mx: "auto",
               }}
             >
               <iframe
@@ -255,8 +256,8 @@ const Footer = () => {
         <Divider
           sx={{
             backgroundColor: "rgba(255,255,255,0.1)",
-            mt: 5,
-            mb: 3,
+            mt: { xs: 3, md: 5 },
+            mb: { xs: 2, md: 3 },
             width: "100%",
           }}
         />

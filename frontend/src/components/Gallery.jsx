@@ -33,12 +33,12 @@ const GalleryView = () => {
 
   const imageCardStyle = {
     flexShrink: 0,
-    width: isMobile ? "280px" : "325px",
-    height: isMobile ? "140px" : "220px",
+    width: isMobile ? "220px" : "325px",
+    height: isMobile ? "160px" : "220px",
     position: "relative",
-    borderRadius: "16px",
+    borderRadius: "14px",
     overflow: "hidden",
-    marginRight: isMobile ? "16px" : "24px",
+    marginRight: isMobile ? "14px" : "24px",
     "&:last-child": { marginRight: 0 },
     display: "flex",
     alignItems: "center",
@@ -143,10 +143,11 @@ const GalleryView = () => {
       />
       <Box
         sx={{
-          minHeight: "100vh",
+          minHeight: { xs: "auto", md: "100vh" },
           bgcolor: "#0A0D17",
           color: "#fff",
-          padding: isMobile ? "40px 20px" : "60px 40px",
+          px: { xs: 2, sm: 3, md: 5 },
+          py: { xs: 5, md: 8 },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -160,8 +161,8 @@ const GalleryView = () => {
               ...applyGradientText(headerGradient),
               fontFamily: "BRUSHSTRIKE",
               fontWeight: 400,
-              fontSize: isMobile ? "48px" : "84px",
-              lineHeight: isMobile ? "52px" : "90px",
+              fontSize: { xs: "42px", sm: "56px", md: "84px" },
+              lineHeight: { xs: "48px", sm: "62px", md: "90px" },
               mb: 3,
               letterSpacing: "0.03em",
             }}
@@ -174,8 +175,9 @@ const GalleryView = () => {
               color: "#FFFFFF",
               mb: isMobile ? 5 : 8,
               fontFamily: "Inter, sans-serif",
-              lineHeight: 1.5,
-              fontSize: isMobile ? "1rem" : "1.09rem",
+              lineHeight: 1.6,
+              fontSize: { xs: "0.95rem", md: "1.09rem" },
+              px: { xs: 1, md: 0 },
               maxWidth: "900px",
               margin: "0 auto",
               fontWeight: 400,
