@@ -329,6 +329,12 @@ const Navbar = () => {
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#0F172A",
+            color: "#FFFFFF",
+          },
+        }}
       >
         <Box sx={{ width: 250, p: 2 }}>
           <List>
@@ -337,6 +343,15 @@ const Navbar = () => {
               component={NavLink}
               to="/"
               onClick={() => setDrawerOpen(false)}
+              sx={{
+                color: "#FFFFFF",
+                "&.active": {
+                  color: "#ff00ff",
+                },
+                "&:hover": {
+                  backgroundColor: "#070F1E",
+                },
+              }}
             >
               <ListItemText primary="Home" />
             </ListItem>
@@ -346,6 +361,15 @@ const Navbar = () => {
               component={NavLink}
               to="/games"
               onClick={() => setDrawerOpen(false)}
+              sx={{
+                color: "#FFFFFF",
+                "&.active": {
+                  color: "#ff00ff",
+                },
+                "&:hover": {
+                  backgroundColor: "#070F1E",
+                },
+              }}
             >
               <ListItemText primary="Games" />
             </ListItem>
@@ -354,6 +378,15 @@ const Navbar = () => {
               component={NavLink}
               to="/contact"
               onClick={() => setDrawerOpen(false)}
+              sx={{
+                color: "#FFFFFF",
+                "&.active": {
+                  color: "#ff00ff",
+                },
+                "&:hover": {
+                  backgroundColor: "#070F1E",
+                },
+              }}
             >
               <ListItemText primary="Contact Us" />
             </ListItem>

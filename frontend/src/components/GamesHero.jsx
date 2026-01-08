@@ -9,14 +9,14 @@ const GamesHero = () => {
     <Box
       sx={{
         position: "relative",
-        minHeight: { xs: "auto", md: "100vh" },
+        minHeight: { xs: "auto", md: "calc(100vh - 64px)" },
         width: "100%",
         bgcolor: "#0A0D17",
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
         alignItems: "center",
         justifyContent: "space-between",
-        overflowX: "hidden",
+        overflow: "hidden",
         px: { xs: 2.5, sm: 4, md: 10 },
         pt: { xs: 6, md: 0 },
         boxSizing: "border-box",
