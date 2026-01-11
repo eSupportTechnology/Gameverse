@@ -1,11 +1,6 @@
-import {
-  Box,
-  GlobalStyles,
-  Typography
-} from "@mui/material";
+import { Box, GlobalStyles, Typography } from "@mui/material";
 
 const Refund = () => {
-
   return (
     <>
       {/* font-face */}
@@ -45,7 +40,7 @@ const Refund = () => {
         <Typography
           sx={{
             textAlign: "center",
-            color: "#bbbbbb",
+            color: "#fff",
             mb: 4,
             fontSize: "14px",
           }}

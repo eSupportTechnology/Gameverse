@@ -40,7 +40,7 @@ const Privacy = () => {
         <Typography
           sx={{
             textAlign: "center",
-            color: "#bbbbbb",
+            color: "#fff",
             mb: 4,
             fontSize: "14px",
           }}

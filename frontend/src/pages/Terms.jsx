@@ -34,13 +34,13 @@ const Terms = () => {
             WebkitTextFillColor: "transparent",
           }}
         >
-                  TERMS & CONDITIONS
+          TERMS & CONDITIONS
         </Typography>
 
         <Typography
           sx={{
             textAlign: "center",
-            color: "#bbbbbb",
+            color: "#fff",
             mb: 4,
             fontSize: "14px",
           }}
