@@ -194,7 +194,6 @@ const Footer = () => {
                 >
                   HOME
                 </Link>
-
                 <Link
                   component={RouterLink}
                   to="/games"
@@ -208,7 +207,6 @@ const Footer = () => {
                 >
                   GAMES
                 </Link>
-
                 <Link
                   component={RouterLink}
                   to="/contact"
@@ -221,6 +219,45 @@ const Footer = () => {
                   }}
                 >
                   CONTACT US
+                </Link>
+                <Link
+                  component={RouterLink}
+                  to="/refund-policy"
+                  underline="none"
+                  onClick={handleFooterNavigation}
+                  sx={{
+                    fontSize: "13px",
+                    color: "#ccc",
+                    "&:hover": { color: "#fff" },
+                  }}
+                >
+                  RETURN/ REFUND POLICY
+                </Link>{" "}
+                <Link
+                  component={RouterLink}
+                  to="/privacy-policy"
+                  underline="none"
+                  onClick={handleFooterNavigation}
+                  sx={{
+                    fontSize: "13px",
+                    color: "#ccc",
+                    "&:hover": { color: "#fff" },
+                  }}
+                >
+                  PRIVACY POLICY
+                </Link>{" "}
+                <Link
+                  component={RouterLink}
+                  to="/terms-and-conditions"
+                  underline="none"
+                  onClick={handleFooterNavigation}
+                  sx={{
+                    fontSize: "13px",
+                    color: "#ccc",
+                    "&:hover": { color: "#fff" },
+                  }}
+                >
+                  TERMS & CONDITIONS
                 </Link>
               </Box>
             </Box>

@@ -1,9 +1,7 @@
-import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import Home from "./pages/Home";
 import Footter from "./components/Footter";
 import Games from "./pages/Games";
-import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Booking from "./pages/Booking";
 import Navbar from "./components/Navbar";
@@ -13,6 +11,9 @@ import EmailVerification from "./pages/EmailVerification";
 import ResetPassword from "./pages/ResetPassword";
 import MyAccount from "./pages/MyAccount.jsx";
 import { ToastContainer } from "react-toastify";
+import Privacy from "./pages/Privacy.jsx";
+import Terms from "./pages/Terms.jsx";
+import Refund from "./pages/Refund.jsx";
 
 function MainLayout() {
   return (
@@ -49,8 +50,10 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/games" element={<Games />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/privacy-policy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/terms-and-conditions" element={<Terms />} />
+            <Route path="/refund-policy" element={<Refund />} />
             <Route path="/booking" element={<Booking />} />
             <Route path="/my-account" element={<MyAccount />} />
           </Route>
