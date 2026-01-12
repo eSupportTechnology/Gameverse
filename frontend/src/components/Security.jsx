@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { API_BASE_URL } from "../apiConfig";
 
 export default function Security() {
   const [showPassword, setShowPassword] = useState({
@@ -58,7 +59,7 @@ export default function Security() {
 
     try {
       await axios.put(
-        "http://localhost:8001/api/change-password",
+        `${API_BASE_URL}/api/change-password`,
         {
           currentPassword: form.currentPassword,
           newPassword: form.newPassword,

@@ -13,6 +13,7 @@ import singup from "../assets/singup-img.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from "../apiConfig";
 
 /* ------------------------ FRAME BACKGROUND ------------------------ */
 
@@ -128,7 +129,7 @@ const SignIn = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://127.0.0.1:8001/api/login", {
+      const res = await axios.post(`${API_BASE_URL}/api/login`, {
         email: formData.email,
         password: formData.password,
       });
@@ -156,24 +157,6 @@ const SignIn = () => {
       toast.error(err.response?.data?.message || "Login failed!");
     }
   };
-
-  // Send Email verification code
-  // const handleSendVerification = async () => {
-  //   if (!formData.email) {
-  //     toast.error("Enter your email first");
-  //     return;
-  //   }
-
-  //   try {
-  //     await axios.post("http://127.0.0.1:8000/api/send-verification-code", {
-  //       email: formData.email,
-  //     });
-
-  //     navigate("/email-verify", { state: { email: formData.email } });
-  //   } catch (err) {
-  //     toast.error(err.response?.data?.message || "Failed to send code.");
-  //   }
-  // };
 
   return (
     <>

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import axios from "axios";
+import { API_BASE_URL } from "../apiConfig";
 
 const EventsTournaments = () => {
   const [tournaments, setTournaments] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:8001/api/events")
+      .get(`${API_BASE_URL}/api/events`)
       .then((response) => {
         const eventsWithTimer = response.data
           .sort((a, b) => b.id - a.id)

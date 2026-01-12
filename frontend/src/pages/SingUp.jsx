@@ -13,6 +13,7 @@ import singup from "../assets/singup-img.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from "../apiConfig";
 
 const Frame = styled(Box)({
   maxWidth: "900px",
@@ -123,7 +124,7 @@ const SingUp = () => {
     }
 
     try {
-      await axios.post("http://127.0.0.1:8001/api/register", {
+      await axios.post(`${API_BASE_URL}/api/register`, {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,

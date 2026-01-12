@@ -6,6 +6,7 @@ import {
   useTheme,
   GlobalStyles,
 } from "@mui/material";
+import { API_BASE_URL } from "../apiConfig";
 
 const GalleryView = () => {
   const theme = useTheme();
@@ -25,7 +26,7 @@ const GalleryView = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:8001/api/galleries")
+    fetch(`${API_BASE_URL}/api/galleries`)
       .then((res) => res.json())
       .then((data) => setGalleryImages(data))
       .catch(console.error);

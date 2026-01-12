@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PickDateTime from "../components/PickDateTime";
 import PlayerInfo from "../components/PlayerInfo";
 import SelectStation from "../components/SelectStation";
+import { API_BASE_URL } from "../apiConfig";
 
 const Booking = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const Booking = () => {
 
   useEffect(() => {
     const fetchStations = async () => {
-      const res = await axios.get("http://localhost:8001/api/stations");
+      const res = await axios.get(`${API_BASE_URL}/api/stations`);
       if (res.data.status === "success") {
         setStations(res.data.data);
       }
@@ -82,15 +83,11 @@ const Booking = () => {
     console.log("Booking payload:", payload);
 
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8001/api/bookings",
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.post(`${API_BASE_URL}/api/bookings`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       console.log("Booking created:", res.data);
       alert("Booking successful!");

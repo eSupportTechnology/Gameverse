@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { API_BASE_URL } from "../apiConfig";
 
 const fieldLabelStyles = {
   color: "#9CA3AF",
@@ -67,8 +68,8 @@ export default function PersonalInfo() {
           return;
         }
 
-        const res = await axios.get("http://localhost:8001/api/me", {
-          headers: { Authorization: `Bearer ${token}` }
+        const res = await axios.get(`${API_BASE_URL}/api/me`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         setForm({
@@ -102,7 +103,7 @@ export default function PersonalInfo() {
       }
 
       await axios.put(
-        "http://localhost:8001/api/profile",
+        `${API_BASE_URL}/api/profile`,
         {
           firstName: form.firstName,
           lastName: form.lastName,

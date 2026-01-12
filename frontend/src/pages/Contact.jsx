@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import astronaut from "../assets/astronaut.png";
 import BookingSection from "../components/BookingSection";
+import { API_BASE_URL } from "../apiConfig";
 
 const Contact = () => {
   const [formData, setFormData] = React.useState({
@@ -28,10 +29,7 @@ const Contact = () => {
   //Submit function
   const handleSubmit = async () => {
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8001/api/contact",
-        formData
-      );
+      const res = await axios.post(`${API_BASE_URL}/api/contact`, formData);
       alert(res.data.message);
 
       setFormData({

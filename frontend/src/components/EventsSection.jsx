@@ -10,6 +10,7 @@ import {
 import { styled } from "@mui/system";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../apiConfig";
 
 // Gradient text for headings
 const GradientText = styled(Typography)({
@@ -133,10 +134,10 @@ const CountdownBox = styled(Box)(({ theme }) => ({
 const EventsSection = () => {
   const [tournaments, setTournaments] = useState([]);
   const navigate = useNavigate();
-
+  console.log(API_BASE_URL);
   useEffect(() => {
     axios
-      .get("http://localhost:8001/api/events")
+      .get(`${API_BASE_URL}/api/events`)
       .then((response) => {
         const sortedEvents = response.data.sort((a, b) => b.id - a.id);
         const recentThreeEvents = sortedEvents.slice(0, 3);

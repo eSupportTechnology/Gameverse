@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import backIcon from "../assets/back-icon.png";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from "../apiConfig";
 
 const Frame = styled(Box)({
   maxWidth: "900px",
@@ -143,7 +144,7 @@ const EmailVerification = () => {
       return;
     }
     try {
-      await axios.post("http://127.0.0.1:8001/api/send-verification-code", {
+      await axios.post(`${API_BASE_URL}/api/send-verification-code`, {
         email,
       });
       toast.success("Verification code sent! Check your email.");
@@ -156,7 +157,6 @@ const EmailVerification = () => {
       );
     }
   };
-
   // Adjust handleVerifyEmail to just verify the code if codeSent is true
   const handleVerifyEmail = async () => {
     if (!codeSent) {
@@ -173,7 +173,7 @@ const EmailVerification = () => {
     }
 
     try {
-      const res = await axios.post("http://127.0.0.1:8001/api/verify-code", {
+      const res = await axios.post(`${API_BASE_URL}/api/verify-code`, {
         email,
         code: verificationCode,
       });

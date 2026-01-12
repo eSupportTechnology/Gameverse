@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import backIcon from "../assets/back-icon.png";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from "../apiConfig";
 
 const Frame = styled(Box)({
   maxWidth: "900px",
@@ -131,7 +132,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const res = await axios.post("http://127.0.0.1:8001/api/reset-password", {
+      const res = await axios.post(`${API_BASE_URL}/api/reset-password`, {
         email,
         password: formData.password,
         password_confirmation: formData.confirmPassword,
