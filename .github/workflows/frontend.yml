@@ -40,7 +40,7 @@ jobs:
             -e "set ssl:verify-certificate no; \
                 set ftp:ssl-allow yes; \
                 set ftp:ssl-protect-data true; \
-                mirror -R ./frontend/dist/ / \
+                mirror -R ./frontend/build/ / \
                   --exclude .ftpquota \
                   --exclude .htaccess \
                   --exclude robots.txt \
