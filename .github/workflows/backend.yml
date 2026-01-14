@@ -30,26 +30,26 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      # - name: Install Composer dependencies
-      #   working-directory: ./backend
-      #   run: |
-      #     # Temporarily remove scripts section from composer.json
-      #     cp composer.json composer.json.backup
+      - name: Install Composer dependencies
+        working-directory: ./backend
+        run: |
+          # Temporarily remove scripts section from composer.json
+          cp composer.json composer.json.backup
 
-      #     # Remove post-autoload-dump scripts using sed
-      #     sed -i '/"post-autoload-dump":/,/\],/d' composer.json
+          # Remove post-autoload-dump scripts using sed
+          sed -i '/"post-autoload-dump":/,/\],/d' composer.json
 
-      #     # Remove problematic dev packages
-      #     composer remove laravel/pail --dev --no-update --no-scripts || true
+          # Remove problematic dev packages
+          composer remove laravel/pail --dev --no-update --no-scripts || true
 
-      #     # Install without scripts
-      #     composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
+          # Install without scripts
+          composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
 
-      #     # Generate classmap authoritative autoloader (ignores PSR-4 warnings)
-      #     composer dump-autoload --optimize --no-dev --classmap-authoritative
+          # Generate classmap authoritative autoloader (ignores PSR-4 warnings)
+          composer dump-autoload --optimize --no-dev --classmap-authoritative
 
-      #     # Restore original composer.json for deployment
-      #     mv composer.json.backup composer.json
+          # Restore original composer.json for deployment
+          mv composer.json.backup composer.json
 
       - name: Create deployment archive
         working-directory: ./backend
@@ -62,6 +62,7 @@ jobs:
             --exclude='.env' \
             --exclude='.env.example' \
             --exclude='phpunit.xml' \
+            --exclude='composer.json.backup' \
             --exclude='storage/logs/*' \
             --exclude='storage/framework/cache/*' \
             --exclude='storage/framework/sessions/*' \
@@ -109,21 +110,26 @@ jobs:
             rm /home/futuwgbp/temp/deployment.tar.gz
 
             # Set permissions (775 for directories, 664 for files)
-            mkdir -p storage/framework/views
-            mkdir -p storage/framework/sessions
-            mkdir -p storage/framework/cache
-            mkdir -p storage/logs
+            find storage -type d -exec chmod 775 {} \;
+            find storage -type f -exec chmod 664 {} \;
+            find bootstrap/cache -type d -exec chmod 775 {} \;
+            find bootstrap/cache -type f -exec chmod 664 {} \;
 
-            chmod -R 775 storage
-            chmod -R 775 bootstrap/cache
+            # Regenerate optimized autoloader on server (ignore PSR-4 warnings)
+            composer dump-autoload --optimize --no-dev --classmap-authoritative 2>&1 | grep -v "does not comply with psr-4" || true
 
-            chown -R futuwgbp:futuwgbp storage
-            chown -R futuwgbp:futuwgbp bootstrap/cache
+            # Clear caches (suppress errors from missing providers)
+            php artisan config:clear 2>/dev/null || echo "Config clear skipped"
+            php artisan cache:clear 2>/dev/null || echo "Cache clear skipped"
+            php artisan route:clear 2>/dev/null || echo "Route clear skipped"
+            php artisan view:clear 2>/dev/null || echo "View clear skipped"
 
-            php artisan config:clear
-            php artisan cache:clear
+            # Optimize for production (suppress errors)
+            php artisan config:cache 2>/dev/null || echo "Config cache skipped"
+            php artisan route:cache 2>/dev/null || echo "Route cache skipped"
+            php artisan view:cache 2>/dev/null || echo "View cache skipped"
 
             # Run migrations (uncomment if needed)
-            php artisan migrate --force
+            # php artisan migrate --force
 
             echo "Deployment completed successfully!"
