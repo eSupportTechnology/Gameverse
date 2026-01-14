@@ -30,26 +30,26 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - name: Install Composer dependencies
-        working-directory: ./backend
-        run: |
-          # Temporarily remove scripts section from composer.json
-          cp composer.json composer.json.backup
+      # - name: Install Composer dependencies
+      #   working-directory: ./backend
+      #   run: |
+      #     # Temporarily remove scripts section from composer.json
+      #     cp composer.json composer.json.backup
 
-          # Remove post-autoload-dump scripts using sed
-          sed -i '/"post-autoload-dump":/,/\],/d' composer.json
+      #     # Remove post-autoload-dump scripts using sed
+      #     sed -i '/"post-autoload-dump":/,/\],/d' composer.json
 
-          # Remove problematic dev packages
-          composer remove laravel/pail --dev --no-update --no-scripts || true
+      #     # Remove problematic dev packages
+      #     composer remove laravel/pail --dev --no-update --no-scripts || true
 
-          # Install without scripts
-          composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
+      #     # Install without scripts
+      #     composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
 
-          # Generate classmap authoritative autoloader (ignores PSR-4 warnings)
-          composer dump-autoload --optimize --no-dev --classmap-authoritative
+      #     # Generate classmap authoritative autoloader (ignores PSR-4 warnings)
+      #     composer dump-autoload --optimize --no-dev --classmap-authoritative
 
-          # Restore original composer.json for deployment
-          mv composer.json.backup composer.json
+      #     # Restore original composer.json for deployment
+      #     mv composer.json.backup composer.json
 
       - name: Create deployment archive
         working-directory: ./backend
