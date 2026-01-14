@@ -116,7 +116,6 @@ jobs:
             php artisan config:clear
             php artisan cache:clear
             php artisan route:clear
-            php artisan view:clear || echo "View cache clear failed (not critical)"
 
             # Cache configuration for production
             php artisan config:cache
