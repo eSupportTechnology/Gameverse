@@ -15,42 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-          extensions: mbstring, xml, ctype, json, bcmath, pdo, mysql
-          coverage: none
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: backend/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: Install Composer dependencies
-        working-directory: ./backend
-        run: |
-          # Temporarily remove scripts section from composer.json
-          cp composer.json composer.json.backup
-
-          # Remove post-autoload-dump scripts using sed
-          sed -i '/"post-autoload-dump":/,/\],/d' composer.json
-
-          # Remove problematic dev packages
-          composer remove laravel/pail --dev --no-update --no-scripts || true
-
-          # Install without scripts
-          composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
-
-          # Generate classmap authoritative autoloader (ignores PSR-4 warnings)
-          composer dump-autoload --optimize --no-dev --classmap-authoritative
-
-          # Restore original composer.json for deployment
-          mv composer.json.backup composer.json
-
       - name: Create deployment archive
         working-directory: ./backend
         run: |
@@ -59,17 +23,17 @@ jobs:
             --exclude='.github' \
             --exclude='node_modules' \
             --exclude='tests' \
-            --exclude='.env' \
             --exclude='.env.example' \
             --exclude='phpunit.xml' \
-            --exclude='composer.json.backup' \
             --exclude='storage/logs/*' \
             --exclude='storage/framework/cache/*' \
             --exclude='storage/framework/sessions/*' \
             --exclude='storage/framework/views/*' \
+            --exclude='vendor' \
+            --exclude='composer.lock' \
             .
 
-      - name: Deploy to cPanel via SSH
+      - name: Deploy to cPanel via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ vars.CPANEL_HOST }}
@@ -94,42 +58,72 @@ jobs:
 
             # Backup current deployment (keep last 5 backups)
             if [ -d "storage" ]; then
-              tar -czf /home/futuwgbp/temp/backup-$(date +%Y%m%d-%H%M%S).tar.gz \
+              BACKUP_FILE="/home/futuwgbp/temp/backup-$(date +%Y%m%d-%H%M%S).tar.gz"
+              tar -czf "$BACKUP_FILE" \
                 --exclude='storage/logs/*' \
                 --exclude='storage/framework/cache/*' \
                 --exclude='storage/framework/sessions/*' \
                 --exclude='storage/framework/views/*' \
+                --exclude='vendor' \
                 .
-              ls -t /home/futuwgbp/temp/backup-*.tar.gz | tail -n +6 | xargs -r rm
+              
+              # Keep only last 5 backups
+              ls -t /home/futuwgbp/temp/backup-*.tar.gz 2>/dev/null | tail -n +6 | xargs -r rm
+              
+              echo "Backup created: $BACKUP_FILE"
+            fi
+
+            # Preserve .env file
+            if [ -f ".env" ]; then
+              cp .env /home/futuwgbp/temp/.env.backup
+              echo ".env file backed up"
             fi
 
             # Extract new deployment
             tar -xzf /home/futuwgbp/temp/deployment.tar.gz -C /home/futuwgbp/api.gameverse.lk
 
-            # Remove archive
+            # Restore .env file
+            if [ -f "/home/futuwgbp/temp/.env.backup" ]; then
+              cp /home/futuwgbp/temp/.env.backup .env
+              rm /home/futuwgbp/temp/.env.backup
+              echo ".env file restored"
+            fi
+
+            # Remove deployment archive
             rm /home/futuwgbp/temp/deployment.tar.gz
 
-            # Set permissions (775 for directories, 664 for files)
-            find storage -type d -exec chmod 775 {} \;
-            find storage -type f -exec chmod 664 {} \;
-            find bootstrap/cache -type d -exec chmod 775 {} \;
-            find bootstrap/cache -type f -exec chmod 664 {} \;
+            # Create required storage directories
+            mkdir -p storage/framework/views
+            mkdir -p storage/framework/sessions
+            mkdir -p storage/framework/cache/data
+            mkdir -p storage/logs
+            mkdir -p storage/app/public
+            mkdir -p bootstrap/cache
 
-            # Regenerate optimized autoloader on server (ignore PSR-4 warnings)
-            composer dump-autoload --optimize --no-dev --classmap-authoritative 2>&1 | grep -v "does not comply with psr-4" || true
+            # Set correct permissions
+            chmod -R 775 storage
+            chmod -R 775 bootstrap/cache
 
-            # Clear caches (suppress errors from missing providers)
-            php artisan config:clear 2>/dev/null || echo "Config clear skipped"
-            php artisan cache:clear 2>/dev/null || echo "Cache clear skipped"
-            php artisan route:clear 2>/dev/null || echo "Route clear skipped"
-            php artisan view:clear 2>/dev/null || echo "View clear skipped"
+            # Set ownership
+            chown -R futuwgbp:futuwgbp storage
+            chown -R futuwgbp:futuwgbp bootstrap/cache
 
-            # Optimize for production (suppress errors)
-            php artisan config:cache 2>/dev/null || echo "Config cache skipped"
-            php artisan route:cache 2>/dev/null || echo "Route cache skipped"
-            php artisan view:cache 2>/dev/null || echo "View cache skipped"
+            # Install composer dependencies on server
+            echo "Installing Composer dependencies..."
+            composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-            # Run migrations (uncomment if needed)
-            # php artisan migrate --force
+            # Clear all caches
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan route:clear
+            php artisan view:clear || echo "View cache clear failed (not critical)"
+
+            # Cache configuration for production
+            php artisan config:cache
+            php artisan route:cache
+
+            # Run migrations
+            php artisan migrate --force
 
             echo "Deployment completed successfully!"
+            echo "Site: https://api.gameverse.lk"
