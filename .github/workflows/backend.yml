@@ -33,10 +33,23 @@ jobs:
       - name: Install Composer dependencies
         working-directory: ./backend
         run: |
-          # Remove problematic dev packages before install
-          composer remove laravel/pail --dev --no-update || true
+          # Temporarily remove scripts section from composer.json
+          cp composer.json composer.json.backup
+
+          # Remove post-autoload-dump scripts using sed
+          sed -i '/"post-autoload-dump":/,/\],/d' composer.json
+
+          # Remove problematic dev packages
+          composer remove laravel/pail --dev --no-update --no-scripts || true
+
+          # Install without scripts
           composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
+
+          # Generate classmap authoritative autoloader (ignores PSR-4 warnings)
           composer dump-autoload --optimize --no-dev --classmap-authoritative
+
+          # Restore original composer.json for deployment
+          mv composer.json.backup composer.json
 
       - name: Create deployment archive
         working-directory: ./backend
@@ -108,12 +121,10 @@ jobs:
             php artisan config:clear 2>/dev/null || echo "Config clear skipped"
             php artisan cache:clear 2>/dev/null || echo "Cache clear skipped"
             php artisan route:clear 2>/dev/null || echo "Route clear skipped"
-            php artisan view:clear 2>/dev/null || echo "View clear skipped"
 
             # Optimize for production (suppress errors)
             php artisan config:cache 2>/dev/null || echo "Config cache skipped"
             php artisan route:cache 2>/dev/null || echo "Route cache skipped"
-            php artisan view:cache 2>/dev/null || echo "View cache skipped"
 
             # Run migrations (uncomment if needed)
             # php artisan migrate --force
