@@ -124,6 +124,6 @@ jobs:
             php artisan cache:clear
 
             # Run migrations (uncomment if needed)
-            # php artisan migrate --force
+            php artisan migrate --force
 
             echo "Deployment completed successfully!"
