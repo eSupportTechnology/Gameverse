@@ -49,6 +49,5 @@ jobs:
                   --delete-first \
                   --verbose \
                   --parallel=4; \
-                mv Images images; \
                 bye" \
             ftp.futureindustrylk.com

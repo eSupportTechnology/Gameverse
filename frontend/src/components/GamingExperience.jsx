@@ -12,22 +12,22 @@ const firstRowFeatures = [
   {
     title: "Surround Sound",
     description: "+ Ambient Lighting",
-    image: "/images/f7.jpg",
+    image: "/Images/f7.jpg",
   },
   {
     title: "Snacks, desserts, juice & ice cream bar",
     description: "",
-    image: "/images/ice.png",
+    image: "/Images/ice.png",
   },
   {
     title: "Supreme and premium lounge seating",
     description: "",
-    image: "/images/f9.png",
+    image: "/Images/f9.png",
   },
   {
     title: "NFC Cards – Loyalty / Membership / Offers",
     description: "",
-    image: "/images/f10.png",
+    image: "/Images/f10.png",
   },
 ];
 
@@ -35,17 +35,17 @@ const secondRowFeatures = [
   {
     title: "Weekly and competitive tournaments",
     description: "",
-    image: "/images/f11.png",
+    image: "/Images/f11.png",
   },
   {
     title: "Neon party nights",
     description: "",
-    image: "/images/f12.png",
+    image: "/Images/f12.png",
   },
   {
     title: "Powerful Gaming Tool",
     description: "",
-    image: "/images/f8.png",
+    image: "/Images/f8.png",
   },
 ];
 
@@ -175,7 +175,8 @@ export default function GamingExperience() {
             fontFamily="BRUSHSTRIKE"
             gutterBottom
             sx={{
-              background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
+              background:
+                "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               display: "inline-block",
@@ -209,7 +210,13 @@ export default function GamingExperience() {
             }}
           >
             {firstRowFeatures.map((feature, i) => (
-              <Box key={i} sx={{ flex: "0 0 auto", width: { xs: "70%", sm: "45%", md: "22%" } }}>
+              <Box
+                key={i}
+                sx={{
+                  flex: "0 0 auto",
+                  width: { xs: "70%", sm: "45%", md: "22%" },
+                }}
+              >
                 <FeatureCard feature={feature} />
               </Box>
             ))}
@@ -225,7 +232,13 @@ export default function GamingExperience() {
             }}
           >
             {secondRowFeatures.map((feature, i) => (
-              <Box key={i} sx={{ flex: "0 0 auto", width: { xs: "70%", sm: "45%", md: "26%" } }}>
+              <Box
+                key={i}
+                sx={{
+                  flex: "0 0 auto",
+                  width: { xs: "70%", sm: "45%", md: "26%" },
+                }}
+              >
                 <FeatureCard feature={feature} />
               </Box>
             ))}

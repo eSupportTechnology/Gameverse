@@ -18,7 +18,7 @@ const games = [
       "and immersive gameplay",
       "on premium gaming setups",
     ],
-    img: "./images/f1.jpg",
+    img: "./Images/f1.jpg",
     category: "ps5",
   },
   {
@@ -30,7 +30,7 @@ const games = [
       "and immersive gameplay",
       "on premium gaming setups",
     ],
-    img: "./images/f5.jpg",
+    img: "./Images/f5.jpg",
     category: "pool",
   },
   {
@@ -42,7 +42,7 @@ const games = [
       "and immersive gameplay",
       "on premium gaming setups",
     ],
-    img: "./images/f3.jpg",
+    img: "./Images/f3.jpg",
     category: "racing",
   },
 ];
@@ -53,7 +53,7 @@ export default function FeaturedGames() {
   const autoPlayIntervalRef = useRef(null);
 
   const [snaps, setSnaps] = useState([]);
-  
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
@@ -63,8 +63,7 @@ export default function FeaturedGames() {
   const dotsToShow = Math.max(games.length - visibleCount + 1, 1);
 
   const handleBookingClick = (game) => {
-  const token = localStorage.getItem("authToken");
-
+    const token = localStorage.getItem("authToken");
 
     if (!token) {
       alert("Please login to continue booking!");
@@ -353,7 +352,7 @@ export default function FeaturedGames() {
               <Box
                 key={idx}
                 className="slide-item"
-                 onClick={() => handleDotClick(idx)}
+                onClick={() => handleDotClick(idx)}
                 sx={{
                   flex: "0 0 auto",
                   width: { xs: 240, sm: 320, md: 380 },
@@ -433,7 +432,6 @@ export default function FeaturedGames() {
                         e.stopPropagation();
                         handleBookingClick(game);
                       }}
-                      
                       sx={{
                         width: "100%",
                         py: { xs: 1.1, md: 1.3 },
@@ -451,7 +449,7 @@ export default function FeaturedGames() {
                         },
                       }}
                     >
-                       Booking Now
+                      Booking Now
                     </Button>
                   </Box>
 
