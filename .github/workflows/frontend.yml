@@ -49,6 +49,6 @@ jobs:
                   --delete-first \
                   --verbose \
                   --parallel=4; \
-                rename Images images || true; \
+                mv Images images; \
                 bye" \
             ftp.futureindustrylk.com
