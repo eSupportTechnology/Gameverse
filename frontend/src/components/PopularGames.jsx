@@ -5,6 +5,7 @@ import {
   Button,
   GlobalStyles,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -309,7 +310,7 @@ export default function FeaturedGames() {
               lineHeight: 1.3,
             }}
           >
-            POPULAR GAMES
+            Popular Games
           </Typography>
           <Typography
             variant="body1"

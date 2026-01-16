@@ -126,7 +126,7 @@ const EventsTournaments = () => {
           </Typography>
           <Typography
             sx={{
-              color: "rgba(184, 193, 236, 0.9)",
+              color: "#fff",
               fontSize: { xs: "14px", md: "16px" },
               maxWidth: "1100px",
               mx: "auto",
