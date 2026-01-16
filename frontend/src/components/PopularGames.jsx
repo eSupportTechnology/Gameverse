@@ -5,6 +5,7 @@ import {
   Button,
   GlobalStyles,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -48,6 +49,9 @@ const games = [
 ];
 
 export default function FeaturedGames() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const autoPlayIntervalRef = useRef(null);
@@ -250,6 +254,14 @@ export default function FeaturedGames() {
     };
   }, [isAutoPlaying, snaps, dotsToShow, scrollToSnap]);
 
+  const headerGradient = "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)";
+
+  const applyGradientText = (gradient) => ({
+    background: gradient,
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+  });
+  
   return (
     <>
       <GlobalStyles
@@ -296,20 +308,18 @@ export default function FeaturedGames() {
           }}
         >
           <Typography
-            component="h2"
+            variant={isMobile ? "h4" : "h2"}
             sx={{
-              fontSize: { xs: "32px", sm: "44px", md: "75px" },
-              fontFamily: "BRUSHSTRIKE",
+              ...applyGradientText(headerGradient),
               fontWeight: 400,
-              background:
-                "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              mb: { xs: 1.5, md: 2 },
-              lineHeight: 1.3,
+              mb: 3,
+              fontFamily: "BRUSHSTRIKE",
+              fontSize: isMobile ? "48px" : "84px",
+              lineHeight: isMobile ? "52px" : "80px",
+              letterSpacing: "0.03em",
             }}
           >
-            POPULAR GAMES
+            Popular Games
           </Typography>
           <Typography
             variant="body1"
