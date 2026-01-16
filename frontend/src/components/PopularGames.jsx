@@ -49,9 +49,6 @@ const games = [
 ];
 
 export default function FeaturedGames() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const autoPlayIntervalRef = useRef(null);
@@ -254,14 +251,6 @@ export default function FeaturedGames() {
     };
   }, [isAutoPlaying, snaps, dotsToShow, scrollToSnap]);
 
-  const headerGradient = "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)";
-
-  const applyGradientText = (gradient) => ({
-    background: gradient,
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-  });
-  
   return (
     <>
       <GlobalStyles
@@ -308,15 +297,17 @@ export default function FeaturedGames() {
           }}
         >
           <Typography
-            variant={isMobile ? "h4" : "h2"}
+            component="h2"
             sx={{
-              ...applyGradientText(headerGradient),
-              fontWeight: 400,
-              mb: 3,
+              fontSize: { xs: "32px", sm: "44px", md: "75px" },
               fontFamily: "BRUSHSTRIKE",
-              fontSize: isMobile ? "48px" : "84px",
-              lineHeight: isMobile ? "52px" : "80px",
-              letterSpacing: "0.03em",
+              fontWeight: 400,
+              background:
+                "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              mb: { xs: 1.5, md: 2 },
+              lineHeight: 1.3,
             }}
           >
             Popular Games
