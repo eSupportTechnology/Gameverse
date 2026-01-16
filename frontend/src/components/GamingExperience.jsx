@@ -190,7 +190,7 @@ export default function GamingExperience() {
             sx={{
               maxWidth: "800px",
               mx: "auto",
-              color: "rgba(255,255,255,0.7)",
+              color: "#fff",
               mb: 4,
             }}
           >

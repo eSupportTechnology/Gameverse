@@ -234,7 +234,7 @@ const EventsSection = () => {
         <Typography
           variant="body1"
           sx={{
-            color: "#bbb",
+            color: "#fff",
             textAlign: "center",
             maxWidth: "900px",
             margin: "0 auto 40px",
