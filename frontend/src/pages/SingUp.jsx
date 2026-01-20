@@ -15,25 +15,32 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../apiConfig";
 
-const Frame = styled(Box)({
+const Frame = styled(Box)(({ theme }) => ({
   maxWidth: "900px",
   width: "100%",
-  maxHeight: "400px",
+  minHeight: "400px",
   margin: "auto",
   position: "relative",
   padding: "40px",
   borderRadius: "20px",
+  background: `repeating-linear-gradient(
+    to right,
+    #1a101c 0px,
+    #1a101c 4px,
+    #120a13 4px,
+    #120a13 6px
+  )`,
 
-  background: `
-    repeating-linear-gradient(
-      to right,
-      #1a101c 0px,
-      #1a101c 4px,
-      #120a13 4px,
-      #120a13 6px
-    )
-  `,
-});
+  /* -------- MOBILE ONLY -------- */
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "80%", // narrower for mobile
+    minHeight: "500px", // taller for mobile
+    padding: "20px",
+    overflow: "hidden",
+    background: `url(${singup}) no-repeat center bottom`,
+    backgroundSize: "contain",
+  },
+}));
 
 const SvgBorder = styled("svg")({
   position: "absolute",
@@ -503,9 +510,9 @@ const SingUp = () => {
             position: "absolute",
             bottom: { xs: -10, sm: -20 },
             left: { xs: "50%", sm: 20 },
-            transform: { xs: "translateX(-50%)", sm: "none" },
-            width: { xs: 220, sm: 280, md: 380, lg: 430 },
-            height: "auto",
+            transform: { xs: "translateX(-50%)", sm: "none" }, // hide on mobile
+            width: { xs: 0, sm: 280, md: 380, lg: 430 }, // hide on mobile
+            opacity: { xs: 0, sm: 1 }, // hide on mobile
             objectFit: "contain",
             zIndex: 1,
           }}

@@ -17,7 +17,7 @@ import { API_BASE_URL } from "../apiConfig";
 
 /* ------------------------ FRAME BACKGROUND ------------------------ */
 
-const Frame = styled(Box)({
+const Frame = styled(Box)(({ theme }) => ({
   maxWidth: "900px",
   width: "100%",
   minHeight: "400px",
@@ -25,17 +25,24 @@ const Frame = styled(Box)({
   position: "relative",
   padding: "40px",
   borderRadius: "20px",
+  background: `repeating-linear-gradient(
+    to right,
+    #1a101c 0px,
+    #1a101c 4px,
+    #120a13 4px,
+    #120a13 6px
+  )`,
 
-  background: `
-    repeating-linear-gradient(
-      to right,
-      #1a101c 0px,
-      #1a101c 4px,
-      #120a13 4px,
-      #120a13 6px
-    )
-  `,
-});
+  /* ✅ MOBILE ONLY */
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "80%", // slightly smaller than desktop
+    minHeight: "500px", // slightly taller for mobile
+    padding: "20px",
+    overflow: "hidden",
+    background: `url(${singup}) no-repeat center bottom`,
+    backgroundSize: "contain",
+  },
+}));
 
 /* ------------------------ FIXED LABEL TEXT FIELD ------------------------ */
 
@@ -95,24 +102,23 @@ Z
 `;
 
 const boldPath = `
-  M215 0 H650 
-  M785 0 H826         
-  A24 24 0 0 1 850 24
-  V426
-  A24 24 0 0 1 826 450
-  M826 450 H360
-  M90 450 H24
-  A24 24 0 0 1 0 426
-  V24
-  A24 24 0 0 1 24 0
-  M24 0 H215
-  Z
+M215 0 H650 
+M785 0 H826         
+A24 24 0 0 1 850 24
+V426
+A24 24 0 0 1 826 450
+M826 450 H360
+M90 450 H24
+A24 24 0 0 1 0 426
+V24
+A24 24 0 0 1 24 0
+M24 0 H215
+Z
 `;
 
 /* ------------------------ SIGN-IN COMPONENT ------------------------ */
 
 const SignIn = () => {
-  // const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -144,11 +150,9 @@ const SignIn = () => {
 
       toast.success("Login successful!");
 
-      // after saving:
       localStorage.setItem("authToken", userData.token);
       localStorage.setItem("user", JSON.stringify(userData));
 
-      // notify other components in same tab
       window.dispatchEvent(new Event("userUpdated"));
 
       navigate("/");
@@ -315,9 +319,9 @@ const SignIn = () => {
               position: "relative",
               height: "100%",
               display: "flex",
-              justifyContent: { xs: "center", md: "flex-start" }, // MIRRORED
-              alignItems: "center",
-              pl: { xs: 0, sm: 2, md: 5 }, // MIRRORED
+              justifyContent: { xs: "center", md: "flex-start" },
+              alignItems: { xs: "center", md: "center" },
+              pl: { xs: 0, sm: 2, md: 5 },
               pr: { xs: 0, sm: 2, md: 0 },
             }}
           >
@@ -327,10 +331,11 @@ const SignIn = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                width: { xs: "90%", sm: "80%", md: "550px" },
+                width: { xs: "100%", sm: "80%", md: "550px" },
+                maxWidth: { xs: "280px", sm: "none" },
                 gap: 2,
                 zIndex: 2,
-                p: { xs: 2, sm: 3 },
+                p: { xs: 1.5, sm: 3 },
               }}
             >
               <Typography
@@ -437,10 +442,14 @@ const SignIn = () => {
           alt="Character"
           sx={{
             position: "absolute",
-            bottom: { xs: -10, sm: -20 },
+            bottom: { xs: -30, sm: -20 },
             right: { xs: "50%", sm: 20 },
-            transform: { xs: "translateX(-50%) scaleX(-1)", sm: "scaleX(-1)" },
-            width: { xs: 220, sm: 280, md: 380, lg: 430 },
+            transform: {
+              xs: "translateX(50%) scaleX(-1)",
+              sm: "scaleX(-1)",
+            },
+            width: { xs: 0, sm: 280, md: 380, lg: 430 }, // hide on mobile
+            opacity: { xs: 0, sm: 1 }, // hide on mobile
             objectFit: "contain",
             zIndex: 1,
           }}
