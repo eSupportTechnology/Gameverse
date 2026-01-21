@@ -16,7 +16,8 @@ import backIcon from "../assets/back-icon.png";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../apiConfig";
 
-const Frame = styled(Box)({
+// -------- Frame with MOBILE ONLY adjustments --------
+const Frame = styled(Box)(({ theme }) => ({
   maxWidth: "900px",
   width: "100%",
   minHeight: "400px",
@@ -24,19 +25,32 @@ const Frame = styled(Box)({
   position: "relative",
   padding: "40px",
   borderRadius: "20px",
+  background: `repeating-linear-gradient(
+    to right,
+    #1a101c 0px,
+    #1a101c 4px,
+    #120a13 4px,
+    #120a13 6px
+  )`,
+  // MOBILE ONLY
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "80%", // narrower on mobile
+    minHeight: "500px", // taller on mobile
+    padding: "20px",
+    overflow: "hidden",
+    background: `url(${singup}) no-repeat center bottom`,
+    backgroundSize: "contain",
+  },
+}));
 
-  background: `
-    repeating-linear-gradient(
-      to right,
-      #1a101c 0px,
-      #1a101c 4px,
-      #120a13 4px,
-      #120a13 6px
-    )
-  `,
+const SvgBorder = styled("svg")({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  pointerEvents: "none",
 });
-
-/* ------------------------ FIXED LABEL TEXT FIELD ------------------------ */
 
 const FixedLabelTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -54,17 +68,6 @@ const FixedLabelTextField = styled(TextField)({
       opacity: 1,
     },
   },
-});
-
-/* ------------------------ SVG BORDER ------------------------ */
-
-const SvgBorder = styled("svg")({
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  pointerEvents: "none",
 });
 
 const borderPath = `
@@ -140,7 +143,6 @@ const ResetPassword = () => {
       });
 
       toast.success("Reset successful!");
-      // optionally store auth token and navigate to protected route
       const token = res.data.token;
       localStorage.setItem("authToken", token);
 
@@ -163,7 +165,6 @@ const ResetPassword = () => {
         }}
       />
 
-      {/* Background */}
       <Box
         sx={{
           height: "100%",
@@ -203,57 +204,15 @@ const ResetPassword = () => {
               fontSize: { xs: "32px", sm: "40px", md: "50px" },
             }}
           >
-            password reset
+            Password Reset
           </Typography>
         </Box>
 
-        {/* Main Frame */}
         <Frame>
-          {/* SVG border */}
           <SvgBorder viewBox="0 0 850 450" preserveAspectRatio="none">
             <path d={borderPath} stroke="#ff00ff" strokeWidth="2" fill="none" />
             <path d={boldPath} stroke="#ff00ff" strokeWidth="10" fill="none" />
-
-            {/* Bottom glow */}
-            <path
-              d="M550 450 H826"
-              stroke="#ff00ff"
-              strokeWidth="6"
-              fill="none"
-              style={{
-                filter:
-                  "drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 8px #ff00ff)",
-                transition: "all 0.3s ease-in-out",
-              }}
-            />
           </SvgBorder>
-
-          {/* Top Tab */}
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              right: { xs: 10, sm: 20, md: 95 },
-              width: 150,
-              height: 70,
-              zIndex: 5,
-            }}
-          >
-            <SvgBorder
-              width="100%"
-              height="100%"
-              viewBox="0 0 150 70"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M150 0 H30 L40 30 L140 30 Z"
-                stroke="#ff00ff"
-                strokeWidth="2"
-                fill="rgba(255,255,255,0.05)"
-              />
-              <path d="M150 0 H30" stroke="#ff00ff" strokeWidth="10" />
-            </SvgBorder>
-          </Box>
 
           {/* Bottom Button */}
           <Box
@@ -275,20 +234,18 @@ const ResetPassword = () => {
               preserveAspectRatio="none"
             >
               <defs>
-                <linearGradient id="signin" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient id="resetGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#B210C1" />
                   <stop offset="100%" stopColor="#0F0F18" />
                 </linearGradient>
               </defs>
-
               <path
                 d="M10 60 L40 30 L250 30 L280 60 Z"
-                fill={"url(#signin)"}
+                fill="url(#resetGradient)"
                 stroke="#ff00ff"
                 strokeWidth="3"
                 style={{ cursor: "pointer" }}
               />
-
               <text
                 x="150"
                 y="45"
@@ -303,7 +260,7 @@ const ResetPassword = () => {
             </SvgBorder>
           </Box>
 
-          {/* Content Wrapper */}
+          {/* Form */}
           <Box
             sx={{
               position: "relative",
@@ -315,7 +272,6 @@ const ResetPassword = () => {
               pr: { xs: 0, sm: 2, md: 0 },
             }}
           >
-            {/* ----- FORM ----- */}
             <Box
               component="form"
               sx={{
@@ -327,41 +283,23 @@ const ResetPassword = () => {
                 p: { xs: 2, sm: 3 },
               }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 3,
-                  cursor: "pointer",
-                  mb: 0.5,
-                }}
-              >
+              {/* Back + Title */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", mb: 0.5 }}>
                 <Box
                   onClick={() => navigate("/sing-in")}
                   component="img"
                   src={backIcon}
                   alt="back-icon"
-                  sx={{
-                    width: 22,
-                  }}
+                  sx={{ width: 22 }}
                 />
-
-                <Typography
-                  sx={{
-                    color: "white",
-                    fontSize: "32px",
-                    fontWeight: 700,
-                  }}
-                >
+                <Typography sx={{ color: "white", fontSize: "32px", fontWeight: 700 }}>
                   Reset Password
                 </Typography>
               </Box>
 
               {/* Password */}
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
-                  Password
-                </Typography>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>Password</Typography>
                 <FixedLabelTextField
                   name="password"
                   type={showPassword ? "text" : "password"}
@@ -375,9 +313,7 @@ const ResetPassword = () => {
                         <IconButton
                           sx={{ color: "#868A93" }}
                           onClick={() => setShowPassword(!showPassword)}
-                          edge="end"
                         >
-                          {/* Correct behavior */}
                           {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>
@@ -388,9 +324,7 @@ const ResetPassword = () => {
 
               {/* Confirm Password */}
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
-                  Confirm Password
-                </Typography>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>Confirm Password</Typography>
                 <FixedLabelTextField
                   name="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
@@ -403,16 +337,9 @@ const ResetPassword = () => {
                       <InputAdornment position="end">
                         <IconButton
                           sx={{ color: "#868A93" }}
-                          onClick={() =>
-                            setShowConfirmPassword(!showConfirmPassword)
-                          }
-                          edge="end"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         >
-                          {showConfirmPassword ? (
-                            <Visibility />
-                          ) : (
-                            <VisibilityOff />
-                          )}
+                          {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -423,7 +350,7 @@ const ResetPassword = () => {
           </Box>
         </Frame>
 
-        {/* ----- USER IMAGE ----- */}
+        {/* USER IMAGE BOTTOM - MOBILE ADJUSTED */}
         <Box
           component="img"
           src={singup}
@@ -433,7 +360,8 @@ const ResetPassword = () => {
             bottom: { xs: -10, sm: -20 },
             right: { xs: "50%", sm: 20 },
             transform: { xs: "translateX(-50%) scaleX(-1)", sm: "scaleX(-1)" },
-            width: { xs: 220, sm: 280, md: 380, lg: 430 },
+            width: { xs: 0, sm: 280, md: 380, lg: 430 }, // hidden on mobile
+            opacity: { xs: 0, sm: 1 },
             objectFit: "contain",
             zIndex: 1,
           }}

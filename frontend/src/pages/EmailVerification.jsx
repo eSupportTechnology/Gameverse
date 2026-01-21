@@ -8,7 +8,7 @@ import backIcon from "../assets/back-icon.png";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../apiConfig";
 
-const Frame = styled(Box)({
+const Frame = styled(Box)(({ theme }) => ({
   maxWidth: "900px",
   width: "100%",
   minHeight: "400px",
@@ -16,7 +16,6 @@ const Frame = styled(Box)({
   position: "relative",
   padding: "40px",
   borderRadius: "20px",
-
   background: `
     repeating-linear-gradient(
       to right,
@@ -26,7 +25,17 @@ const Frame = styled(Box)({
       #120a13 6px
     )
   `,
-});
+
+  /* ---------------- MOBILE ONLY ---------------- */
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "80%", // slightly smaller
+    minHeight: "500px", // taller for mobile
+    padding: "20px",
+    overflow: "hidden",
+    background: `url(${singup}) no-repeat center bottom`,
+    backgroundSize: "contain",
+  },
+}));
 
 /* ------------------------ FIXED LABEL TEXT FIELD ------------------------ */
 
@@ -153,7 +162,7 @@ const EmailVerification = () => {
       inputRefs.current[0]?.focus();
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Failed to send verification code."
+        error.response?.data?.message || "Failed to send verification code.",
       );
     }
   };
@@ -358,10 +367,12 @@ const EmailVerification = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                width: { xs: "90%", sm: "80%", md: "550px" },
+                width: { xs: "100%", sm: "80%", md: "550px" },
+                maxWidth: { xs: "280px", sm: "none" }, // mobile max width
                 gap: 2,
                 zIndex: 2,
-                p: { xs: 2, sm: 3 },
+                p: { xs: 1.5, sm: 3 }, // mobile padding
+                mx: { xs: "auto", md: 0 }, // center form on mobile
               }}
             >
               <Box
@@ -445,7 +456,14 @@ const EmailVerification = () => {
                 <Typography sx={{ color: "white", mb: 0.5, fontSize: "16px" }}>
                   Verification Code
                 </Typography>
-                <Box sx={{ display: "flex", gap: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: { xs: 1, sm: 2 }, // smaller gap on mobile
+                    justifyContent: "center", // center inputs on mobile
+                    flexWrap: "nowrap", // wrap if screen is too small
+                  }}
+                >
                   {code.map((digit, index) => (
                     <FixedLabelTextField
                       key={index}
@@ -454,14 +472,17 @@ const EmailVerification = () => {
                         maxLength: 1,
                         style: {
                           textAlign: "center",
-                          fontSize: "22px",
+                          fontSize: { xs: "18px", sm: "22px" }, // smaller font on mobile
                           color: "white",
+                          padding: { xs: "6px 8px", sm: "8px 12px" }, // adjust padding for mobile
                         },
                       }}
                       value={digit}
                       onChange={(e) => handleInputChange(e, index)}
                       onKeyDown={(e) => handleBackspace(e, index)}
-                      sx={{ width: "80px" }}
+                      sx={{
+                        width: { xs: "40px", sm: "80px" }, // smaller width on mobile
+                      }}
                     />
                   ))}
                 </Box>
@@ -500,8 +521,9 @@ const EmailVerification = () => {
             position: "absolute",
             bottom: { xs: -10, sm: -20 },
             right: { xs: "50%", sm: 20 },
-            transform: { xs: "translateX(-50%) scaleX(-1)", sm: "scaleX(-1)" },
-            width: { xs: 220, sm: 280, md: 380, lg: 430 },
+            transform: { xs: "translateX(50%) scaleX(-1)", sm: "scaleX(-1)" },
+            width: { xs: 0, sm: 280, md: 380, lg: 430 }, // hidden on mobile
+            opacity: { xs: 0, sm: 1 }, // hidden on mobile
             objectFit: "contain",
             zIndex: 1,
           }}
