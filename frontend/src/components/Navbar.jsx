@@ -390,6 +390,58 @@ const Navbar = () => {
             >
               <ListItemText primary="Contact Us" />
             </ListItem>
+
+            <ListItem
+              button
+              component={NavLink}
+              to="/terms-and-conditions"
+              onClick={() => setDrawerOpen(false)}
+              sx={{
+                color: "#FFFFFF",
+                "&.active": {
+                  color: "#ff00ff",
+                },
+                "&:hover": {
+                  backgroundColor: "#070F1E",
+                },
+              }}
+            >
+              <ListItemText primary="Terms & Conditions" />
+            </ListItem>
+            <ListItem
+              button
+              component={NavLink}
+              to="/privacy-policy"
+              onClick={() => setDrawerOpen(false)}
+              sx={{
+                color: "#FFFFFF",
+                "&.active": {
+                  color: "#ff00ff",
+                },
+                "&:hover": {
+                  backgroundColor: "#070F1E",
+                },
+              }}
+            >
+              <ListItemText primary="Privacy Policy" />
+            </ListItem>
+            <ListItem
+              button
+              component={NavLink}
+              to="/refund-policy"
+              onClick={() => setDrawerOpen(false)}
+              sx={{
+                color: "#FFFFFF",
+                "&.active": {
+                  color: "#ff00ff",
+                },
+                "&:hover": {
+                  backgroundColor: "#070F1E",
+                },
+              }}
+            >
+              <ListItemText primary="Return/ Refund Policy" />
+            </ListItem>
           </List>
 
           {storedUser ? (
