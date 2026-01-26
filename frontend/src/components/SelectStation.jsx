@@ -24,7 +24,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const autoPlayIntervalRef = useRef(null);
   const [selectedStationName, setSelectedStationName] = useState(
-    selectedStation || null,
+    selectedStation || null
   );
 
   const visibleCount = isDesktop ? 3 : 1;
@@ -156,7 +156,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
           setIsAutoPlaying(entry.isIntersecting);
         });
       },
-      { threshold: 0.3 },
+      { threshold: 0.3 }
     );
 
     observer.observe(container);
@@ -211,7 +211,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
 
   const handleSelect = (station) => {
     setSelectedStationName(station.name);
-    if (onNext) onNext(station);
+    if (onNext) onNext(station.name);
   };
 
   return (
