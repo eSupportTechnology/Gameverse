@@ -8,10 +8,10 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [selectedDate, setSelectedDate] = useState(
-    selectedDateTime?.date || null
+    selectedDateTime?.date || null,
   );
   const [selectedTime, setSelectedTime] = useState(
-    selectedDateTime?.time || null
+    selectedDateTime?.time || null,
   );
   const datesScrollRef = useRef(null);
 
@@ -82,64 +82,44 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
     }
   };
 
-  // Generate time slots
-  const timeSlots = [
-    { time: "12.00", name: "Alex Chen", status: "Booked" },
-    { time: "12.15", name: "Alex Chen", status: "Booked" },
-    { time: "12.30", name: "Alex Chen", status: "Booked" },
-    { time: "12.45", name: "Alex Chen", status: "Booked" },
-    { time: "01.00", name: "Alex Chen", status: "Booked" },
-    { time: "01.15", status: "Available" },
-    { time: "01.30", status: "Available" },
-    { time: "01.45", status: "Available" },
-    { time: "02.00", status: "Available" },
-    { time: "02.15", status: "Available" },
-    { time: "02.30", status: "Available" },
-    { time: "02.45", status: "Available" },
-    { time: "03.00", status: "Available" },
-    { time: "03.15", status: "Available" },
-    { time: "03.45", status: "Available" },
-    { time: "04.00", status: "Available" },
-    { time: "04.15", status: "Available" },
-    { time: "04.30", status: "Available" },
-    { time: "04.45", status: "Available" },
-    { time: "05.00", status: "Available" },
-    { time: "05.15", status: "Available" },
-    { time: "05.30", status: "Available" },
-    { time: "05.45", status: "Available" },
-    { time: "06.00", status: "Available" },
-    { time: "06.15", status: "Available" },
-    { time: "06.30", status: "Available" },
-    { time: "06.45", status: "Available" },
-    { time: "07.00", status: "Available" },
-    { time: "07.15", status: "Available" },
-    { time: "07.30", status: "Available" },
-    { time: "07.45", status: "Available" },
-    { time: "08.00", status: "Available" },
-    { time: "08.15", status: "Available" },
-    { time: "08.30", status: "Available" },
-    { time: "08.45", status: "Available" },
-    { time: "09.00", status: "Available" },
-    { time: "09.15", status: "Available" },
-    { time: "09.30", status: "Available" },
-    { time: "09.45", status: "Available" },
-    { time: "10.00", status: "Available" },
-    { time: "10.15", status: "Available" },
-    { time: "10.30", status: "Available" },
-    { time: "10.45", status: "Available" },
-    { time: "11.00", status: "Available" },
-    { time: "11.15", status: "Available" },
-    { time: "11.30", status: "Available" },
-    { time: "11.45", status: "Available" },
-    // { time: "12.00", status: "Available" },
-    // { time: "12.15", status: "Available" },
-    // { time: "01.30", status: "Available" },
-  ];
+  const generateTimeSlots = () => {
+    const slots = [];
+
+    const isPool = selectedStation?.toLowerCase()?.includes("pool");
+    const interval = isPool ? 30 : 15;
+
+    let hour = 12;
+    let minute = 0;
+
+    while (hour < 24) {
+      const displayHour = hour > 12 ? hour - 12 : hour;
+      const formattedHour = String(
+        displayHour === 0 ? 12 : displayHour,
+      ).padStart(2, "0");
+      const formattedMinute = String(minute).padStart(2, "0");
+
+      slots.push({
+        time: `${formattedHour}.${formattedMinute}`,
+        status: "Available",
+      });
+
+      minute += interval;
+
+      if (minute >= 60) {
+        minute = 0;
+        hour++;
+      }
+    }
+
+    return slots;
+  };
+
+  const timeSlots = generateTimeSlots();
 
   const handleDateSelect = (day) => {
     const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(
       2,
-      "0"
+      "0",
     )}-${String(day).padStart(2, "0")}`;
     setSelectedDate(fullDate);
   };
@@ -252,7 +232,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
         >
           {dates.map((day) => {
             const fullDate = `${currentYear}-${String(
-              currentMonth + 1
+              currentMonth + 1,
             ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
             return (
               <Box
@@ -325,14 +305,14 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
                 slot.status === "Booked"
                   ? "rgba(169, 5, 188, 0.3)"
                   : selectedTime === slot.time
-                  ? "rgba(51, 178, 247, 0.3)"
-                  : "rgba(255,255,255,0.05)",
+                    ? "rgba(51, 178, 247, 0.3)"
+                    : "rgba(255,255,255,0.05)",
               border:
                 selectedTime === slot.time
                   ? "2px solid #33B2F7"
                   : slot.status === "Booked"
-                  ? "1px solid rgba(169, 5, 188, 0.5)"
-                  : "1px solid rgba(255,255,255,0.1)",
+                    ? "1px solid rgba(169, 5, 188, 0.5)"
+                    : "1px solid rgba(255,255,255,0.1)",
               borderRadius: "6px",
               cursor: slot.status === "Available" ? "pointer" : "not-allowed",
               opacity: slot.status === "Booked" ? 0.6 : 1,
