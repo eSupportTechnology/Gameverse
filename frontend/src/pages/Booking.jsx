@@ -44,8 +44,12 @@ const Booking = () => {
     ? stations.filter((s) => s.type === stationType)
     : stations;
 
-  const handleStationSelect = (stationId) =>
-    setBookingData({ ...bookingData, station: stationId });
+  const handleStationSelect = (station) =>
+    setBookingData({
+      ...bookingData,
+      station: station.name,
+      stationType: station.type,
+    });
 
   const handleDateTimeSelect = (dateTime) =>
     setBookingData({ ...bookingData, dateTime });
