@@ -397,6 +397,7 @@ const PlayerInfo = ({
     vrPlay: "yes",
   });
 
+  const showVRPlay = selectedStation?.vrPrice && selectedStation?.vrTime;
   // State to control Modals
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
@@ -492,31 +493,33 @@ const PlayerInfo = ({
               sx={mainInputStyle}
             />
           </Box>
-          <Box>
-            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
-              VR Play
-            </Typography>
-            <RadioGroup
-              row
-              name="vrPlay"
-              value={formData.vrPlay}
-              onChange={handleChange}
-              sx={{ gap: 2, height: "56px" }}
-            >
-              <CustomRadioOption
-                value="yes"
-                label="Yes"
-                currentValue={formData.vrPlay}
-                onClick={() => setFormData({ ...formData, vrPlay: "yes" })}
-              />
-              <CustomRadioOption
-                value="no"
-                label="No"
-                currentValue={formData.vrPlay}
-                onClick={() => setFormData({ ...formData, vrPlay: "no" })}
-              />
-            </RadioGroup>
-          </Box>
+          {showVRPlay && (
+            <Box>
+              <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
+                VR Play
+              </Typography>
+              <RadioGroup
+                row
+                name="vrPlay"
+                value={formData.vrPlay}
+                onChange={handleChange}
+                sx={{ gap: 2, height: "56px" }}
+              >
+                <CustomRadioOption
+                  value="yes"
+                  label="Yes"
+                  currentValue={formData.vrPlay}
+                  onClick={() => setFormData({ ...formData, vrPlay: "yes" })}
+                />
+                <CustomRadioOption
+                  value="no"
+                  label="No"
+                  currentValue={formData.vrPlay}
+                  onClick={() => setFormData({ ...formData, vrPlay: "no" })}
+                />
+              </RadioGroup>
+            </Box>
+          )}
         </Box>
 
         <Box

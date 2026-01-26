@@ -8,10 +8,13 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [selectedDate, setSelectedDate] = useState(
-    selectedDateTime?.date || null
+    selectedDateTime?.date || null,
   );
   const [selectedTime, setSelectedTime] = useState(
-    selectedDateTime?.time || null
+    selectedDateTime?.time || null,
+  );
+  const [selectedDuration, setSelectedDuration] = useState(
+    selectedDateTime?.duration || null,
   );
   const datesScrollRef = useRef(null);
 
@@ -136,10 +139,31 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
     // { time: "01.30", status: "Available" },
   ];
 
+  const durations = [];
+  for (let min = 30; min <= 240; min += 30) {
+    let label = "";
+    let value = "";
+
+    if (min < 60) {
+      label = `${min} minutes`;
+      value = `${min}m`;
+    } else {
+      const hours = Math.floor(min / 60);
+      const minutes = min % 60;
+      label =
+        minutes === 0
+          ? `${hours} hour${hours > 1 ? "s" : ""}`
+          : `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minutes`;
+      value = minutes === 0 ? `${hours}h` : `${hours}h ${minutes}m`;
+    }
+
+    durations.push({ label, value });
+  }
+
   const handleDateSelect = (day) => {
     const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(
       2,
-      "0"
+      "0",
     )}-${String(day).padStart(2, "0")}`;
     setSelectedDate(fullDate);
   };
@@ -151,10 +175,14 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   };
 
   useEffect(() => {
-    if (selectedDate && selectedTime) {
-      onNext({ date: selectedDate, time: selectedTime });
+    if (selectedDate && selectedTime && selectedDuration) {
+      onNext({
+        date: selectedDate,
+        time: selectedTime,
+        duration: selectedDuration,
+      });
     }
-  }, [selectedDate, selectedTime]);
+  }, [selectedDate, selectedTime, selectedDuration]);
 
   return (
     <Box
@@ -252,7 +280,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
         >
           {dates.map((day) => {
             const fullDate = `${currentYear}-${String(
-              currentMonth + 1
+              currentMonth + 1,
             ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
             return (
               <Box
@@ -325,14 +353,14 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
                 slot.status === "Booked"
                   ? "rgba(169, 5, 188, 0.3)"
                   : selectedTime === slot.time
-                  ? "rgba(51, 178, 247, 0.3)"
-                  : "rgba(255,255,255,0.05)",
+                    ? "rgba(51, 178, 247, 0.3)"
+                    : "rgba(255,255,255,0.05)",
               border:
                 selectedTime === slot.time
                   ? "2px solid #33B2F7"
                   : slot.status === "Booked"
-                  ? "1px solid rgba(169, 5, 188, 0.5)"
-                  : "1px solid rgba(255,255,255,0.1)",
+                    ? "1px solid rgba(169, 5, 188, 0.5)"
+                    : "1px solid rgba(255,255,255,0.1)",
               borderRadius: "6px",
               cursor: slot.status === "Available" ? "pointer" : "not-allowed",
               opacity: slot.status === "Booked" ? 0.6 : 1,
@@ -362,6 +390,45 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
             >
               {slot.status}
             </Typography>
+          </Box>
+        ))}
+      </Box>
+      {/* Duration Selection */}
+      <Box
+        sx={{
+          maxWidth: "1400px",
+          mx: "auto",
+          mt: 4,
+          display: "flex",
+          gap: 2,
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
+        {durations.map((dur) => (
+          <Box
+            key={dur.value}
+            onClick={() => setSelectedDuration(dur.value)}
+            sx={{
+              px: 3,
+              py: 1.5,
+              borderRadius: "6px",
+              cursor: "pointer",
+              textAlign: "center",
+              bgcolor:
+                selectedDuration === dur.value
+                  ? "rgba(51,178,247,0.3)"
+                  : "rgba(255,255,255,0.05)",
+              border:
+                selectedDuration === dur.value
+                  ? "2px solid #33B2F7"
+                  : "1px solid rgba(255,255,255,0.1)",
+              "&:hover": {
+                bgcolor: "rgba(51,178,247,0.2)",
+              },
+            }}
+          >
+            <Typography sx={{ fontWeight: "bold" }}>{dur.label}</Typography>
           </Box>
         ))}
       </Box>
