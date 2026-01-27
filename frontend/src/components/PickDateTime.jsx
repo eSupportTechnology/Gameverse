@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import axios from "axios";
+import { API_BASE_URL } from "../apiConfig";
 
 const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   const currentDate = new Date();
@@ -84,28 +86,66 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
       datesScrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
+  const [bookedCounts, setBookedCounts] = useState({});
+
+  useEffect(() => {
+    if (!selectedStation || !selectedDate) return;
+
+    const fetchBookings = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/api/bookings-count`, {
+          params: {
+            station: selectedStation.name,
+            booking_date: selectedDate,
+          },
+        });
+
+        if (res.data.success) {
+          setBookedCounts(res.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch booking counts", err);
+      }
+    };
+
+    fetchBookings();
+  }, [selectedStation, selectedDate]);
+
+  console.log("first", bookedCounts);
 
   const generateTimeSlots = () => {
     if (!selectedStation) return [];
 
     const slots = [];
+    const limit = 4;
 
     if (selectedStation.type === "Pool") {
       for (let h = 12; h <= 23; h++) {
         const hour12 = h > 12 ? h - 12 : h;
-        slots.push({ time: `${hour12}.00`, status: "Available" });
-        if (!(h === 23))
-          slots.push({ time: `${hour12}.30`, status: "Available" });
-        else slots.push({ time: `11.30`, status: "Available" });
+        const times = [`${hour12}.00`, `${hour12}.30`];
+
+        for (let t of times) {
+          const key = t.replace(".", ":");
+          const booked = bookedCounts[key] || { count: 0, names: [] };
+          slots.push({
+            time: t,
+            status: booked.count >= limit ? "Booked" : "Available",
+            bookedNames: booked.names,
+          });
+        }
       }
     } else {
       for (let h = 12; h <= 23; h++) {
         const hour12 = h > 12 ? h - 12 : h;
         for (let m of [0, 15, 30, 45]) {
           if (h === 23 && m > 45) continue;
+          const t = `${hour12}.${String(m).padStart(2, "0")}`;
+          const key = t.replace(".", ":");
+          const booked = bookedCounts[key] || { count: 0, names: [] };
           slots.push({
-            time: `${hour12}.${String(m).padStart(2, "0")}`,
-            status: "Available",
+            time: t,
+            status: booked.count >= limit ? "Booked" : "Available",
+            bookedNames: booked.names,
           });
         }
       }
@@ -340,7 +380,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
                     : "1px solid rgba(255,255,255,0.1)",
               borderRadius: "6px",
               cursor: slot.status === "Available" ? "pointer" : "not-allowed",
-              opacity: slot.status === "Booked" ? 0.6 : 1,
+              opacity: slot.status === "Booked" ? 0.8 : 1,
               transition: "all 0.3s ease",
               "&:hover": {
                 bgcolor:
@@ -353,11 +393,13 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
             <Typography sx={{ fontSize: "14px", fontWeight: "bold", mb: 0.3 }}>
               {slot.time}
             </Typography>
-            {slot.name && (
-              <Typography sx={{ fontSize: "9px", color: "gray.400" }}>
-                {slot.name}
+
+            {slot.status === "Booked" && slot.bookedNames.length > 0 && (
+              <Typography sx={{ fontSize: "10px", color: "#fff", mt: 0.2 }}>
+                {slot.bookedNames.join(", ")}
               </Typography>
             )}
+
             <Typography
               sx={{
                 fontSize: "10px",

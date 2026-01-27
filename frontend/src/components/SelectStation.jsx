@@ -413,32 +413,57 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
                   >
                     {station.name}
                   </Typography>
-                  {/* Normal Price + Time */}
-                  {station.price && station.time && (
-                    <Typography
+                  {/* Prices in same line, centered */}
+                  {(station.price || station.vrPrice) && (
+                    <Box
                       sx={{
-                        fontSize: { xs: "13px", md: "14px" },
-                        fontWeight: "bold",
-                        color: "#fff",
+                        display: "flex",
+                        gap: 2,
+                        justifyContent: "center",
+                        alignItems: "center",
                         mb: 0.5,
+                        flexWrap: "wrap",
                       }}
                     >
-                      Price: Rs. {station.price} / {formatTime(station.time)}
-                    </Typography>
-                  )}
-
-                  {/* VR Price + Time */}
-                  {station.vrPrice && station.vrTime && (
-                    <Typography
-                      sx={{
-                        fontSize: { xs: "12px", md: "13px" },
-                        color: "#4CAF50",
-                        fontWeight: 500,
-                        mb: 0.5,
-                      }}
-                    >
-                      VR: Rs. {station.vrPrice} / {formatTime(station.vrTime)}
-                    </Typography>
+                      {station.price && station.vrPrice ? (
+                        // Both Normal and VR prices
+                        <Typography
+                          sx={{
+                            fontSize: { xs: "12px", md: "10px" },
+                            fontWeight: "bold",
+                            color: "#fff",
+                          }}
+                        >
+                          Price: Rs. {station.price} /{" "}
+                          {formatTime(station.time)} & VR: Rs. {station.vrPrice}{" "}
+                          / {formatTime(station.vrTime)}
+                        </Typography>
+                      ) : station.price ? (
+                        // Only normal price
+                        <Typography
+                          sx={{
+                            fontSize: { xs: "13px", md: "14px" },
+                            fontWeight: "bold",
+                            color: "#fff",
+                          }}
+                        >
+                          Price: Rs. {station.price} /{" "}
+                          {formatTime(station.time)}
+                        </Typography>
+                      ) : station.vrPrice ? (
+                        // Only VR price
+                        <Typography
+                          sx={{
+                            fontSize: { xs: "13px", md: "14px" },
+                            fontWeight: "bold",
+                            color: "#fff",
+                          }}
+                        >
+                          VR: Rs. {station.vrPrice} /{" "}
+                          {formatTime(station.vrTime)}
+                        </Typography>
+                      ) : null}
+                    </Box>
                   )}
 
                   <Typography
