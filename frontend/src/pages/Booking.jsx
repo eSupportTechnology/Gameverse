@@ -1,5 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Box, Button, GlobalStyles, Typography } from "@mui/material";
+import { Box, Button, duration, GlobalStyles, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -44,8 +44,9 @@ const Booking = () => {
     ? stations.filter((s) => s.type === stationType)
     : stations;
 
-  const handleStationSelect = (stationId) =>
-    setBookingData({ ...bookingData, station: stationId });
+  const handleStationSelect = (station) => {
+    setBookingData({ ...bookingData, station });
+  };
 
   const handleDateTimeSelect = (dateTime) =>
     setBookingData({ ...bookingData, dateTime });
@@ -72,10 +73,10 @@ const Booking = () => {
       nfc_card_number: null,
       customer_name: `${playerInfo.firstName} ${playerInfo.lastName}`,
       phone_number: playerInfo.contactNumber,
-      station: bookingData.station,
+      station: bookingData.station.name,
       booking_date: date,
       start_time: time,
-      duration: "1h 0m",
+      duration: bookingData.dateTime?.duration || null,
       amount: 0,
       vr_play: playerInfo.vrPlay,
     };
