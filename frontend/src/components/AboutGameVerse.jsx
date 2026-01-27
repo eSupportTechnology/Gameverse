@@ -2,7 +2,6 @@ import React from "react";
 import {
   Box,
   Typography,
-  Grid,
   useMediaQuery,
   useTheme,
   GlobalStyles,
@@ -60,15 +59,17 @@ const AboutGameVerse = () => {
   const cardStyle = (borderGradient) => ({
     background: "rgba(255, 255, 255, 0.11)",
     backdropFilter: "blur(12px)",
-    borderRadius: "32px",
-    padding: "16px 20px",
+    borderRadius: { xs: "8px", sm: "28px", md: "32px" },
+    padding: { xs: "5px 4px", sm: "14px 18px", md: "16px 20px" },
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: "16px",
+    gap: { xs: "3px", sm: "14px", md: "16px" },
     textAlign: "left",
-    width: isMobile ? "180px" : "330px",
-    height: isMobile ? "100px" : "120px",
+    width: "100%",
+    maxWidth: { xs: "110px", sm: "280px", md: "330px" },
+    height: { xs: "auto", sm: "100px", md: "120px" },
+    minHeight: { xs: "40px", sm: "100px", md: "120px" },
     position: "relative",
     overflow: "hidden",
 
@@ -96,13 +97,14 @@ const AboutGameVerse = () => {
   });
 
   const iconContainerStyle = (borderGradient) => ({
-    width: isMobile ? "60px" : "80px",
-    height: isMobile ? "60px" : "80px",
-    borderRadius: "12px",
+    width: { xs: "24px", sm: "65px", md: "80px" },
+    height: { xs: "24px", sm: "65px", md: "80px" },
+    minWidth: { xs: "24px", sm: "65px", md: "80px" },
+    borderRadius: { xs: "5px", sm: "12px" },
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: theme.spacing(2),
+    marginBottom: 0,
     position: "relative",
     overflow: "hidden",
     backgroundColor: "rgba(255, 255, 255, 0.08)",
@@ -142,7 +144,7 @@ const AboutGameVerse = () => {
           overflow: "hidden",
           bgcolor: "#0A0D17",
           color: "#fff",
-          padding: isMobile ? "40px 20px" : "80px 40px",
+          padding: { xs: "40px 16px", sm: "50px 24px", md: "80px 40px" },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -153,8 +155,8 @@ const AboutGameVerse = () => {
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: "800px",
-            height: "800px",
+            width: { xs: "400px", sm: "600px", md: "800px" },
+            height: { xs: "400px", sm: "600px", md: "800px" },
             background:
               "radial-gradient(circle, rgba(51, 178, 247, 0.73), rgba(84, 14, 92, 0.6), transparent 50%)",
             transform: "translate(-50%, -50%)",
@@ -165,16 +167,16 @@ const AboutGameVerse = () => {
         }}
       >
         {/* Header */}
-        <Box sx={{ maxWidth: 900, textAlign: "center", mb: isMobile ? 6 : 8 }}>
+        <Box sx={{ maxWidth: 900, textAlign: "center", mb: { xs: 4, sm: 5, md: 8 } }}>
           <Typography
             variant={isMobile ? "h4" : "h2"}
             sx={{
               ...applyGradientText(headerGradient),
               fontWeight: 400,
-              mb: 3,
+              mb: { xs: 2, md: 3 },
               fontFamily: "BRUSHSTRIKE",
-              fontSize: isMobile ? "48px" : "84px",
-              lineHeight: isMobile ? "52px" : "80px",
+              fontSize: { xs: "36px", sm: "56px", md: "84px" },
+              lineHeight: { xs: "42px", sm: "60px", md: "80px" },
               letterSpacing: "0.03em",
             }}
           >
@@ -184,14 +186,15 @@ const AboutGameVerse = () => {
             variant="h6"
             sx={{
               color: "#FFFFFF",
-              mb: isMobile ? 5 : 8,
+              mb: { xs: 3, sm: 5, md: 8 },
               fontFamily: "Inter, sans-serif",
-              lineHeight: 1.5,
-              fontSize: isMobile ? "1rem" : "1.09rem",
+              lineHeight: 1.3,
+              fontSize: { xs: "8px", sm: "15px", md: "1.09rem" },
               maxWidth: "900px",
               margin: "0 auto",
               fontWeight: 400,
               textAlign: "center",
+              px: { xs: 1, sm: 2, md: 0 },
             }}
           >
             Play, compete, and chill - from Billiards, PS5s, racing simulators,
@@ -201,20 +204,25 @@ const AboutGameVerse = () => {
         </Box>
 
         {/* Cards */}
-        <Grid
-          container
-          spacing={isMobile ? 3 : 5}
-          justifyContent="center"
-          alignItems="stretch"
+        <Box
+          sx={{ 
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: { xs: "8px", sm: "24px", md: "40px" },
+            px: { xs: 1, sm: 2, md: 0 },
+            maxWidth: "1200px",
+            mx: "auto",
+          }}
         >
           {cardData.map((card, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
+            <Box
               key={index}
-              sx={{ display: "flex", justifyContent: "center" }}
+              sx={{ 
+                width: { xs: "calc(33.33% - 6px)", sm: "calc(50% - 24px)", md: "calc(33.33% - 28px)" },
+                display: "flex", 
+                justifyContent: "center",
+              }}
             >
               <Box sx={cardStyle(card.borderGradient)}>
                 {/* Icon */}
@@ -223,8 +231,8 @@ const AboutGameVerse = () => {
                     src={card.icon}
                     alt={card.title}
                     style={{
-                      width: isMobile ? "35px" : "45px",
-                      height: isMobile ? "35px" : "45px",
+                      width: isMobile ? "14px" : "45px",
+                      height: isMobile ? "14px" : "45px",
                     }}
                   />
                 </Box>
@@ -236,9 +244,9 @@ const AboutGameVerse = () => {
                     color: "#E0E0E0",
                     textAlign: "left",
                     fontFamily: "Inter, sans-serif",
-                    fontSize: isMobile ? "16px" : "20px",
+                    fontSize: { xs: "6px", sm: "16px", md: "20px" },
                     fontWeight: 600,
-                    lineHeight: 1.4,
+                    lineHeight: 1.2,
                     flex: 1,
                     overflow: "hidden",
                     textOverflow: "ellipsis",
@@ -250,9 +258,9 @@ const AboutGameVerse = () => {
                   {card.title}
                 </Typography>
               </Box>
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </Box>
     </>
   );

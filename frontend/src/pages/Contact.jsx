@@ -63,7 +63,7 @@ const Contact = () => {
           background: "linear-gradient(to bottom, #06080F, #0A0D17)",
           pt: 3,
           pb: 1,
-          px: { xs: 3, md: 20 },
+          px: { xs: 2, sm: 4, md: 20 },
           color: "#fff",
         }}
       >
@@ -96,13 +96,13 @@ const Contact = () => {
         <Box
           sx={{
             background: "rgba(255,255,255,0.06)",
-            borderRadius: "22px",
+            borderRadius: { xs: "16px", md: "22px" },
             backdropFilter: "blur(15px)",
             border: "1px solid #000000",
-            p: { xs: 3, md: 5 },
+            p: { xs: 2, sm: 3, md: 5 },
           }}
         >
-          <Grid container columnSpacing={8} rowSpacing={10}>
+          <Grid container columnSpacing={{ xs: 4, md: 8 }} rowSpacing={{ xs: 4, md: 10 }}>
             {/* LEFT COLUMN — FORM */}
             <Grid
               item
@@ -114,6 +114,7 @@ const Contact = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 gap: 2,
+                order: { xs: 2, md: 0 },
               }}
             >
               <Typography
@@ -256,7 +257,7 @@ const Contact = () => {
             </Grid>
 
             {/* RIGHT COLUMN — IMAGE WITH TEXT INSIDE */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ order: { xs: 1, md: 0 } }}>
               <Box
                 sx={{
                   position: "relative",

@@ -35,8 +35,8 @@ const Frame = styled(Box)(({ theme }) => ({
 
   /* ✅ MOBILE ONLY */
   [theme.breakpoints.down("sm")]: {
-    maxWidth: "80%", // slightly smaller than desktop
-    minHeight: "500px", // slightly taller for mobile
+    maxWidth: "80%",
+    minHeight: "500px",
     padding: "20px",
     overflow: "hidden",
     background: `url(${singup}) no-repeat center bottom`,
@@ -46,7 +46,7 @@ const Frame = styled(Box)(({ theme }) => ({
 
 /* ------------------------ FIXED LABEL TEXT FIELD ------------------------ */
 
-const FixedLabelTextField = styled(TextField)({
+const FixedLabelTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     background: "#29254B94",
     backdropFilter: "blur(16px)",
@@ -65,9 +65,13 @@ const FixedLabelTextField = styled(TextField)({
     "& .MuiOutlinedInput-input": {
       padding: "14px 14px",
       fontSize: "15px",
+      [theme.breakpoints.down("sm")]: {
+        padding: "10px 10px",
+        fontSize: "12px",
+      },
     },
   },
-});
+}));
 
 /* ------------------------ SVG BORDER ------------------------ */
 
@@ -210,7 +214,7 @@ const SignIn = () => {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               display: "inline-block",
-              fontSize: { xs: "32px", sm: "40px", md: "50px" },
+              fontSize: { xs: "24px", sm: "40px", md: "50px" },
             }}
           >
             Sign In
@@ -333,23 +337,23 @@ const SignIn = () => {
                 flexDirection: "column",
                 width: { xs: "100%", sm: "80%", md: "550px" },
                 maxWidth: { xs: "280px", sm: "none" },
-                gap: 2,
+                gap: { xs: 1.5, sm: 2 },
                 zIndex: 2,
-                p: { xs: 1.5, sm: 3 },
+                p: { xs: 1, sm: 3 },
               }}
             >
               <Typography
                 sx={{
                   color: "white",
                   mb: 0.5,
-                  fontSize: "32px",
+                  fontSize: { xs: "20px", sm: "32px" },
                   fontWeight: 700,
                 }}
               >
                 Welcome Back
               </Typography>
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "16px" }}>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "12px", sm: "16px" } }}>
                   E mail
                 </Typography>
                 <FixedLabelTextField
@@ -362,7 +366,7 @@ const SignIn = () => {
               </Box>
 
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "16px" }}>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "12px", sm: "16px" } }}>
                   Password
                 </Typography>
                 <FixedLabelTextField
@@ -388,9 +392,9 @@ const SignIn = () => {
                 />
               </Box>
 
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box sx={{ display: "flex", justifyContent: "space-between", flexDirection: { xs: "column", sm: "row" }, gap: { xs: 0.5, sm: 0 } }}>
                 {/* Link to Sign Up */}
-                <Typography sx={{ color: "white", fontSize: "12px" }}>
+                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" } }}>
                   Didn't have a account.?
                   <Box
                     component="span"
@@ -409,7 +413,7 @@ const SignIn = () => {
                 </Typography>
 
                 {/* Reset password */}
-                <Typography sx={{ color: "white", fontSize: "12px" }}>
+                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" } }}>
                   Forget Password?
                   <Box
                     component="span"

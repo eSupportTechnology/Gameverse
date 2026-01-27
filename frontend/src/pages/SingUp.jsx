@@ -51,7 +51,7 @@ const SvgBorder = styled("svg")({
   pointerEvents: "none",
 });
 
-const FixedLabelTextField = styled(TextField)({
+const FixedLabelTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     border: "1px solid #3741519E",
     background: "#29254B94",
@@ -62,13 +62,17 @@ const FixedLabelTextField = styled(TextField)({
       padding: "10px 12px",
       fontSize: "16px",
       color: "white",
+      [theme.breakpoints.down("sm")]: {
+        padding: "8px 10px",
+        fontSize: "12px",
+      },
     },
     "& input::placeholder": {
       color: "rgba(255,255,255,0.7)",
       opacity: 1,
     },
   },
-});
+}));
 
 const borderPath = `
 M 24 0
@@ -205,7 +209,7 @@ const SingUp = () => {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               display: "inline-block",
-              fontSize: { xs: "32px", sm: "40px", md: "50px" },
+              fontSize: { xs: "24px", sm: "40px", md: "50px" },
             }}
           >
             Sign Up
@@ -356,9 +360,9 @@ const SingUp = () => {
                 display: "flex",
                 flexDirection: "column",
                 width: { xs: "90%", sm: "80%", md: "550px" },
-                gap: 2,
+                gap: { xs: 1.5, sm: 2 },
                 zIndex: 2,
-                p: { xs: 2, sm: 3 },
+                p: { xs: 1, sm: 3 },
               }}
             >
               {/* Name Fields */}
@@ -371,7 +375,7 @@ const SingUp = () => {
               >
                 <Box sx={{ flex: 1 }}>
                   <Typography
-                    sx={{ color: "white", mb: 0.5, fontSize: "14px" }}
+                    sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}
                   >
                     First Name
                   </Typography>
@@ -386,7 +390,7 @@ const SingUp = () => {
 
                 <Box sx={{ flex: 1 }}>
                   <Typography
-                    sx={{ color: "white", mb: 0.5, fontSize: "14px" }}
+                    sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}
                   >
                     Last Name
                   </Typography>
@@ -402,7 +406,7 @@ const SingUp = () => {
 
               {/* Email */}
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}>
                   E mail
                 </Typography>
                 <FixedLabelTextField
@@ -416,7 +420,7 @@ const SingUp = () => {
 
               {/* Password */}
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}>
                   Password
                 </Typography>
                 <FixedLabelTextField
@@ -445,7 +449,7 @@ const SingUp = () => {
 
               {/* Confirm Password */}
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}>
                   Confirm Password
                 </Typography>
                 <FixedLabelTextField

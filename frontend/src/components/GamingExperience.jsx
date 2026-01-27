@@ -6,6 +6,8 @@ import {
   CardContent,
   CardMedia,
   GlobalStyles,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 const firstRowFeatures = [
@@ -57,7 +59,7 @@ const FeatureCard = ({ feature }) => (
       textAlign: "center",
       cursor: "pointer",
       color: "#fff",
-      minHeight: 230,
+      minHeight: { xs: 180, sm: 200, md: 230 },
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -82,8 +84,8 @@ const FeatureCard = ({ feature }) => (
         src={feature.image}
         alt={feature.title}
         sx={{
-          width: 150,
-          height: 150,
+          width: { xs: 100, sm: 120, md: 150 },
+          height: { xs: 100, sm: 120, md: 150 },
           borderRadius: 6,
           objectFit: "cover",
           cursor: "pointer",
@@ -95,7 +97,7 @@ const FeatureCard = ({ feature }) => (
       />
     </Box>
 
-    <CardContent sx={{ p: 0 }}>
+    <CardContent sx={{ p: 0, px: { xs: 0.5, sm: 1 } }}>
       <Typography
         className="feature-title"
         variant="h6"
@@ -104,9 +106,11 @@ const FeatureCard = ({ feature }) => (
           color: "#fff",
           cursor: "pointer",
           textAlign: "center",
-          maxWidth: "220px",
+          maxWidth: { xs: "160px", sm: "200px", md: "220px" },
           mx: "auto",
           transition: "color 0.3s",
+          fontSize: { xs: "10px", sm: "16px", md: "18px" },
+          lineHeight: 1.3,
         }}
       >
         {feature.title}
@@ -118,10 +122,11 @@ const FeatureCard = ({ feature }) => (
           sx={{
             color: "rgba(255,255,255,0.7)",
             textAlign: "center",
-            maxWidth: "200px",
+            maxWidth: { xs: "160px", sm: "180px", md: "200px" },
             mx: "auto",
             mt: 1,
             transition: "color 0.3s",
+            fontSize: { xs: "8px", sm: "13px", md: "14px" },
           }}
         >
           {feature.description}
@@ -132,6 +137,17 @@ const FeatureCard = ({ feature }) => (
 );
 
 export default function GamingExperience() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  // Combined features for mobile 3x3 grid (9 items - duplicating 2)
+  const mobileFeatures = [
+    ...firstRowFeatures,
+    ...secondRowFeatures,
+    firstRowFeatures[0], // Duplicate: Surround Sound
+    firstRowFeatures[1], // Duplicate: Snacks, desserts
+  ];
+
   return (
     <>
       {/* Global font registration */}
@@ -147,8 +163,9 @@ export default function GamingExperience() {
       />
       <Box
         sx={{
-          px: { xs: 2, md: 8 },
-          minHeight: "80vh",
+          px: { xs: 2, sm: 3, md: 8 },
+          minHeight: { xs: "auto", md: "80vh" },
+          py: { xs: 4, md: 0 },
           bgcolor: "#0A0D17",
           position: "relative",
           overflow: "hidden",
@@ -158,8 +175,8 @@ export default function GamingExperience() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: "800px",
-            height: "800px",
+            width: { xs: "400px", sm: "600px", md: "800px" },
+            height: { xs: "400px", sm: "600px", md: "800px" },
             background:
               "radial-gradient(circle, rgba(51, 178, 247, 0.73), rgba(84, 14, 92, 0.6), transparent 80%)",
             transform: "translate(-50%, -50%)",
@@ -168,18 +185,18 @@ export default function GamingExperience() {
           },
         }}
       >
-        <Box sx={{ position: "relative", zIndex: 1, mt: 5 }}>
+        <Box sx={{ position: "relative", zIndex: 1, mt: { xs: 2, md: 5 } }}>
           <Typography
-            fontSize="84px"
-            fontWeight={400}
-            fontFamily="BRUSHSTRIKE"
-            gutterBottom
             sx={{
+              fontSize: { xs: "42px", sm: "60px", md: "84px" },
+              fontWeight: 400,
+              fontFamily: "BRUSHSTRIKE",
               background:
                 "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               display: "inline-block",
+              mb: { xs: 2, md: 0 },
             }}
           >
             Why Choose Us
@@ -191,7 +208,10 @@ export default function GamingExperience() {
               maxWidth: "800px",
               mx: "auto",
               color: "#fff",
-              mb: 4,
+              mb: { xs: 3, md: 4 },
+              fontSize: { xs: "8px", sm: "15px", md: "16px" },
+              px: { xs: 1, sm: 2, md: 0 },
+              lineHeight: 1.3,
             }}
           >
             Level up your fun with unbeatable variety, cutting-edge gear, and a
@@ -200,49 +220,79 @@ export default function GamingExperience() {
             experience like no other.
           </Typography>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: { xs: 3, sm: 4, md: 5 },
-              mb: 6,
-            }}
-          >
-            {firstRowFeatures.map((feature, i) => (
+          {/* Mobile: 3x3 Grid */}
+          {isMobile ? (
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: 1.5,
+                mb: 2,
+              }}
+            >
+              {mobileFeatures.map((feature, i) => (
+                <Box
+                  key={i}
+                  sx={{
+                    width: "calc(33.33% - 8px)",
+                    minWidth: "100px",
+                  }}
+                >
+                  <FeatureCard feature={feature} />
+                </Box>
+              ))}
+            </Box>
+          ) : (
+            /* Desktop: Original layout */
+            <>
               <Box
-                key={i}
                 sx={{
-                  flex: "0 0 auto",
-                  width: { xs: "70%", sm: "45%", md: "22%" },
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  gap: { sm: 3, md: 5 },
+                  mb: { sm: 3, md: 6 },
                 }}
               >
-                <FeatureCard feature={feature} />
+                {firstRowFeatures.map((feature, i) => (
+                  <Box
+                    key={i}
+                    sx={{
+                      flex: "0 0 auto",
+                      width: { sm: "45%", md: "22%" },
+                      minWidth: { sm: "180px" },
+                    }}
+                  >
+                    <FeatureCard feature={feature} />
+                  </Box>
+                ))}
               </Box>
-            ))}
-          </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: { xs: 3, sm: 4, md: 5 },
-              mb: 2,
-            }}
-          >
-            {secondRowFeatures.map((feature, i) => (
               <Box
-                key={i}
                 sx={{
-                  flex: "0 0 auto",
-                  width: { xs: "70%", sm: "45%", md: "26%" },
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  gap: { sm: 3, md: 5 },
+                  mb: 2,
                 }}
               >
-                <FeatureCard feature={feature} />
+                {secondRowFeatures.map((feature, i) => (
+                  <Box
+                    key={i}
+                    sx={{
+                      flex: "0 0 auto",
+                      width: { sm: "45%", md: "26%" },
+                      minWidth: { sm: "180px" },
+                    }}
+                  >
+                    <FeatureCard feature={feature} />
+                  </Box>
+                ))}
               </Box>
-            ))}
-          </Box>
+            </>
+          )}
         </Box>
       </Box>
     </>

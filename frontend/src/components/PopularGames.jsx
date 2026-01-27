@@ -318,7 +318,8 @@ export default function FeaturedGames() {
               color: "gray.400",
               maxWidth: 950,
               mx: "auto",
-              fontSize: { xs: "14px", md: "16px" },
+              fontSize: { xs: "8px", md: "16px" },
+              lineHeight: { xs: 1.3, md: 1.6 },
               px: { xs: 1, sm: 0 },
             }}
           >
@@ -356,14 +357,14 @@ export default function FeaturedGames() {
                 onClick={() => handleDotClick(idx)}
                 sx={{
                   flex: "0 0 auto",
-                  width: { xs: 240, sm: 320, md: 380 },
-                  height: { xs: 320, sm: 420, md: 500 },
+                  width: { xs: 200, sm: 280, md: 380 },
+                  height: { xs: 280, sm: 380, md: 500 },
                   position: "relative",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
                   paddingBottom: "4px",
                   "&:hover": {
-                    transform: "scale(1.03)",
+                    transform: { xs: "none", md: "scale(1.03)" },
                   },
                   "&:hover .game-title": { color: "#33B2F7 !important" },
                   "&:hover .bottom-glow": {
@@ -418,7 +419,7 @@ export default function FeaturedGames() {
                   <Box
                     sx={{
                       position: "absolute",
-                      bottom: "36%",
+                      bottom: { xs: "32%", sm: "34%", md: "36%" },
                       left: 0,
                       right: 0,
                       zIndex: 10,
@@ -435,10 +436,10 @@ export default function FeaturedGames() {
                       }}
                       sx={{
                         width: "100%",
-                        py: { xs: 1.1, md: 1.3 },
+                        py: { xs: 0.8, sm: 1, md: 1.3 },
                         borderRadius: 0,
                         fontWeight: "bold",
-                        fontSize: { xs: "17px", md: "19px" },
+                        fontSize: { xs: "13px", sm: "15px", md: "19px" },
                         textTransform: "none",
                         color: "#fff",
                         background:
@@ -460,21 +461,21 @@ export default function FeaturedGames() {
                       bottom: 0,
                       left: 2,
                       right: 0,
-                      height: "44%",
+                      height: { xs: "40%", sm: "42%", md: "44%" },
                     }}
                   >
                     <Box
                       sx={{
                         position: "relative",
                         bgcolor: "rgba(0,0,0)",
-                        p: { xs: 1.4, sm: 1.85, md: 2.1 },
+                        p: { xs: 1, sm: 1.5, md: 2.1 },
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
                         textAlign: "center",
-                        gap: 0.5,
+                        gap: { xs: 0.25, md: 0.5 },
                       }}
                     >
                       <Typography
@@ -482,7 +483,7 @@ export default function FeaturedGames() {
                         variant="h6"
                         sx={{
                           mb: 0.1,
-                          fontSize: { xs: "19px", sm: "22px", md: "24px" },
+                          fontSize: { xs: "14px", sm: "18px", md: "24px" },
                           fontWeight: 700,
                           transition: "color 0.3s ease",
                           color: "#FFFFFF",
@@ -493,9 +494,9 @@ export default function FeaturedGames() {
                       <Typography
                         variant="body1"
                         sx={{
-                          fontSize: { xs: "14px", sm: "15px", md: "16px" },
+                          fontSize: { xs: "10px", sm: "13px", md: "16px" },
                           color: "#FFFFFF",
-                          lineHeight: 1.32,
+                          lineHeight: { xs: 1.2, md: 1.32 },
                         }}
                       >
                         {(game.descLines ?? [game.description]).map(

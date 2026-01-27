@@ -248,7 +248,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
         sx={{
           textAlign: "center",
           fontWeight: "bold",
-          fontSize: { xs: "24px", md: "32px" },
+          fontSize: { xs: "18px", sm: "24px", md: "32px" },
           mb: 6,
         }}
       >

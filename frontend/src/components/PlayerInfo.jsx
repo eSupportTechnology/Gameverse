@@ -426,7 +426,7 @@ const PlayerInfo = ({
         sx={{
           textAlign: "center",
           fontWeight: "bold",
-          fontSize: { xs: "24px", md: "32px" },
+          fontSize: { xs: "18px", sm: "24px", md: "32px" },
           mb: 6,
         }}
       >
@@ -444,7 +444,7 @@ const PlayerInfo = ({
           }}
         >
           <Box>
-            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
+            <Typography sx={{ mb: 1, fontSize: { xs: "11px", sm: "14px" }, color: "gray.400" }}>
               First Name
             </Typography>
             <TextField
@@ -457,7 +457,7 @@ const PlayerInfo = ({
             />
           </Box>
           <Box>
-            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
+            <Typography sx={{ mb: 1, fontSize: { xs: "11px", sm: "14px" }, color: "gray.400" }}>
               Last Name
             </Typography>
             <TextField
@@ -481,7 +481,7 @@ const PlayerInfo = ({
           }}
         >
           <Box>
-            <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
+            <Typography sx={{ mb: 1, fontSize: { xs: "11px", sm: "14px" }, color: "gray.400" }}>
               Contact Number
             </Typography>
             <TextField
@@ -492,6 +492,31 @@ const PlayerInfo = ({
               onChange={handleChange}
               sx={mainInputStyle}
             />
+          </Box>
+          <Box>
+            <Typography sx={{ mb: 1, fontSize: { xs: "11px", sm: "14px" }, color: "gray.400" }}>
+              VR Play
+            </Typography>
+            <RadioGroup
+              row
+              name="vrPlay"
+              value={formData.vrPlay}
+              onChange={handleChange}
+              sx={{ gap: { xs: 1, sm: 2 }, height: { xs: "40px", sm: "56px" } }}
+            >
+              <CustomRadioOption
+                value="yes"
+                label="Yes"
+                currentValue={formData.vrPlay}
+                onClick={() => setFormData({ ...formData, vrPlay: "yes" })}
+              />
+              <CustomRadioOption
+                value="no"
+                label="No"
+                currentValue={formData.vrPlay}
+                onClick={() => setFormData({ ...formData, vrPlay: "no" })}
+              />
+            </RadioGroup>
           </Box>
           {showVRPlay && (
             <Box>
@@ -577,11 +602,16 @@ const mainInputStyle = {
   "& .MuiOutlinedInput-root": {
     bgcolor: "rgba(255,255,255,0.05)",
     color: "white",
+    fontSize: { xs: "12px", sm: "14px" },
     "& fieldset": { borderColor: "rgba(255,255,255,0.1)" },
     "&:hover fieldset": { borderColor: "rgba(51, 178, 247, 0.5)" },
     "&.Mui-focused fieldset": { borderColor: "#33B2F7" },
   },
-  "& .MuiOutlinedInput-input": { color: "white" },
+  "& .MuiOutlinedInput-input": { 
+    color: "white",
+    padding: { xs: "10px 12px", sm: "14px" },
+    fontSize: { xs: "12px", sm: "14px" },
+  },
 };
 
 // Helper Component for Radio Button visual
@@ -602,6 +632,7 @@ const CustomRadioOption = ({ value, label, currentValue, onClick }) => (
       alignItems: "center",
       cursor: "pointer",
       transition: "all 0.3s ease",
+      py: { xs: 0.5, sm: 1 },
       "&:hover": {
         bgcolor: "rgba(51, 178, 247, 0.08)",
         borderColor: "rgba(51, 178, 247, 0.5)",
@@ -613,14 +644,23 @@ const CustomRadioOption = ({ value, label, currentValue, onClick }) => (
       value={value}
       control={
         <Radio
+          size="small"
           sx={{
             color: "rgba(255,255,255,0.3)",
             "&.Mui-checked": { color: "#33B2F7" },
+            "& .MuiSvgIcon-root": { fontSize: { xs: 16, sm: 24 } },
           }}
         />
       }
       label={label}
-      sx={{ color: "white", width: "100%", m: 0, ml: 1, pointerEvents: "none" }}
+      sx={{ 
+        color: "white", 
+        width: "100%", 
+        m: 0, 
+        ml: { xs: 0.5, sm: 1 }, 
+        pointerEvents: "none",
+        "& .MuiFormControlLabel-label": { fontSize: { xs: "12px", sm: "14px" } },
+      }}
     />
   </Box>
 );

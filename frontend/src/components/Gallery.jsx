@@ -34,12 +34,12 @@ const GalleryView = () => {
 
   const imageCardStyle = {
     flexShrink: 0,
-    width: isMobile ? "220px" : "325px",
-    height: isMobile ? "160px" : "220px",
+    width: isMobile ? "180px" : "325px",
+    height: isMobile ? "130px" : "220px",
     position: "relative",
-    borderRadius: "14px",
+    borderRadius: isMobile ? "10px" : "14px",
     overflow: "hidden",
-    marginRight: isMobile ? "14px" : "24px",
+    marginRight: isMobile ? "10px" : "24px",
     "&:last-child": { marginRight: 0 },
     display: "flex",
     alignItems: "center",
@@ -69,10 +69,10 @@ const GalleryView = () => {
 
     transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
     "&:hover": {
-      transform: "scale(1.03)",
-      boxShadow: "0 8px 30px rgba(160, 51, 255, 0.6)",
+      transform: isMobile ? "none" : "scale(1.03)",
+      boxShadow: isMobile ? "none" : "0 8px 30px rgba(160, 51, 255, 0.6)",
       "&::after": {
-        boxShadow: "inset 0 0 15px 3px rgba(160, 51, 255, 0.6)",
+        boxShadow: isMobile ? "inset 0 0 10px 2px rgba(160, 51, 255, 0.4)" : "inset 0 0 15px 3px rgba(160, 51, 255, 0.6)",
       },
     },
   };
@@ -176,8 +176,8 @@ const GalleryView = () => {
               color: "#FFFFFF",
               mb: isMobile ? 5 : 8,
               fontFamily: "Inter, sans-serif",
-              lineHeight: 1.6,
-              fontSize: { xs: "0.95rem", md: "1.09rem" },
+              lineHeight: 1.3,
+              fontSize: { xs: "8px", md: "1.09rem" },
               px: { xs: 1, md: 0 },
               maxWidth: "900px",
               margin: "0 auto",

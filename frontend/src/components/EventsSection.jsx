@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Box,
   Typography,
@@ -6,6 +6,8 @@ import {
   CardMedia,
   Button,
   GlobalStyles,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import axios from "axios";
@@ -83,9 +85,8 @@ const InnerCard = styled(Card)(({ theme }) => ({
   textAlign: "center",
   display: "flex",
   flexDirection: "column",
-  width: "90vw",
-  maxWidth: "360px",
-  height: "auto",
+  width: "100%",
+  height: "350px",
   [theme.breakpoints.up("sm")]: { width: "320px", height: "420px" },
   [theme.breakpoints.up("md")]: { width: "360px", height: "420px" },
 }));
@@ -133,6 +134,10 @@ const CountdownBox = styled(Box)(({ theme }) => ({
 
 const EventsSection = () => {
   const [tournaments, setTournaments] = useState([]);
+  const scrollContainerRef = useRef(null);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   console.log(API_BASE_URL);
   useEffect(() => {
@@ -164,6 +169,40 @@ const EventsSection = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-scroll for mobile
+  useEffect(() => {
+    if (!isMobile || !scrollContainerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsAutoPlaying(entry.isIntersecting);
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(scrollContainerRef.current);
+
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (!isMobile || !isAutoPlaying || !scrollContainerRef.current) return;
+
+    const container = scrollContainerRef.current;
+    const scrollInterval = setInterval(() => {
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const currentScroll = container.scrollLeft;
+
+      if (currentScroll >= maxScroll) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        container.scrollBy({ left: container.clientWidth, behavior: "smooth" });
+      }
+    }, 3000);
+
+    return () => clearInterval(scrollInterval);
+  }, [isAutoPlaying, isMobile]);
 
   const calculateTimeLeft = (dateString) => {
     const eventDate = new Date(dateString + "T00:00:00");
@@ -220,12 +259,13 @@ const EventsSection = () => {
           variant="h3"
           sx={{
             fontFamily: "BRUSHSTRIKE",
-            fontSize: { xs: "40px", sm: "55px", md: "70px" },
+            fontSize: { xs: "28px", sm: "55px", md: "70px" },
             fontWeight: 400,
             fontStyle: "normal",
             background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
+            whiteSpace: { xs: "nowrap", sm: "normal" },
           }}
         >
           Events & Tournaments
@@ -238,8 +278,8 @@ const EventsSection = () => {
             textAlign: "center",
             maxWidth: "900px",
             margin: "0 auto 40px",
-            fontSize: { xs: "14px", sm: "15px", md: "16px" },
-            lineHeight: 1.6,
+            fontSize: { xs: "8px", sm: "15px", md: "16px" },
+            lineHeight: 1.3,
           }}
         >
           Get ready to battle it out! Join our exciting events and competitive
@@ -249,17 +289,32 @@ const EventsSection = () => {
         </Typography>
 
         <Box
+          ref={scrollContainerRef}
           sx={{
             display: "flex",
-            flexWrap: "wrap",
+            flexDirection: "row",
+            flexWrap: { xs: "nowrap", sm: "wrap" },
             gap: { xs: 2, sm: 3, md: 4 },
-            justifyContent: "center",
+            justifyContent: { xs: "flex-start", sm: "center" },
             position: "relative",
             zIndex: 1,
+            overflowX: { xs: "auto", sm: "visible" },
+            scrollSnapType: { xs: "x mandatory", sm: "none" },
+            "&::-webkit-scrollbar": { display: "none" },
+            scrollbarWidth: "none",
+            width: "100%",
+            pb: 2,
           }}
         >
           {tournaments.map((tournament) => (
-            <GradientBorderCard key={tournament.id}>
+            <Box
+              key={tournament.id}
+              sx={{
+                flex: { xs: "0 0 280px", sm: "0 0 auto" },
+                scrollSnapAlign: { xs: "start", sm: "unset" },
+              }}
+            >
+            <GradientBorderCard>
               <InnerCard>
                 <ImageWrapper>
                   <CardMedia
@@ -304,6 +359,7 @@ const EventsSection = () => {
                 </CardContentWrapper>
               </InnerCard>
             </GradientBorderCard>
+            </Box>
           ))}
         </Box>
 
