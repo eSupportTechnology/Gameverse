@@ -85,59 +85,36 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
     }
   };
 
-  // Generate time slots
-  const timeSlots = [
-    { time: "12.00", name: "Alex Chen", status: "Booked" },
-    { time: "12.15", name: "Alex Chen", status: "Booked" },
-    { time: "12.30", name: "Alex Chen", status: "Booked" },
-    { time: "12.45", name: "Alex Chen", status: "Booked" },
-    { time: "01.00", name: "Alex Chen", status: "Booked" },
-    { time: "01.15", status: "Available" },
-    { time: "01.30", status: "Available" },
-    { time: "01.45", status: "Available" },
-    { time: "02.00", status: "Available" },
-    { time: "02.15", status: "Available" },
-    { time: "02.30", status: "Available" },
-    { time: "02.45", status: "Available" },
-    { time: "03.00", status: "Available" },
-    { time: "03.15", status: "Available" },
-    { time: "03.45", status: "Available" },
-    { time: "04.00", status: "Available" },
-    { time: "04.15", status: "Available" },
-    { time: "04.30", status: "Available" },
-    { time: "04.45", status: "Available" },
-    { time: "05.00", status: "Available" },
-    { time: "05.15", status: "Available" },
-    { time: "05.30", status: "Available" },
-    { time: "05.45", status: "Available" },
-    { time: "06.00", status: "Available" },
-    { time: "06.15", status: "Available" },
-    { time: "06.30", status: "Available" },
-    { time: "06.45", status: "Available" },
-    { time: "07.00", status: "Available" },
-    { time: "07.15", status: "Available" },
-    { time: "07.30", status: "Available" },
-    { time: "07.45", status: "Available" },
-    { time: "08.00", status: "Available" },
-    { time: "08.15", status: "Available" },
-    { time: "08.30", status: "Available" },
-    { time: "08.45", status: "Available" },
-    { time: "09.00", status: "Available" },
-    { time: "09.15", status: "Available" },
-    { time: "09.30", status: "Available" },
-    { time: "09.45", status: "Available" },
-    { time: "10.00", status: "Available" },
-    { time: "10.15", status: "Available" },
-    { time: "10.30", status: "Available" },
-    { time: "10.45", status: "Available" },
-    { time: "11.00", status: "Available" },
-    { time: "11.15", status: "Available" },
-    { time: "11.30", status: "Available" },
-    { time: "11.45", status: "Available" },
-    // { time: "12.00", status: "Available" },
-    // { time: "12.15", status: "Available" },
-    // { time: "01.30", status: "Available" },
-  ];
+  const generateTimeSlots = () => {
+    if (!selectedStation) return [];
+
+    const slots = [];
+
+    if (selectedStation.type === "Pool") {
+      for (let h = 12; h <= 23; h++) {
+        const hour12 = h > 12 ? h - 12 : h;
+        slots.push({ time: `${hour12}.00`, status: "Available" });
+        if (!(h === 23))
+          slots.push({ time: `${hour12}.30`, status: "Available" });
+        else slots.push({ time: `11.30`, status: "Available" });
+      }
+    } else {
+      for (let h = 12; h <= 23; h++) {
+        const hour12 = h > 12 ? h - 12 : h;
+        for (let m of [0, 15, 30, 45]) {
+          if (h === 23 && m > 45) continue;
+          slots.push({
+            time: `${hour12}.${String(m).padStart(2, "0")}`,
+            status: "Available",
+          });
+        }
+      }
+    }
+
+    return slots;
+  };
+
+  const timeSlots = generateTimeSlots();
 
   const durations = [];
   for (let min = 30; min <= 240; min += 30) {
