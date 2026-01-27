@@ -444,7 +444,13 @@ const PlayerInfo = ({
           }}
         >
           <Box>
-            <Typography sx={{ mb: 1, fontSize: { xs: "11px", sm: "14px" }, color: "gray.400" }}>
+            <Typography
+              sx={{
+                mb: 1,
+                fontSize: { xs: "11px", sm: "14px" },
+                color: "gray.400",
+              }}
+            >
               First Name
             </Typography>
             <TextField
@@ -457,7 +463,13 @@ const PlayerInfo = ({
             />
           </Box>
           <Box>
-            <Typography sx={{ mb: 1, fontSize: { xs: "11px", sm: "14px" }, color: "gray.400" }}>
+            <Typography
+              sx={{
+                mb: 1,
+                fontSize: { xs: "11px", sm: "14px" },
+                color: "gray.400",
+              }}
+            >
               Last Name
             </Typography>
             <TextField
@@ -481,7 +493,13 @@ const PlayerInfo = ({
           }}
         >
           <Box>
-            <Typography sx={{ mb: 1, fontSize: { xs: "11px", sm: "14px" }, color: "gray.400" }}>
+            <Typography
+              sx={{
+                mb: 1,
+                fontSize: { xs: "11px", sm: "14px" },
+                color: "gray.400",
+              }}
+            >
               Contact Number
             </Typography>
             <TextField
@@ -493,34 +511,15 @@ const PlayerInfo = ({
               sx={mainInputStyle}
             />
           </Box>
-          <Box>
-            <Typography sx={{ mb: 1, fontSize: { xs: "11px", sm: "14px" }, color: "gray.400" }}>
-              VR Play
-            </Typography>
-            <RadioGroup
-              row
-              name="vrPlay"
-              value={formData.vrPlay}
-              onChange={handleChange}
-              sx={{ gap: { xs: 1, sm: 2 }, height: { xs: "40px", sm: "56px" } }}
-            >
-              <CustomRadioOption
-                value="yes"
-                label="Yes"
-                currentValue={formData.vrPlay}
-                onClick={() => setFormData({ ...formData, vrPlay: "yes" })}
-              />
-              <CustomRadioOption
-                value="no"
-                label="No"
-                currentValue={formData.vrPlay}
-                onClick={() => setFormData({ ...formData, vrPlay: "no" })}
-              />
-            </RadioGroup>
-          </Box>
           {showVRPlay && (
             <Box>
-              <Typography sx={{ mb: 1, fontSize: "14px", color: "gray.400" }}>
+              <Typography
+                sx={{
+                  mb: 1,
+                  fontSize: { xs: "11px", sm: "14px" },
+                  color: "gray.400",
+                }}
+              >
                 VR Play
               </Typography>
               <RadioGroup
@@ -528,7 +527,10 @@ const PlayerInfo = ({
                 name="vrPlay"
                 value={formData.vrPlay}
                 onChange={handleChange}
-                sx={{ gap: 2, height: "56px" }}
+                sx={{
+                  gap: { xs: 1, sm: 2 },
+                  height: { xs: "40px", sm: "56px" },
+                }}
               >
                 <CustomRadioOption
                   value="yes"
@@ -607,7 +609,7 @@ const mainInputStyle = {
     "&:hover fieldset": { borderColor: "rgba(51, 178, 247, 0.5)" },
     "&.Mui-focused fieldset": { borderColor: "#33B2F7" },
   },
-  "& .MuiOutlinedInput-input": { 
+  "& .MuiOutlinedInput-input": {
     color: "white",
     padding: { xs: "10px 12px", sm: "14px" },
     fontSize: { xs: "12px", sm: "14px" },
@@ -653,13 +655,15 @@ const CustomRadioOption = ({ value, label, currentValue, onClick }) => (
         />
       }
       label={label}
-      sx={{ 
-        color: "white", 
-        width: "100%", 
-        m: 0, 
-        ml: { xs: 0.5, sm: 1 }, 
+      sx={{
+        color: "white",
+        width: "100%",
+        m: 0,
+        ml: { xs: 0.5, sm: 1 },
         pointerEvents: "none",
-        "& .MuiFormControlLabel-label": { fontSize: { xs: "12px", sm: "14px" } },
+        "& .MuiFormControlLabel-label": {
+          fontSize: { xs: "12px", sm: "14px" },
+        },
       }}
     />
   </Box>
