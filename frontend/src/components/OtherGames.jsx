@@ -1,7 +1,11 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useRef, useEffect, useState } from "react";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 const OtherGames = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const scrollRef = useRef(null);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const otherGames = [
     {
       id: 1,
@@ -31,6 +35,47 @@ const OtherGames = () => {
     "polygon(14% 0, 100% 0, 100% 100%, 0 100%)",
     "polygon(6% 0, 98% 0, 94% 100%, 0 100%)",
   ];
+
+  // Auto-play functionality with Intersection Observer for mobile
+  useEffect(() => {
+    if (!isMobile) return;
+    
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsAutoPlaying(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  // Auto-scroll effect for mobile
+  useEffect(() => {
+    if (!isMobile || !isAutoPlaying) return;
+
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const scrollInterval = setInterval(() => {
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const currentScroll = container.scrollLeft;
+      
+      if (currentScroll >= maxScroll) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        container.scrollTo({ left: currentScroll + container.clientWidth, behavior: "smooth" });
+      }
+    }, 3000);
+
+    return () => clearInterval(scrollInterval);
+  }, [isMobile, isAutoPlaying]);
 
   return (
     <Box
@@ -82,8 +127,8 @@ const OtherGames = () => {
           <Typography
             sx={{
               color: "#fff",
-              fontSize: { xs: "14px", sm: "14px", md: "16px" },
-              lineHeight: 1.7,
+              fontSize: { xs: "8px", sm: "14px", md: "16px" },
+              lineHeight: 1.3,
               maxWidth: "1100px",
               mx: "auto",
               px: { xs: 2, sm: 0 },
@@ -97,12 +142,18 @@ const OtherGames = () => {
 
         {/* Games Grid */}
         <Box
+          ref={scrollRef}
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: { xs: "flex-start", sm: "center" },
             gap: { xs: 2, sm: 3, md: 4 },
-            px: { xs: 2, sm: 4 },
-            flexWrap: { xs: "wrap", md: "nowrap" },
+            px: { xs: 1, sm: 4 },
+            flexWrap: { xs: "nowrap", sm: "wrap" },
+            overflowX: { xs: "auto", sm: "visible" },
+            scrollSnapType: { xs: "x mandatory", sm: "none" },
+            "&::-webkit-scrollbar": { display: "none" },
+            msOverflowStyle: "none",
+            scrollbarWidth: "none",
           }}
         >
           {otherGames.map((game, idx) => {
@@ -112,16 +163,17 @@ const OtherGames = () => {
               <Box
                 key={game.id}
                 sx={{
-                  flex: "0 0 auto",
-                  width: { xs: "100%", sm: "320px", md: "360px" },
-                  height: { xs: "420px", sm: "440px", md: "500px" },
+                  flex: { xs: "0 0 85%", sm: "0 0 auto" },
+                  width: { xs: "85%", sm: "280px", md: "360px" },
+                  height: { xs: "280px", sm: "380px", md: "500px" },
                   position: "relative",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
                   boxShadow: "0 20px 50px rgba(0,0,0,0.35)",
+                  scrollSnapAlign: { xs: "center", sm: "none" },
                   "&:hover": {
-                    transform: "scale(1.02)",
-                    boxShadow: "0 25px 60px rgba(0,0,0,0.45)",
+                    transform: { xs: "none", md: "scale(1.02)" },
+                    boxShadow: { xs: "0 20px 50px rgba(0,0,0,0.35)", md: "0 25px 60px rgba(0,0,0,0.45)" },
                   },
                 }}
               >
@@ -155,14 +207,14 @@ const OtherGames = () => {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      height: "32%",
+                      height: { xs: "38%", sm: "34%", md: "32%" },
                     }}
                   >
                     <Box
                       sx={{
                         position: "relative",
                         bgcolor: "#000",
-                        p: { xs: 1.75, sm: 2, md: 2.25 },
+                        p: { xs: 1.25, sm: 1.75, md: 2.25 },
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
@@ -174,8 +226,8 @@ const OtherGames = () => {
                         className="game-title"
                         variant="h6"
                         sx={{
-                          mb: 1,
-                          fontSize: { xs: "15px", sm: "16px", md: "18px" },
+                          mb: { xs: 0.5, md: 1 },
+                          fontSize: { xs: "13px", sm: "15px", md: "18px" },
                           fontWeight: 700,
                           transition: "color 0.3s ease",
                           color: "white",
@@ -187,11 +239,15 @@ const OtherGames = () => {
                       <Typography
                         variant="body2"
                         sx={{
-                          fontSize: { xs: "12px", sm: "13px", md: "14px" },
+                          fontSize: { xs: "10px", sm: "12px", md: "14px" },
                           color: "#FFFFFF",
                           opacity: 0.9,
                           textAlign: "center",
-                          lineHeight: 1.6,
+                          lineHeight: { xs: 1.4, md: 1.6 },
+                          display: { xs: "-webkit-box", md: "block" },
+                          WebkitLineClamp: { xs: 3, md: "unset" },
+                          WebkitBoxOrient: "vertical",
+                          overflow: { xs: "hidden", md: "visible" },
                         }}
                       >
                         {game.description}

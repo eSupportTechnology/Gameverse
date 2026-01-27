@@ -9,16 +9,17 @@ const GamesHero = () => {
     <Box
       sx={{
         position: "relative",
-        minHeight: { xs: "auto", md: "calc(100vh - 64px)" },
+        minHeight: { xs: "70vh", md: "calc(100vh - 64px)" },
         width: "100%",
         bgcolor: "#0A0D17",
         display: "flex",
-        flexDirection: { xs: "column", md: "row" },
+        flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         overflow: "hidden",
-        px: { xs: 2.5, sm: 4, md: 10 },
-        pt: { xs: 6, md: 0 },
+        px: { xs: 2, sm: 4, md: 10 },
+        pt: { xs: 4, md: 0 },
+        pb: { xs: 4, md: 0 },
         boxSizing: "border-box",
         "&::after": {
           content: '""',
@@ -38,43 +39,44 @@ const GamesHero = () => {
       <Box
         sx={{
           flex: 1,
-          maxWidth: "600px",
+          maxWidth: { xs: "50%", md: "600px" },
           zIndex: 3,
           position: "relative",
-          textAlign: { xs: "center", md: "left" },
+          textAlign: "left",
+          pr: { xs: 1, sm: 2, md: 0 },
         }}
       >
         <Typography
           sx={{
-            fontSize: { xs: "34px", sm: "44px", md: "72px" },
+            fontSize: { xs: "20px", sm: "44px", md: "72px" },
             fontWeight: 700,
             color: "#ffffff",
             lineHeight: 1.1,
-            mb: 1,
+            mb: { xs: 0.5, md: 1 },
           }}
         >
           Experience
         </Typography>
         <Typography
           sx={{
-            fontSize: { xs: "40px", sm: "56px", md: "72px" },
+            fontSize: { xs: "24px", sm: "56px", md: "72px" },
             fontWeight: 700,
             background: "linear-gradient(to bottom, #33B2F7, #A905BC)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             lineHeight: 1.1,
-            mb: 1,
+            mb: { xs: 0.5, md: 1 },
           }}
         >
           Gaming
         </Typography>
         <Typography
           sx={{
-            fontSize: { xs: "40px", sm: "56px", md: "72px" },
+            fontSize: { xs: "16px", sm: "56px", md: "72px" },
             fontWeight: 700,
             color: "#ffffff",
             lineHeight: 1.1,
-            mb: 4,
+            mb: { xs: 2, md: 4 },
           }}
         >
           Beyond the Basic Details
@@ -83,9 +85,9 @@ const GamesHero = () => {
         <Typography
           sx={{
             color: "#fff",
-            fontSize: { xs: "16px", md: "18px" },
-            lineHeight: 1.8,
-            mb: 4,
+            fontSize: { xs: "8px", sm: "14px", md: "18px" },
+            lineHeight: { xs: 1.3, md: 1.8 },
+            mb: { xs: 1.5, md: 4 },
             maxWidth: "600px",
           }}
         >
@@ -96,9 +98,9 @@ const GamesHero = () => {
 
         <Typography
           sx={{
-            fontSize: { xs: "16px", md: "18px" },
+            fontSize: { xs: "8px", sm: "14px", md: "18px" },
             fontWeight: 500,
-            mb: 5,
+            mb: { xs: 2, md: 5 },
             backgroundImage: "linear-gradient(to right, #33B2F7, #A905BC)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
@@ -110,21 +112,21 @@ const GamesHero = () => {
         <Box
           sx={{
             display: "flex",
-            gap: 2,
-            flexWrap: "wrap",
-            justifyContent: { xs: "center", md: "flex-start" },
+            gap: { xs: 1, md: 2 },
+            flexWrap: "nowrap",
+            justifyContent: "flex-start",
           }}
         >
           <Button
             onClick={() => navigate("/booking", { state: { from: "/games" } })}
             sx={{
-              px: { xs: 4, md: 5 },
-              py: 1.5,
+              px: { xs: 1.5, sm: 3, md: 5 },
+              py: { xs: 0.6, md: 1.5 },
               background: "linear-gradient(to right, #33B2F7, #A905BC)",
               color: "white",
               borderRadius: "30px",
               fontWeight: 700,
-              fontSize: { xs: "15px", md: "16px" },
+              fontSize: { xs: "9px", sm: "14px", md: "16px" },
               textTransform: "none",
               transition: "all 0.3s ease",
               "&:hover": {
@@ -147,13 +149,13 @@ const GamesHero = () => {
             }}
             sx={{
               position: "relative",
-              px: 5,
-              py: 1.5,
+              px: { xs: 1.5, sm: 3, md: 5 },
+              py: { xs: 0.6, md: 1.5 },
               background: "transparent",
               color: "transparent",
               borderRadius: "30px",
               fontWeight: 700,
-              fontSize: "16px",
+              fontSize: { xs: "9px", sm: "14px", md: "16px" },
               textTransform: "none",
               backgroundImage: "linear-gradient(to right, #A905BC, #33B2F7)",
               backgroundClip: "text",
@@ -190,13 +192,14 @@ const GamesHero = () => {
       <Box
         sx={{
           flex: 1,
+          maxWidth: { xs: "50%", md: "50%" },
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           overflow: "visible",
           position: "relative",
           minHeight: { xs: "auto", md: "100vh" },
-          mt: { xs: 6, md: 0 },
+          mt: 0,
         }}
       >
         <Box
@@ -220,7 +223,7 @@ const GamesHero = () => {
           alt="Gaming Characters"
           sx={{
             width: "100%",
-            maxWidth: { xs: "450px", sm: "550px", md: "700px", lg: "850px" },
+            maxWidth: { xs: "250px", sm: "550px", md: "700px", lg: "850px" },
             height: "auto",
             objectFit: "contain",
             position: "relative",

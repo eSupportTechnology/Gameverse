@@ -11,6 +11,11 @@ const GradientButton = styled(Button)(({ theme }) => ({
   transition: "all 0.3s ease-in-out",
   color: "#fff",
   background: "linear-gradient(to right, #33B2F7, #A905BC)",
+  fontSize: "16px",
+  [theme.breakpoints.down("sm")]: {
+    padding: "8px 20px",
+    fontSize: "11px",
+  },
 
   "&::before": {
     content: '""',
@@ -59,7 +64,8 @@ const BookingSection = () => {
       <Box
         sx={{
           bgcolor: "#0A0D17",
-          py: { xs: 2, sm: 2 },
+          py: { xs: 3, sm: 2 },
+          px: { xs: 2, sm: 4 },
           textAlign: "center",
           border: "none",
         }}
@@ -73,6 +79,8 @@ const BookingSection = () => {
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             mb: 3,
+            fontSize: { xs: "12px", sm: "22px", md: "24px" },
+            px: { xs: 1, sm: 0 },
           }}
         >
           Your seat is waiting — Book Now and Game On!

@@ -31,20 +31,22 @@ const Footer = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        py: 4,
+        py: { xs: 2, md: 4 },
+        px: { xs: 1, md: 0 },
       }}
     >
       {/* ==================== FOOTER PILL CONTAINER ==================== */}
       <Box
         sx={{
           background: "#1c1e2bff",
-          borderRadius: { xs: "30px", md: "100px" },
-          width: { xs: "80%", md: "90%" },
-          maxWidth: "1300px", // Slightly tighter max width to help centering
-          mx: "auto",
-          px: { xs: 4, md: 6 },
-          py: { xs: 4, md: 6 },
+          borderRadius: { xs: "20px", sm: "30px", md: "100px" },
+          width: { xs: "100%", sm: "90%", md: "90%" },
+          maxWidth: "1300px",
+          mx: { xs: 1, sm: "auto" },
+          px: { xs: 2, sm: 4, md: 6 },
+          py: { xs: 2, sm: 4, md: 6 },
           position: "relative",
+          boxSizing: "border-box",
         }}
       >
         {/* justifyContent="center" -> Groups columns in the middle 
@@ -52,32 +54,32 @@ const Footer = () => {
         */}
         <Grid
           container
-          columnSpacing={{ xs: 2, md: 8, lg: 24 }}
-          rowSpacing={4}
+          columnSpacing={{ xs: 1, sm: 4, md: 8, lg: 24 }}
+          rowSpacing={{ xs: 2, sm: 4, md: 4 }}
           justifyContent="center"
-          alignItems="center"
+          alignItems={{ xs: "flex-start", md: "center" }}
         >
           {/* --- Left Column: Contact Info --- */}
-          <Grid item xs={12} md={4.5} lg={4}>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Grid item xs={12} sm={6} md={4.5} lg={4}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 1, md: 2 } }}>
               {" "}
               {/* Reduced gap from 2.5 to 2 */}
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 {" "}
                 {/* Align items center ensures icon and text line up */}
-                <LocationOn sx={{ mr: 2, fontSize: 20, color: "#fff" }} />
+                <LocationOn sx={{ mr: { xs: 1, md: 2 }, fontSize: { xs: 14, md: 20 }, color: "#fff" }} />
                 <Typography
                   variant="body2"
-                  sx={{ fontSize: "14px", color: "#ccc" }}
+                  sx={{ fontSize: { xs: "10px", md: "14px" }, color: "#ccc" }}
                 >
                   666 Trincomalee Street, Matale
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Phone sx={{ mr: 2, fontSize: 20, color: "#fff" }} />
+                <Phone sx={{ mr: { xs: 1, md: 2 }, fontSize: { xs: 14, md: 20 }, color: "#fff" }} />
                 <Typography
                   variant="body2"
-                  sx={{ fontSize: "14px", color: "#ccc" }}
+                  sx={{ fontSize: { xs: "10px", md: "14px" }, color: "#ccc" }}
                 >
                   <Link
                     href="tel:0717111882"
@@ -97,10 +99,10 @@ const Footer = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Email sx={{ mr: 2, fontSize: 20, color: "#fff" }} />
+                <Email sx={{ mr: { xs: 1, md: 2 }, fontSize: { xs: 14, md: 20 }, color: "#fff" }} />
                 <Typography
                   variant="body2"
-                  sx={{ fontSize: "14px", color: "#ccc" }}
+                  sx={{ fontSize: { xs: "10px", md: "14px" }, color: "#ccc" }}
                 >
                   <Link
                     href="mailto:Gameverse.ltd@gmail.com"
@@ -115,10 +117,10 @@ const Footer = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <AccessTime sx={{ mr: 2, fontSize: 20, color: "#fff" }} />
+                <AccessTime sx={{ mr: { xs: 1, md: 2 }, fontSize: { xs: 14, md: 20 }, color: "#fff" }} />
                 <Typography
                   variant="body2"
-                  sx={{ fontSize: "14px", color: "#ccc" }}
+                  sx={{ fontSize: { xs: "10px", md: "14px" }, color: "#ccc" }}
                 >
                   Opening Hours: 12 PM – 12 AM (Daily)
                 </Typography>
@@ -158,13 +160,13 @@ const Footer = () => {
           </Grid>
 
           {/* --- Middle Column: Quick Link --- */}
-          <Grid item xs={12} md={2.5} lg={2}>
+          <Grid item xs={12} sm={6} md={2.5} lg={2}>
             {/* Flex container to center the content block within the column if needed, or keep left aligned */}
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: { xs: "center", md: "flex-start" },
+                alignItems: { xs: "flex-start", sm: "flex-start", md: "flex-start" },
                 pl: { xs: 0, md: 2 },
               }}
             >
@@ -172,22 +174,22 @@ const Footer = () => {
                 variant="subtitle1"
                 sx={{
                   fontWeight: "bold",
-                  mb: 2,
-                  fontSize: "14px",
+                  mb: { xs: 1, md: 2 },
+                  fontSize: { xs: "10px", md: "14px" },
                   textTransform: "uppercase",
                   letterSpacing: "0.5px",
                 }}
               >
                 QUICK LINK
               </Typography>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 0.5, md: 1 } }}>
                 <Link
                   component={RouterLink}
                   to="/"
                   underline="none"
                   onClick={handleFooterNavigation}
                   sx={{
-                    fontSize: "13px",
+                    fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
                     "&:hover": { color: "#fff" },
                   }}
@@ -200,7 +202,7 @@ const Footer = () => {
                   underline="none"
                   onClick={handleFooterNavigation}
                   sx={{
-                    fontSize: "13px",
+                    fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
                     "&:hover": { color: "#fff" },
                   }}
@@ -213,7 +215,7 @@ const Footer = () => {
                   underline="none"
                   onClick={handleFooterNavigation}
                   sx={{
-                    fontSize: "13px",
+                    fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
                     "&:hover": { color: "#fff" },
                   }}
@@ -226,7 +228,7 @@ const Footer = () => {
                   underline="none"
                   onClick={handleFooterNavigation}
                   sx={{
-                    fontSize: "13px",
+                    fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
                     "&:hover": { color: "#fff" },
                   }}
@@ -239,7 +241,7 @@ const Footer = () => {
                   underline="none"
                   onClick={handleFooterNavigation}
                   sx={{
-                    fontSize: "13px",
+                    fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
                     "&:hover": { color: "#fff" },
                   }}
@@ -252,7 +254,7 @@ const Footer = () => {
                   underline="none"
                   onClick={handleFooterNavigation}
                   sx={{
-                    fontSize: "13px",
+                    fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
                     "&:hover": { color: "#fff" },
                   }}
@@ -264,12 +266,12 @@ const Footer = () => {
           </Grid>
 
           {/* --- Right Column: Map --- */}
-          <Grid item xs={12} md={4.5} lg={4}>
+          <Grid item xs={12} sm={12} md={4.5} lg={4}>
             <Box
               sx={{
                 width: "100%",
-                height: "200px",
-                borderRadius: "25px",
+                height: { xs: "180px", sm: "200px", md: "200px" },
+                borderRadius: { xs: "16px", md: "25px" },
                 overflow: "hidden",
                 border: "1px solid rgba(255,255,255,0.05)",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
@@ -303,7 +305,7 @@ const Footer = () => {
         <Box sx={{ textAlign: "center" }}>
           <Typography
             variant="caption"
-            sx={{ color: "rgba(255,255,255,0.6)", fontSize: "12px" }}
+            sx={{ color: "rgba(255,255,255,0.6)", fontSize: { xs: "8px", md: "12px" } }}
           >
             Copyright © 2025 GAMEVERSE. All Right Reserved.
           </Typography>
