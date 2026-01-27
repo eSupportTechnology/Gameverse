@@ -8,6 +8,7 @@ const OtherGames = () => {
       title: "Arcade Machine",
       description:
         "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    displayPrice: "Rs 100 / Coin",
       image: "/Images/pic1.png",
     },
     {
@@ -15,6 +16,7 @@ const OtherGames = () => {
       title: "Archery Gaming",
       description:
         "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    displayPrice: "Rs 600 / 5 Arrows",
       image: "/Images/pic2.png",
     },
     {
@@ -22,6 +24,7 @@ const OtherGames = () => {
       title: "Carrom Gaming",
       description:
         "Latest PS5 games with 4K graphics and immersive gameplay on premium gaming setups",
+    displayPrice: "Rs 75 / hr (1 Person)",
       image: "/Images/pic3.png",
     },
   ];
@@ -184,6 +187,21 @@ const OtherGames = () => {
                       >
                         {game.title}
                       </Typography>
+
+                       <Typography
+                        variant="body2"
+                        sx={{
+                          fontSize: { xs: "15px", sm: "16px", md: "18px" },
+                          color: "#00d7ec",
+                          opacity: 0.9,
+                          textAlign: "center",
+                          lineHeight: 1.6,
+                          fontWeight:"bold",
+                        }}
+                      >
+                        {game.displayPrice}
+                      </Typography>
+
                       <Typography
                         variant="body2"
                         sx={{
@@ -196,6 +214,7 @@ const OtherGames = () => {
                       >
                         {game.description}
                       </Typography>
+                       
                     </Box>
                   </Box>
                 </Box>

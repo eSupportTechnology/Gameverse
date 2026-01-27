@@ -160,7 +160,6 @@ const Navbar = () => {
                   {item}
                 </Button>
               ))} */}
-
               <Button
                 component={NavLink}
                 to="/"
@@ -189,7 +188,6 @@ const Navbar = () => {
               >
                 Games
               </Button>
-
               <Button
                 component={NavLink}
                 to="/contact"
@@ -203,6 +201,48 @@ const Navbar = () => {
                 }}
               >
                 Contact Us
+              </Button>
+              <Button
+                component={NavLink}
+                to="/terms-and-conditions"
+                sx={{
+                  color: "#ffffff",
+                  textTransform: "none",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  "&.active": { color: "#ff00ff" },
+                  "&:hover": { color: "#ff00ff" },
+                }}
+              >
+                Terms
+              </Button>
+              <Button
+                component={NavLink}
+                to="/privacy-policy"
+                sx={{
+                  color: "#ffffff",
+                  textTransform: "none",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  "&.active": { color: "#ff00ff" },
+                  "&:hover": { color: "#ff00ff" },
+                }}
+              >
+                Privacy
+              </Button>{" "}
+              <Button
+                component={NavLink}
+                to="/refund-policy"
+                sx={{
+                  color: "#ffffff",
+                  textTransform: "none",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  "&.active": { color: "#ff00ff" },
+                  "&:hover": { color: "#ff00ff" },
+                }}
+              >
+                Return/ Refund
               </Button>
             </Box>
           )}

@@ -220,6 +220,21 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
     }
   }, [selectedStation]);
 
+  const formatTime = (mins) => {
+    if (!mins || isNaN(mins)) return "";
+
+    if (mins < 60) return `${mins} mins`;
+
+    const hours = Math.floor(mins / 60);
+    const remainingMins = mins % 60;
+
+    if (remainingMins === 0) {
+      return `${hours} hr${hours > 1 ? "s" : ""}`;
+    }
+
+    return `${hours} hr ${remainingMins} mins`;
+  };
+
   return (
     <Box
       sx={{
@@ -331,7 +346,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
                   className="select-btn"
                   sx={{
                     position: "absolute",
-                    bottom: { xs: "25%", md: "27%" },
+                    bottom: { xs: "30%", md: "32%" },
                     left: 0,
                     right: 0,
                     zIndex: 10,
@@ -398,6 +413,34 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
                   >
                     {station.name}
                   </Typography>
+                  {/* Normal Price + Time */}
+                  {station.price && station.time && (
+                    <Typography
+                      sx={{
+                        fontSize: { xs: "13px", md: "14px" },
+                        fontWeight: "bold",
+                        color: "#fff",
+                        mb: 0.5,
+                      }}
+                    >
+                      Price: Rs. {station.price} / {formatTime(station.time)}
+                    </Typography>
+                  )}
+
+                  {/* VR Price + Time */}
+                  {station.vrPrice && station.vrTime && (
+                    <Typography
+                      sx={{
+                        fontSize: { xs: "12px", md: "13px" },
+                        color: "#4CAF50",
+                        fontWeight: 500,
+                        mb: 0.5,
+                      }}
+                    >
+                      VR: Rs. {station.vrPrice} / {formatTime(station.vrTime)}
+                    </Typography>
+                  )}
+
                   <Typography
                     variant="body2"
                     sx={{
