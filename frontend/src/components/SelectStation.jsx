@@ -24,7 +24,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const autoPlayIntervalRef = useRef(null);
   const [selectedStationName, setSelectedStationName] = useState(
-    selectedStation || null
+    selectedStation || null,
   );
 
   const visibleCount = isDesktop ? 3 : 1;
@@ -156,7 +156,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
           setIsAutoPlaying(entry.isIntersecting);
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     observer.observe(container);
@@ -211,7 +211,28 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
 
   const handleSelect = (station) => {
     setSelectedStationName(station.name);
-    if (onNext) onNext(station.name);
+    if (onNext) onNext(station);
+  };
+
+  useEffect(() => {
+    if (selectedStation) {
+      setSelectedStationName(selectedStation.name || selectedStation);
+    }
+  }, [selectedStation]);
+
+  const formatTime = (mins) => {
+    if (!mins || isNaN(mins)) return "";
+
+    if (mins < 60) return `${mins} mins`;
+
+    const hours = Math.floor(mins / 60);
+    const remainingMins = mins % 60;
+
+    if (remainingMins === 0) {
+      return `${hours} hr${hours > 1 ? "s" : ""}`;
+    }
+
+    return `${hours} hr ${remainingMins} mins`;
   };
 
   return (
@@ -227,7 +248,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
         sx={{
           textAlign: "center",
           fontWeight: "bold",
-          fontSize: { xs: "24px", md: "32px" },
+          fontSize: { xs: "18px", sm: "24px", md: "32px" },
           mb: 6,
         }}
       >
@@ -325,7 +346,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
                   className="select-btn"
                   sx={{
                     position: "absolute",
-                    bottom: { xs: "25%", md: "27%" },
+                    bottom: { xs: "30%", md: "32%" },
                     left: 0,
                     right: 0,
                     zIndex: 10,
@@ -392,6 +413,59 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
                   >
                     {station.name}
                   </Typography>
+                  {/* Prices in same line, centered */}
+                  {(station.price || station.vrPrice) && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 2,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        mb: 0.5,
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      {station.price && station.vrPrice ? (
+                        // Both Normal and VR prices
+                        <Typography
+                          sx={{
+                            fontSize: { xs: "12px", md: "10px" },
+                            fontWeight: "bold",
+                            color: "#fff",
+                          }}
+                        >
+                          Price: Rs. {station.price} /{" "}
+                          {formatTime(station.time)} & VR: Rs. {station.vrPrice}{" "}
+                          / {formatTime(station.vrTime)}
+                        </Typography>
+                      ) : station.price ? (
+                        // Only normal price
+                        <Typography
+                          sx={{
+                            fontSize: { xs: "13px", md: "14px" },
+                            fontWeight: "bold",
+                            color: "#fff",
+                          }}
+                        >
+                          Price: Rs. {station.price} /{" "}
+                          {formatTime(station.time)}
+                        </Typography>
+                      ) : station.vrPrice ? (
+                        // Only VR price
+                        <Typography
+                          sx={{
+                            fontSize: { xs: "13px", md: "14px" },
+                            fontWeight: "bold",
+                            color: "#fff",
+                          }}
+                        >
+                          VR: Rs. {station.vrPrice} /{" "}
+                          {formatTime(station.vrTime)}
+                        </Typography>
+                      ) : null}
+                    </Box>
+                  )}
+
                   <Typography
                     variant="body2"
                     sx={{

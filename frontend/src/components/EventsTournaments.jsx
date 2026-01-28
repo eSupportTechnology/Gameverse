@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import React, { useEffect, useState, useRef } from "react";
+import { Box, Typography, Button, useMediaQuery, useTheme } from "@mui/material";
 import axios from "axios";
 import { API_BASE_URL } from "../apiConfig";
 
 const EventsTournaments = () => {
   const [tournaments, setTournaments] = useState([]);
+  const scrollContainerRef = useRef(null);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     axios
@@ -37,6 +41,40 @@ const EventsTournaments = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-scroll for mobile
+  useEffect(() => {
+    if (!isMobile || !scrollContainerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsAutoPlaying(entry.isIntersecting);
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(scrollContainerRef.current);
+
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (!isMobile || !isAutoPlaying || !scrollContainerRef.current) return;
+
+    const container = scrollContainerRef.current;
+    const scrollInterval = setInterval(() => {
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const currentScroll = container.scrollLeft;
+
+      if (currentScroll >= maxScroll) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        container.scrollBy({ left: container.clientWidth, behavior: "smooth" });
+      }
+    }, 3000);
+
+    return () => clearInterval(scrollInterval);
+  }, [isAutoPlaying, isMobile]);
 
   const calculateTimeLeft = (dateString) => {
     const eventDate = new Date(dateString + "T00:00:00");
@@ -127,10 +165,10 @@ const EventsTournaments = () => {
           <Typography
             sx={{
               color: "#fff",
-              fontSize: { xs: "14px", md: "16px" },
+              fontSize: { xs: "8px", md: "16px" },
               maxWidth: "1100px",
               mx: "auto",
-              lineHeight: 1.8,
+              lineHeight: 1.3,
             }}
           >
             Get ready to battle it out! Join our exciting events and competitive
@@ -142,12 +180,18 @@ const EventsTournaments = () => {
 
         {/* Tournaments Grid */}
         <Box
+          ref={scrollContainerRef}
           sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
-            gap: { xs: 3, md: 4 },
+            display: { xs: "flex", sm: "grid" },
+            gridTemplateColumns: { sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
+            gap: { xs: 2, sm: 3, md: 4 },
             px: { xs: 1, sm: 2 },
             mb: { xs: 6, md: 10 },
+            overflowX: { xs: "auto", sm: "visible" },
+            scrollSnapType: { xs: "x mandatory", sm: "none" },
+            "&::-webkit-scrollbar": { xs: { display: "none" }, sm: {} },
+            scrollbarWidth: { xs: "none", sm: "auto" },
+            flexDirection: { xs: "row", sm: "unset" },
           }}
         >
           {tournaments.map((tournament) => (
@@ -163,13 +207,15 @@ const EventsTournaments = () => {
                 cursor: "pointer",
                 display: "flex",
                 flexDirection: "column",
+                flex: { xs: "0 0 85%", sm: "unset" },
+                scrollSnapAlign: { xs: "start", sm: "unset" },
                 // Hover effects removed here to keep cards normal/static
               }}
             >
               {/* Image Container */}
               <Box
                 sx={{
-                  height: "240px",
+                  height: { xs: "180px", sm: "210px", md: "240px" },
                   overflow: "hidden",
                   position: "relative",
                   borderBottom: "1px solid rgba(255,255,255,0.05)",
@@ -202,8 +248,8 @@ const EventsTournaments = () => {
               {/* Content Section */}
               <Box
                 sx={{
-                  p: 3,
-                  pt: 2,
+                  p: { xs: 2, sm: 2.5, md: 3 },
+                  pt: { xs: 1.5, md: 2 },
                   textAlign: "center",
                   display: "flex",
                   flexDirection: "column",
@@ -214,14 +260,14 @@ const EventsTournaments = () => {
                 {/* UPCOMING Text */}
                 <Typography
                   sx={{
-                    fontSize: "16px",
+                    fontSize: { xs: "14px", sm: "15px", md: "16px" },
                     fontWeight: 700,
                     textTransform: "uppercase",
                     letterSpacing: "1px",
                     background: "linear-gradient(to right, #9F32FF, #33B2F7)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                    mb: 2,
+                    mb: { xs: 1.5, md: 2 },
                   }}
                 >
                   UPCOMING
@@ -231,7 +277,7 @@ const EventsTournaments = () => {
                 <Typography
                   variant="h6"
                   sx={{
-                    fontSize: "20px",
+                    fontSize: { xs: "16px", sm: "18px", md: "20px" },
                     fontWeight: 600,
                     color: "#ffffff",
                     mb: 1,
@@ -245,9 +291,9 @@ const EventsTournaments = () => {
                 <Typography
                   sx={{
                     color: "#8A99C0",
-                    fontSize: "15px",
+                    fontSize: { xs: "13px", sm: "14px", md: "15px" },
                     fontWeight: 600,
-                    mb: 3,
+                    mb: { xs: 2, md: 3 },
                     textTransform: "uppercase",
                     letterSpacing: "0.5px",
                   }}
@@ -259,7 +305,7 @@ const EventsTournaments = () => {
                 <Box
                   sx={{
                     width: "100%",
-                    py: 1.5,
+                    py: { xs: 1, md: 1.5 },
                     background: "linear-gradient(to right, #33B2F7, #A905BC)",
                     borderRadius: "50px",
                     position: "relative",
@@ -272,7 +318,7 @@ const EventsTournaments = () => {
                     sx={{
                       position: "relative",
                       zIndex: 2,
-                      fontSize: "18px",
+                      fontSize: { xs: "14px", sm: "16px", md: "18px" },
                       fontWeight: 600,
                       color: "#ffffff",
                       letterSpacing: "1px",

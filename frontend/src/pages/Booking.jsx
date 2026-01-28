@@ -1,5 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Box, Button, GlobalStyles, Typography } from "@mui/material";
+import { Box, Button, duration, GlobalStyles, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -44,8 +44,9 @@ const Booking = () => {
     ? stations.filter((s) => s.type === stationType)
     : stations;
 
-  const handleStationSelect = (stationId) =>
-    setBookingData({ ...bookingData, station: stationId });
+  const handleStationSelect = (station) => {
+    setBookingData({ ...bookingData, station });
+  };
 
   const handleDateTimeSelect = (dateTime) =>
     setBookingData({ ...bookingData, dateTime });
@@ -72,10 +73,10 @@ const Booking = () => {
       nfc_card_number: null,
       customer_name: `${playerInfo.firstName} ${playerInfo.lastName}`,
       phone_number: playerInfo.contactNumber,
-      station: bookingData.station,
+      station: bookingData.station.name,
       booking_date: date,
       start_time: time,
-      duration: "1h 0m",
+      duration: bookingData.dateTime?.duration || null,
       amount: 0,
       vr_play: playerInfo.vrPlay,
     };
@@ -155,7 +156,7 @@ const Booking = () => {
             variant="h3"
             sx={{
               fontFamily: "Brushstrike, sans-serif",
-              fontSize: { xs: "40px", sm: "55px", md: "84px" },
+              fontSize: { xs: "24px", sm: "55px", md: "84px" },
               fontWeight: 400,
               fontStyle: "normal",
               background:
@@ -163,7 +164,7 @@ const Booking = () => {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               mb: 3,
-              lineHeight: { xs: "44px", sm: "60px", md: "80px" },
+              lineHeight: { xs: "30px", sm: "60px", md: "80px" },
               letterSpacing: "0.03em",
             }}
           >
@@ -171,11 +172,11 @@ const Booking = () => {
           </Typography>
           <Typography
             sx={{
-              fontSize: "18px",
+              fontSize: { xs: "8px", sm: "15px", md: "18px" },
               color: "#FFFFFF",
               maxWidth: "1200px",
               mx: "auto",
-              lineHeight: 1.8,
+              lineHeight: 1.3,
             }}
           >
             Get ready to battle it out! Join our exciting events and competitive
@@ -209,18 +210,18 @@ const Booking = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-end",
+            alignItems: { xs: "center", sm: "flex-end" },
             gap: 2,
           }}
         >
           <Button
             onClick={handleBookingSubmit}
             sx={{
-              px: 8,
-              py: 1.8,
+              px: { xs: 4, sm: 8 },
+              py: { xs: 1.2, sm: 1.8 },
               borderRadius: "30px",
               fontWeight: "bold",
-              fontSize: "18px",
+              fontSize: { xs: "12px", sm: "18px" },
               textTransform: "none",
               color: "#fff",
               background: "linear-gradient(to right, #33B2F7, #A905BC)",

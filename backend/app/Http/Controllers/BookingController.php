@@ -6,6 +6,7 @@ use App\Models\Booking;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -258,5 +259,46 @@ class BookingController extends Controller
         $minutes = isset($matches[2]) ? (int)$matches[2] : 0;
 
         return ($hours * 60) + $minutes;
+    }
+    public function getBookingCounts(Request $request)
+    {
+        try {
+            $station = $request->query('station');
+            $booking_date = $request->query('booking_date');
+
+            if (!$station || !$booking_date) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Station and booking_date are required'
+                ], 400);
+            }
+
+            // Fetch bookings for the station and date
+            $bookings = \App\Models\Booking::where('station', $station)
+                ->where('booking_date', $booking_date)
+                ->get(['start_time', 'customer_name']);
+
+            // Group by start_time
+            $grouped = $bookings->groupBy('start_time');
+
+            // Prepare response: ['12:00' => ['count' => 2, 'names' => ['Alice','Bob']], ...]
+            $countsWithNames = [];
+            foreach ($grouped as $time => $group) {
+                $countsWithNames[$time] = [
+                    'count' => $group->count(),
+                    'names' => $group->pluck('customer_name')->toArray(),
+                ];
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $countsWithNames
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

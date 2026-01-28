@@ -15,25 +15,32 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../apiConfig";
 
-const Frame = styled(Box)({
+const Frame = styled(Box)(({ theme }) => ({
   maxWidth: "900px",
   width: "100%",
-  maxHeight: "400px",
+  minHeight: "400px",
   margin: "auto",
   position: "relative",
   padding: "40px",
   borderRadius: "20px",
+  background: `repeating-linear-gradient(
+    to right,
+    #1a101c 0px,
+    #1a101c 4px,
+    #120a13 4px,
+    #120a13 6px
+  )`,
 
-  background: `
-    repeating-linear-gradient(
-      to right,
-      #1a101c 0px,
-      #1a101c 4px,
-      #120a13 4px,
-      #120a13 6px
-    )
-  `,
-});
+  /* -------- MOBILE ONLY -------- */
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "80%", // narrower for mobile
+    minHeight: "500px", // taller for mobile
+    padding: "20px",
+    overflow: "hidden",
+    background: `url(${singup}) no-repeat center bottom`,
+    backgroundSize: "contain",
+  },
+}));
 
 const SvgBorder = styled("svg")({
   position: "absolute",
@@ -44,7 +51,7 @@ const SvgBorder = styled("svg")({
   pointerEvents: "none",
 });
 
-const FixedLabelTextField = styled(TextField)({
+const FixedLabelTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     border: "1px solid #3741519E",
     background: "#29254B94",
@@ -55,13 +62,17 @@ const FixedLabelTextField = styled(TextField)({
       padding: "10px 12px",
       fontSize: "16px",
       color: "white",
+      [theme.breakpoints.down("sm")]: {
+        padding: "8px 10px",
+        fontSize: "12px",
+      },
     },
     "& input::placeholder": {
       color: "rgba(255,255,255,0.7)",
       opacity: 1,
     },
   },
-});
+}));
 
 const borderPath = `
 M 24 0
@@ -198,7 +209,7 @@ const SingUp = () => {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               display: "inline-block",
-              fontSize: { xs: "32px", sm: "40px", md: "50px" },
+              fontSize: { xs: "24px", sm: "40px", md: "50px" },
             }}
           >
             Sign Up
@@ -349,9 +360,9 @@ const SingUp = () => {
                 display: "flex",
                 flexDirection: "column",
                 width: { xs: "90%", sm: "80%", md: "550px" },
-                gap: 2,
+                gap: { xs: 1.5, sm: 2 },
                 zIndex: 2,
-                p: { xs: 2, sm: 3 },
+                p: { xs: 1, sm: 3 },
               }}
             >
               {/* Name Fields */}
@@ -364,7 +375,7 @@ const SingUp = () => {
               >
                 <Box sx={{ flex: 1 }}>
                   <Typography
-                    sx={{ color: "white", mb: 0.5, fontSize: "14px" }}
+                    sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}
                   >
                     First Name
                   </Typography>
@@ -379,7 +390,7 @@ const SingUp = () => {
 
                 <Box sx={{ flex: 1 }}>
                   <Typography
-                    sx={{ color: "white", mb: 0.5, fontSize: "14px" }}
+                    sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}
                   >
                     Last Name
                   </Typography>
@@ -395,7 +406,7 @@ const SingUp = () => {
 
               {/* Email */}
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}>
                   E mail
                 </Typography>
                 <FixedLabelTextField
@@ -409,7 +420,7 @@ const SingUp = () => {
 
               {/* Password */}
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}>
                   Password
                 </Typography>
                 <FixedLabelTextField
@@ -438,7 +449,7 @@ const SingUp = () => {
 
               {/* Confirm Password */}
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: "14px" }}>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}>
                   Confirm Password
                 </Typography>
                 <FixedLabelTextField
@@ -503,9 +514,9 @@ const SingUp = () => {
             position: "absolute",
             bottom: { xs: -10, sm: -20 },
             left: { xs: "50%", sm: 20 },
-            transform: { xs: "translateX(-50%)", sm: "none" },
-            width: { xs: 220, sm: 280, md: 380, lg: 430 },
-            height: "auto",
+            transform: { xs: "translateX(-50%)", sm: "none" }, // hide on mobile
+            width: { xs: 0, sm: 280, md: 380, lg: 430 }, // hide on mobile
+            opacity: { xs: 0, sm: 1 }, // hide on mobile
             objectFit: "contain",
             zIndex: 1,
           }}

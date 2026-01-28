@@ -40,3 +40,4 @@ Route::get('/stations', [StationController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/bookings', [BookingController::class, 'store']);
 });
+Route::get('/bookings-count', [BookingController::class, 'getBookingCounts']);

@@ -2,16 +2,21 @@ import React, { useState, useRef, useEffect } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import axios from "axios";
+import { API_BASE_URL } from "../apiConfig";
 
 const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   const currentDate = new Date();
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [selectedDate, setSelectedDate] = useState(
-    selectedDateTime?.date || null
+    selectedDateTime?.date || null,
   );
   const [selectedTime, setSelectedTime] = useState(
-    selectedDateTime?.time || null
+    selectedDateTime?.time || null,
+  );
+  const [selectedDuration, setSelectedDuration] = useState(
+    selectedDateTime?.duration || null,
   );
   const datesScrollRef = useRef(null);
 
@@ -81,65 +86,101 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
       datesScrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
+  const [bookedCounts, setBookedCounts] = useState({});
 
-  // Generate time slots
-  const timeSlots = [
-    { time: "12.00", name: "Alex Chen", status: "Booked" },
-    { time: "12.15", name: "Alex Chen", status: "Booked" },
-    { time: "12.30", name: "Alex Chen", status: "Booked" },
-    { time: "12.45", name: "Alex Chen", status: "Booked" },
-    { time: "01.00", name: "Alex Chen", status: "Booked" },
-    { time: "01.15", status: "Available" },
-    { time: "01.30", status: "Available" },
-    { time: "01.45", status: "Available" },
-    { time: "02.00", status: "Available" },
-    { time: "02.15", status: "Available" },
-    { time: "02.30", status: "Available" },
-    { time: "02.45", status: "Available" },
-    { time: "03.00", status: "Available" },
-    { time: "03.15", status: "Available" },
-    { time: "03.45", status: "Available" },
-    { time: "04.00", status: "Available" },
-    { time: "04.15", status: "Available" },
-    { time: "04.30", status: "Available" },
-    { time: "04.45", status: "Available" },
-    { time: "05.00", status: "Available" },
-    { time: "05.15", status: "Available" },
-    { time: "05.30", status: "Available" },
-    { time: "05.45", status: "Available" },
-    { time: "06.00", status: "Available" },
-    { time: "06.15", status: "Available" },
-    { time: "06.30", status: "Available" },
-    { time: "06.45", status: "Available" },
-    { time: "07.00", status: "Available" },
-    { time: "07.15", status: "Available" },
-    { time: "07.30", status: "Available" },
-    { time: "07.45", status: "Available" },
-    { time: "08.00", status: "Available" },
-    { time: "08.15", status: "Available" },
-    { time: "08.30", status: "Available" },
-    { time: "08.45", status: "Available" },
-    { time: "09.00", status: "Available" },
-    { time: "09.15", status: "Available" },
-    { time: "09.30", status: "Available" },
-    { time: "09.45", status: "Available" },
-    { time: "10.00", status: "Available" },
-    { time: "10.15", status: "Available" },
-    { time: "10.30", status: "Available" },
-    { time: "10.45", status: "Available" },
-    { time: "11.00", status: "Available" },
-    { time: "11.15", status: "Available" },
-    { time: "11.30", status: "Available" },
-    { time: "11.45", status: "Available" },
-    { time: "12.00", status: "Available" },
-    { time: "12.15", status: "Available" },
-    { time: "01.30", status: "Available" },
-  ];
+  useEffect(() => {
+    if (!selectedStation || !selectedDate) return;
+
+    const fetchBookings = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/api/bookings-count`, {
+          params: {
+            station: selectedStation.name,
+            booking_date: selectedDate,
+          },
+        });
+
+        if (res.data.success) {
+          setBookedCounts(res.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch booking counts", err);
+      }
+    };
+
+    fetchBookings();
+  }, [selectedStation, selectedDate]);
+
+  console.log("first", bookedCounts);
+
+  const generateTimeSlots = () => {
+    if (!selectedStation) return [];
+
+    const slots = [];
+    const limit = 4;
+
+    if (selectedStation.type === "Pool") {
+      for (let h = 12; h <= 23; h++) {
+        const hour12 = h > 12 ? h - 12 : h;
+        const times = [`${hour12}.00`, `${hour12}.30`];
+
+        for (let t of times) {
+          const key = t.replace(".", ":");
+          const booked = bookedCounts[key] || { count: 0, names: [] };
+          slots.push({
+            time: t,
+            status: booked.count >= limit ? "Booked" : "Available",
+            bookedNames: booked.names,
+          });
+        }
+      }
+    } else {
+      for (let h = 12; h <= 23; h++) {
+        const hour12 = h > 12 ? h - 12 : h;
+        for (let m of [0, 15, 30, 45]) {
+          if (h === 23 && m > 45) continue;
+          const t = `${hour12}.${String(m).padStart(2, "0")}`;
+          const key = t.replace(".", ":");
+          const booked = bookedCounts[key] || { count: 0, names: [] };
+          slots.push({
+            time: t,
+            status: booked.count >= limit ? "Booked" : "Available",
+            bookedNames: booked.names,
+          });
+        }
+      }
+    }
+
+    return slots;
+  };
+
+  const timeSlots = generateTimeSlots();
+
+  const durations = [];
+  for (let min = 30; min <= 240; min += 30) {
+    let label = "";
+    let value = "";
+
+    if (min < 60) {
+      label = `${min} minutes`;
+      value = `${min}m`;
+    } else {
+      const hours = Math.floor(min / 60);
+      const minutes = min % 60;
+      label =
+        minutes === 0
+          ? `${hours} hour${hours > 1 ? "s" : ""}`
+          : `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minutes`;
+      value = minutes === 0 ? `${hours}h` : `${hours}h ${minutes}m`;
+    }
+
+    durations.push({ label, value });
+  }
 
   const handleDateSelect = (day) => {
     const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(
       2,
-      "0"
+      "0",
     )}-${String(day).padStart(2, "0")}`;
     setSelectedDate(fullDate);
   };
@@ -151,10 +192,14 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   };
 
   useEffect(() => {
-    if (selectedDate && selectedTime) {
-      onNext({ date: selectedDate, time: selectedTime });
+    if (selectedDate && selectedTime && selectedDuration) {
+      onNext({
+        date: selectedDate,
+        time: selectedTime,
+        duration: selectedDuration,
+      });
     }
-  }, [selectedDate, selectedTime]);
+  }, [selectedDate, selectedTime, selectedDuration]);
 
   return (
     <Box
@@ -169,7 +214,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
         sx={{
           textAlign: "center",
           fontWeight: "bold",
-          fontSize: { xs: "24px", md: "32px" },
+          fontSize: { xs: "18px", sm: "24px", md: "32px" },
           mb: 6,
         }}
       >
@@ -252,7 +297,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
         >
           {dates.map((day) => {
             const fullDate = `${currentYear}-${String(
-              currentMonth + 1
+              currentMonth + 1,
             ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
             return (
               <Box
@@ -325,17 +370,17 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
                 slot.status === "Booked"
                   ? "rgba(169, 5, 188, 0.3)"
                   : selectedTime === slot.time
-                  ? "rgba(51, 178, 247, 0.3)"
-                  : "rgba(255,255,255,0.05)",
+                    ? "rgba(51, 178, 247, 0.3)"
+                    : "rgba(255,255,255,0.05)",
               border:
                 selectedTime === slot.time
                   ? "2px solid #33B2F7"
                   : slot.status === "Booked"
-                  ? "1px solid rgba(169, 5, 188, 0.5)"
-                  : "1px solid rgba(255,255,255,0.1)",
+                    ? "1px solid rgba(169, 5, 188, 0.5)"
+                    : "1px solid rgba(255,255,255,0.1)",
               borderRadius: "6px",
               cursor: slot.status === "Available" ? "pointer" : "not-allowed",
-              opacity: slot.status === "Booked" ? 0.6 : 1,
+              opacity: slot.status === "Booked" ? 0.8 : 1,
               transition: "all 0.3s ease",
               "&:hover": {
                 bgcolor:
@@ -348,11 +393,13 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
             <Typography sx={{ fontSize: "14px", fontWeight: "bold", mb: 0.3 }}>
               {slot.time}
             </Typography>
-            {slot.name && (
-              <Typography sx={{ fontSize: "9px", color: "gray.400" }}>
-                {slot.name}
+
+            {slot.status === "Booked" && slot.bookedNames.length > 0 && (
+              <Typography sx={{ fontSize: "10px", color: "#fff", mt: 0.2 }}>
+                {slot.bookedNames.join(", ")}
               </Typography>
             )}
+
             <Typography
               sx={{
                 fontSize: "10px",
@@ -362,6 +409,45 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
             >
               {slot.status}
             </Typography>
+          </Box>
+        ))}
+      </Box>
+      {/* Duration Selection */}
+      <Box
+        sx={{
+          maxWidth: "1400px",
+          mx: "auto",
+          mt: 4,
+          display: "flex",
+          gap: 2,
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
+        {durations.map((dur) => (
+          <Box
+            key={dur.value}
+            onClick={() => setSelectedDuration(dur.value)}
+            sx={{
+              px: 3,
+              py: 1.5,
+              borderRadius: "6px",
+              cursor: "pointer",
+              textAlign: "center",
+              bgcolor:
+                selectedDuration === dur.value
+                  ? "rgba(51,178,247,0.3)"
+                  : "rgba(255,255,255,0.05)",
+              border:
+                selectedDuration === dur.value
+                  ? "2px solid #33B2F7"
+                  : "1px solid rgba(255,255,255,0.1)",
+              "&:hover": {
+                bgcolor: "rgba(51,178,247,0.2)",
+              },
+            }}
+          >
+            <Typography sx={{ fontWeight: "bold" }}>{dur.label}</Typography>
           </Box>
         ))}
       </Box>
