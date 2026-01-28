@@ -53,30 +53,30 @@ export default function ProfileSidebar({ activeTab, setActiveTab }) {
   return (
     <Box
       sx={{
-        px: { xs: 3, md: 8 }, // page margins (left & right)
+        px: { xs: 0, md: 0 },
         py: 1,
-        minHeight: "100vh",
+        minHeight: { xs: "auto", md: "100vh" },
       }}
     >
       <Box
         sx={{
-          display: "grid",
-          gridTemplateColumns: "300px 1px 1fr",
-          gap: 6,
+          display: "flex",
+          flexDirection: "column",
+          gap: { xs: 2, md: 6 },
           alignItems: "flex-start",
         }}
       >
         {/*  LEFT SIDEBAR */}
-        <Box sx={{ pr: 2 }}>
-          <Typography sx={{ color: "#fff", fontSize: 24, mb: 4 }}>
+        <Box sx={{ pr: { xs: 0, md: 2 }, width: "100%" }}>
+          <Typography sx={{ color: "#fff", fontSize: { xs: 20, md: 24 }, mb: { xs: 2, md: 4 } }}>
             My Profile
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
             <Avatar
               sx={{
-                width: 72,
-                height: 72,
+                width: { xs: 56, md: 72 },
+                height: { xs: 56, md: 72 },
                 mr: 2,
                 backgroundColor: "#F1F1F1",
                 color: "#1A1A1A",
@@ -86,10 +86,10 @@ export default function ProfileSidebar({ activeTab, setActiveTab }) {
             </Avatar>
 
             <Box sx={{ flex: 1 }}>
-              <Typography sx={{ color: "#fff", fontWeight: 600 }}>
+              <Typography sx={{ color: "#fff", fontWeight: 600, fontSize: { xs: 14, md: 16 } }}>
                 {user ? `${user.firstName} ${user.lastName}` : "Guest User"}
               </Typography>
-              <Typography sx={{ color: "#9CA3AF", fontSize: 14 }}>
+              <Typography sx={{ color: "#9CA3AF", fontSize: { xs: 12, md: 14 } }}>
                 {user?.email || "guest@example.com"}
               </Typography>
             </Box>
@@ -101,12 +101,13 @@ export default function ProfileSidebar({ activeTab, setActiveTab }) {
                 key={item.key}
                 fullWidth
                 onClick={() => setActiveTab(item.key)}
-                startIcon={<Box component="img" src={item.icon} />}
+                startIcon={<Box component="img" src={item.icon} sx={{ width: { xs: 18, md: 24 }, height: { xs: 18, md: 24 } }} />}
                 sx={{
                   justifyContent: "flex-start",
                   textTransform: "none",
-                  px: 2,
-                  py: 1.1,
+                  px: { xs: 1.5, md: 2 },
+                  py: { xs: 0.8, md: 1.1 },
+                  fontSize: { xs: 12, md: 14 },
                   border: "1px solid #5a5f68ff",
                   color: "#ebe7e5ff",
                   background:
@@ -124,18 +125,6 @@ export default function ProfileSidebar({ activeTab, setActiveTab }) {
             ))}
           </Box>
         </Box>
-
-        {/* VERTICAL DIVIDER */}
-        <Box
-          sx={{
-            width: "1px",
-            height: "610px",
-            background: "#374151",
-          }}
-        />
-
-        {/* RIGHT CONTENT */}
-        <Box>{/* Render your right-side components where this is used */}</Box>
       </Box>
     </Box>
   );

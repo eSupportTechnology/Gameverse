@@ -2,20 +2,20 @@ import { Box, Typography, Button, Divider } from "@mui/material";
 
 export default function BookingDetails() {
   return (
-    <Box sx={{ pl: 12 }}>
+    <Box sx={{ pl: { xs: 0, md: 12 } }}>
       {/* Title */}
-      <Typography sx={{ color: "#fff", fontSize: 22, fontWeight: 600 }}>
+      <Typography sx={{ color: "#fff", fontSize: { xs: 18, md: 22 }, fontWeight: 600 }}>
         Booking Details
       </Typography>
-      <Typography sx={{ color: "#9CA3AF", mb: 4, fontSize: 14 }}>
+      <Typography sx={{ color: "#9CA3AF", mb: { xs: 2, md: 4 }, fontSize: { xs: 12, md: 14 } }}>
         See your Booking Details.
       </Typography>
 
       {/* Card */}
       <Box
         sx={{
-          width: 380,
-          p: 3,
+          width: { xs: "100%", md: 380 },
+          p: { xs: 2, md: 3 },
           background: "rgba(255,255,255,0.06)",
           borderRadius: 2,
           border: "1px solid rgba(255,255,255,0.08)",

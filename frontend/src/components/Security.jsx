@@ -86,16 +86,16 @@ export default function Security() {
   };
 
   return (
-    <Box sx={{ pl: 12, maxWidth: 640 }}>
-      <Typography sx={{ color: "#fff", fontSize: 22, fontWeight: 600, mb: 1 }}>
+    <Box sx={{ pl: { xs: 0, md: 12 }, maxWidth: { xs: "100%", md: 640 } }}>
+      <Typography sx={{ color: "#fff", fontSize: { xs: 18, md: 22 }, fontWeight: 600, mb: 1 }}>
         Sign-In & Security
       </Typography>
-      <Typography sx={{ color: "#9CA3AF", mb: 4 }}>
+      <Typography sx={{ color: "#9CA3AF", mb: { xs: 2, md: 4 }, fontSize: { xs: 12, md: 14 } }}>
         Control how you sign in and secure your account.
       </Typography>
 
       <Box sx={{ display: "grid", gap: 2 }}>
-        <Typography sx={{ color: "#9CA3AF", fontSize: 13 }}>
+        <Typography sx={{ color: "#9CA3AF", fontSize: { xs: 12, md: 13 } }}>
           Current Password*
         </Typography>
         <TextField
@@ -181,11 +181,13 @@ export default function Security() {
           onClick={handleUpdatePassword}
           sx={{
             mt: 2,
-            width: 140,
+            width: { xs: "100%", sm: 140 },
+            height: { xs: 38, md: 42 },
             background: "linear-gradient(90deg,#C026D3,#2563EB)",
             color: "#fff",
             textTransform: "none",
             fontWeight: 600,
+            fontSize: { xs: 13, md: 14 },
             "&:hover": { background: "linear-gradient(90deg,#7C3AED,#2563EB)" },
           }}
         >

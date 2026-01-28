@@ -142,8 +142,8 @@ const Contact = () => {
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: { xs: "column", sm: "row" },
-                  gap: 2,
+                  flexDirection: "row",
+                  gap: { xs: 1, sm: 2 },
                 }}
               >
                 <TextField

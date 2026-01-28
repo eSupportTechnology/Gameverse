@@ -379,6 +379,62 @@ const Navbar = () => {
         }}
       >
         <Box sx={{ width: "100%", p: { xs: 2, sm: 3 } }}>
+          {/* User Profile at Top */}
+          {storedUser && (
+            <Box
+              onClick={() => {
+                setDrawerOpen(false);
+                navigate("/my-account");
+              }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                mb: 2,
+                p: 1.5,
+                borderRadius: "8px",
+                backgroundColor: "rgba(255,255,255,0.05)",
+                cursor: "pointer",
+                "&:hover": {
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  backgroundColor: "#F1F1F1",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#1A1A1A",
+                  fontWeight: 600,
+                  fontSize: 14,
+                }}
+              >
+                {getInitials(storedUser.firstName, storedUser.lastName)}
+              </Box>
+              <Box>
+                <Box sx={{ color: "#FFFFFF", fontWeight: 600, fontSize: "14px" }}>
+                  {storedUser.firstName} {storedUser.lastName}
+                </Box>
+                <Box
+                  sx={{
+                    fontSize: "12px",
+                    fontWeight: 500,
+                    background: "linear-gradient(90deg, #33B2F7, #A905BC)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  My Account
+                </Box>
+              </Box>
+            </Box>
+          )}
+
           <List>
             <ListItem
               button
@@ -487,75 +543,13 @@ const Navbar = () => {
           </List>
 
           {storedUser ? (
-            <>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1.5,
-                  mb: 2,
-                  p: 1.5,
-                  borderRadius: "8px",
-                  backgroundColor: "rgba(255,255,255,0.05)",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: "50%",
-                    backgroundColor: "#F1F1F1",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#1A1A1A",
-                    fontWeight: 600,
-                    fontSize: 14,
-                  }}
-                >
-                  {getInitials(storedUser.firstName, storedUser.lastName)}
-                </Box>
-                <Box>
-                  <Box sx={{ color: "#FFFFFF", fontWeight: 600, fontSize: "14px" }}>
-                    {storedUser.firstName} {storedUser.lastName}
-                  </Box>
-                  <Box
-                    sx={{
-                      fontSize: "12px",
-                      fontWeight: 500,
-                      background: "linear-gradient(90deg, #33B2F7, #A905BC)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
-                    My Account
-                  </Box>
-                </Box>
-              </Box>
-              <Button
-                fullWidth
-                onClick={() => {
-                  setDrawerOpen(false);
-                  navigate("/my-account");
-                }}
-                sx={{
-                  mb: 1,
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  backgroundColor: "rgba(169, 5, 188, 0.2)",
-                  "&:hover": { backgroundColor: "rgba(169, 5, 188, 0.3)" },
-                }}
-              >
-                My Account
-              </Button>
-              <Button
-                fullWidth
-                sx={{ color: "error.main", fontWeight: 600 }}
-                onClick={handleLogout}
-              >
-                Logout
-              </Button>
-            </>
+            <Button
+              fullWidth
+              sx={{ color: "error.main", fontWeight: 600 }}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
           ) : (
             <GradientButton fullWidth onClick={() => navigate("/sing-in")}>
               Sign in

@@ -8,24 +8,24 @@ import cardImage from "../assets/card-bg.png";
 
 export default function PaymentMethods() {
   return (
-    <Box sx={{ pl: 12, color: "#fff" }}>
+    <Box sx={{ pl: { xs: 0, md: 12 }, color: "#fff" }}>
       {/* TITLE */}
-      <Typography sx={{ fontSize: 22, fontWeight: 600 }}>
+      <Typography sx={{ fontSize: { xs: 18, md: 22 }, fontWeight: 600 }}>
         Payments Methods
       </Typography>
-      <Typography sx={{ color: "#9CA3AF", mb: 3 }}>
+      <Typography sx={{ color: "#9CA3AF", mb: 3, fontSize: { xs: 12, md: 14 } }}>
         Manage your payment methods.
       </Typography>
 
       {/* ADD CARD */}
-      <Typography sx={{ mb: 1.5, fontSize: 14 }}>
+      <Typography sx={{ mb: 1.5, fontSize: { xs: 12, md: 14 } }}>
         Add New Card Details
       </Typography>
 
       {/* ADD CARD CONTAINER */}
       <Box
         sx={{
-          width: 550,
+          width: { xs: "100%", md: 550 },
           overflow: "hidden",
           background:
             "linear-gradient(180deg, rgba(15,23,42,0.95), rgba(2,6,23,0.95))",
@@ -103,14 +103,15 @@ export default function PaymentMethods() {
         fullWidth
         sx={{
           mt: 3,
-          width: 550,
-          height: 48,
+          width: { xs: "100%", md: 550 },
+          height: { xs: 42, md: 48 },
           borderRadius: "4px",
           background: "linear-gradient(90deg, #211D37 0%, #115784 100%)",
           color: "#FFFFFF",
           fontWeight: 600,
           letterSpacing: 0.6,
           textTransform: "none",
+          fontSize: { xs: 13, md: 14 },
           "&:hover": {
             background: "linear-gradient(90deg, #1B1830 0%, #0E4A6D 100%)",
           },
@@ -120,11 +121,11 @@ export default function PaymentMethods() {
       </Button>
 
       {/* PAYMENT OPTIONS */}
-      <Typography sx={{ mt: 4, mb: 2, fontSize: 14 }}>
+      <Typography sx={{ mt: 4, mb: 2, fontSize: { xs: 12, md: 14 } }}>
         Payment Options
       </Typography>
 
-      <Box sx={{ display: "flex", gap: 4 }}>
+      <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: { xs: 2, md: 4 } }}>
         <SavedCard defaultCard />
         <SavedCard />
       </Box>
@@ -136,7 +137,7 @@ export default function PaymentMethods() {
 
 function SavedCard({ defaultCard }) {
   return (
-    <Box sx={{ width: 300 }}>
+    <Box sx={{ width: { xs: "100%", sm: 300 } }}>
       <Box
         component="img"
         src={cardImage}

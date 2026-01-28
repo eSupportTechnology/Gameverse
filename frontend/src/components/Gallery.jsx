@@ -34,12 +34,12 @@ const GalleryView = () => {
 
   const imageCardStyle = {
     flexShrink: 0,
-    width: isMobile ? "180px" : "325px",
-    height: isMobile ? "130px" : "220px",
+    width: isMobile ? "170px" : "325px",
+    height: isMobile ? "110px" : "220px",
     position: "relative",
-    borderRadius: isMobile ? "10px" : "14px",
+    borderRadius: isMobile ? "8px" : "14px",
     overflow: "hidden",
-    marginRight: isMobile ? "10px" : "24px",
+    marginRight: isMobile ? "8px" : "24px",
     "&:last-child": { marginRight: 0 },
     display: "flex",
     alignItems: "center",
@@ -162,8 +162,8 @@ const GalleryView = () => {
               ...applyGradientText(headerGradient),
               fontFamily: "BRUSHSTRIKE",
               fontWeight: 400,
-              fontSize: { xs: "42px", sm: "56px", md: "84px" },
-              lineHeight: { xs: "48px", sm: "62px", md: "90px" },
+              fontSize: { xs: "32px", sm: "56px", md: "84px" },
+              lineHeight: { xs: "38px", sm: "62px", md: "90px" },
               mb: 3,
               letterSpacing: "0.03em",
             }}

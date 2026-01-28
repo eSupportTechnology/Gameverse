@@ -144,12 +144,12 @@ const AboutGameVerse = () => {
           overflow: "hidden",
           bgcolor: "#0A0D17",
           color: "#fff",
-          padding: { xs: "40px 16px", sm: "50px 24px", md: "80px 40px" },
+          padding: { xs: "0px 16px 20px", sm: "10px 24px 30px", md: "40px 40px" },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           fontFamily: "Inter, sans-serif",
-          marginTop: "-2px",
+          marginTop: { xs: "0px", sm: "-5px", md: "-2px" },
           "&::before": {
             content: '""',
             position: "absolute",
@@ -167,7 +167,7 @@ const AboutGameVerse = () => {
         }}
       >
         {/* Header */}
-        <Box sx={{ maxWidth: 900, textAlign: "center", mb: { xs: 4, sm: 5, md: 8 } }}>
+        <Box sx={{ maxWidth: 900, textAlign: "center", mb: { xs: 2, sm: 4, md: 8 } }}>
           <Typography
             variant={isMobile ? "h4" : "h2"}
             sx={{
@@ -175,8 +175,8 @@ const AboutGameVerse = () => {
               fontWeight: 400,
               mb: { xs: 2, md: 3 },
               fontFamily: "BRUSHSTRIKE",
-              fontSize: { xs: "36px", sm: "56px", md: "84px" },
-              lineHeight: { xs: "42px", sm: "60px", md: "80px" },
+              fontSize: { xs: "28px", sm: "56px", md: "84px" },
+              lineHeight: { xs: "32px", sm: "60px", md: "80px" },
               letterSpacing: "0.03em",
             }}
           >
@@ -189,7 +189,7 @@ const AboutGameVerse = () => {
               mb: { xs: 3, sm: 5, md: 8 },
               fontFamily: "Inter, sans-serif",
               lineHeight: 1.3,
-              fontSize: { xs: "8px", sm: "15px", md: "1.09rem" },
+              fontSize: { xs: "7px", sm: "15px", md: "1.09rem" },
               maxWidth: "900px",
               margin: "0 auto",
               fontWeight: 400,

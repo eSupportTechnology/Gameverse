@@ -108,8 +108,10 @@ const Home = () => {
       <Box
         component="section"
         sx={{
-          minHeight: { xs: "70vh", md: "100vh" },
-          py: { xs: 4, md: 0 },
+          minHeight: { xs: "42vh", md: "100vh" },
+          py: { xs: 0, md: 0 },
+          pt: { xs: 2, md: 0 },
+          mt: { xs: "-20px", md: 0 },
           width: "100%",
           display: "flex",
           flexDirection: "row",
@@ -153,7 +155,7 @@ const Home = () => {
             sx={{
               fontWeight: "bold",
               lineHeight: { xs: "1.2", md: "80px" },
-              fontSize: { xs: "20px", sm: "44px", md: "70px" },
+              fontSize: { xs: "16px", sm: "44px", md: "70px" },
               pt: 0,
             }}
           >
@@ -175,7 +177,7 @@ const Home = () => {
           <Typography
             sx={{
               mt: { xs: 1, md: 2 },
-              fontSize: { xs: "8px", sm: "14px", md: "1.09rem" },
+              fontSize: { xs: "7px", sm: "14px", md: "1.09rem" },
               lineHeight: { xs: "1.3", md: "28px" },
               color: "#FFFFFF",
             }}
@@ -189,7 +191,7 @@ const Home = () => {
           <Typography
             sx={{
               mt: { xs: 1, md: 2 },
-              fontSize: { xs: "8px", sm: "14px", md: "18px" },
+              fontSize: { xs: "7px", sm: "14px", md: "18px" },
               fontWeight: 500,
               backgroundImage: "linear-gradient(to right, #33B2F7, #A905BC)",
               WebkitBackgroundClip: "text",
@@ -224,7 +226,7 @@ const Home = () => {
                   .getElementById("featured-games")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              sx={{ px: { xs: 1.5, md: 4 }, py: { xs: 0.6, md: 1.5 }, fontSize: { xs: "9px", sm: "14px", md: "16px" } }}
+              sx={{ px: { xs: 1.5, md: 4 }, py: { xs: 0.6, md: 1.5 }, fontSize: { xs: "8px", sm: "14px", md: "16px" } }}
             >
               Booking Now
             </SolidGradientButton>
@@ -234,7 +236,7 @@ const Home = () => {
                   .getElementById("events-section")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              sx={{ px: { xs: 1.5, md: 4 }, py: { xs: 0.6, md: 1.5 }, fontSize: { xs: "9px", sm: "14px", md: "16px" } }}
+              sx={{ px: { xs: 1.5, md: 4 }, py: { xs: 0.6, md: 1.5 }, fontSize: { xs: "8px", sm: "14px", md: "16px" } }}
             >
               View Events
             </OutlineGradientButton>

@@ -137,15 +137,15 @@ export default function PersonalInfo() {
   }
 
   return (
-    <Box sx={{ pl: 12, pt: 0.5 }}>
-      <Typography sx={{ color: "#fff", fontSize: 22, fontWeight: 600 }}>
+    <Box sx={{ pl: { xs: 0, md: 12 }, pt: 0.5 }}>
+      <Typography sx={{ color: "#fff", fontSize: { xs: 18, md: 22 }, fontWeight: 600 }}>
         Profile Information
       </Typography>
-      <Typography sx={{ color: "#9CA3AF", mb: 4 }}>
+      <Typography sx={{ color: "#9CA3AF", mb: { xs: 2, md: 4 }, fontSize: { xs: 12, md: 14 } }}>
         Update your profile and contact preferences.
       </Typography>
 
-      <Box sx={{ display: "grid", gap: 3, width: 640 }}>
+      <Box sx={{ display: "grid", gap: { xs: 2, md: 3 }, width: { xs: "100%", md: 640 } }}>
         <Box>
           <Typography sx={fieldLabelStyles}>First Name</Typography>
           <TextField
@@ -178,7 +178,7 @@ export default function PersonalInfo() {
           />
         </Box>
 
-        <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}>
+        <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: { xs: 2, md: 3 } }}>
           <Box>
             <Typography sx={fieldLabelStyles}>Telephone</Typography>
             <TextField
@@ -239,14 +239,15 @@ export default function PersonalInfo() {
         <Button
           onClick={handleUpdate}
           sx={{
-            mt: 3,
-            width: 140,
-            height: 42,
+            mt: { xs: 2, md: 3 },
+            width: { xs: "100%", sm: 140 },
+            height: { xs: 38, md: 42 },
             background: "linear-gradient(90deg,#C026D3,#2563EB)",
             color: "#fff",
             borderRadius: "8px",
             textTransform: "none",
             fontWeight: 500,
+            fontSize: { xs: 13, md: 14 },
           }}
         >
           {saving ? "Updating..." : "Update"}
