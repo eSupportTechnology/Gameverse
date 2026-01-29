@@ -78,8 +78,8 @@ export default function FeaturedGames() {
           game.title === "PS5 Stations"
             ? "PlayStation"
             : game.title === "Pool Tables"
-            ? "Pool"
-            : "Simulator",
+              ? "Pool"
+              : "Simulator",
       },
     });
   };
@@ -119,7 +119,7 @@ export default function FeaturedGames() {
       const left = snaps[snapIndex] || 0;
       container.scrollTo({ left, behavior: "smooth" });
     },
-    [snaps]
+    [snaps],
   );
 
   // Scroll to the starting slide of that dot
@@ -215,7 +215,7 @@ export default function FeaturedGames() {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     observer.observe(container);
@@ -256,7 +256,7 @@ export default function FeaturedGames() {
         styles={{
           "@font-face": {
             fontFamily: "BRUSHSTRIKE",
-            src: `url("/fonts/BRUSHSTRIKE.ttf") format("truetype")`,
+            src: `url("/fonts/Brushstrike.ttf") format("truetype")`,
           },
         }}
       />
@@ -506,7 +506,7 @@ export default function FeaturedGames() {
                                 <br />
                               )}
                             </React.Fragment>
-                          )
+                          ),
                         )}
                       </Typography>
                     </Box>

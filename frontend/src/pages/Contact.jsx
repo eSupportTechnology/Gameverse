@@ -52,7 +52,7 @@ const Contact = () => {
         styles={{
           "@font-face": {
             fontFamily: "BRUSHSTRIKE",
-            src: `url("/fonts/BRUSHSTRIKE.ttf") format("truetype")`,
+            src: `url("/fonts/Brushstrike.ttf") format("truetype")`,
           },
         }}
       />
@@ -102,7 +102,11 @@ const Contact = () => {
             p: { xs: 2, sm: 3, md: 5 },
           }}
         >
-          <Grid container columnSpacing={{ xs: 4, md: 8 }} rowSpacing={{ xs: 4, md: 10 }}>
+          <Grid
+            container
+            columnSpacing={{ xs: 4, md: 8 }}
+            rowSpacing={{ xs: 4, md: 10 }}
+          >
             {/* LEFT COLUMN — FORM */}
             <Grid
               item
