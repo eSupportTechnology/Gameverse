@@ -174,15 +174,16 @@ const Footer = () => {
                 variant="subtitle1"
                 sx={{
                   fontWeight: "bold",
-                  mb: { xs: 1, md: 2 },
+                  mb: { xs: 0, md: 2 },
                   fontSize: { xs: "10px", md: "14px" },
                   textTransform: "uppercase",
                   letterSpacing: "0.5px",
+                  lineHeight: 1,
                 }}
               >
                 QUICK LINK
               </Typography>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 0.5, md: 1 } }}>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 0 }}>
                 <Link
                   component={RouterLink}
                   to="/"
@@ -191,6 +192,8 @@ const Footer = () => {
                   sx={{
                     fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
+                    lineHeight: { xs: 1.2, md: 1.6 },
+                    py: { xs: 0, md: 0 },
                     "&:hover": { color: "#fff" },
                   }}
                 >
@@ -204,6 +207,8 @@ const Footer = () => {
                   sx={{
                     fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
+                    lineHeight: { xs: 1.2, md: 1.6 },
+                    py: { xs: 0, md: 0 },
                     "&:hover": { color: "#fff" },
                   }}
                 >
@@ -217,6 +222,8 @@ const Footer = () => {
                   sx={{
                     fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
+                    lineHeight: { xs: 1.2, md: 1.6 },
+                    py: { xs: 0, md: 0 },
                     "&:hover": { color: "#fff" },
                   }}
                 >
@@ -230,11 +237,13 @@ const Footer = () => {
                   sx={{
                     fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
+                    lineHeight: { xs: 1.2, md: 1.6 },
+                    py: { xs: 0, md: 0 },
                     "&:hover": { color: "#fff" },
                   }}
                 >
                   RETURN/ REFUND POLICY
-                </Link>{" "}
+                </Link>
                 <Link
                   component={RouterLink}
                   to="/privacy-policy"
@@ -243,11 +252,13 @@ const Footer = () => {
                   sx={{
                     fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
+                    lineHeight: { xs: 1.2, md: 1.6 },
+                    py: { xs: 0, md: 0 },
                     "&:hover": { color: "#fff" },
                   }}
                 >
                   PRIVACY POLICY
-                </Link>{" "}
+                </Link>
                 <Link
                   component={RouterLink}
                   to="/terms-and-conditions"
@@ -256,6 +267,8 @@ const Footer = () => {
                   sx={{
                     fontSize: { xs: "9px", md: "13px" },
                     color: "#ccc",
+                    lineHeight: { xs: 1.2, md: 1.6 },
+                    py: { xs: 0, md: 0 },
                     "&:hover": { color: "#fff" },
                   }}
                 >

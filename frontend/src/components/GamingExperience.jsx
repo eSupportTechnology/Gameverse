@@ -109,7 +109,7 @@ const FeatureCard = ({ feature }) => (
           maxWidth: { xs: "160px", sm: "200px", md: "220px" },
           mx: "auto",
           transition: "color 0.3s",
-          fontSize: { xs: "10px", sm: "16px", md: "18px" },
+          fontSize: { xs: "9px", sm: "16px", md: "18px" },
           lineHeight: 1.3,
         }}
       >
@@ -126,7 +126,7 @@ const FeatureCard = ({ feature }) => (
             mx: "auto",
             mt: 1,
             transition: "color 0.3s",
-            fontSize: { xs: "8px", sm: "13px", md: "14px" },
+            fontSize: { xs: "7px", sm: "13px", md: "14px" },
           }}
         >
           {feature.description}
@@ -188,7 +188,7 @@ export default function GamingExperience() {
         <Box sx={{ position: "relative", zIndex: 1, mt: { xs: 2, md: 5 } }}>
           <Typography
             sx={{
-              fontSize: { xs: "42px", sm: "60px", md: "84px" },
+              fontSize: { xs: "32px", sm: "60px", md: "84px" },
               fontWeight: 400,
               fontFamily: "BRUSHSTRIKE",
               background:

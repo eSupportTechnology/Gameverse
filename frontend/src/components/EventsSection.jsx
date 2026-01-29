@@ -86,7 +86,7 @@ const InnerCard = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  height: "350px",
+  height: "200px",
   [theme.breakpoints.up("sm")]: { width: "320px", height: "420px" },
   [theme.breakpoints.up("md")]: { width: "360px", height: "420px" },
 }));
@@ -96,7 +96,7 @@ const ImageWrapper = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: "16px 16px 0 0",
   overflow: "hidden",
-  height: "200px",
+  height: "80px",
   "& img": {
     width: "100%",
     height: "100%",
@@ -109,13 +109,14 @@ const ImageWrapper = styled("div")(({ theme }) => ({
 }));
 
 // Card content wrapper
-const CardContentWrapper = styled("div")({
+const CardContentWrapper = styled("div")(({ theme }) => ({
   flex: 1,
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
-  padding: "16px",
-});
+  padding: "8px",
+  [theme.breakpoints.up("sm")]: { padding: "12px" },
+}));
 
 // Countdown box
 const CountdownBox = styled(Box)(({ theme }) => ({
@@ -128,8 +129,8 @@ const CountdownBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  margin: "8px auto 0",
-  [theme.breakpoints.down("sm")]: { width: "90%", height: "44px" },
+  margin: "4px auto 0",
+  [theme.breakpoints.down("sm")]: { width: "95%", height: "26px", borderRadius: "14px" },
 }));
 
 const EventsSection = () => {
@@ -259,7 +260,7 @@ const EventsSection = () => {
           variant="h3"
           sx={{
             fontFamily: "BRUSHSTRIKE",
-            fontSize: { xs: "28px", sm: "55px", md: "70px" },
+            fontSize: { xs: "24px", sm: "55px", md: "70px" },
             fontWeight: 400,
             fontStyle: "normal",
             background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
@@ -278,7 +279,7 @@ const EventsSection = () => {
             textAlign: "center",
             maxWidth: "900px",
             margin: "0 auto 40px",
-            fontSize: { xs: "8px", sm: "15px", md: "16px" },
+            fontSize: { xs: "7px", sm: "15px", md: "16px" },
             lineHeight: 1.3,
           }}
         >
@@ -310,7 +311,7 @@ const EventsSection = () => {
             <Box
               key={tournament.id}
               sx={{
-                flex: { xs: "0 0 280px", sm: "0 0 auto" },
+                flex: { xs: "0 0 160px", sm: "0 0 auto" },
                 scrollSnapAlign: { xs: "start", sm: "unset" },
               }}
             >
@@ -328,29 +329,29 @@ const EventsSection = () => {
                   />
                 </ImageWrapper>
                 <CardContentWrapper>
-                  <GradientText sx={{ fontSize: "18px" }}>
+                  <GradientText sx={{ fontSize: { xs: "10px", sm: "18px" } }}>
                     UPCOMING
                   </GradientText>
                   <Typography
                     variant="h6"
                     sx={{
                       fontWeight: 700,
-                      mb: 1,
+                      mb: 0.5,
                       background: "White",
                       color: "white",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
-                      fontSize: "20px",
+                      fontSize: { xs: "11px", sm: "20px" },
                     }}
                   >
                     {tournament.name}
                   </Typography>
-                  <GradientText sx={{ color: "#aaa", mb: 1, fontSize: "16px" }}>
+                  <GradientText sx={{ color: "#aaa", mb: 0.5, fontSize: { xs: "9px", sm: "16px" } }}>
                     {tournament.date}
                   </GradientText>
 
                   <CountdownBox>
-                    <Typography sx={{ color: "#fff", fontWeight: 600 }}>
+                    <Typography sx={{ color: "#fff", fontWeight: 600, fontSize: { xs: "9px", sm: "14px" } }}>
                       {tournament.timeLeft.days}d {tournament.timeLeft.hours}h{" "}
                       {tournament.timeLeft.minutes}m{" "}
                       {tournament.timeLeft.seconds}s

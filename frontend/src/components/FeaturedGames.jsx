@@ -298,7 +298,7 @@ export default function FeaturedGames() {
           <Typography
             component="h2"
             sx={{
-              fontSize: { xs: "32px", sm: "44px", md: "75px" },
+              fontSize: { xs: "26px", sm: "44px", md: "75px" },
               fontFamily: "BRUSHSTRIKE",
               fontWeight: 400,
               background:
@@ -317,7 +317,7 @@ export default function FeaturedGames() {
               color: "gray.400",
               maxWidth: 950,
               mx: "auto",
-              fontSize: { xs: "8px", md: "16px" },
+              fontSize: { xs: "7px", md: "16px" },
               lineHeight: { xs: 1.3, md: 1.6 },
               px: { xs: 1, sm: 0 },
             }}
@@ -438,7 +438,7 @@ export default function FeaturedGames() {
                         py: { xs: 0.8, sm: 1, md: 1.3 },
                         borderRadius: 0,
                         fontWeight: "bold",
-                        fontSize: { xs: "13px", sm: "15px", md: "19px" },
+                        fontSize: { xs: "11px", sm: "15px", md: "19px" },
                         textTransform: "none",
                         color: "#fff",
                         background:
@@ -482,7 +482,7 @@ export default function FeaturedGames() {
                         variant="h6"
                         sx={{
                           mb: 0.1,
-                          fontSize: { xs: "14px", sm: "18px", md: "24px" },
+                          fontSize: { xs: "12px", sm: "18px", md: "24px" },
                           fontWeight: 700,
                           transition: "color 0.3s ease",
                           color: "#FFFFFF",
@@ -493,7 +493,7 @@ export default function FeaturedGames() {
                       <Typography
                         variant="body1"
                         sx={{
-                          fontSize: { xs: "10px", sm: "13px", md: "16px" },
+                          fontSize: { xs: "8px", sm: "13px", md: "16px" },
                           color: "#FFFFFF",
                           lineHeight: { xs: 1.2, md: 1.32 },
                         }}

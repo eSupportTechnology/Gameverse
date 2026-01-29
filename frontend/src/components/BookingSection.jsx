@@ -14,7 +14,7 @@ const GradientButton = styled(Button)(({ theme }) => ({
   fontSize: "16px",
   [theme.breakpoints.down("sm")]: {
     padding: "8px 20px",
-    fontSize: "11px",
+    fontSize: "9px",
   },
 
   "&::before": {
@@ -79,7 +79,7 @@ const BookingSection = () => {
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             mb: 3,
-            fontSize: { xs: "12px", sm: "22px", md: "24px" },
+            fontSize: { xs: "10px", sm: "22px", md: "24px" },
             px: { xs: 1, sm: 0 },
           }}
         >

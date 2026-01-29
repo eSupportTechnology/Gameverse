@@ -438,8 +438,8 @@ const PlayerInfo = ({
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-            gap: 4,
+            gridTemplateColumns: "1fr 1fr",
+            gap: { xs: 2, md: 4 },
             mb: 4,
           }}
         >
