@@ -392,9 +392,9 @@ const SignIn = () => {
                 />
               </Box>
 
-              <Box sx={{ display: "flex", justifyContent: "space-between", flexDirection: { xs: "column", sm: "row" }, gap: { xs: 0.5, sm: 0 } }}>
+              <Box sx={{ display: "flex", justifyContent: { xs: "flex-end", sm: "space-between" }, flexDirection: { xs: "column-reverse", sm: "row" }, gap: { xs: 0.5, sm: 0 } }}>
                 {/* Link to Sign Up */}
-                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" } }}>
+                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" }, textAlign: { xs: "right", sm: "left" } }}>
                   Didn't have a account.?
                   <Box
                     component="span"
@@ -413,7 +413,7 @@ const SignIn = () => {
                 </Typography>
 
                 {/* Reset password */}
-                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" } }}>
+                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" }, textAlign: { xs: "right", sm: "left" } }}>
                   Forget Password?
                   <Box
                     component="span"
