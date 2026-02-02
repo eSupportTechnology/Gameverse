@@ -130,7 +130,11 @@ const CountdownBox = styled(Box)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   margin: "4px auto 0",
-  [theme.breakpoints.down("sm")]: { width: "95%", height: "26px", borderRadius: "14px" },
+  [theme.breakpoints.down("sm")]: {
+    width: "95%",
+    height: "26px",
+    borderRadius: "14px",
+  },
 }));
 
 const EventsSection = () => {
@@ -165,7 +169,7 @@ const EventsSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setTournaments((prev) =>
-        prev.map((t) => ({ ...t, timeLeft: calculateTimeLeft(t.date) }))
+        prev.map((t) => ({ ...t, timeLeft: calculateTimeLeft(t.date) })),
       );
     }, 1000);
     return () => clearInterval(interval);
@@ -179,7 +183,7 @@ const EventsSection = () => {
       ([entry]) => {
         setIsAutoPlaying(entry.isIntersecting);
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
 
     observer.observe(scrollContainerRef.current);
@@ -224,7 +228,7 @@ const EventsSection = () => {
         styles={{
           "@font-face": {
             fontFamily: "BRUSHSTRIKE",
-            src: `url("/fonts/BRUSHSTRIKE.ttf") format("truetype")`,
+            src: `url("/fonts/Brushstrike.ttf") format("truetype")`,
             fontWeight: "normal",
             fontStyle: "normal",
           },
@@ -315,51 +319,63 @@ const EventsSection = () => {
                 scrollSnapAlign: { xs: "start", sm: "unset" },
               }}
             >
-            <GradientBorderCard>
-              <InnerCard>
-                <ImageWrapper>
-                  <CardMedia
-                    component="img"
-                    image={tournament.thumbnail}
-                    alt={tournament.name}
-                    onError={(e) =>
-                      (e.target.src =
-                        "https://via.placeholder.com/400x250?text=No+Image")
-                    }
-                  />
-                </ImageWrapper>
-                <CardContentWrapper>
-                  <GradientText sx={{ fontSize: { xs: "10px", sm: "18px" } }}>
-                    UPCOMING
-                  </GradientText>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: 700,
-                      mb: 0.5,
-                      background: "White",
-                      color: "white",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      fontSize: { xs: "11px", sm: "20px" },
-                    }}
-                  >
-                    {tournament.name}
-                  </Typography>
-                  <GradientText sx={{ color: "#aaa", mb: 0.5, fontSize: { xs: "9px", sm: "16px" } }}>
-                    {tournament.date}
-                  </GradientText>
-
-                  <CountdownBox>
-                    <Typography sx={{ color: "#fff", fontWeight: 600, fontSize: { xs: "9px", sm: "14px" } }}>
-                      {tournament.timeLeft.days}d {tournament.timeLeft.hours}h{" "}
-                      {tournament.timeLeft.minutes}m{" "}
-                      {tournament.timeLeft.seconds}s
+              <GradientBorderCard>
+                <InnerCard>
+                  <ImageWrapper>
+                    <CardMedia
+                      component="img"
+                      image={tournament.thumbnail}
+                      alt={tournament.name}
+                      onError={(e) =>
+                        (e.target.src =
+                          "https://via.placeholder.com/400x250?text=No+Image")
+                      }
+                    />
+                  </ImageWrapper>
+                  <CardContentWrapper>
+                    <GradientText sx={{ fontSize: { xs: "10px", sm: "18px" } }}>
+                      UPCOMING
+                    </GradientText>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: 700,
+                        mb: 0.5,
+                        background: "White",
+                        color: "white",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        fontSize: { xs: "11px", sm: "20px" },
+                      }}
+                    >
+                      {tournament.name}
                     </Typography>
-                  </CountdownBox>
-                </CardContentWrapper>
-              </InnerCard>
-            </GradientBorderCard>
+                    <GradientText
+                      sx={{
+                        color: "#aaa",
+                        mb: 0.5,
+                        fontSize: { xs: "9px", sm: "16px" },
+                      }}
+                    >
+                      {tournament.date}
+                    </GradientText>
+
+                    <CountdownBox>
+                      <Typography
+                        sx={{
+                          color: "#fff",
+                          fontWeight: 600,
+                          fontSize: { xs: "9px", sm: "14px" },
+                        }}
+                      >
+                        {tournament.timeLeft.days}d {tournament.timeLeft.hours}h{" "}
+                        {tournament.timeLeft.minutes}m{" "}
+                        {tournament.timeLeft.seconds}s
+                      </Typography>
+                    </CountdownBox>
+                  </CardContentWrapper>
+                </InnerCard>
+              </GradientBorderCard>
             </Box>
           ))}
         </Box>

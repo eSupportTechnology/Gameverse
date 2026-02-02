@@ -148,7 +148,7 @@ const ResetPassword = () => {
 
       sessionStorage.removeItem("reset_token");
       sessionStorage.removeItem("reset_email");
-      navigate("/sing-in");
+      navigate("/sign-in");
     } catch (err) {
       toast.error(err.response?.data?.message || "Reset failed!");
     }
@@ -286,7 +286,7 @@ const ResetPassword = () => {
               {/* Back + Title */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", mb: 0.5 }}>
                 <Box
-                  onClick={() => navigate("/sing-in")}
+                  onClick={() => navigate("/sign-in")}
                   component="img"
                   src={backIcon}
                   alt="back-icon"

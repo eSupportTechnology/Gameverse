@@ -5,7 +5,7 @@ import Games from "./pages/Games";
 import Contact from "./pages/Contact";
 import Booking from "./pages/Booking";
 import Navbar from "./components/Navbar";
-import SingUp from "./pages/SingUp";
+import SingUp from "./pages/SignUp.jsx";
 import SignIn from "./pages/SignIn";
 import EmailVerification from "./pages/EmailVerification";
 import ResetPassword from "./pages/ResetPassword";
@@ -59,8 +59,8 @@ function App() {
           </Route>
 
           <Route element={<SubLayout />}>
-            <Route path="/sing-up" element={<SingUp />} />
-            <Route path="/sing-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SingUp />} />
+            <Route path="/sign-in" element={<SignIn />} />
             <Route path="/email-verify" element={<EmailVerification />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>

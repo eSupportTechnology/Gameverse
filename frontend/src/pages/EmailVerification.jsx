@@ -385,7 +385,7 @@ const EmailVerification = () => {
                 }}
               >
                 <Box
-                  onClick={() => navigate("/sing-in")}
+                  onClick={() => navigate("/sign-in")}
                   component="img"
                   src={backIcon}
                   alt="back-icon"

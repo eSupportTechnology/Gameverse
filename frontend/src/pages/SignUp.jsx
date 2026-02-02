@@ -152,7 +152,7 @@ const SingUp = () => {
         confirmPassword: "",
       });
 
-      navigate("/sing-in");
+      navigate("/sign-in");
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Registration failed!");
@@ -506,7 +506,7 @@ const SingUp = () => {
                       fontWeight: 700,
                       cursor: "pointer",
                     }}
-                    onClick={() => navigate("/sing-in")}
+                    onClick={() => navigate("/sign-in")}
                   >
                     Sign In
                   </Box>

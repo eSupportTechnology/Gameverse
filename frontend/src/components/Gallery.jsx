@@ -72,7 +72,9 @@ const GalleryView = () => {
       transform: isMobile ? "none" : "scale(1.03)",
       boxShadow: isMobile ? "none" : "0 8px 30px rgba(160, 51, 255, 0.6)",
       "&::after": {
-        boxShadow: isMobile ? "inset 0 0 10px 2px rgba(160, 51, 255, 0.4)" : "inset 0 0 15px 3px rgba(160, 51, 255, 0.6)",
+        boxShadow: isMobile
+          ? "inset 0 0 10px 2px rgba(160, 51, 255, 0.4)"
+          : "inset 0 0 15px 3px rgba(160, 51, 255, 0.6)",
       },
     },
   };
@@ -91,7 +93,7 @@ const GalleryView = () => {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     observer.observe(container);
@@ -136,7 +138,7 @@ const GalleryView = () => {
         styles={{
           "@font-face": {
             fontFamily: "BRUSHSTRIKE",
-            src: `url("/fonts/BRUSHSTRIKE.ttf") format("truetype")`,
+            src: `url("/fonts/Brushstrike.ttf") format("truetype")`,
             fontWeight: "normal",
             fontStyle: "normal",
           },

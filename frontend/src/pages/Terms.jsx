@@ -8,7 +8,7 @@ const Terms = () => {
         styles={{
           "@font-face": {
             fontFamily: "BRUSHSTRIKE",
-            src: `url("/fonts/BRUSHSTRIKE.ttf") format("truetype")`,
+            src: `url("/fonts/Brushstrike.ttf") format("truetype")`,
           },
         }}
       />
