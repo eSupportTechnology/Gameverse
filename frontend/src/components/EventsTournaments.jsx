@@ -165,10 +165,10 @@ const EventsTournaments = () => {
           <Typography
             sx={{
               color: "#fff",
-              fontSize: { xs: "8px", md: "16px" },
+              fontSize: { xs: "11px", sm: "14px", md: "16px" },
               maxWidth: "1100px",
               mx: "auto",
-              lineHeight: 1.3,
+              lineHeight: 1.4,
             }}
           >
             Get ready to battle it out! Join our exciting events and competitive

@@ -392,28 +392,8 @@ const SignIn = () => {
                 />
               </Box>
 
-              <Box sx={{ display: "flex", justifyContent: "space-between", flexDirection: { xs: "column", sm: "row" }, gap: { xs: 0.5, sm: 0 } }}>
-                {/* Link to Sign Up */}
-                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" } }}>
-                  Didn't have a account.?
-                  <Box
-                    component="span"
-                    sx={{
-                      ml: 1,
-                      backgroundImage:
-                        "linear-gradient(90deg, #CF36E1, #D100FF, #33B2F7)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => navigate("/sing-up")}
-                  >
-                    Sign Up
-                  </Box>
-                </Typography>
-
-                {/* Reset password */}
-                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" } }}>
+              {/* Reset password */}
+                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" }, textAlign: { xs: "right", sm: "left" } }}>
                   Forget Password?
                   <Box
                     component="span"
@@ -432,6 +412,26 @@ const SignIn = () => {
                     }
                   >
                     Reset
+                  </Box>
+                </Typography>
+
+              <Box sx={{ display: "flex", justifyContent: { xs: "flex-end", sm: "space-between" }, flexDirection: { xs: "column", sm: "row" }, gap: { xs: 0.5, sm: 0 } }}>
+                {/* Link to Sign Up */}
+                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" }, textAlign: { xs: "right", sm: "left" } }}>
+                  Didn't have a account.?
+                  <Box
+                    component="span"
+                    sx={{
+                      ml: 1,
+                      backgroundImage:
+                        "linear-gradient(90deg, #CF36E1, #D100FF, #33B2F7)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => navigate("/sing-up")}
+                  >
+                    Sign Up
                   </Box>
                 </Typography>
               </Box>

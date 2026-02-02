@@ -234,7 +234,7 @@ const EventsSection = () => {
         id="events-section"
         sx={{
           bgcolor: "#0A0D17",
-          py: { xs: 4, sm: 4 },
+          py: { xs: 2, sm: 4 },
           px: 2,
           position: "relative",
           display: "flex",
@@ -260,7 +260,7 @@ const EventsSection = () => {
           variant="h3"
           sx={{
             fontFamily: "BRUSHSTRIKE",
-            fontSize: { xs: "24px", sm: "55px", md: "70px" },
+            fontSize: { xs: "32px", sm: "55px", md: "70px" },
             fontWeight: 400,
             fontStyle: "normal",
             background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
@@ -278,9 +278,9 @@ const EventsSection = () => {
             color: "#fff",
             textAlign: "center",
             maxWidth: "900px",
-            margin: "0 auto 40px",
-            fontSize: { xs: "7px", sm: "15px", md: "16px" },
-            lineHeight: 1.3,
+            margin: { xs: "0 auto 20px", sm: "0 auto 40px" },
+            fontSize: { xs: "11px", sm: "15px", md: "16px" },
+            lineHeight: 1.4,
           }}
         >
           Get ready to battle it out! Join our exciting events and competitive

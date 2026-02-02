@@ -298,7 +298,7 @@ export default function FeaturedGames() {
           <Typography
             component="h2"
             sx={{
-              fontSize: { xs: "26px", sm: "44px", md: "75px" },
+              fontSize: { xs: "32px", sm: "44px", md: "75px" },
               fontFamily: "BRUSHSTRIKE",
               fontWeight: 400,
               background:
@@ -317,8 +317,8 @@ export default function FeaturedGames() {
               color: "gray.400",
               maxWidth: 950,
               mx: "auto",
-              fontSize: { xs: "7px", md: "16px" },
-              lineHeight: { xs: 1.3, md: 1.6 },
+              fontSize: { xs: "11px", sm: "14px", md: "16px" },
+              lineHeight: { xs: 1.4, md: 1.6 },
               px: { xs: 1, sm: 0 },
             }}
           >
@@ -369,8 +369,31 @@ export default function FeaturedGames() {
                   "&:hover .bottom-glow": {
                     opacity: 1,
                   },
+                  "&:hover .mobile-gradient-border": {
+                    opacity: { xs: 1, sm: 0, md: 0 },
+                  },
                 }}
               >
+                {/* Mobile gradient border on hover */}
+                <Box
+                  className="mobile-gradient-border"
+                  sx={{
+                    display: { xs: "block", sm: "none" },
+                    position: "absolute",
+                    inset: 0,
+                    borderRadius: "4px",
+                    padding: "2px",
+                    background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
+                    WebkitMask:
+                      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    WebkitMaskComposite: "xor",
+                    maskComposite: "exclude",
+                    pointerEvents: "none",
+                    opacity: 0,
+                    transition: "opacity 0.3s ease",
+                    zIndex: 5,
+                  }}
+                />
                 <Box
                   sx={{
                     width: "100%",

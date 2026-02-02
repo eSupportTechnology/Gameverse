@@ -9,7 +9,7 @@ const GamesHero = () => {
     <Box
       sx={{
         position: "relative",
-        minHeight: { xs: "32vh", md: "calc(100vh - 64px)" },
+        minHeight: { xs: "38vh", md: "calc(100vh - 64px)" },
         width: "100%",
         bgcolor: "#0A0D17",
         display: "flex",
@@ -18,9 +18,9 @@ const GamesHero = () => {
         justifyContent: "space-between",
         overflow: "hidden",
         px: { xs: 2, sm: 4, md: 10 },
-        pt: { xs: 0, md: 0 },
+        pt: { xs: 2, md: 0 },
         pb: { xs: 0, md: 0 },
-        mt: { xs: "-30px", md: 0 },
+        mt: { xs: "0px", md: 0 },
         boxSizing: "border-box",
         "&::after": {
           content: '""',
@@ -49,10 +49,10 @@ const GamesHero = () => {
       >
         <Typography
           sx={{
-            fontSize: { xs: "14px", sm: "44px", md: "72px" },
+            fontSize: { xs: "18px", sm: "44px", md: "72px" },
             fontWeight: 700,
             color: "#ffffff",
-            lineHeight: 1.1,
+            lineHeight: { xs: 1.2, md: 1.1 },
             mb: { xs: 0.3, md: 1 },
           }}
         >
@@ -60,12 +60,12 @@ const GamesHero = () => {
         </Typography>
         <Typography
           sx={{
-            fontSize: { xs: "18px", sm: "56px", md: "72px" },
+            fontSize: { xs: "22px", sm: "56px", md: "72px" },
             fontWeight: 700,
             background: "linear-gradient(to bottom, #33B2F7, #A905BC)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
-            lineHeight: 1.1,
+            lineHeight: { xs: 1.2, md: 1.1 },
             mb: { xs: 0.3, md: 1 },
           }}
         >
@@ -73,33 +73,33 @@ const GamesHero = () => {
         </Typography>
         <Typography
           sx={{
-            fontSize: { xs: "12px", sm: "56px", md: "72px" },
+            fontSize: { xs: "18px", sm: "56px", md: "72px" },
             fontWeight: 700,
             color: "#ffffff",
-            lineHeight: 1.1,
+            lineHeight: { xs: 1.2, md: 1.1 },
             mb: { xs: 1, md: 4 },
           }}
         >
-          Beyond the Basic Details
+          <Box component="span" sx={{ display: { xs: "block", md: "inline" } }}>Beyond the</Box>
+          {" "}
+          <Box component="span" sx={{ display: { xs: "block", md: "inline" } }}>Basic Details</Box>
         </Typography>
 
         <Typography
           sx={{
             color: "#fff",
-            fontSize: { xs: "7px", sm: "14px", md: "18px" },
-            lineHeight: { xs: 1.3, md: 1.8 },
+            fontSize: { xs: "11px", sm: "14px", md: "18px" },
+            lineHeight: { xs: 1.4, md: 1.8 },
             mb: { xs: 1, md: 4 },
-            maxWidth: "600px",
+            maxWidth: { xs: "200px", md: "600px" },
           }}
         >
-          Elevate your play at Sri Lanka's neon gaming hotspot – reserve your
-          station online, skip the wait, and step into a glowing world of
-          adrenaline, cutting-edge setups, and nonstop competitive energy.
+          Elevate your play at Sri Lanka's neon gaming hotspot – reserve your station online, skip the wait, and step into a glowing world of adrenaline, cutting-edge setups, and nonstop competitive energy.
         </Typography>
 
         <Typography
           sx={{
-            fontSize: { xs: "7px", sm: "14px", md: "18px" },
+            fontSize: { xs: "10px", sm: "14px", md: "18px" },
             fontWeight: 500,
             mb: { xs: 1.5, md: 5 },
             backgroundImage: "linear-gradient(to right, #33B2F7, #A905BC)",
@@ -121,15 +121,30 @@ const GamesHero = () => {
           <Button
             onClick={() => navigate("/booking", { state: { from: "/games" } })}
             sx={{
-              px: { xs: 1, sm: 3, md: 5 },
-              py: { xs: 0.2, md: 1.5 },
+              position: "relative",
+              px: { xs: 1.5, sm: 3, md: 5 },
+              py: { xs: 0.8, md: 1.5 },
               background: "linear-gradient(to right, #33B2F7, #A905BC)",
               color: "white",
               borderRadius: "30px",
               fontWeight: 700,
-              fontSize: { xs: "8px", sm: "14px", md: "16px" },
+              fontSize: { xs: "9px", sm: "14px", md: "16px" },
               textTransform: "none",
+              overflow: "hidden",
               transition: "all 0.3s ease",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                inset: 0,
+                borderRadius: "30px",
+                padding: { xs: "1px", sm: "2px" },
+                background: "linear-gradient(to right, #A905BC, #33B2F7)",
+                WebkitMask:
+                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                WebkitMaskComposite: "destination-out",
+                maskComposite: "exclude",
+                pointerEvents: "none",
+              },
               "&:hover": {
                 background: "transparent",
                 color: "transparent",
@@ -150,24 +165,25 @@ const GamesHero = () => {
             }}
             sx={{
               position: "relative",
-              px: { xs: 1, sm: 3, md: 5 },
-              py: { xs: 0.2, md: 1.5 },
+              px: { xs: 1.5, sm: 3, md: 5 },
+              py: { xs: 0.8, md: 1.5 },
               background: "transparent",
               color: "transparent",
               borderRadius: "30px",
               fontWeight: 700,
-              fontSize: { xs: "8px", sm: "14px", md: "16px" },
+              fontSize: { xs: "9px", sm: "14px", md: "16px" },
               textTransform: "none",
               backgroundImage: "linear-gradient(to right, #A905BC, #33B2F7)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
+              overflow: "hidden",
               transition: "all 0.3s ease",
               "&::before": {
                 content: '""',
                 position: "absolute",
                 inset: 0,
                 borderRadius: "30px",
-                padding: "2px",
+                padding: { xs: "1px", sm: "2px" },
                 background: "linear-gradient(to right, #A905BC, #33B2F7)",
                 WebkitMask:
                   "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",

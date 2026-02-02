@@ -54,14 +54,21 @@ const Footer = () => {
         */}
         <Grid
           container
-          columnSpacing={{ xs: 1, sm: 4, md: 8, lg: 24 }}
+          columnSpacing={{ xs: 2, sm: 4, md: 8, lg: 24 }}
           rowSpacing={{ xs: 2, sm: 4, md: 4 }}
           justifyContent="center"
-          alignItems={{ xs: "flex-start", md: "center" }}
+          alignItems={{ xs: "stretch", md: "flex-start" }}
         >
           {/* --- Left Column: Contact Info --- */}
-          <Grid item xs={12} sm={6} md={4.5} lg={4}>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 1, md: 2 } }}>
+          <Grid item xs={6} sm={6} md={4.5} lg={4}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: { xs: 1, md: 2 },
+                height: "100%",
+              }}
+            >
               {" "}
               {/* Reduced gap from 2.5 to 2 */}
               <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -160,121 +167,116 @@ const Footer = () => {
           </Grid>
 
           {/* --- Middle Column: Quick Link --- */}
-          <Grid item xs={12} sm={6} md={2.5} lg={2}>
-            {/* Flex container to center the content block within the column if needed, or keep left aligned */}
+          <Grid item xs={12} sm={6} md={4.5} lg={4}>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: { xs: "flex-start", sm: "flex-start", md: "flex-start" },
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                height: "10%",
                 pl: { xs: 0, md: 2 },
+                gap: { xs: 0, md: 1.2 },
+                "& > *": {
+                  lineHeight: { xs: 1, md: 1.4 },
+                  m: { xs: "unset", md: "unset" },
+                  p: { xs: 0, md: 0 },
+                  display: "block",
+                },
+                "& > *:not(:first-of-type)": { mt: { xs: 0, md: 0 } },
               }}
             >
               <Typography
-                variant="subtitle1"
                 sx={{
                   fontWeight: "bold",
-                  mb: { xs: 0, md: 2 },
                   fontSize: { xs: "10px", md: "14px" },
                   textTransform: "uppercase",
                   letterSpacing: "0.5px",
-                  lineHeight: 1,
+                  color: "#fff",
+                  mb: { xs: 1, md: 2 },
                 }}
               >
                 QUICK LINK
               </Typography>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 0 }}>
-                <Link
-                  component={RouterLink}
-                  to="/"
-                  underline="none"
-                  onClick={handleFooterNavigation}
-                  sx={{
-                    fontSize: { xs: "9px", md: "13px" },
-                    color: "#ccc",
-                    lineHeight: { xs: 1.2, md: 1.6 },
-                    py: { xs: 0, md: 0 },
-                    "&:hover": { color: "#fff" },
-                  }}
-                >
-                  HOME
-                </Link>
-                <Link
-                  component={RouterLink}
-                  to="/games"
-                  underline="none"
-                  onClick={handleFooterNavigation}
-                  sx={{
-                    fontSize: { xs: "9px", md: "13px" },
-                    color: "#ccc",
-                    lineHeight: { xs: 1.2, md: 1.6 },
-                    py: { xs: 0, md: 0 },
-                    "&:hover": { color: "#fff" },
-                  }}
-                >
-                  GAMES
-                </Link>
-                <Link
-                  component={RouterLink}
-                  to="/contact"
-                  underline="none"
-                  onClick={handleFooterNavigation}
-                  sx={{
-                    fontSize: { xs: "9px", md: "13px" },
-                    color: "#ccc",
-                    lineHeight: { xs: 1.2, md: 1.6 },
-                    py: { xs: 0, md: 0 },
-                    "&:hover": { color: "#fff" },
-                  }}
-                >
-                  CONTACT US
-                </Link>
-                <Link
-                  component={RouterLink}
-                  to="/refund-policy"
-                  underline="none"
-                  onClick={handleFooterNavigation}
-                  sx={{
-                    fontSize: { xs: "9px", md: "13px" },
-                    color: "#ccc",
-                    lineHeight: { xs: 1.2, md: 1.6 },
-                    py: { xs: 0, md: 0 },
-                    "&:hover": { color: "#fff" },
-                  }}
-                >
-                  RETURN/ REFUND POLICY
-                </Link>
-                <Link
-                  component={RouterLink}
-                  to="/privacy-policy"
-                  underline="none"
-                  onClick={handleFooterNavigation}
-                  sx={{
-                    fontSize: { xs: "9px", md: "13px" },
-                    color: "#ccc",
-                    lineHeight: { xs: 1.2, md: 1.6 },
-                    py: { xs: 0, md: 0 },
-                    "&:hover": { color: "#fff" },
-                  }}
-                >
-                  PRIVACY POLICY
-                </Link>
-                <Link
-                  component={RouterLink}
-                  to="/terms-and-conditions"
-                  underline="none"
-                  onClick={handleFooterNavigation}
-                  sx={{
-                    fontSize: { xs: "9px", md: "13px" },
-                    color: "#ccc",
-                    lineHeight: { xs: 1.2, md: 1.6 },
-                    py: { xs: 0, md: 0 },
-                    "&:hover": { color: "#fff" },
-                  }}
-                >
-                  TERMS & CONDITIONS
-                </Link>
-              </Box>
+              <Typography
+                component={RouterLink}
+                to="/"
+                onClick={handleFooterNavigation}
+                sx={{
+                  fontSize: { xs: "9px", md: "13px" },
+                  color: "#ccc",
+                  textDecoration: "none",
+                  lineHeight: { xs: 0, md: 1.4 },
+                  "&:hover": { color: "#fff" },
+                }}
+              >
+                HOME
+              </Typography>
+              <Typography
+                component={RouterLink}
+                to="/games"
+                onClick={handleFooterNavigation}
+                sx={{
+                  fontSize: { xs: "9px", md: "13px" },
+                  color: "#ccc",
+                  textDecoration: "none",
+                  "&:hover": { color: "#fff" },
+                }}
+              >
+                GAMES
+              </Typography>
+              <Typography
+                component={RouterLink}
+                to="/contact"
+                onClick={handleFooterNavigation}
+                sx={{
+                  fontSize: { xs: "9px", md: "13px" },
+                  color: "#ccc",
+                  textDecoration: "none",
+                  "&:hover": { color: "#fff" },
+                }}
+              >
+                CONTACT US
+              </Typography>
+              <Typography
+                component={RouterLink}
+                to="/refund-policy"
+                onClick={handleFooterNavigation}
+                sx={{
+                  fontSize: { xs: "9px", md: "13px" },
+                  color: "#ccc",
+                  textDecoration: "none",
+                  "&:hover": { color: "#fff" },
+                }}
+              >
+                RETURN/ REFUND POLICY
+              </Typography>
+              <Typography
+                component={RouterLink}
+                to="/privacy-policy"
+                onClick={handleFooterNavigation}
+                sx={{
+                  fontSize: { xs: "9px", md: "13px" },
+                  color: "#ccc",
+                  textDecoration: "none",
+                  "&:hover": { color: "#fff" },
+                }}
+              >
+                PRIVACY POLICY
+              </Typography>
+              <Typography
+                component={RouterLink}
+                to="/terms-and-conditions"
+                onClick={handleFooterNavigation}
+                sx={{
+                  fontSize: { xs: "9px", md: "13px" },
+                  color: "#ccc",
+                  textDecoration: "none",
+                  "&:hover": { color: "#fff" },
+                }}
+              >
+                TERMS &  CONDITIONS
+              </Typography>
             </Box>
           </Grid>
 

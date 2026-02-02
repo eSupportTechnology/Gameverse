@@ -126,7 +126,7 @@ const FeatureCard = ({ feature }) => (
             mx: "auto",
             mt: 1,
             transition: "color 0.3s",
-            fontSize: { xs: "7px", sm: "13px", md: "14px" },
+            fontSize: { xs: "9px", sm: "13px", md: "14px" },
           }}
         >
           {feature.description}

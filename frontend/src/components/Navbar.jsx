@@ -136,7 +136,7 @@ const Navbar = () => {
                 src={logo}
                 alt="Gameverse Logo"
                 style={{
-                  width: isMobile ? 140 : 200,
+                  width: isMobile ? 180 : 240,
                   height: "auto",
                 }}
               />

@@ -349,13 +349,13 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           maxWidth: "1400px",
           mx: "auto",
           display: "grid",
-          gridTemplateColumns: {
-            xs: "repeat(2, 1fr)",
-            sm: "repeat(4, 1fr)",
-            md: "repeat(6, 1fr)",
-            lg: "repeat(10, 1fr)",
-          },
-          gap: 2,
+          gridTemplateColumns: "repeat(10, 1fr)",
+          gap: { xs: 0.5, sm: 0.5, md: 2 },
+          overflowX: { xs: "auto", sm: "auto", md: "visible" },
+          px: { xs: 1, sm: 1, md: 0 },
+          "&::-webkit-scrollbar": { height: "6px" },
+          "&::-webkit-scrollbar-track": { bgcolor: "rgba(255,255,255,0.1)" },
+          "&::-webkit-scrollbar-thumb": { bgcolor: "#33B2F7", borderRadius: "4px" },
         }}
       >
         {timeSlots.map((slot, idx) => (
@@ -364,8 +364,9 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
             onClick={() => handleTimeSelect(slot.time, slot.status)}
             sx={{
               textAlign: "center",
-              py: 1.2,
-              px: 0.8,
+              py: { xs: 0.8, sm: 0.8, md: 1.2 },
+              px: { xs: 0.3, sm: 0.3, md: 0.8 },
+              minWidth: { xs: "55px", sm: "55px", md: "auto" },
               bgcolor:
                 slot.status === "Booked"
                   ? "rgba(169, 5, 188, 0.3)"
@@ -390,19 +391,19 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
               },
             }}
           >
-            <Typography sx={{ fontSize: "14px", fontWeight: "bold", mb: 0.3 }}>
+            <Typography sx={{ fontSize: { xs: "10px", sm: "10px", md: "14px" }, fontWeight: "bold", mb: 0.3 }}>
               {slot.time}
             </Typography>
 
             {slot.status === "Booked" && slot.bookedNames.length > 0 && (
-              <Typography sx={{ fontSize: "10px", color: "#fff", mt: 0.2 }}>
+              <Typography sx={{ fontSize: { xs: "8px", sm: "8px", md: "10px" }, color: "#fff", mt: 0.2 }}>
                 {slot.bookedNames.join(", ")}
               </Typography>
             )}
 
             <Typography
               sx={{
-                fontSize: "10px",
+                fontSize: { xs: "8px", sm: "8px", md: "10px" },
                 color: slot.status === "Booked" ? "#A905BC" : "#33B2F7",
                 fontWeight: 500,
               }}
