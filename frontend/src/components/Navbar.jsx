@@ -303,7 +303,7 @@ const Navbar = () => {
                 </Box>
               </Box>
             ) : (
-              <GradientButton onClick={() => navigate("/sing-in")}>
+              <GradientButton onClick={() => navigate("/sign-in")}>
                 Sign in
               </GradientButton>
             ))}
@@ -551,7 +551,7 @@ const Navbar = () => {
               Logout
             </Button>
           ) : (
-            <GradientButton fullWidth onClick={() => navigate("/sing-in")}>
+            <GradientButton fullWidth onClick={() => navigate("/sign-in")}>
               Sign in
             </GradientButton>
           )}

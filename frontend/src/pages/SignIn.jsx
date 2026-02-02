@@ -406,7 +406,7 @@ const SignIn = () => {
                       WebkitTextFillColor: "transparent",
                       cursor: "pointer",
                     }}
-                    onClick={() => navigate("/sing-up")}
+                    onClick={() => navigate("/sign-up")}
                   >
                     Sign Up
                   </Box>

@@ -68,7 +68,7 @@ export default function FeaturedGames() {
 
     if (!token) {
       alert("Please login to continue booking!");
-      navigate("/sing-in");
+      navigate("/sign-in");
       return;
     }
 
