@@ -485,15 +485,19 @@ const SingUp = () => {
               {/* Sign In Link */}
               <Box sx={{ 
                 display: "flex", 
-                justifyContent: "flex-start",
-                bgcolor: "rgba(0, 0, 0, 0.6)",
+                justifyContent: "center",
+                alignItems: "center",
+                bgcolor: "rgba(0, 0, 0, 0.85)",
                 p: 1,
                 borderRadius: "8px",
+                maxWidth: { xs: "200px", sm: "250px" },
+                mx: "auto",
               }}>
                 <Typography sx={{ 
                   color: "white", 
                   fontSize: { xs: "9px", sm: "12px" },
                   fontWeight: 500,
+                  textAlign: "center",
                 }}>
                   Do you have an account?{" "}
                   <Box

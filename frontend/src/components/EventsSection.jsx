@@ -238,7 +238,7 @@ const EventsSection = () => {
         id="events-section"
         sx={{
           bgcolor: "#0A0D17",
-          py: { xs: 2, sm: 4 },
+          py: { xs: 0, sm: 4 },
           px: 2,
           position: "relative",
           display: "flex",

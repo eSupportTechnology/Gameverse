@@ -261,14 +261,21 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           mx: "auto",
           mb: 4,
           position: "relative",
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
+          display: { xs: "grid", md: "flex" },
+          gridTemplateColumns: { xs: "repeat(10, 1fr)", md: "none" },
+          alignItems: { md: "center" },
+          gap: { xs: 0.5, md: 2 },
+          overflowX: { xs: "auto", md: "visible" },
+          px: { xs: 1, md: 0 },
+          "&::-webkit-scrollbar": { height: "6px" },
+          "&::-webkit-scrollbar-track": { bgcolor: "rgba(255,255,255,0.1)" },
+          "&::-webkit-scrollbar-thumb": { bgcolor: "#33B2F7", borderRadius: "4px" },
         }}
       >
         <IconButton
           onClick={scrollDatesLeft}
           sx={{
+            display: { xs: "none", md: "flex" },
             color: "white",
             minWidth: "40px",
             bgcolor: "rgba(0,0,0,0.5)",
@@ -281,12 +288,12 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
         <Box
           ref={datesScrollRef}
           sx={{
-            flex: 1,
-            display: "flex",
-            gap: 2,
-            overflowX: "auto",
-            pb: 2,
-            scrollBehavior: "smooth",
+            display: { xs: "contents", md: "flex" },
+            flex: { md: 1 },
+            gap: { md: 2 },
+            overflowX: { md: "auto" },
+            pb: { md: 2 },
+            scrollBehavior: { md: "smooth" },
             "&::-webkit-scrollbar": { height: "8px" },
             "&::-webkit-scrollbar-track": { bgcolor: "rgba(255,255,255,0.1)" },
             "&::-webkit-scrollbar-thumb": {
@@ -304,10 +311,10 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
                 key={day}
                 onClick={() => handleDateSelect(day)}
                 sx={{
-                  minWidth: 60,
                   textAlign: "center",
-                  py: 1.5,
-                  px: 2,
+                  py: { xs: 0.8, md: 1.5 },
+                  px: { xs: 0.5, md: 2 },
+                  minWidth: { xs: "45px", md: "60px" },
                   bgcolor:
                     selectedDate === fullDate
                       ? "rgba(51, 178, 247, 0.3)"
@@ -322,7 +329,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
                   "&:hover": { bgcolor: "rgba(51, 178, 247, 0.2)" },
                 }}
               >
-                <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                <Typography sx={{ fontSize: { xs: "14px", md: "20px" }, fontWeight: "bold" }}>
                   {String(day).padStart(2, "0")}
                 </Typography>
               </Box>
@@ -333,6 +340,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
         <IconButton
           onClick={scrollDatesRight}
           sx={{
+            display: { xs: "none", md: "flex" },
             color: "white",
             minWidth: "40px",
             bgcolor: "rgba(0,0,0,0.5)",
@@ -421,8 +429,16 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           mt: 4,
           display: "flex",
           gap: 2,
-          flexWrap: "wrap",
-          justifyContent: "center",
+          flexWrap: { xs: "nowrap", md: "wrap" },
+          justifyContent: { xs: "flex-start", md: "center" },
+          overflowX: { xs: "auto", md: "visible" },
+          pb: { xs: 2, md: 0 },
+          "&::-webkit-scrollbar": { height: "8px" },
+          "&::-webkit-scrollbar-track": { bgcolor: "rgba(255,255,255,0.1)" },
+          "&::-webkit-scrollbar-thumb": {
+            bgcolor: "#33B2F7",
+            borderRadius: "4px",
+          },
         }}
       >
         {durations.map((dur) => (
@@ -430,11 +446,13 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
             key={dur.value}
             onClick={() => setSelectedDuration(dur.value)}
             sx={{
-              px: 3,
-              py: 1.5,
+              px: { xs: 1.5, md: 3 },
+              py: { xs: 0.8, md: 1.5 },
+              minWidth: { xs: "auto", md: "fit-content" },
               borderRadius: "6px",
               cursor: "pointer",
               textAlign: "center",
+              flexShrink: { xs: 0, md: "initial" },
               bgcolor:
                 selectedDuration === dur.value
                   ? "rgba(51,178,247,0.3)"
@@ -448,7 +466,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
               },
             }}
           >
-            <Typography sx={{ fontWeight: "bold" }}>{dur.label}</Typography>
+            <Typography sx={{ fontWeight: "bold", fontSize: { xs: "11px", md: "16px" }, whiteSpace: { xs: "nowrap", md: "normal" } }}>{dur.label}</Typography>
           </Box>
         ))}
       </Box>

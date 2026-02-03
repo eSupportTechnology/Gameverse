@@ -150,14 +150,14 @@ const GalleryView = () => {
           bgcolor: "#0A0D17",
           color: "#fff",
           px: { xs: 2, sm: 3, md: 5 },
-          py: { xs: 5, md: 8 },
+          py: { xs: 2, md: 8 },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           fontFamily: "Roboto, sans-serif",
         }}
       >
-        <Box sx={{ maxWidth: 900, textAlign: "center", mb: isMobile ? 6 : 10 }}>
+        <Box sx={{ maxWidth: 900, textAlign: "center", mb: isMobile ? 2 : 10 }}>
           <Typography
             variant={isMobile ? "h3" : "h2"}
             sx={{
@@ -176,10 +176,10 @@ const GalleryView = () => {
             variant="h6"
             sx={{
               color: "#FFFFFF",
-              mb: isMobile ? 5 : 8,
+              mb: isMobile ? 2 : 8,
               fontFamily: "Inter, sans-serif",
               lineHeight: 1.3,
-              fontSize: { xs: "8px", md: "1.09rem" },
+              fontSize: { xs: "11px", sm: "14px", md: "16px" },
               px: { xs: 1, md: 0 },
               maxWidth: "900px",
               margin: "0 auto",
