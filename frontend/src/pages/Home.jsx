@@ -28,13 +28,16 @@ const SolidGradientButton = styled(Button)(({ theme }) => ({
     position: "absolute",
     inset: 0,
     borderRadius: "30px",
-    padding: "2px",
+    padding: "1px",
     background: "linear-gradient(to right, #A905BC, #33B2F7)",
     WebkitMask:
       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
     WebkitMaskComposite: "destination-out",
     maskComposite: "exclude",
     pointerEvents: "none",
+    [theme.breakpoints.up("sm")]: {
+      padding: "1px",
+    },
   },
 
   "&:hover": {
@@ -69,13 +72,16 @@ const OutlineGradientButton = styled(Button)(({ theme }) => ({
     position: "absolute",
     inset: 0,
     borderRadius: "30px",
-    padding: "2px",
+    padding: "1px",
     background: "linear-gradient(to right, #A905BC, #33B2F7)",
     WebkitMask:
       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
     WebkitMaskComposite: "destination-out",
     maskComposite: "exclude",
     pointerEvents: "none",
+    [theme.breakpoints.up("sm")]: {
+      padding: "0.5px",
+    },
   },
 
   "&:hover": {
@@ -154,8 +160,8 @@ const Home = () => {
             variant="h2"
             sx={{
               fontWeight: "bold",
-              lineHeight: { xs: "1.2", md: "80px" },
-              fontSize: { xs: "16px", sm: "44px", md: "70px" },
+              lineHeight: { xs: "1.3", md: "80px" },
+              fontSize: { xs: "20px", sm: "44px", md: "70px" },
               pt: 0,
             }}
           >
@@ -177,21 +183,18 @@ const Home = () => {
           <Typography
             sx={{
               mt: { xs: 1, md: 2 },
-              fontSize: { xs: "7px", sm: "14px", md: "1.09rem" },
-              lineHeight: { xs: "1.3", md: "28px" },
+              fontSize: { xs: "10px", sm: "14px", md: "1.09rem" },
+              lineHeight: { xs: "1.4", md: "28px" },
               color: "#FFFFFF",
             }}
           >
-            Sri Lanka's No.1 ultimate neon gaming lounge experience, reserve
-            your gaming station online within seconds – Skip the lines,
-            secure your spot, and dive straight in to the action the moment
-            you arrive.
+            Sri Lanka's No.1 ultimate neon gaming lounge experience, reserve your gaming station online within seconds –Skip the lines, secure your spot, and dive straight in to the action the moment you arrive.
           </Typography>
 
           <Typography
             sx={{
               mt: { xs: 1, md: 2 },
-              fontSize: { xs: "7px", sm: "14px", md: "18px" },
+              fontSize: { xs: "10px", sm: "14px", md: "18px" },
               fontWeight: 500,
               backgroundImage: "linear-gradient(to right, #33B2F7, #A905BC)",
               WebkitBackgroundClip: "text",
@@ -226,7 +229,7 @@ const Home = () => {
                   .getElementById("featured-games")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              sx={{ px: { xs: 1.5, md: 4 }, py: { xs: 0.6, md: 1.5 }, fontSize: { xs: "8px", sm: "14px", md: "16px" } }}
+              sx={{ px: { xs: 1.5, md: 3 }, py: { xs: 0.8, md: 1.5 }, fontSize: { xs: "8px", sm: "14px", md: "16px" } }}
             >
               Booking Now
             </SolidGradientButton>
@@ -236,7 +239,7 @@ const Home = () => {
                   .getElementById("events-section")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              sx={{ px: { xs: 1.5, md: 4 }, py: { xs: 0.6, md: 1.5 }, fontSize: { xs: "8px", sm: "14px", md: "16px" } }}
+              sx={{ px: { xs: 1.5, md: 3 }, py: { xs: 0.8, md: 1.5 }, fontSize: { xs: "8px", sm: "14px", md: "16px" } }}
             >
               View Events
             </OutlineGradientButton>

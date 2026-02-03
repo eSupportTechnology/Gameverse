@@ -363,6 +363,7 @@ const SingUp = () => {
                 gap: { xs: 1.5, sm: 2 },
                 zIndex: 2,
                 p: { xs: 1, sm: 3 },
+                pt: { xs: 4, sm: 3 },
               }}
             >
               {/* Name Fields */}
@@ -482,8 +483,18 @@ const SingUp = () => {
               </Box>
 
               {/* Sign In Link */}
-              <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                <Typography sx={{ color: "white", fontSize: "12px" }}>
+              <Box sx={{ 
+                display: "flex", 
+                justifyContent: "flex-start",
+                bgcolor: "rgba(0, 0, 0, 0.6)",
+                p: 1,
+                borderRadius: "8px",
+              }}>
+                <Typography sx={{ 
+                  color: "white", 
+                  fontSize: { xs: "9px", sm: "12px" },
+                  fontWeight: 500,
+                }}>
                   Do you have an account?{" "}
                   <Box
                     component="span"
@@ -492,7 +503,7 @@ const SingUp = () => {
                         "linear-gradient(90deg, #CF36E1 0%, #D100FF 35%, #33B2F7 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
-                      fontWeight: 500,
+                      fontWeight: 700,
                       cursor: "pointer",
                     }}
                     onClick={() => navigate("/sign-in")}

@@ -21,11 +21,13 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
   const [snaps, setSnaps] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isDesktop = useMediaQuery("(min-width:900px)");
+  const isMobile = useMediaQuery("(max-width:899px)");
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const autoPlayIntervalRef = useRef(null);
   const [selectedStationName, setSelectedStationName] = useState(
     selectedStation || null,
   );
+  const [currentVisibleIndex, setCurrentVisibleIndex] = useState(0);
 
   const visibleCount = isDesktop ? 3 : 1;
   const dotsToShow = Math.max(stations.length - visibleCount + 1, 1);
@@ -91,6 +93,8 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
         }
       }
       setSelectedIndex(Math.min(firstVisibleIndex, dotsToShow - 1));
+      // Update current visible card index for mobile
+      setCurrentVisibleIndex(firstVisibleIndex);
     };
     container.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
@@ -273,6 +277,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
       >
         {stations.map((station, idx) => {
           const isSelected = selectedStationName === station.name;
+          const isCurrentCard = currentVisibleIndex === idx;
           return (
             <Box
               key={station.id}
@@ -341,16 +346,16 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
                   }}
                 />
 
-                {/* Select / Selected Button - Visible when selected or on hover */}
+                {/* Select / Selected Button - Visible on hover (desktop) or scroll (mobile) */}
                 <Box
                   className="select-btn"
                   sx={{
                     position: "absolute",
-                    bottom: { xs: "30%", md: "32%" },
+                    bottom: { xs: "38%", md: "40%" },
                     left: 0,
                     right: 0,
                     zIndex: 10,
-                    opacity: isSelected ? 1 : 0,
+                    opacity: isMobile ? (isCurrentCard ? 1 : 0) : (isSelected ? 1 : 0),
                     transition: "opacity 0.3s ease",
                   }}
                 >

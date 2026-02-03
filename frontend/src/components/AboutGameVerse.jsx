@@ -78,7 +78,7 @@ const AboutGameVerse = () => {
       position: "absolute",
       inset: 0,
       borderRadius: "inherit",
-      padding: "2px",
+      padding: { xs: "1px", sm: "2px", md: "2px" },
       background: borderGradient,
       WebkitMask:
         "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
@@ -114,7 +114,7 @@ const AboutGameVerse = () => {
       position: "absolute",
       inset: 0,
       borderRadius: "inherit",
-      padding: "2px",
+      padding: { xs: "1px", sm: "2px", md: "2px" },
       background: borderGradient,
       WebkitMask:
         "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
@@ -175,8 +175,8 @@ const AboutGameVerse = () => {
               fontWeight: 400,
               mb: { xs: 2, md: 3 },
               fontFamily: "BRUSHSTRIKE",
-              fontSize: { xs: "28px", sm: "56px", md: "84px" },
-              lineHeight: { xs: "32px", sm: "60px", md: "80px" },
+              fontSize: { xs: "36px", sm: "56px", md: "84px" },
+              lineHeight: { xs: "40px", sm: "60px", md: "80px" },
               letterSpacing: "0.03em",
             }}
           >
@@ -188,8 +188,8 @@ const AboutGameVerse = () => {
               color: "#FFFFFF",
               mb: { xs: 3, sm: 5, md: 8 },
               fontFamily: "Inter, sans-serif",
-              lineHeight: 1.3,
-              fontSize: { xs: "7px", sm: "15px", md: "1.09rem" },
+              lineHeight: 1.4,
+              fontSize: { xs: "11px", sm: "15px", md: "1.09rem" },
               maxWidth: "900px",
               margin: "0 auto",
               fontWeight: 400,
@@ -244,7 +244,7 @@ const AboutGameVerse = () => {
                     color: "#E0E0E0",
                     textAlign: "left",
                     fontFamily: "Inter, sans-serif",
-                    fontSize: { xs: "6px", sm: "16px", md: "20px" },
+                    fontSize: { xs: "8px", sm: "16px", md: "20px" },
                     fontWeight: 600,
                     lineHeight: 1.2,
                     flex: 1,

@@ -34,12 +34,12 @@ const GalleryView = () => {
 
   const imageCardStyle = {
     flexShrink: 0,
-    width: isMobile ? "170px" : "325px",
-    height: isMobile ? "110px" : "220px",
+    width: isMobile ? "85px" : "325px",
+    height: isMobile ? "55px" : "220px",
     position: "relative",
-    borderRadius: isMobile ? "8px" : "14px",
+    borderRadius: isMobile ? "6px" : "14px",
     overflow: "hidden",
-    marginRight: isMobile ? "8px" : "24px",
+    marginRight: isMobile ? "6px" : "24px",
     "&:last-child": { marginRight: 0 },
     display: "flex",
     alignItems: "center",
@@ -50,7 +50,7 @@ const GalleryView = () => {
       position: "absolute",
       inset: 0,
       borderRadius: "inherit",
-      padding: "2px",
+      padding: isMobile ? "1px" : "2px",
       background: imageBorderGradient,
       WebkitMask:
         "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",

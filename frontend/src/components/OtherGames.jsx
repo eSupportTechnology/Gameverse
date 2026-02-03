@@ -130,8 +130,8 @@ const OtherGames = () => {
           <Typography
             sx={{
               color: "#fff",
-              fontSize: { xs: "8px", sm: "14px", md: "16px" },
-              lineHeight: 1.3,
+              fontSize: { xs: "11px", sm: "14px", md: "16px" },
+              lineHeight: 1.4,
               maxWidth: "1100px",
               mx: "auto",
               px: { xs: 2, sm: 0 },

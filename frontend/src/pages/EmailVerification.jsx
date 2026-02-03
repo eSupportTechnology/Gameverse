@@ -422,11 +422,11 @@ const EmailVerification = () => {
                     onClick={!email ? null : sendVerificationCode}
                     sx={{
                       position: "absolute",
-                      right: "-150px",
+                      right: { xs: "8px", md: "-150px" },
                       top: "50%",
                       transform: "translateY(-50%)",
-                      px: 2,
-                      py: 1,
+                      px: { xs: 1.5, md: 2 },
+                      py: { xs: 0.5, md: 1 },
                       borderRadius: "8px",
                       cursor: email ? "pointer" : "not-allowed",
                       background: email
@@ -434,14 +434,14 @@ const EmailVerification = () => {
                         : "#555",
                       opacity: email ? 1 : 0.4,
                       transition: "0.3s",
-                      width: "80px",
+                      width: { xs: "60px", md: "80px" },
                       textAlign: "center",
                     }}
                   >
                     <Typography
                       sx={{
                         color: "white",
-                        fontSize: "14px",
+                        fontSize: { xs: "10px", md: "14px" },
                         fontWeight: 600,
                         whiteSpace: "nowrap",
                       }}
@@ -491,12 +491,11 @@ const EmailVerification = () => {
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 {/* Resend code */}
                 <Typography sx={{ color: "white", fontSize: "12px" }}>
-                  Didn’t have a code.?
                   <Box
                     component="span"
                     onClick={sendVerificationCode}
                     sx={{
-                      ml: 1,
+                      mr: 1,
                       backgroundImage:
                         "linear-gradient(90deg, #CF36E1, #D100FF, #33B2F7)",
                       WebkitBackgroundClip: "text",
@@ -506,6 +505,7 @@ const EmailVerification = () => {
                   >
                     Resend
                   </Box>
+                   Didn't have a code.?
                 </Typography>
               </Box>
             </Box>

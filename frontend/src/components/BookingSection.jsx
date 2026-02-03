@@ -4,7 +4,7 @@ import { Box, Typography, Button, styled } from "@mui/material";
 
 const GradientButton = styled(Button)(({ theme }) => ({
   position: "relative",
-  padding: "12px 28px",
+  padding: "8px 28px",
   borderRadius: "30px",
   fontWeight: "bold",
   textTransform: "none",
@@ -13,7 +13,7 @@ const GradientButton = styled(Button)(({ theme }) => ({
   background: "linear-gradient(to right, #33B2F7, #A905BC)",
   fontSize: "16px",
   [theme.breakpoints.down("sm")]: {
-    padding: "8px 20px",
+    padding: "6px 20px",
     fontSize: "9px",
   },
 
@@ -22,13 +22,16 @@ const GradientButton = styled(Button)(({ theme }) => ({
     position: "absolute",
     inset: 0,
     borderRadius: "30px",
-    padding: "2px",
+    padding: "1px",
     background: "linear-gradient(to right, #A905BC, #33B2F7)",
     WebkitMask:
       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
     WebkitMaskComposite: "destination-out",
     maskComposite: "exclude",
     pointerEvents: "none",
+    [theme.breakpoints.up("md")]: {
+      padding: "2px",
+    },
   },
 
   "&:hover": {
