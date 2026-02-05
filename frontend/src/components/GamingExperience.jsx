@@ -209,7 +209,7 @@ export default function GamingExperience() {
               mx: "auto",
               color: "#fff",
               mb: { xs: 3, md: 4 },
-              fontSize: { xs: "8px", sm: "15px", md: "16px" },
+              fontSize: { xs: "11px", sm: "14px", md: "16px" },
               px: { xs: 1, sm: 2, md: 0 },
               lineHeight: 1.3,
             }}

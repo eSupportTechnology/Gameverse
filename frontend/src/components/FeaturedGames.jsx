@@ -406,9 +406,22 @@ export default function FeaturedGames() {
                       "polygon(0% 0, 100% 0, 80% 100%, 0 100%)",
                     ][idx % 5],
                     overflow: "hidden",
-                    border: "2px solid rgba(51, 178, 247, 0.5)",
                     transition: "all 0.3s ease",
                     position: "relative",
+                    "&::before": {
+                      content: '""',
+                      position: "absolute",
+                      inset: 0,
+                      borderRadius: "inherit",
+                      padding: "2px",
+                      background: "linear-gradient(to right, #9F00FF, #B86BFF, #00D3FE, #3C7CFA)",
+                      WebkitMask:
+                        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                      WebkitMaskComposite: "xor",
+                      maskComposite: "exclude",
+                      pointerEvents: "none",
+                      zIndex: 1,
+                    },
                   }}
                 >
                   {/* Bottom white line on hover */}

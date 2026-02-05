@@ -167,33 +167,41 @@ const Footer = () => {
           </Grid>
 
           {/* --- Middle Column: Quick Link --- */}
-          <Grid item xs={12} sm={6} md={4.5} lg={4}>
+          <Grid item xs={6} sm={6} md={4.5} lg={4}>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
-                height: "10%",
+                height: "auto",
                 pl: { xs: 0, md: 2 },
-                gap: { xs: 0, md: 1.2 },
+                gap: 0.5,
                 "& > *": {
-                  lineHeight: { xs: 1, md: 1.4 },
-                  m: { xs: "unset", md: "unset" },
-                  p: { xs: 0, md: 0 },
+                  m: 0,
+                  p: 0,
+                  lineHeight: { xs: 1, md: 1 },
                   display: "block",
+                  mb: "0 !important",
+                  mt: "0 !important",
+                  pb: 0,
+                  pt: 0,
                 },
-                "& > *:not(:first-of-type)": { mt: { xs: 0, md: 0 } },
               }}
             >
               <Typography
+                component="span"
                 sx={{
                   fontWeight: "bold",
                   fontSize: { xs: "10px", md: "14px" },
                   textTransform: "uppercase",
                   letterSpacing: "0.5px",
                   color: "#fff",
-                  mb: { xs: 1, md: 2 },
+                  mb: { xs: 0, md: 1 },
+                  lineHeight: 1,
+                  display: "block",
+                  m: 0,
+                  p: 0,
                 }}
               >
                 QUICK LINK
@@ -206,7 +214,12 @@ const Footer = () => {
                   fontSize: { xs: "9px", md: "13px" },
                   color: "#ccc",
                   textDecoration: "none",
-                  lineHeight: { xs: 0, md: 1.4 },
+                  lineHeight: { xs: 1, md: 1 },
+                  display: "block",
+                  minHeight: 1,
+                  minWidth: 0,
+                  m: 0,
+                  p: 0,
                   "&:hover": { color: "#fff" },
                 }}
               >
@@ -220,6 +233,12 @@ const Footer = () => {
                   fontSize: { xs: "9px", md: "13px" },
                   color: "#ccc",
                   textDecoration: "none",
+                  lineHeight: { xs: 1, md: 1 },
+                  display: "block",
+                  minHeight: 0,
+                  minWidth: 0,
+                  m: 0,
+                  p: 0,
                   "&:hover": { color: "#fff" },
                 }}
               >
@@ -233,6 +252,12 @@ const Footer = () => {
                   fontSize: { xs: "9px", md: "13px" },
                   color: "#ccc",
                   textDecoration: "none",
+                  lineHeight: { xs: 1, md: 1 },
+                  display: "block",
+                  minHeight: 0,
+                  minWidth: 0,
+                  m: 0,
+                  p: 0,
                   "&:hover": { color: "#fff" },
                 }}
               >
@@ -246,6 +271,12 @@ const Footer = () => {
                   fontSize: { xs: "9px", md: "13px" },
                   color: "#ccc",
                   textDecoration: "none",
+                  lineHeight: { xs: 1, md: 1 },
+                  display: "block",
+                  minHeight: 0,
+                  minWidth: 0,
+                  m: 0,
+                  p: 0,
                   "&:hover": { color: "#fff" },
                 }}
               >
@@ -259,6 +290,12 @@ const Footer = () => {
                   fontSize: { xs: "9px", md: "13px" },
                   color: "#ccc",
                   textDecoration: "none",
+                  lineHeight: { xs: 1, md: 1 },
+                  display: "block",
+                  minHeight: 0,
+                  minWidth: 0,
+                  m: 0,
+                  p: 0,
                   "&:hover": { color: "#fff" },
                 }}
               >
@@ -272,10 +309,16 @@ const Footer = () => {
                   fontSize: { xs: "9px", md: "13px" },
                   color: "#ccc",
                   textDecoration: "none",
+                  lineHeight: { xs: 1, md: 1 },
+                  display: "block",
+                  minHeight: 0,
+                  minWidth: 0,
+                  m: 0,
+                  p: 0,
                   "&:hover": { color: "#fff" },
                 }}
               >
-                TERMS &  CONDITIONS
+                TERMS & CONDITIONS
               </Typography>
             </Box>
           </Grid>
