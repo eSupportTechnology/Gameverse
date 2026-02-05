@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import { Box, Typography, TextField, Button } from "@mui/material";
+import { Box, Typography, TextField, Button, Avatar, IconButton } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { PhotoCamera } from "@mui/icons-material";
 import { API_BASE_URL } from "../apiConfig";
 
 const fieldLabelStyles = {
@@ -55,7 +56,11 @@ export default function PersonalInfo() {
     email: "",
     phone: "",
     dob: null,
+    nic: "",
   });
+
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
 
   /* ---------- Fetch Logged-in User ---------- */
   useEffect(() => {
@@ -78,7 +83,12 @@ export default function PersonalInfo() {
           email: res.data.email || "",
           phone: res.data.phone || "",
           dob: res.data.dob ? dayjs(res.data.dob) : null,
+          nic: res.data.nic || "",
         });
+        
+        if (res.data.profilePicture) {
+          setProfilePicturePreview(res.data.profilePicture);
+        }
       } catch (error) {
         console.error("Failed to fetch user", error);
         setError(true);
@@ -89,6 +99,15 @@ export default function PersonalInfo() {
 
     fetchUser();
   }, []);
+
+  /* ---------- Handle Profile Picture ---------- */
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfilePicture(file);
+      setProfilePicturePreview(URL.createObjectURL(file));
+    }
+  };
 
   /* ---------- Update Profile ---------- */
   const handleUpdate = async () => {
@@ -102,16 +121,26 @@ export default function PersonalInfo() {
         return;
       }
 
+      const formData = new FormData();
+      formData.append("firstName", form.firstName);
+      formData.append("lastName", form.lastName);
+      formData.append("phone", form.phone);
+      formData.append("nic", form.nic);
+      if (form.dob) {
+        formData.append("dob", form.dob.format("YYYY-MM-DD"));
+      }
+      if (profilePicture) {
+        formData.append("profilePicture", profilePicture);
+      }
+
       await axios.put(
         `${API_BASE_URL}/api/profile`,
+        formData,
         {
-          firstName: form.firstName,
-          lastName: form.lastName,
-          phone: form.phone,
-          dob: form.dob ? form.dob.format("YYYY-MM-DD") : null,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
@@ -145,6 +174,55 @@ export default function PersonalInfo() {
         Update your profile and contact preferences.
       </Typography>
 
+      {/* Profile Picture Upload */}
+      <Box sx={{ mb: 4, width: { xs: "100%", md: 640 } }}>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: { xs: "center", md: "flex-start" }, gap: 1 }}>
+          <Box sx={{ position: "relative" }}>
+            <Avatar
+              src={profilePicturePreview}
+              sx={{
+                width: { xs: 100, md: 120 },
+                height: { xs: 100, md: 120 },
+                bgcolor: "rgba(41, 37, 75, 0.58)",
+                border: "2px solid rgba(55, 65, 81, 0.62)",
+                fontSize: { xs: 32, md: 40 },
+                color: "#9CA3AF",
+              }}
+            >
+              {!profilePicturePreview && (form.firstName?.[0] || "U")}
+            </Avatar>
+            <IconButton
+              component="label"
+              disabled
+              sx={{
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                bgcolor: "linear-gradient(90deg,#C026D3,#2563EB)",
+                background: "linear-gradient(90deg,#C026D3,#2563EB)",
+                width: { xs: 32, md: 36 },
+                height: { xs: 32, md: 36 },
+                "&:hover": {
+                  background: "linear-gradient(90deg,#A020B3,#1E50CC)",
+                },
+              }}
+            >
+              <PhotoCamera sx={{ fontSize: { xs: 16, md: 18 }, color: "#fff" }} />
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                onChange={handleProfilePictureChange}
+                disabled
+              />
+            </IconButton>
+          </Box>
+          <Typography sx={{ color: "#9CA3AF", fontSize: { xs: 11, md: 12 }, textAlign: { xs: "center", md: "left" } }}>
+            Click the camera icon to upload profile picture
+          </Typography>
+        </Box>
+      </Box>
+
       <Box sx={{ display: "grid", gap: { xs: 2, md: 3 }, width: { xs: "100%", md: 640 } }}>
         <Box>
           <Typography sx={fieldLabelStyles}>First Name</Typography>
@@ -174,6 +252,18 @@ export default function PersonalInfo() {
             fullWidth
             placeholder="alex123@gmail.com"
             value={form.email}
+            sx={textFieldStyles}
+          />
+        </Box>
+
+        <Box>
+          <Typography sx={fieldLabelStyles}>NIC Number</Typography>
+          <TextField
+            fullWidth
+            placeholder="Enter NIC number"
+            value={form.nic}
+            onChange={(e) => setForm({ ...form, nic: e.target.value })}
+            disabled
             sx={textFieldStyles}
           />
         </Box>
