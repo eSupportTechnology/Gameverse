@@ -429,10 +429,14 @@ const SingUp = () => {
                 </Typography>
                 <FixedLabelTextField
                   name="phone"
+                  type="tel"
                   placeholder="Enter your phone number"
                   fullWidth
                   value={formData.phone}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/[^0-9]/g, '');
+                    setFormData({ ...formData, phone: value });
+                  }}
                 />
               </Box>
 
