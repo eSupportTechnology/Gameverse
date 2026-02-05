@@ -114,40 +114,25 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   console.log("first", bookedCounts);
 
   const generateTimeSlots = () => {
-    if (!selectedStation) return [];
-
     const slots = [];
     const limit = 4;
 
-    if (selectedStation.type === "Pool") {
-      for (let h = 12; h <= 23; h++) {
+    for (let h = 12; h <= 23; h++) {
+      for (let m of [0, 30]) {
         const hour12 = h > 12 ? h - 12 : h;
-        const times = [`${hour12}.00`, `${hour12}.30`];
+        const displayTime = `${hour12}.${String(m).padStart(2, "0")}`;
 
-        for (let t of times) {
-          const key = t.replace(".", ":");
-          const booked = bookedCounts[key] || { count: 0, names: [] };
-          slots.push({
-            time: t,
-            status: booked.count >= limit ? "Booked" : "Available",
-            bookedNames: booked.names,
-          });
-        }
-      }
-    } else {
-      for (let h = 12; h <= 23; h++) {
-        const hour12 = h > 12 ? h - 12 : h;
-        for (let m of [0, 15, 30, 45]) {
-          if (h === 23 && m > 45) continue;
-          const t = `${hour12}.${String(m).padStart(2, "0")}`;
-          const key = t.replace(".", ":");
-          const booked = bookedCounts[key] || { count: 0, names: [] };
-          slots.push({
-            time: t,
-            status: booked.count >= limit ? "Booked" : "Available",
-            bookedNames: booked.names,
-          });
-        }
+        const key = `${h}:${String(m).padStart(2, "0")}`;
+
+        const booked = selectedStation
+          ? bookedCounts[key] || { count: 0, names: [] }
+          : { count: 0, names: [] };
+
+        slots.push({
+          time: displayTime,
+          status: booked.count >= limit ? "Booked" : "Available",
+          bookedNames: booked.names,
+        });
       }
     }
 
@@ -269,7 +254,10 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           px: { xs: 1, md: 0 },
           "&::-webkit-scrollbar": { height: "6px" },
           "&::-webkit-scrollbar-track": { bgcolor: "rgba(255,255,255,0.1)" },
-          "&::-webkit-scrollbar-thumb": { bgcolor: "#33B2F7", borderRadius: "4px" },
+          "&::-webkit-scrollbar-thumb": {
+            bgcolor: "#33B2F7",
+            borderRadius: "4px",
+          },
         }}
       >
         <IconButton
@@ -329,7 +317,12 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
                   "&:hover": { bgcolor: "rgba(51, 178, 247, 0.2)" },
                 }}
               >
-                <Typography sx={{ fontSize: { xs: "14px", md: "20px" }, fontWeight: "bold" }}>
+                <Typography
+                  sx={{
+                    fontSize: { xs: "14px", md: "20px" },
+                    fontWeight: "bold",
+                  }}
+                >
                   {String(day).padStart(2, "0")}
                 </Typography>
               </Box>
@@ -363,7 +356,10 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           px: { xs: 1, sm: 1, md: 0 },
           "&::-webkit-scrollbar": { height: "6px" },
           "&::-webkit-scrollbar-track": { bgcolor: "rgba(255,255,255,0.1)" },
-          "&::-webkit-scrollbar-thumb": { bgcolor: "#33B2F7", borderRadius: "4px" },
+          "&::-webkit-scrollbar-thumb": {
+            bgcolor: "#33B2F7",
+            borderRadius: "4px",
+          },
         }}
       >
         {timeSlots.map((slot, idx) => (
@@ -399,12 +395,24 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
               },
             }}
           >
-            <Typography sx={{ fontSize: { xs: "10px", sm: "10px", md: "14px" }, fontWeight: "bold", mb: 0.3 }}>
+            <Typography
+              sx={{
+                fontSize: { xs: "10px", sm: "10px", md: "14px" },
+                fontWeight: "bold",
+                mb: 0.3,
+              }}
+            >
               {slot.time}
             </Typography>
 
             {slot.status === "Booked" && slot.bookedNames.length > 0 && (
-              <Typography sx={{ fontSize: { xs: "8px", sm: "8px", md: "10px" }, color: "#fff", mt: 0.2 }}>
+              <Typography
+                sx={{
+                  fontSize: { xs: "8px", sm: "8px", md: "10px" },
+                  color: "#fff",
+                  mt: 0.2,
+                }}
+              >
                 {slot.bookedNames.join(", ")}
               </Typography>
             )}
@@ -466,7 +474,15 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
               },
             }}
           >
-            <Typography sx={{ fontWeight: "bold", fontSize: { xs: "11px", md: "16px" }, whiteSpace: { xs: "nowrap", md: "normal" } }}>{dur.label}</Typography>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontSize: { xs: "11px", md: "16px" },
+                whiteSpace: { xs: "nowrap", md: "normal" },
+              }}
+            >
+              {dur.label}
+            </Typography>
           </Box>
         ))}
       </Box>
