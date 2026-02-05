@@ -58,15 +58,21 @@ const Footer = () => {
           rowSpacing={{ xs: 2, sm: 4, md: 4 }}
           justifyContent="center"
           alignItems={{ xs: "stretch", md: "flex-start" }}
+          sx={{
+            flexDirection: { xs: "column", md: "row" },
+          }}
         >
           {/* --- Left Column: Contact Info --- */}
-          <Grid item xs={6} sm={6} md={4.5} lg={4}>
+          <Grid item xs={12} sm={12} md={4.5} lg={4} sx={{ order: { xs: 1, md: 1 } }}>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
+                alignItems: { xs: "center", md: "flex-start" },
+                textAlign: { xs: "center", md: "left" },
                 gap: { xs: 1, md: 2 },
                 height: "100%",
+                width: "100%",
               }}
             >
               {" "}
@@ -132,7 +138,7 @@ const Footer = () => {
                   Opening Hours: 12 PM – 12 AM (Daily)
                 </Typography>
               </Box>
-              <Box sx={{ mt: 1, display: "flex", gap: 1.5, ml: 0.5 }}>
+              <Box sx={{ mt: 1, display: "flex", gap: 1.5, ml: { xs: 0, md: 0.5 }, justifyContent: { xs: "center", md: "flex-start" }, width: "100%" }}>
                 <a
                   href="https://www.facebook.com/share/17kPm9jmgS/"
                   target="_blank"
@@ -167,23 +173,23 @@ const Footer = () => {
           </Grid>
 
           {/* --- Middle Column: Quick Link --- */}
-          <Grid item xs={6} sm={6} md={4.5} lg={4}>
+          <Grid item xs={12} sm={12} md={4.5} lg={4} sx={{ order: { xs: 2, md: 2 } }}>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "flex-start",
+                alignItems: { xs: "center", md: "flex-start" },
+                textAlign: { xs: "center", md: "left" },
                 justifyContent: "flex-start",
                 height: "auto",
+                width: "100%",
                 pl: { xs: 0, md: 2 },
-                gap: 0.5,
+                gap: { xs: 2, md: 0.75 },
                 "& > *": {
                   m: 0,
                   p: 0,
                   lineHeight: { xs: 1, md: 1 },
                   display: "block",
-                  mb: "0 !important",
-                  mt: "0 !important",
                   pb: 0,
                   pt: 0,
                 },
@@ -324,7 +330,7 @@ const Footer = () => {
           </Grid>
 
           {/* --- Right Column: Map --- */}
-          <Grid item xs={12} sm={12} md={4.5} lg={4}>
+          <Grid item xs={12} sm={12} md={4.5} lg={4} sx={{ order: { xs: 3, md: 3 } }}>
             <Box
               sx={{
                 width: "100%",
