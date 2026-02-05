@@ -21,6 +21,7 @@ const Booking = () => {
     lastName: "",
     contactNumber: "",
     vrPlay: "yes",
+    players: 1,
   });
 
   const [stations, setStations] = useState([]);
@@ -79,6 +80,7 @@ const Booking = () => {
       duration: bookingData.dateTime?.duration || null,
       amount: 0,
       vr_play: playerInfo.vrPlay,
+      number_of_players: playerInfo.players,
     };
 
     console.log("Booking payload:", payload);

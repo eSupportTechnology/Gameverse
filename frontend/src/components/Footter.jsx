@@ -63,7 +63,14 @@ const Footer = () => {
           }}
         >
           {/* --- Left Column: Contact Info --- */}
-          <Grid item xs={12} sm={12} md={4.5} lg={4} sx={{ order: { xs: 1, md: 1 } }}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={4.5}
+            lg={4}
+            sx={{ order: { xs: 1, md: 1 } }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -80,7 +87,13 @@ const Footer = () => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 {" "}
                 {/* Align items center ensures icon and text line up */}
-                <LocationOn sx={{ mr: { xs: 1, md: 2 }, fontSize: { xs: 14, md: 20 }, color: "#fff" }} />
+                <LocationOn
+                  sx={{
+                    mr: { xs: 1, md: 2 },
+                    fontSize: { xs: 14, md: 20 },
+                    color: "#fff",
+                  }}
+                />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "10px", md: "14px" }, color: "#ccc" }}
@@ -89,7 +102,13 @@ const Footer = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Phone sx={{ mr: { xs: 1, md: 2 }, fontSize: { xs: 14, md: 20 }, color: "#fff" }} />
+                <Phone
+                  sx={{
+                    mr: { xs: 1, md: 2 },
+                    fontSize: { xs: 14, md: 20 },
+                    color: "#fff",
+                  }}
+                />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "10px", md: "14px" }, color: "#ccc" }}
@@ -112,7 +131,13 @@ const Footer = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Email sx={{ mr: { xs: 1, md: 2 }, fontSize: { xs: 14, md: 20 }, color: "#fff" }} />
+                <Email
+                  sx={{
+                    mr: { xs: 1, md: 2 },
+                    fontSize: { xs: 14, md: 20 },
+                    color: "#fff",
+                  }}
+                />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "10px", md: "14px" }, color: "#ccc" }}
@@ -130,7 +155,13 @@ const Footer = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <AccessTime sx={{ mr: { xs: 1, md: 2 }, fontSize: { xs: 14, md: 20 }, color: "#fff" }} />
+                <AccessTime
+                  sx={{
+                    mr: { xs: 1, md: 2 },
+                    fontSize: { xs: 14, md: 20 },
+                    color: "#fff",
+                  }}
+                />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "10px", md: "14px" }, color: "#ccc" }}
@@ -138,7 +169,16 @@ const Footer = () => {
                   Opening Hours: 12 PM – 12 AM (Daily)
                 </Typography>
               </Box>
-              <Box sx={{ mt: 1, display: "flex", gap: 1.5, ml: { xs: 0, md: 0.5 }, justifyContent: { xs: "center", md: "flex-start" }, width: "100%" }}>
+              <Box
+                sx={{
+                  mt: 1,
+                  display: "flex",
+                  gap: 1.5,
+                  ml: { xs: 0, md: 0.5 },
+                  justifyContent: { xs: "center", md: "flex-start" },
+                  width: "100%",
+                }}
+              >
                 <a
                   href="https://www.facebook.com/share/17kPm9jmgS/"
                   target="_blank"
@@ -173,7 +213,14 @@ const Footer = () => {
           </Grid>
 
           {/* --- Middle Column: Quick Link --- */}
-          <Grid item xs={12} sm={12} md={4.5} lg={4} sx={{ order: { xs: 2, md: 2 } }}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={4.5}
+            lg={4}
+            sx={{ order: { xs: 2, md: 2 } }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -181,18 +228,9 @@ const Footer = () => {
                 alignItems: { xs: "center", md: "flex-start" },
                 textAlign: { xs: "center", md: "left" },
                 justifyContent: "flex-start",
-                height: "auto",
                 width: "100%",
                 pl: { xs: 0, md: 2 },
-                gap: { xs: 2, md: 0.75 },
-                "& > *": {
-                  m: 0,
-                  p: 0,
-                  lineHeight: { xs: 1, md: 1 },
-                  display: "block",
-                  pb: 0,
-                  pt: 0,
-                },
+                gap: { xs: 2, md: 1.5 },
               }}
             >
               <Typography
@@ -203,134 +241,51 @@ const Footer = () => {
                   textTransform: "uppercase",
                   letterSpacing: "0.5px",
                   color: "#fff",
-                  mb: { xs: 0, md: 1 },
                   lineHeight: 1,
                   display: "block",
-                  m: 0,
-                  p: 0,
+                  mb: { xs: 1, md: 1.2 },
                 }}
               >
                 QUICK LINK
               </Typography>
-              <Typography
-                component={RouterLink}
-                to="/"
-                onClick={handleFooterNavigation}
-                sx={{
-                  fontSize: { xs: "9px", md: "13px" },
-                  color: "#ccc",
-                  textDecoration: "none",
-                  lineHeight: { xs: 1, md: 1 },
-                  display: "block",
-                  minHeight: 1,
-                  minWidth: 0,
-                  m: 0,
-                  p: 0,
-                  "&:hover": { color: "#fff" },
-                }}
-              >
-                HOME
-              </Typography>
-              <Typography
-                component={RouterLink}
-                to="/games"
-                onClick={handleFooterNavigation}
-                sx={{
-                  fontSize: { xs: "9px", md: "13px" },
-                  color: "#ccc",
-                  textDecoration: "none",
-                  lineHeight: { xs: 1, md: 1 },
-                  display: "block",
-                  minHeight: 0,
-                  minWidth: 0,
-                  m: 0,
-                  p: 0,
-                  "&:hover": { color: "#fff" },
-                }}
-              >
-                GAMES
-              </Typography>
-              <Typography
-                component={RouterLink}
-                to="/contact"
-                onClick={handleFooterNavigation}
-                sx={{
-                  fontSize: { xs: "9px", md: "13px" },
-                  color: "#ccc",
-                  textDecoration: "none",
-                  lineHeight: { xs: 1, md: 1 },
-                  display: "block",
-                  minHeight: 0,
-                  minWidth: 0,
-                  m: 0,
-                  p: 0,
-                  "&:hover": { color: "#fff" },
-                }}
-              >
-                CONTACT US
-              </Typography>
-              <Typography
-                component={RouterLink}
-                to="/refund-policy"
-                onClick={handleFooterNavigation}
-                sx={{
-                  fontSize: { xs: "9px", md: "13px" },
-                  color: "#ccc",
-                  textDecoration: "none",
-                  lineHeight: { xs: 1, md: 1 },
-                  display: "block",
-                  minHeight: 0,
-                  minWidth: 0,
-                  m: 0,
-                  p: 0,
-                  "&:hover": { color: "#fff" },
-                }}
-              >
-                RETURN/ REFUND POLICY
-              </Typography>
-              <Typography
-                component={RouterLink}
-                to="/privacy-policy"
-                onClick={handleFooterNavigation}
-                sx={{
-                  fontSize: { xs: "9px", md: "13px" },
-                  color: "#ccc",
-                  textDecoration: "none",
-                  lineHeight: { xs: 1, md: 1 },
-                  display: "block",
-                  minHeight: 0,
-                  minWidth: 0,
-                  m: 0,
-                  p: 0,
-                  "&:hover": { color: "#fff" },
-                }}
-              >
-                PRIVACY POLICY
-              </Typography>
-              <Typography
-                component={RouterLink}
-                to="/terms-and-conditions"
-                onClick={handleFooterNavigation}
-                sx={{
-                  fontSize: { xs: "9px", md: "13px" },
-                  color: "#ccc",
-                  textDecoration: "none",
-                  lineHeight: { xs: 1, md: 1 },
-                  display: "block",
-                  minHeight: 0,
-                  minWidth: 0,
-                  m: 0,
-                  p: 0,
-                  "&:hover": { color: "#fff" },
-                }}
-              >
-                TERMS & CONDITIONS
-              </Typography>
+
+              {[
+                { label: "HOME", to: "/" },
+                { label: "GAMES", to: "/games" },
+                { label: "CONTACT US", to: "/contact" },
+                { label: "RETURN/ REFUND POLICY", to: "/refund-policy" },
+                { label: "PRIVACY POLICY", to: "/privacy-policy" },
+                { label: "TERMS & CONDITIONS", to: "/terms-and-conditions" },
+              ].map((link) => (
+                <Typography
+                  key={link.to}
+                  component={RouterLink}
+                  to={link.to}
+                  onClick={handleFooterNavigation}
+                  sx={{
+                    fontSize: { xs: "9px", md: "13px" },
+                    color: "#ccc",
+                    textDecoration: "none",
+                    lineHeight: 1,
+                    display: "block",
+                    "&:hover": { color: "#fff" },
+                  }}
+                >
+                  {link.label}
+                </Typography>
+              ))}
             </Box>
           </Grid>
 
           {/* --- Right Column: Map --- */}
-          <Grid item xs={12} sm={12} md={4.5} lg={4} sx={{ order: { xs: 3, md: 3 } }}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={4.5}
+            lg={4}
+            sx={{ order: { xs: 3, md: 3 } }}
+          >
             <Box
               sx={{
                 width: "100%",
@@ -369,7 +324,10 @@ const Footer = () => {
         <Box sx={{ textAlign: "center" }}>
           <Typography
             variant="caption"
-            sx={{ color: "rgba(255,255,255,0.6)", fontSize: { xs: "8px", md: "12px" } }}
+            sx={{
+              color: "rgba(255,255,255,0.6)",
+              fontSize: { xs: "8px", md: "12px" },
+            }}
           >
             Copyright © 2025 GAMEVERSE. All Right Reserved.
           </Typography>

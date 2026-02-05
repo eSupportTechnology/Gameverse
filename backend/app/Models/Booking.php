@@ -21,7 +21,8 @@ class Booking extends Model
         'amount',
         'status',
         'end_time',
-        'vr_play'
+        'vr_play',
+        'number_of_players'
     ];
 
 

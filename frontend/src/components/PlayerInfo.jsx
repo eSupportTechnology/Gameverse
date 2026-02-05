@@ -11,6 +11,9 @@ import {
   IconButton,
   Checkbox,
   InputAdornment,
+  FormControl,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import LockIcon from "@mui/icons-material/Lock";
@@ -395,6 +398,7 @@ const PlayerInfo = ({
     lastName: "",
     contactNumber: "",
     vrPlay: "yes",
+    players: 1,
   });
 
   const showVRPlay = selectedStation?.vrPrice && selectedStation?.vrTime;
@@ -511,6 +515,60 @@ const PlayerInfo = ({
               sx={mainInputStyle}
             />
           </Box>
+          <Box>
+            <Typography
+              sx={{
+                mb: 1,
+                fontSize: { xs: "11px", sm: "14px" },
+                color: "gray.400",
+              }}
+            >
+              Number of Players
+            </Typography>
+
+            <FormControl fullWidth>
+              <Select
+                name="players"
+                value={formData.players}
+                onChange={handleChange}
+                displayEmpty
+                sx={{
+                  ...mainInputStyle,
+                  "& .MuiSelect-select": {
+                    color: "white",
+                    padding: { xs: "10px 12px", sm: "14px" },
+                    fontSize: { xs: "12px", sm: "14px" },
+                  },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "rgba(255,255,255,0.1)",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "rgba(51, 178, 247, 0.5)",
+                  },
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#33B2F7",
+                  },
+                  bgcolor: "rgba(255,255,255,0.05)",
+                }}
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      bgcolor: "#0B0F19",
+                      color: "white",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                    },
+                  },
+                }}
+              >
+                {[1, 2, 3, 4].map((num) => (
+                  <MenuItem key={num} value={num}>
+                    {num} Player{num > 1 && "s"}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+
           {showVRPlay && (
             <Box>
               <Typography

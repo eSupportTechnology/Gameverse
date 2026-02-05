@@ -41,6 +41,8 @@ class BookingController extends Controller
             'duration' => 'required|string|max:20',
             'amount' => 'required|numeric|min:0',
             'vr_play' => 'nullable|in:yes,no',
+            'number_of_players' => 'nullable|integer|min:1',
+
         ]);
 
         if ($validator->fails()) {
@@ -103,6 +105,7 @@ class BookingController extends Controller
                 'phone' => $booking->phone_number,
                 'user' => $booking->customer_name,
                 'price' => $booking->amount,
+                'number_of_players' => $booking->number_of_players ?? 1,
             ];
 
             return response()->json([
@@ -139,6 +142,8 @@ class BookingController extends Controller
                 'amount' => 'numeric|min:0',
                 'status' => 'in:pending,confirmed,cancelled,completed',
                 'vr_play' => 'nullable|in:yes,no',
+                'number_of_players' => 'integer|min:1',
+
             ]);
 
             if ($validator->fails()) {
