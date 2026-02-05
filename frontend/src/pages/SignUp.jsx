@@ -117,6 +117,7 @@ const SingUp = () => {
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -139,6 +140,7 @@ const SingUp = () => {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
+        phone: formData.phone,
         password: formData.password,
       });
 
@@ -148,6 +150,7 @@ const SingUp = () => {
         firstName: "",
         lastName: "",
         email: "",
+        phone: "",
         password: "",
         confirmPassword: "",
       });
@@ -415,6 +418,20 @@ const SingUp = () => {
                   placeholder="Enter your email"
                   fullWidth
                   value={formData.email}
+                  onChange={handleChange}
+                />
+              </Box>
+
+              {/* Phone Number */}
+              <Box>
+                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "11px", sm: "14px" } }}>
+                  Phone Number
+                </Typography>
+                <FixedLabelTextField
+                  name="phone"
+                  placeholder="Enter your phone number"
+                  fullWidth
+                  value={formData.phone}
                   onChange={handleChange}
                 />
               </Box>
