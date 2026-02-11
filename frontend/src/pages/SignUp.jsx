@@ -129,7 +129,35 @@ const SingUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+    if (password.length < minLength) {
+      return "Password must be at least 8 characters long";
+    }
+    if (!hasUppercase) {
+      return "Password must contain at least one uppercase letter";
+    }
+    if (!hasLowercase) {
+      return "Password must contain at least one lowercase letter";
+    }
+    if (!hasSymbol) {
+      return "Password must contain at least one symbol";
+    }
+    return null;
+  };
+
   const handleSubmit = async () => {
+    // Validate password
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) {
+      toast.error(passwordError);
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match!");
       return;
@@ -157,8 +185,17 @@ const SingUp = () => {
 
       navigate("/sign-in");
     } catch (err) {
-      console.error(err);
-      toast.error(err.response?.data?.message || "Registration failed!");
+      console.error("Registration error:", err);
+      console.error("Error response:", err.response);
+      
+      // Handle Laravel validation errors
+      if (err.response?.data?.errors) {
+        const errors = err.response.data.errors;
+        const firstError = Object.values(errors)[0][0];
+        toast.error(firstError);
+      } else {
+        toast.error(err.response?.data?.message || "Registration failed!");
+      }
     }
   };
 
