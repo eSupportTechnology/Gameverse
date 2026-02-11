@@ -12,6 +12,7 @@ import {
   useMediaQuery,
   Menu,
   MenuItem,
+  Avatar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme, styled } from "@mui/material/styles";
@@ -65,15 +66,31 @@ const Navbar = () => {
   });
 
   useEffect(() => {
-    const onUserUpdated = () => {
+    const loadUser = () => {
       try {
         setStoredUser(JSON.parse(localStorage.getItem("user")));
       } catch {
         setStoredUser(null);
       }
     };
+
+    loadUser();
+
+    const onStorage = (e) => {
+      if (e.key === "user") {
+        loadUser();
+      }
+    };
+
+    const onUserUpdated = () => loadUser();
+
+    window.addEventListener("storage", onStorage);
     window.addEventListener("userUpdated", onUserUpdated);
-    return () => window.removeEventListener("userUpdated", onUserUpdated);
+
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("userUpdated", onUserUpdated);
+    };
   }, []);
 
   /* ---------- Helpers ---------- */
@@ -259,7 +276,8 @@ const Navbar = () => {
                 }}
                 onClick={(e) => setAccountAnchorEl(e.currentTarget)}
               >
-                <Box
+                <Avatar
+                  src={storedUser?.profileImage}
                   sx={{
                     width: 42,
                     height: 42,
@@ -274,8 +292,9 @@ const Navbar = () => {
                     userSelect: "none",
                   }}
                 >
-                  {getInitials(storedUser.firstName, storedUser.lastName)}
-                </Box>
+                  {!storedUser?.profileImage &&
+                    getInitials(storedUser.firstName, storedUser.lastName)}
+                </Avatar>
 
                 <Box>
                   <Box
@@ -400,7 +419,8 @@ const Navbar = () => {
                 },
               }}
             >
-              <Box
+              <Avatar
+                src={storedUser?.profileImage}
                 sx={{
                   width: 40,
                   height: 40,
@@ -414,10 +434,14 @@ const Navbar = () => {
                   fontSize: 14,
                 }}
               >
-                {getInitials(storedUser.firstName, storedUser.lastName)}
-              </Box>
+                {!storedUser?.profileImage &&
+                  getInitials(storedUser.firstName, storedUser.lastName)}
+              </Avatar>
+
               <Box>
-                <Box sx={{ color: "#FFFFFF", fontWeight: 600, fontSize: "14px" }}>
+                <Box
+                  sx={{ color: "#FFFFFF", fontWeight: 600, fontSize: "14px" }}
+                >
                   {storedUser.firstName} {storedUser.lastName}
                 </Box>
                 <Box

@@ -1,11 +1,10 @@
-
 import { Box } from "@mui/material";
 import { useState } from "react";
-import ProfileSidebar from "../components/ProfileSidebar";
-import PersonalInfo from "../components/PersonalInfo";
-import Security from "../components/Security";
-import PaymentMethods from "../components/PaymentMethods";
 import BookingDetails from "../components/BookingDetails";
+import PaymentMethods from "../components/PaymentMethods";
+import PersonalInfo from "../components/PersonalInfo";
+import ProfileSidebar from "../components/ProfileSidebar";
+import Security from "../components/Security";
 
 export default function MyAccount() {
   const [activeTab, setActiveTab] = useState("personal");

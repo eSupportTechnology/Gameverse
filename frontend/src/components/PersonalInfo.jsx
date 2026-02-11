@@ -112,8 +112,23 @@ export default function PersonalInfo() {
                 ...prev,
                 nic: nfcRes.data.data.nicNumber || prev.nic,
               }));
+
               if (nfcRes.data.data.profileImage) {
-                setProfilePicturePreview(nfcRes.data.data.profileImage);
+                const imageUrl = nfcRes.data.data.profileImage;
+
+                setProfilePicturePreview(imageUrl);
+
+                const storedUser =
+                  JSON.parse(localStorage.getItem("user")) || {};
+
+                const updatedUser = {
+                  ...storedUser,
+                  profileImage: imageUrl,
+                };
+
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+
+                window.dispatchEvent(new Event("userUpdated"));
               }
             }
           } catch (err) {

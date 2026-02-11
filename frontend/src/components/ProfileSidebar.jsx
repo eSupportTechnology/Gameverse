@@ -68,12 +68,19 @@ export default function ProfileSidebar({ activeTab, setActiveTab }) {
       >
         {/*  LEFT SIDEBAR */}
         <Box sx={{ pr: { xs: 0, md: 2 }, width: "100%" }}>
-          <Typography sx={{ color: "#fff", fontSize: { xs: 20, md: 24 }, mb: { xs: 2, md: 4 } }}>
+          <Typography
+            sx={{
+              color: "#fff",
+              fontSize: { xs: 20, md: 24 },
+              mb: { xs: 2, md: 4 },
+            }}
+          >
             My Profile
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
             <Avatar
+              src={user?.profileImage}
               sx={{
                 width: { xs: 56, md: 72 },
                 height: { xs: 56, md: 72 },
@@ -82,14 +89,23 @@ export default function ProfileSidebar({ activeTab, setActiveTab }) {
                 color: "#1A1A1A",
               }}
             >
-              {getInitials(user?.firstName, user?.lastName)}
+              {!user?.profileImage &&
+                getInitials(user?.firstName, user?.lastName)}
             </Avatar>
 
             <Box sx={{ flex: 1 }}>
-              <Typography sx={{ color: "#fff", fontWeight: 600, fontSize: { xs: 14, md: 16 } }}>
+              <Typography
+                sx={{
+                  color: "#fff",
+                  fontWeight: 600,
+                  fontSize: { xs: 14, md: 16 },
+                }}
+              >
                 {user ? `${user.firstName} ${user.lastName}` : "Guest User"}
               </Typography>
-              <Typography sx={{ color: "#9CA3AF", fontSize: { xs: 12, md: 14 } }}>
+              <Typography
+                sx={{ color: "#9CA3AF", fontSize: { xs: 12, md: 14 } }}
+              >
                 {user?.email || "guest@example.com"}
               </Typography>
             </Box>
@@ -101,7 +117,16 @@ export default function ProfileSidebar({ activeTab, setActiveTab }) {
                 key={item.key}
                 fullWidth
                 onClick={() => setActiveTab(item.key)}
-                startIcon={<Box component="img" src={item.icon} sx={{ width: { xs: 18, md: 24 }, height: { xs: 18, md: 24 } }} />}
+                startIcon={
+                  <Box
+                    component="img"
+                    src={item.icon}
+                    sx={{
+                      width: { xs: 18, md: 24 },
+                      height: { xs: 18, md: 24 },
+                    }}
+                  />
+                }
                 sx={{
                   justifyContent: "flex-start",
                   textTransform: "none",
