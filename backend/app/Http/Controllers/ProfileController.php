@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -17,6 +18,7 @@ class ProfileController extends Controller
     // Update profile info
     public function update(Request $request)
     {
+        /** @var User $user */
         $user = Auth::user();
 
         $request->validate([
@@ -41,6 +43,7 @@ class ProfileController extends Controller
     // Change password
     public function changePassword(Request $request)
     {
+        /** @var User $user */
         $user = Auth::user();
 
         $request->validate([

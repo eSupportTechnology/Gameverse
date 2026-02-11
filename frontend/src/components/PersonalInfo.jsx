@@ -130,7 +130,6 @@ export default function PersonalInfo() {
 
     fetchUser();
   }, []);
-
   /* ---------- Update Profile ---------- */
   const handleUpdate = async () => {
     try {
@@ -143,19 +142,23 @@ export default function PersonalInfo() {
         return;
       }
 
-      const formData = new FormData();
-      formData.append("firstName", form.firstName);
-      formData.append("lastName", form.lastName);
-      formData.append("phone", form.phone);
-      formData.append("nic", form.nic);
-      if (form.dob) {
-        formData.append("dob", form.dob.format("YYYY-MM-DD"));
+      const updatedFields = {};
+
+      if (form.firstName) updatedFields.firstName = form.firstName;
+      if (form.lastName) updatedFields.lastName = form.lastName;
+      if (form.phone) updatedFields.phone = form.phone;
+      if (form.dob) updatedFields.dob = form.dob.format("YYYY-MM-DD");
+
+      if (Object.keys(updatedFields).length === 0) {
+        alert("No changes to update");
+        setSaving(false);
+        return;
       }
 
-      await axios.put(`${API_BASE_URL}/api/profile`, formData, {
+      await axios.put(`${API_BASE_URL}/api/profile`, updatedFields, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
 
