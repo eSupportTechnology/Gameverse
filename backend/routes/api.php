@@ -8,6 +8,7 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\NfcUserController;
 use App\Http\Controllers\ProfileController;
 
 // Auth
@@ -41,3 +42,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/bookings', [BookingController::class, 'store']);
 });
 Route::get('/bookings-count', [BookingController::class, 'getBookingCounts']);
+Route::get('/nfc-user-by-email', [NfcUserController::class, 'getByEmail']);

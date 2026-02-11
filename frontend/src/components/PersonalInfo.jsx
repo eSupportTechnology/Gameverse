@@ -1,11 +1,17 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 
-import { Box, Typography, TextField, Button, Avatar, IconButton } from "@mui/material";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import {
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { PhotoCamera } from "@mui/icons-material";
 import { API_BASE_URL } from "../apiConfig";
 
 const fieldLabelStyles = {
@@ -14,13 +20,12 @@ const fieldLabelStyles = {
   mb: 1,
 };
 
-const textFieldStyles = {
+export const textFieldStyles = {
   "& .MuiOutlinedInput-root": {
     width: "100%",
     height: 52,
     borderRadius: "8px",
     color: "#E5E7EB",
-
     backgroundColor: "rgba(41, 37, 75, 0.58)",
 
     "& fieldset": {
@@ -29,6 +34,12 @@ const textFieldStyles = {
 
     "&:hover fieldset": {
       borderColor: "rgba(55, 65, 81, 0.8)",
+    },
+
+    "&.Mui-disabled": {
+      borderColor: "rgba(55, 65, 81, 0.62)",
+      backgroundColor: "rgba(41, 37, 75, 0.58)",
+      cursor: "text",
     },
   },
 
@@ -40,6 +51,12 @@ const textFieldStyles = {
     color: "#9CA3AF",
     opacity: 1,
     fontSize: 14,
+  },
+
+  "& .MuiInputBase-input.Mui-disabled": {
+    WebkitTextFillColor: "#E5E7EB",
+    opacity: 1,
+    cursor: "text",
   },
 };
 
@@ -59,7 +76,6 @@ export default function PersonalInfo() {
     nic: "",
   });
 
-  const [profilePicture, setProfilePicture] = useState(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState(null);
 
   /* ---------- Fetch Logged-in User ---------- */
@@ -67,27 +83,42 @@ export default function PersonalInfo() {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        if (!token) {
-          console.warn("No token found in localStorage");
-          setLoading(false);
-          return;
-        }
+        if (!token) return setLoading(false);
 
+        // 1️⃣ Fetch logged-in user
         const res = await axios.get(`${API_BASE_URL}/api/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
+        const userData = res.data;
         setForm({
-          firstName: res.data.firstName || "",
-          lastName: res.data.lastName || "",
-          email: res.data.email || "",
-          phone: res.data.phone || "",
-          dob: res.data.dob ? dayjs(res.data.dob) : null,
-          nic: res.data.nic || "",
+          firstName: userData.firstName || "",
+          lastName: userData.lastName || "",
+          email: userData.email || "",
+          phone: userData.phone || "",
+          dob: userData.dob ? dayjs(userData.dob) : null,
+          nic: userData.nic || "",
         });
-        
-        if (res.data.profilePicture) {
-          setProfilePicturePreview(res.data.profilePicture);
+
+        if (userData.email) {
+          try {
+            const nfcRes = await axios.get(
+              `${API_BASE_URL}/api/nfc-user-by-email`,
+              { params: { email: userData.email } },
+            );
+
+            if (nfcRes.data.success) {
+              setForm((prev) => ({
+                ...prev,
+                nic: nfcRes.data.data.nicNumber || prev.nic,
+              }));
+              if (nfcRes.data.data.profileImage) {
+                setProfilePicturePreview(nfcRes.data.data.profileImage);
+              }
+            }
+          } catch (err) {
+            console.log("NFC user not found for this email", err);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch user", error);
@@ -99,15 +130,6 @@ export default function PersonalInfo() {
 
     fetchUser();
   }, []);
-
-  /* ---------- Handle Profile Picture ---------- */
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfilePicture(file);
-      setProfilePicturePreview(URL.createObjectURL(file));
-    }
-  };
 
   /* ---------- Update Profile ---------- */
   const handleUpdate = async () => {
@@ -129,20 +151,13 @@ export default function PersonalInfo() {
       if (form.dob) {
         formData.append("dob", form.dob.format("YYYY-MM-DD"));
       }
-      if (profilePicture) {
-        formData.append("profilePicture", profilePicture);
-      }
 
-      await axios.put(
-        `${API_BASE_URL}/api/profile`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.put(`${API_BASE_URL}/api/profile`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       alert("Profile updated successfully ");
     } catch (err) {
@@ -167,16 +182,31 @@ export default function PersonalInfo() {
 
   return (
     <Box sx={{ pl: { xs: 0, md: 12 }, pt: 0.5 }}>
-      <Typography sx={{ color: "#fff", fontSize: { xs: 18, md: 22 }, fontWeight: 600 }}>
+      <Typography
+        sx={{ color: "#fff", fontSize: { xs: 18, md: 22 }, fontWeight: 600 }}
+      >
         Profile Information
       </Typography>
-      <Typography sx={{ color: "#9CA3AF", mb: { xs: 2, md: 4 }, fontSize: { xs: 12, md: 14 } }}>
+      <Typography
+        sx={{
+          color: "#9CA3AF",
+          mb: { xs: 2, md: 4 },
+          fontSize: { xs: 12, md: 14 },
+        }}
+      >
         Update your profile and contact preferences.
       </Typography>
 
       {/* Profile Picture Upload */}
       <Box sx={{ mb: 4, width: { xs: "100%", md: 640 } }}>
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: { xs: "center", md: "flex-start" }, gap: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: { xs: "center", md: "flex-start" },
+            gap: 1,
+          }}
+        >
           <Box sx={{ position: "relative" }}>
             <Avatar
               src={profilePicturePreview}
@@ -187,6 +217,7 @@ export default function PersonalInfo() {
                 border: "2px solid rgba(55, 65, 81, 0.62)",
                 fontSize: { xs: 32, md: 40 },
                 color: "#9CA3AF",
+                cursor: "default",
               }}
             >
               {!profilePicturePreview && (form.firstName?.[0] || "U")}
@@ -199,31 +230,30 @@ export default function PersonalInfo() {
                 bottom: 0,
                 right: 0,
                 bgcolor: "linear-gradient(90deg,#C026D3,#2563EB)",
-                background: "linear-gradient(90deg,#C026D3,#2563EB)",
                 width: { xs: 32, md: 36 },
                 height: { xs: 32, md: 36 },
+                cursor: "not-allowed",
                 "&:hover": {
-                  background: "linear-gradient(90deg,#A020B3,#1E50CC)",
+                  background: "linear-gradient(90deg,#C026D3,#2563EB)",
                 },
               }}
             >
-              <PhotoCamera sx={{ fontSize: { xs: 16, md: 18 }, color: "#fff" }} />
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={handleProfilePictureChange}
-                disabled
-              />
+              {/* <PhotoCamera
+                sx={{ fontSize: { xs: 16, md: 18 }, color: "#fff" }}
+              /> */}
+              {/* <input type="file" hidden accept="image/*" disabled /> */}
             </IconButton>
           </Box>
-          <Typography sx={{ color: "#9CA3AF", fontSize: { xs: 11, md: 12 }, textAlign: { xs: "center", md: "left" } }}>
-            Click the camera icon to upload profile picture
-          </Typography>
         </Box>
       </Box>
 
-      <Box sx={{ display: "grid", gap: { xs: 2, md: 3 }, width: { xs: "100%", md: 640 } }}>
+      <Box
+        sx={{
+          display: "grid",
+          gap: { xs: 2, md: 3 },
+          width: { xs: "100%", md: 640 },
+        }}
+      >
         <Box>
           <Typography sx={fieldLabelStyles}>First Name</Typography>
           <TextField
@@ -252,6 +282,7 @@ export default function PersonalInfo() {
             fullWidth
             placeholder="alex123@gmail.com"
             value={form.email}
+            disabled
             sx={textFieldStyles}
           />
         </Box>
@@ -268,7 +299,13 @@ export default function PersonalInfo() {
           />
         </Box>
 
-        <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: { xs: 2, md: 3 } }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            gap: { xs: 2, md: 3 },
+          }}
+        >
           <Box>
             <Typography sx={fieldLabelStyles}>Telephone</Typography>
             <TextField
