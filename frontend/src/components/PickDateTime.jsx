@@ -119,8 +119,9 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
 
     for (let h = 12; h <= 23; h++) {
       for (let m of [0, 30]) {
-        const hour12 = h > 12 ? h - 12 : h;
-        const displayTime = `${hour12}.${String(m).padStart(2, "0")}`;
+        const hour12 = h % 12 === 0 ? 12 : h % 12;
+        const ampm = h < 12 ? "AM" : "PM";
+        const displayTime = `${String(hour12).padStart(2, "0")}:${String(m).padStart(2, "0")} ${ampm}`;
 
         const key = `${h}:${String(m).padStart(2, "0")}`;
 
@@ -291,30 +292,38 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
           }}
         >
           {dates.map((day) => {
-            const fullDate = `${currentYear}-${String(
-              currentMonth + 1,
-            ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            const dateObj = new Date(fullDate);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); 
+            const isPast = dateObj < today;
+
             return (
               <Box
                 key={day}
-                onClick={() => handleDateSelect(day)}
+                onClick={() => !isPast && handleDateSelect(day)}
                 sx={{
                   textAlign: "center",
                   py: { xs: 0.8, md: 1.5 },
                   px: { xs: 0.5, md: 2 },
                   minWidth: { xs: "45px", md: "60px" },
-                  bgcolor:
-                    selectedDate === fullDate
+                  bgcolor: isPast
+                    ? "rgba(255,255,255,0.05)"
+                    : selectedDate === fullDate
                       ? "rgba(51, 178, 247, 0.3)"
                       : "rgba(255,255,255,0.05)",
-                  border:
-                    selectedDate === fullDate
+                  border: isPast
+                    ? "1px solid rgba(255,255,255,0.05)"
+                    : selectedDate === fullDate
                       ? "2px solid #33B2F7"
                       : "1px solid rgba(255,255,255,0.1)",
                   borderRadius: "6px",
-                  cursor: "pointer",
+                  cursor: isPast ? "not-allowed" : "pointer",
                   transition: "all 0.3s ease",
-                  "&:hover": { bgcolor: "rgba(51, 178, 247, 0.2)" },
+                  "&:hover": {
+                    bgcolor: !isPast ? "rgba(51, 178, 247, 0.2)" : undefined,
+                  },
+                  opacity: isPast ? 0.5 : 1,
                 }}
               >
                 <Typography
