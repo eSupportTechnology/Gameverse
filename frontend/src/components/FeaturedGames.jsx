@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   Box,
   Typography,
@@ -7,8 +13,10 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API_BASE_URL } from "../apiConfig";
 
-const games = [
+export const games = [
   {
     title: "PS5 Stations",
     description:
@@ -19,7 +27,7 @@ const games = [
       "on premium gaming setups",
     ],
     img: "./Images/f1.jpg",
-    category: "ps5",
+    category: "PlayStation",
   },
   {
     title: "Pool Tables",
@@ -31,7 +39,7 @@ const games = [
       "on premium gaming setups",
     ],
     img: "./Images/f5.jpg",
-    category: "pool",
+    category: "Pool",
   },
   {
     title: "Racing Simulators",
@@ -43,7 +51,7 @@ const games = [
       "on premium gaming setups",
     ],
     img: "./Images/f3.jpg",
-    category: "racing",
+    category: "Simulator",
   },
 ];
 
@@ -61,6 +69,35 @@ export default function FeaturedGames() {
   // number of visible items per slide
   const visibleCount = isDesktop ? 3 : 1;
   const dotsToShow = Math.max(games.length - visibleCount + 1, 1);
+
+  const [stations, setStations] = useState([]);
+
+  useEffect(() => {
+    const fetchStations = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/api/stations`);
+        if (res.data.status === "success") {
+          setStations(res.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch stations", err);
+      }
+    };
+
+    fetchStations();
+  }, []);
+
+  const commonThumbnailMap = useMemo(() => {
+    const map = {};
+
+    stations.forEach((station) => {
+      if (station.type && station.common_thumbnail_url) {
+        map[station.type] = station.common_thumbnail_url;
+      }
+    });
+
+    return map;
+  }, [stations]);
 
   const handleBookingClick = (game) => {
     const token = localStorage.getItem("authToken");
@@ -349,207 +386,214 @@ export default function FeaturedGames() {
               px: { xs: 1, sm: 0 },
             }}
           >
-            {games.map((game, idx) => (
-              <Box
-                key={idx}
-                className="slide-item"
-                onClick={() => handleDotClick(idx)}
-                sx={{
-                  flex: "0 0 auto",
-                  width: { xs: 200, sm: 280, md: 380 },
-                  height: { xs: 280, sm: 380, md: 500 },
-                  position: "relative",
-                  cursor: "pointer",
-                  transition: "all 0.3s ease",
-                  paddingBottom: "4px",
-                  "&:hover": {
-                    transform: { xs: "none", md: "scale(1.03)" },
-                  },
-                  "&:hover .game-title": { color: "#33B2F7 !important" },
-                  "&:hover .bottom-glow": {
-                    opacity: 1,
-                  },
-                  "&:hover .mobile-gradient-border": {
-                    opacity: { xs: 1, sm: 0, md: 0 },
-                  },
-                }}
-              >
-                {/* Mobile gradient border on hover */}
+            {games.map((game, index) => {
+              const image = commonThumbnailMap[game.category] || game.img;
+
+              return (
                 <Box
-                  className="mobile-gradient-border"
+                  key={index}
+                  className="slide-item"
+                  onClick={() => handleDotClick(index)}
                   sx={{
-                    display: { xs: "block", sm: "none" },
-                    position: "absolute",
-                    inset: 0,
-                    borderRadius: "4px",
-                    padding: "2px",
-                    background: "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
-                    WebkitMask:
-                      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                    WebkitMaskComposite: "xor",
-                    maskComposite: "exclude",
-                    pointerEvents: "none",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                    zIndex: 5,
-                  }}
-                />
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    clipPath: [
-                      "polygon(10% 0, 100% 0, 80% 100%, 0 90%)",
-                      "polygon(15% 0, 98% 0, 100% 100%, 0 100%)",
-                      "polygon(2% 0, 98% 0, 90% 100%, 0 100%)",
-                      "polygon(20% 0, 95% 0, 98% 100%, 0% 100%)",
-                      "polygon(0% 0, 100% 0, 80% 100%, 0 100%)",
-                    ][idx % 5],
-                    overflow: "hidden",
-                    transition: "all 0.3s ease",
+                    flex: "0 0 auto",
+                    width: { xs: 200, sm: 280, md: 380 },
+                    height: { xs: 280, sm: 380, md: 500 },
                     position: "relative",
-                    "&::before": {
-                      content: '""',
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    paddingBottom: "4px",
+                    "&:hover": {
+                      transform: { xs: "none", md: "scale(1.03)" },
+                    },
+                    "&:hover .game-title": { color: "#33B2F7 !important" },
+                    "&:hover .bottom-glow": {
+                      opacity: 1,
+                    },
+                    "&:hover .mobile-gradient-border": {
+                      opacity: { xs: 1, sm: 0, md: 0 },
+                    },
+                  }}
+                >
+                  {/* Mobile gradient border on hover */}
+                  <Box
+                    className="mobile-gradient-border"
+                    sx={{
+                      display: { xs: "block", sm: "none" },
                       position: "absolute",
                       inset: 0,
-                      borderRadius: "inherit",
+                      borderRadius: "4px",
                       padding: "2px",
-                      background: "linear-gradient(to right, #9F00FF, #B86BFF, #00D3FE, #3C7CFA)",
+                      background:
+                        "linear-gradient(to right, #A033FF, #D100FF, #00C3FF)",
                       WebkitMask:
                         "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                       WebkitMaskComposite: "xor",
                       maskComposite: "exclude",
                       pointerEvents: "none",
-                      zIndex: 1,
-                    },
-                  }}
-                >
-                  {/* Bottom white line on hover */}
-                  <Box
-                    className="bottom-glow"
-                    sx={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: "2px",
-                      background: "#FFFFFF",
                       opacity: 0,
                       transition: "opacity 0.3s ease",
-                      zIndex: 10,
+                      zIndex: 5,
                     }}
                   />
                   <Box
-                    component="img"
-                    src={game.img}
-                    alt={game.title}
                     sx={{
                       width: "100%",
                       height: "100%",
-                      objectFit: "cover",
-                      display: "block",
+                      clipPath: [
+                        "polygon(10% 0, 100% 0, 80% 100%, 0 90%)",
+                        "polygon(15% 0, 98% 0, 100% 100%, 0 100%)",
+                        "polygon(2% 0, 98% 0, 90% 100%, 0 100%)",
+                        "polygon(20% 0, 95% 0, 98% 100%, 0% 100%)",
+                        "polygon(0% 0, 100% 0, 80% 100%, 0 100%)",
+                      ][index % 5],
+                      overflow: "hidden",
+                      transition: "all 0.3s ease",
+                      position: "relative",
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        inset: 0,
+                        borderRadius: "inherit",
+                        padding: "2px",
+                        background:
+                          "linear-gradient(to right, #9F00FF, #B86BFF, #00D3FE, #3C7CFA)",
+                        WebkitMask:
+                          "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                        WebkitMaskComposite: "xor",
+                        maskComposite: "exclude",
+                        pointerEvents: "none",
+                        zIndex: 1,
+                      },
                     }}
-                  />
-                  {/* Booking Now Button */}
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      bottom: { xs: "32%", sm: "34%", md: "36%" },
-                      left: 0,
-                      right: 0,
-                      zIndex: 10,
-                      pointerEvents: "auto",
-                    }}
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onPointerMove={(e) => e.stopPropagation()}
                   >
-                    <Button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleBookingClick(game);
+                    {/* Bottom white line on hover */}
+                    <Box
+                      className="bottom-glow"
+                      sx={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: "2px",
+                        background: "#FFFFFF",
+                        opacity: 0,
+                        transition: "opacity 0.3s ease",
+                        zIndex: 10,
                       }}
+                    />
+                    <Box
+                      component="img"
+                      src={image}
+                      alt={game.title}
                       sx={{
                         width: "100%",
-                        py: { xs: 0.8, sm: 1, md: 1.3 },
-                        borderRadius: 0,
-                        fontWeight: "bold",
-                        fontSize: { xs: "11px", sm: "15px", md: "19px" },
-                        textTransform: "none",
-                        color: "#fff",
-                        background:
-                          "linear-gradient(to right, #A905BC, #33B2F7)",
-                        transition: "all 0.3s ease",
-                        "&:hover": {
-                          background:
-                            "linear-gradient(to right, #33B2F7, #A905BC)",
-                        },
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
                       }}
-                    >
-                      Booking Now
-                    </Button>
-                  </Box>
+                    />
 
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 2,
-                      right: 0,
-                      height: { xs: "40%", sm: "42%", md: "44%" },
-                    }}
-                  >
+                    {/* Overlay */}
                     <Box
                       sx={{
-                        position: "relative",
-                        bgcolor: "rgba(0,0,0)",
-                        p: { xs: 1, sm: 1.5, md: 2.1 },
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        textAlign: "center",
-                        gap: { xs: 0.25, md: 0.5 },
+                        position: "absolute",
+                        bottom: { xs: "32%", sm: "34%", md: "36%" },
+                        left: 0,
+                        right: 0,
+                        zIndex: 10,
+                        pointerEvents: "auto",
+                      }}
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onPointerMove={(e) => e.stopPropagation()}
+                    >
+                      <Button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleBookingClick(game);
+                        }}
+                        sx={{
+                          width: "100%",
+                          py: { xs: 0.8, sm: 1, md: 1.3 },
+                          borderRadius: 0,
+                          fontWeight: "bold",
+                          fontSize: { xs: "11px", sm: "15px", md: "19px" },
+                          textTransform: "none",
+                          color: "#fff",
+                          background:
+                            "linear-gradient(to right, #A905BC, #33B2F7)",
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            background:
+                              "linear-gradient(to right, #33B2F7, #A905BC)",
+                          },
+                        }}
+                      >
+                        Booking Now
+                      </Button>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 2,
+                        right: 0,
+                        height: { xs: "40%", sm: "42%", md: "44%" },
                       }}
                     >
-                      <Typography
-                        className="game-title"
-                        variant="h6"
+                      <Box
                         sx={{
-                          mb: 0.1,
-                          fontSize: { xs: "12px", sm: "18px", md: "24px" },
-                          fontWeight: 700,
-                          transition: "color 0.3s ease",
-                          color: "#FFFFFF",
+                          position: "relative",
+                          bgcolor: "rgba(0,0,0)",
+                          p: { xs: 1, sm: 1.5, md: 2.1 },
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          textAlign: "center",
+                          gap: { xs: 0.25, md: 0.5 },
                         }}
                       >
-                        {game.title}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontSize: { xs: "8px", sm: "13px", md: "16px" },
-                          color: "#FFFFFF",
-                          lineHeight: { xs: 1.2, md: 1.32 },
-                        }}
-                      >
-                        {(game.descLines ?? [game.description]).map(
-                          (line, idx) => (
-                            <React.Fragment key={idx}>
-                              {line}
-                              {idx !== (game.descLines?.length ?? 1) - 1 && (
-                                <br />
-                              )}
-                            </React.Fragment>
-                          ),
-                        )}
-                      </Typography>
+                        <Typography
+                          className="game-title"
+                          variant="h6"
+                          sx={{
+                            mb: 0.1,
+                            fontSize: { xs: "12px", sm: "18px", md: "24px" },
+                            fontWeight: 700,
+                            transition: "color 0.3s ease",
+                            color: "#FFFFFF",
+                          }}
+                        >
+                          {game.title}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            fontSize: { xs: "8px", sm: "13px", md: "16px" },
+                            color: "#FFFFFF",
+                            lineHeight: { xs: 1.2, md: 1.32 },
+                          }}
+                        >
+                          {(game.descLines ?? [game.description]).map(
+                            (line, idx) => (
+                              <React.Fragment key={idx}>
+                                {line}
+                                {idx !== (game.descLines?.length ?? 1) - 1 && (
+                                  <br />
+                                )}
+                              </React.Fragment>
+                            ),
+                          )}
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
-              </Box>
-            ))}
+              );
+            })}
           </Box>
         </Box>
 

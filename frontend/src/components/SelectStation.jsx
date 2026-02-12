@@ -201,15 +201,7 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
   };
 
   const getStationImage = (station) => {
-    // Backend image exists
-    if (station.img) return station.img;
-
-    // PS5 station fallback
-    if (station.title?.startsWith("PS5")) {
-      return PS5_FALLBACK_IMAGES[station.title] || "/Images/f1.jpg";
-    }
-
-    // Default fallback
+    if (station.thumbnail_url) return station.thumbnail_url;
     return "/Images/f1.jpg";
   };
 
@@ -355,7 +347,13 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
                     left: 0,
                     right: 0,
                     zIndex: 10,
-                    opacity: isMobile ? (isCurrentCard ? 1 : 0) : (isSelected ? 1 : 0),
+                    opacity: isMobile
+                      ? isCurrentCard
+                        ? 1
+                        : 0
+                      : isSelected
+                        ? 1
+                        : 0,
                     transition: "opacity 0.3s ease",
                   }}
                 >
