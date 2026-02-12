@@ -112,10 +112,8 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
   }, [selectedStation, selectedDate]);
 
   const timeSlots = useMemo(() => {
-    if (!selectedStation || !selectedDate) return [];
 
     const slots = [];
-    const limit = 4;
 
     for (let h = 12; h <= 23; h++) {
       for (let m of [0, 30]) {
@@ -135,8 +133,6 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
 
     return slots;
   }, [bookedCounts, selectedStation, selectedDate]);
-
-  console.log("first", bookedCounts);
 
   const durations = [];
   for (let min = 30; min <= 240; min += 30) {

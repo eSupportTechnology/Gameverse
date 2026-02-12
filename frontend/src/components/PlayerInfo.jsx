@@ -394,11 +394,10 @@ const PlayerInfo = ({
   selectedDateTime,
 }) => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    contactNumber: "",
-    vrPlay: "yes",
     players: 1,
+    playerDetails: [
+      { firstName: "", lastName: "", contactNumber: "", vrPlay: "yes" },
+    ],
   });
 
   const showVRPlay = selectedStation?.vrPrice && selectedStation?.vrTime;
@@ -409,7 +408,25 @@ const PlayerInfo = ({
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setFormData((prev) => ({
+      ...prev,
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      contactNumber: user?.phone || "",
+      vrPlay: "yes",
+      playerDetails: [
+        {
+          firstName: user?.firstName || "",
+          lastName: user?.lastName || "",
+          contactNumber: user?.phone || "",
+          vrPlay: "yes",
+        },
+      ],
+    }));
+  }, []);
+  console.log(formData);
   // const handleBookingClick = () => {
   //   setIsCheckoutOpen(true);
   // };

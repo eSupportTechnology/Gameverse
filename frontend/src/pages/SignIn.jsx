@@ -143,13 +143,13 @@ const SignIn = () => {
         email: formData.email,
         password: formData.password,
       });
-
       const userData = {
         id: res.data.user.id,
         firstName: res.data.user.firstName,
         lastName: res.data.user.lastName,
         email: res.data.user.email,
         token: res.data.token,
+        phone: res.data.user.phone,
       };
 
       toast.success("Login successful!");
@@ -353,7 +353,13 @@ const SignIn = () => {
                 Welcome Back
               </Typography>
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "12px", sm: "16px" } }}>
+                <Typography
+                  sx={{
+                    color: "white",
+                    mb: 0.5,
+                    fontSize: { xs: "12px", sm: "16px" },
+                  }}
+                >
                   E mail
                 </Typography>
                 <FixedLabelTextField
@@ -366,7 +372,13 @@ const SignIn = () => {
               </Box>
 
               <Box>
-                <Typography sx={{ color: "white", mb: 0.5, fontSize: { xs: "12px", sm: "16px" } }}>
+                <Typography
+                  sx={{
+                    color: "white",
+                    mb: 0.5,
+                    fontSize: { xs: "12px", sm: "16px" },
+                  }}
+                >
                   Password
                 </Typography>
                 <FixedLabelTextField
@@ -392,9 +404,22 @@ const SignIn = () => {
                 />
               </Box>
 
-              <Box sx={{ display: "flex", justifyContent: { xs: "flex-end", sm: "space-between" }, flexDirection: { xs: "column-reverse", sm: "row" }, gap: { xs: 0.5, sm: 0 } }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: { xs: "flex-end", sm: "space-between" },
+                  flexDirection: { xs: "column-reverse", sm: "row" },
+                  gap: { xs: 0.5, sm: 0 },
+                }}
+              >
                 {/* Link to Sign Up */}
-                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" }, textAlign: { xs: "right", sm: "left" } }}>
+                <Typography
+                  sx={{
+                    color: "white",
+                    fontSize: { xs: "9px", sm: "12px" },
+                    textAlign: { xs: "right", sm: "left" },
+                  }}
+                >
                   Didn't have a account.?
                   <Box
                     component="span"
@@ -413,7 +438,13 @@ const SignIn = () => {
                 </Typography>
 
                 {/* Reset password */}
-                <Typography sx={{ color: "white", fontSize: { xs: "9px", sm: "12px" }, textAlign: { xs: "right", sm: "left" } }}>
+                <Typography
+                  sx={{
+                    color: "white",
+                    fontSize: { xs: "9px", sm: "12px" },
+                    textAlign: { xs: "right", sm: "left" },
+                  }}
+                >
                   Forget Password?
                   <Box
                     component="span"
