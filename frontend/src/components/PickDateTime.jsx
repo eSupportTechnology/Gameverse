@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -111,9 +111,9 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
     fetchBookings();
   }, [selectedStation, selectedDate]);
 
-  console.log("first", bookedCounts);
+  const timeSlots = useMemo(() => {
+    if (!selectedStation || !selectedDate) return [];
 
-  const generateTimeSlots = () => {
     const slots = [];
     const limit = 4;
 
@@ -123,24 +123,20 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
         const ampm = h < 12 ? "AM" : "PM";
         const displayTime = `${String(hour12).padStart(2, "0")}:${String(m).padStart(2, "0")} ${ampm}`;
 
-        const key = `${h}:${String(m).padStart(2, "0")}`;
-
-        const booked = selectedStation
-          ? bookedCounts[key] || { count: 0, names: [] }
-          : { count: 0, names: [] };
+        const booked = bookedCounts[displayTime] || { count: 0, names: [] };
 
         slots.push({
           time: displayTime,
-          status: booked.count >= limit ? "Booked" : "Available",
+          status: booked.count > 0 ? "Booked" : "Available",
           bookedNames: booked.names,
         });
       }
     }
 
     return slots;
-  };
+  }, [bookedCounts, selectedStation, selectedDate]);
 
-  const timeSlots = generateTimeSlots();
+  console.log("first", bookedCounts);
 
   const durations = [];
   for (let min = 30; min <= 240; min += 30) {
@@ -295,7 +291,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
             const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
             const dateObj = new Date(fullDate);
             const today = new Date();
-            today.setHours(0, 0, 0, 0); 
+            today.setHours(0, 0, 0, 0);
             const isPast = dateObj < today;
 
             return (
@@ -356,7 +352,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
       {/* Time Slots Grid */}
       <Box
         sx={{
-          maxWidth: "1400px",
+          maxWidth: "1280px",
           mx: "auto",
           display: "grid",
           gridTemplateColumns: "repeat(10, 1fr)",

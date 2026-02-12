@@ -270,6 +270,7 @@ class BookingController extends Controller
         try {
             $station = $request->query('station');
             $booking_date = $request->query('booking_date');
+            $start_time = $request->query('start_time');
 
             if (!$station || !$booking_date) {
                 return response()->json([
@@ -278,15 +279,17 @@ class BookingController extends Controller
                 ], 400);
             }
 
-            // Fetch bookings for the station and date
-            $bookings = \App\Models\Booking::where('station', $station)
-                ->where('booking_date', $booking_date)
-                ->get(['start_time', 'customer_name']);
+            $query = Booking::where('station', $station)
+                ->where('booking_date', $booking_date);
 
-            // Group by start_time
+            if ($start_time) {
+                $query->where('start_time', $start_time);
+            }
+
+            $bookings = $query->get(['start_time', 'customer_name']);
+
             $grouped = $bookings->groupBy('start_time');
 
-            // Prepare response: ['12:00' => ['count' => 2, 'names' => ['Alice','Bob']], ...]
             $countsWithNames = [];
             foreach ($grouped as $time => $group) {
                 $countsWithNames[$time] = [
