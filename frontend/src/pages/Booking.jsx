@@ -64,40 +64,33 @@ const Booking = () => {
 
     const date = bookingData.dateTime?.date;
     const time = bookingData.dateTime?.time?.replace(".", ":");
-
-    if (!date || !time) {
-      alert("Invalid date or time selected.");
-      return;
-    }
-
-    const payload = {
-      nfc_card_number: null,
-      customer_name: `${playerInfo.firstName} ${playerInfo.lastName}`,
-      phone_number: playerInfo.contactNumber,
-      station: bookingData.station.name,
-      booking_date: date,
-      start_time: time,
-      duration: bookingData.dateTime?.duration || null,
-      amount: 0,
-      vr_play: playerInfo.vrPlay,
-      number_of_players: playerInfo.players,
-    };
-
-    console.log("Booking payload:", payload);
+    const duration = bookingData.dateTime?.duration || null;
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/bookings`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      for (const player of playerInfo.playerDetails) {
+        const payload = {
+          nfc_card_number: null,
+          customer_name: `${player.firstName} ${player.lastName}`,
+          phone_number: player.contactNumber,
+          station: bookingData.station.name,
+          booking_date: date,
+          start_time: time,
+          duration,
+          amount: 0,
+          vr_play: player.vrPlay,
+          number_of_players: 1,
+        };
 
-      console.log("Booking created:", res.data);
-      alert("Booking successful!");
+        await axios.post(`${API_BASE_URL}/api/bookings`, payload, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+
+      alert("Bookings created successfully!");
       navigate("/");
     } catch (err) {
       console.error(err);
-      alert("Failed to create booking");
+      alert("Failed to create bookings");
     }
   };
 

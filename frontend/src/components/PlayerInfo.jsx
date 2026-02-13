@@ -389,9 +389,9 @@ const modalInputStyle = {
 
 // --- 3. Main Component ---
 const PlayerInfo = ({
-  onPlayerInfoChange,
   selectedStation,
   selectedDateTime,
+  onPlayerInfoChange,
 }) => {
   const [formData, setFormData] = useState({
     players: 1,
@@ -410,27 +410,49 @@ const PlayerInfo = ({
   };
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    setFormData((prev) => ({
-      ...prev,
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
-      contactNumber: user?.phone || "",
-      vrPlay: "yes",
-      playerDetails: [
-        {
-          firstName: user?.firstName || "",
-          lastName: user?.lastName || "",
-          contactNumber: user?.phone || "",
-          vrPlay: "yes",
-        },
-      ],
-    }));
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        playerDetails: [
+          {
+            firstName: user.firstName || "",
+            lastName: user.lastName || "",
+            contactNumber: user.phone || "",
+            vrPlay: "yes",
+          },
+        ],
+      }));
+    }
   }, []);
-  console.log(formData);
-  // const handleBookingClick = () => {
-  //   setIsCheckoutOpen(true);
-  // };
 
+  // Update number of players
+  const handlePlayersChange = (e) => {
+    const newCount = parseInt(e.target.value, 10);
+    setFormData((prev) => {
+      const details = [...prev.playerDetails];
+      while (details.length < newCount) {
+        details.push({
+          firstName: "",
+          lastName: "",
+          contactNumber: "",
+          vrPlay: "yes",
+        });
+      }
+      while (details.length > newCount) {
+        details.pop();
+      }
+      return { ...prev, players: newCount, playerDetails: details };
+    });
+  };
+
+  // Handle individual player input change
+  const handlePlayerChange = (index, field, value) => {
+    setFormData((prev) => {
+      const updated = [...prev.playerDetails];
+      updated[index][field] = value;
+      return { ...prev, playerDetails: updated };
+    });
+  };
   const handlePaymentSuccess = () => {
     setIsCheckoutOpen(false); // Close checkout
     setIsReceiptOpen(true); // Open receipt
@@ -455,175 +477,147 @@ const PlayerInfo = ({
       </Typography>
 
       <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
-        {/* Name Fields */}
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: { xs: 2, md: 4 },
-            mb: 4,
-          }}
-        >
-          <Box>
-            <Typography
+        <Box sx={{ mb: 4 }}>
+          <Typography
+            sx={{
+              mb: 1,
+              fontSize: { xs: "11px", sm: "14px" },
+              color: "gray.400",
+            }}
+          >
+            Number of Players
+          </Typography>
+          <FormControl fullWidth>
+            <Select
+              name="players"
+              value={formData.players}
+              onChange={handlePlayersChange}
+              displayEmpty
               sx={{
-                mb: 1,
-                fontSize: { xs: "11px", sm: "14px" },
-                color: "gray.400",
+                ...mainInputStyle,
+                "& .MuiSelect-select": {
+                  color: "white",
+                  padding: { xs: "10px 12px", sm: "14px" },
+                  fontSize: { xs: "12px", sm: "14px" },
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(255,255,255,0.1)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(51, 178, 247, 0.5)",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#33B2F7",
+                },
+                bgcolor: "rgba(255,255,255,0.05)",
               }}
-            >
-              First Name
-            </Typography>
-            <TextField
-              fullWidth
-              name="firstName"
-              placeholder="Enter your first name"
-              value={formData.firstName}
-              onChange={handleChange}
-              sx={mainInputStyle}
-            />
-          </Box>
-          <Box>
-            <Typography
-              sx={{
-                mb: 1,
-                fontSize: { xs: "11px", sm: "14px" },
-                color: "gray.400",
-              }}
-            >
-              Last Name
-            </Typography>
-            <TextField
-              fullWidth
-              name="lastName"
-              placeholder="Enter your second name"
-              value={formData.lastName}
-              onChange={handleChange}
-              sx={mainInputStyle}
-            />
-          </Box>
-        </Box>
-
-        {/* Contact and VR Play */}
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-            gap: 4,
-            mb: 6,
-          }}
-        >
-          <Box>
-            <Typography
-              sx={{
-                mb: 1,
-                fontSize: { xs: "11px", sm: "14px" },
-                color: "gray.400",
-              }}
-            >
-              Contact Number
-            </Typography>
-            <TextField
-              fullWidth
-              name="contactNumber"
-              placeholder="Contact Number"
-              value={formData.contactNumber}
-              onChange={handleChange}
-              sx={mainInputStyle}
-            />
-          </Box>
-          <Box>
-            <Typography
-              sx={{
-                mb: 1,
-                fontSize: { xs: "11px", sm: "14px" },
-                color: "gray.400",
-              }}
-            >
-              Number of Players
-            </Typography>
-
-            <FormControl fullWidth>
-              <Select
-                name="players"
-                value={formData.players}
-                onChange={handleChange}
-                displayEmpty
-                sx={{
-                  ...mainInputStyle,
-                  "& .MuiSelect-select": {
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    bgcolor: "#0B0F19",
                     color: "white",
-                    padding: { xs: "10px 12px", sm: "14px" },
-                    fontSize: { xs: "12px", sm: "14px" },
+                    border: "1px solid rgba(255,255,255,0.1)",
                   },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "rgba(255,255,255,0.1)",
-                  },
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "rgba(51, 178, 247, 0.5)",
-                  },
-                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#33B2F7",
-                  },
-                  bgcolor: "rgba(255,255,255,0.05)",
-                }}
-                MenuProps={{
-                  PaperProps: {
-                    sx: {
-                      bgcolor: "#0B0F19",
-                      color: "white",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                    },
-                  },
-                }}
-              >
-                {[1, 2, 3, 4].map((num) => (
-                  <MenuItem key={num} value={num}>
-                    {num} Player{num > 1 && "s"}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-
-          {showVRPlay && (
-            <Box>
-              <Typography
-                sx={{
-                  mb: 1,
-                  fontSize: { xs: "11px", sm: "14px" },
-                  color: "gray.400",
-                }}
-              >
-                VR Play
-              </Typography>
-              <RadioGroup
-                row
-                name="vrPlay"
-                value={formData.vrPlay}
-                onChange={handleChange}
-                sx={{
-                  gap: { xs: 1, sm: 2 },
-                  height: { xs: "40px", sm: "56px" },
-                }}
-              >
-                <CustomRadioOption
-                  value="yes"
-                  label="Yes"
-                  currentValue={formData.vrPlay}
-                  onClick={() => setFormData({ ...formData, vrPlay: "yes" })}
-                />
-                <CustomRadioOption
-                  value="no"
-                  label="No"
-                  currentValue={formData.vrPlay}
-                  onClick={() => setFormData({ ...formData, vrPlay: "no" })}
-                />
-              </RadioGroup>
-            </Box>
-          )}
+                },
+              }}
+            >
+              {[1, 2, 3, 4].map((num) => (
+                <MenuItem key={num} value={num}>
+                  {num} Player{num > 1 && "s"}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Box>
 
+        {/* Render Player Forms */}
+        {formData.playerDetails.map((player, idx) => (
+          <Box
+            key={idx}
+            sx={{
+              mb: 6,
+              p: 3,
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: 2,
+            }}
+          >
+            <Typography sx={{ mb: 2, fontWeight: "bold" }}>
+              Player {idx + 1} {idx === 0 && "(Logged-in User)"}
+            </Typography>
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}
+            >
+              <TextField
+                placeholder="First Name"
+                value={player.firstName}
+                disabled={idx === 0}
+                onChange={(e) =>
+                  handlePlayerChange(idx, "firstName", e.target.value)
+                }
+                sx={mainInputStyle}
+              />
+              <TextField
+                placeholder="Last Name"
+                value={player.lastName}
+                disabled={idx === 0}
+                onChange={(e) =>
+                  handlePlayerChange(idx, "lastName", e.target.value)
+                }
+                sx={mainInputStyle}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: showVRPlay ? "1fr 1fr" : "1fr",
+                gap: 2,
+                mt: 2,
+              }}
+            >
+              <TextField
+                placeholder="Contact Number"
+                value={player.contactNumber}
+                disabled={idx === 0}
+                onChange={(e) =>
+                  handlePlayerChange(idx, "contactNumber", e.target.value)
+                }
+                sx={mainInputStyle}
+              />
+
+              {showVRPlay && (
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: "8px", sm: "10px" },
+                      color: "gray.400",
+                    }}
+                  >
+                    VR Play
+                  </Typography>
+                  <RadioGroup
+                    row
+                    value={player.vrPlay}
+                    onChange={(e) =>
+                      handlePlayerChange(idx, "vrPlay", e.target.value)
+                    }
+                    sx={{ gap: 2 }}
+                  >
+                    <FormControlLabel
+                      value="yes"
+                      control={<Radio sx={{ color: "#33B2F7" }} />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="no"
+                      control={<Radio sx={{ color: "#33B2F7" }} />}
+                      label="No"
+                    />
+                  </RadioGroup>
+                </Box>
+              )}
+            </Box>
+          </Box>
+        ))}
         <Box
           sx={{
             width: "100%",
@@ -688,6 +682,16 @@ const mainInputStyle = {
     color: "white",
     padding: { xs: "10px 12px", sm: "14px" },
     fontSize: { xs: "12px", sm: "14px" },
+  },
+  "&.Mui-disabled": {
+    borderColor: "rgba(55, 65, 81, 0.62)",
+    backgroundColor: "rgba(41, 37, 75, 0.58)",
+    cursor: "text",
+  },
+  "& .MuiInputBase-input.Mui-disabled": {
+    WebkitTextFillColor: "#E5E7EB",
+    opacity: 1,
+    cursor: "text",
   },
 };
 
