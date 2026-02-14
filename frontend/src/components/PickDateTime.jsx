@@ -86,7 +86,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
       datesScrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
-  const [bookedCounts, setBookedCounts] = useState({});
+  const [bookedCounts, setBookedCounts] = useState([]);
 
   useEffect(() => {
     if (!selectedStation || !selectedDate) return;
@@ -111,28 +111,71 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
     fetchBookings();
   }, [selectedStation, selectedDate]);
 
-  const timeSlots = useMemo(() => {
+  const convertDurationToMinutes = (duration) => {
+    if (!duration) return 0;
 
+    const match = duration.match(/(?:(\d+)h)?\s*(?:(\d+)m)?/);
+    const hours = match?.[1] ? parseInt(match[1]) : 0;
+    const minutes = match?.[2] ? parseInt(match[2]) : 0;
+
+    return hours * 60 + minutes;
+  };
+
+  const timeSlots = useMemo(() => {
     const slots = [];
 
+    // Convert booking ranges into blocked times
+    const blockedTimes = new Map();
+
+    bookedCounts.forEach((booking) => {
+      const start = new Date(`${selectedDate} ${booking.start_time}`);
+      const durationMinutes =
+        convertDurationToMinutes(booking.duration) +
+        convertDurationToMinutes(booking.extended_time);
+
+      const totalSlots = durationMinutes / 30;
+
+      for (let i = 0; i < totalSlots; i++) {
+        const slotTime = new Date(start.getTime() + i * 30 * 60000);
+
+        const hour = slotTime.getHours();
+        const minute = slotTime.getMinutes();
+        const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+        const ampm = hour < 12 ? "AM" : "PM";
+
+        const formatted =
+          `${String(hour12).padStart(2, "0")}:` +
+          `${String(minute).padStart(2, "0")} ${ampm}`;
+
+        if (!blockedTimes.has(formatted)) {
+          blockedTimes.set(formatted, []);
+        }
+
+        blockedTimes.get(formatted).push(booking.customer_name);
+      }
+    });
+
+    // Generate slots
     for (let h = 12; h <= 23; h++) {
       for (let m of [0, 30]) {
         const hour12 = h % 12 === 0 ? 12 : h % 12;
         const ampm = h < 12 ? "AM" : "PM";
-        const displayTime = `${String(hour12).padStart(2, "0")}:${String(m).padStart(2, "0")} ${ampm}`;
+        const displayTime =
+          `${String(hour12).padStart(2, "0")}:` +
+          `${String(m).padStart(2, "0")} ${ampm}`;
 
-        const booked = bookedCounts[displayTime] || { count: 0, names: [] };
+        const names = blockedTimes.get(displayTime) || [];
 
         slots.push({
           time: displayTime,
-          status: booked.count > 0 ? "Booked" : "Available",
-          bookedNames: booked.names,
+          status: names.length > 0 ? "Booked" : "Available",
+          bookedNames: names,
         });
       }
     }
 
     return slots;
-  }, [bookedCounts, selectedStation, selectedDate]);
+  }, [bookedCounts, selectedDate]);
 
   const durations = [];
   for (let min = 30; min <= 240; min += 30) {
