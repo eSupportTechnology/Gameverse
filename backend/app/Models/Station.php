@@ -11,14 +11,11 @@ class Station extends Model
         'type',
         'location',
         'description',
-        'price',
         'status',
         'bookings',
-        'time',
-        'vrTime',
-        'vrPrice',
         'thumbnail',
-        'common_thumbnail'
+        'common_thumbnail',
+        'pricing'
     ];
 
     // Automatically append these fields to JSON
@@ -26,7 +23,9 @@ class Station extends Model
         'thumbnail_url',
         'common_thumbnail_url'
     ];
-
+    protected $casts = [
+        'pricing' => 'array',
+    ];
     /*
     |--------------------------------------------------------------------------
     | Thumbnail URL

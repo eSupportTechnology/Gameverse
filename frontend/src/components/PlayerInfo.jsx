@@ -392,6 +392,7 @@ const PlayerInfo = ({
   selectedStation,
   selectedDateTime,
   onPlayerInfoChange,
+  amount,
 }) => {
   const [formData, setFormData] = useState({
     players: 1,
@@ -400,7 +401,8 @@ const PlayerInfo = ({
     ],
   });
 
-  const showVRPlay = selectedStation?.vrPrice && selectedStation?.vrTime;
+  const showVRPlay =
+    selectedStation?.pricing?.some((p) => p.vrPrice && p.vrPrice > 0) || false;
   // State to control Modals
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
@@ -652,7 +654,7 @@ const PlayerInfo = ({
         open={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
         onPaySuccess={handlePaymentSuccess}
-        amount="845.00"
+        amount={amount?.toFixed(2)}
       />
 
       <BookingDetailsModal

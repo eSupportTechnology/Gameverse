@@ -218,6 +218,7 @@ const PickDateTime = ({ onNext, selectedStation, selectedDateTime }) => {
         date: selectedDate,
         time: selectedTime,
         duration: selectedDuration,
+        durationMinutes: convertDurationToMinutes(selectedDuration),
       });
     }
   }, [selectedDate, selectedTime, selectedDuration]);
