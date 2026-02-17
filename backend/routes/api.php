@@ -43,3 +43,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::get('/bookings-count', [BookingController::class, 'getBookingCounts']);
 Route::get('/nfc-user-by-email', [NfcUserController::class, 'getByEmail']);
+
+Route::post('/payhere/notify', [BookingController::class, 'payhereNotify']);
+Route::post('/payhere/hash', [BookingController::class, 'generatePayHereHash']);

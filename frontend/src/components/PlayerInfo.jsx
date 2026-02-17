@@ -17,9 +17,11 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import LockIcon from "@mui/icons-material/Lock";
+import { API_BASE_URL } from "../apiConfig";
+import axios from "axios";
 
 // --- 1. Booking Details (Receipt) Modal ---
-const BookingDetailsModal = ({ open, onClose, data }) => {
+const BookingDetailsModal = ({ open, onClose, data, amount }) => {
   // Helper to render a single row
   const DetailRow = ({ label, value }) => (
     <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1.5 }}>
@@ -27,7 +29,7 @@ const BookingDetailsModal = ({ open, onClose, data }) => {
         {label}
       </Typography>
       <Typography variant="body2" sx={{ fontWeight: 500, textAlign: "right" }}>
-        {value}
+        {value ?? "-"}
       </Typography>
     </Box>
   );
@@ -36,7 +38,7 @@ const BookingDetailsModal = ({ open, onClose, data }) => {
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth="xs" // Narrower width for the receipt
+      maxWidth="xs"
       fullWidth
       PaperProps={{
         sx: {
@@ -69,20 +71,23 @@ const BookingDetailsModal = ({ open, onClose, data }) => {
       <Box sx={{ mb: 2 }}>
         <DetailRow
           label="Player Name"
-          value={`${data.firstName} ${data.lastName}`}
+          value={`${data.playerDetails?.[0]?.firstName || ""} ${
+            data.playerDetails?.[0]?.lastName || ""
+          }`}
         />
         <DetailRow
           label="Phone Number"
-          value={data.contactNumber || "071 3226865"}
+          value={data.playerDetails?.[0]?.contactNumber || "N/A"}
         />
-        <DetailRow label="Station" value={data.station || "PS5 Station 1"} />
+        <DetailRow label="Station" value={data.station?.name || "N/A"} />
+        <DetailRow label="Station Type" value={data.station?.type || "-"} />
         <DetailRow
           label="VR Play"
-          value={data.vrPlay === "yes" ? "Yes" : "No"}
+          value={data.playerDetails?.[0]?.vrPlay === "yes" ? "Yes" : "No"}
         />
-        <DetailRow label="Date" value="11/08/2025" />
-        <DetailRow label="Start Time" value="12.00 pm" />
-        <DetailRow label="Duration" value="02h 00min" />
+        <DetailRow label="Date" value={data.date || "N/A"} />
+        <DetailRow label="Start Time" value={data.startTime || "N/A"} />
+        <DetailRow label="Duration" value={data.duration || "N/A"} />
       </Box>
 
       {/* Divider & Payment Total */}
@@ -100,7 +105,7 @@ const BookingDetailsModal = ({ open, onClose, data }) => {
           Payment :
         </Typography>
         <Typography variant="body1" fontWeight="bold" sx={{ color: "#A905BC" }}>
-          LKR 845.00
+          LKR {data.amount?.toFixed(2) || "0.00"}
         </Typography>
       </Box>
 
@@ -125,274 +130,13 @@ const BookingDetailsModal = ({ open, onClose, data }) => {
   );
 };
 
-// --- 2. Checkout Modal ---
-const CheckoutModal = ({ open, onClose, onPaySuccess, amount }) => {
-  // Local state for payment inputs to handle validation
-  const [cardDetails, setCardDetails] = useState({
-    cardNumber: "",
-    expiry: "",
-    cvc: "",
-    name: "",
-  });
-
-  // Handler for Card Number (Numbers only)
-  const handleCardNumberChange = (e) => {
-    const value = e.target.value;
-    // Regex: Only allows digits (0-9)
-    if (/^\d*$/.test(value)) {
-      setCardDetails({ ...cardDetails, cardNumber: value });
-    }
-  };
-
-  // Handler for Expiry Date (Numbers and '/' only)
-  const handleExpiryChange = (e) => {
-    const value = e.target.value;
-    // Regex: Only allows digits and forward slash
-    if (/^[0-9/]*$/.test(value)) {
-      setCardDetails({ ...cardDetails, expiry: value });
-    }
-  };
-
-  // Handler for CVC (Numbers only - Optional update for consistency)
-  const handleCvcChange = (e) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setCardDetails({ ...cardDetails, cvc: value });
-    }
-  };
-
-  // Handler for Name (Letters and spaces only)
-  const handleNameChange = (e) => {
-    const value = e.target.value;
-    // Regex: Only allows letters (a-z, A-Z) and spaces
-    if (/^[a-zA-Z\s]*$/.test(value)) {
-      setCardDetails({ ...cardDetails, name: value });
-    }
-  };
-
-  return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-      PaperProps={{
-        sx: {
-          bgcolor: "#0B0F19",
-          color: "white",
-          borderRadius: "16px",
-          border: "1px solid rgba(255,255,255,0.1)",
-        },
-      }}
-    >
-      <Box sx={{ p: 4 }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 3,
-          }}
-        >
-          <Typography variant="h6" fontWeight="bold">
-            Checkout Details
-          </Typography>
-          <IconButton onClick={onClose} sx={{ color: "gray" }}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-
-        <Box sx={{ mb: 3 }}>
-          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-            <Typography variant="body2">Total:</Typography>
-            <Typography variant="body2" fontWeight="bold">
-              LKR {amount || "845.00"}
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-            <Typography variant="body2">Discount</Typography>
-            <Typography variant="body2" color="gray">
-              ...........
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              pt: 1,
-              borderTop: "1px solid rgba(255,255,255,0.1)",
-            }}
-          >
-            <Typography variant="subtitle1" fontWeight="bold">
-              Balance:
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              fontWeight="bold"
-              sx={{ color: "#A905BC" }}
-            >
-              LKR {amount || "845.00"}
-            </Typography>
-          </Box>
-        </Box>
-
-        <Typography
-          variant="caption"
-          color="gray"
-          display="block"
-          sx={{ mb: 1 }}
-        >
-          All transactions are secure and encrypted.
-        </Typography>
-        <FormControlLabel
-          control={
-            <Checkbox
-              sx={{
-                color: "gray",
-                "&.Mui-checked": { color: "#A905BC" },
-                padding: "4px 9px",
-              }}
-            />
-          }
-          label={
-            <Typography variant="caption" color="gray">
-              Add default payment method
-            </Typography>
-          }
-          sx={{ mb: 2 }}
-        />
-
-        <Box
-          sx={{
-            bgcolor: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "8px",
-            p: 2,
-            mb: 3,
-          }}
-        >
-          <Typography
-            variant="caption"
-            color="gray"
-            sx={{ mb: 1, display: "block" }}
-          >
-            Credit Card
-          </Typography>
-
-          {/* Card Number Input */}
-          <TextField
-            fullWidth
-            placeholder="Card Number"
-            size="small"
-            value={cardDetails.cardNumber}
-            onChange={handleCardNumberChange}
-            sx={modalInputStyle}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <Box
-                      sx={{
-                        width: 12,
-                        height: 12,
-                        borderRadius: "50%",
-                        bgcolor: "#EB001B",
-                      }}
-                    />
-                    <Box
-                      sx={{
-                        width: 12,
-                        height: 12,
-                        borderRadius: "50%",
-                        bgcolor: "#F79E1B",
-                        ml: -1,
-                      }}
-                    />
-                  </Box>
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
-            {/* Expiration Date Input */}
-            <TextField
-              placeholder="Expiration Date (MM/YY)"
-              size="small"
-              fullWidth
-              value={cardDetails.expiry}
-              onChange={handleExpiryChange}
-              inputProps={{ maxLength: 5 }} // Optional: limits length to 5 chars
-              sx={modalInputStyle}
-            />
-            {/* CVC Input */}
-            <TextField
-              placeholder="Security Code"
-              size="small"
-              fullWidth
-              value={cardDetails.cvc}
-              onChange={handleCvcChange}
-              sx={modalInputStyle}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <LockIcon sx={{ fontSize: 16, color: "gray" }} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-
-          {/* Name on Card Input */}
-          <TextField
-            fullWidth
-            placeholder="Name on card"
-            size="small"
-            value={cardDetails.name}
-            onChange={handleNameChange}
-            sx={{ ...modalInputStyle, mt: 2 }}
-          />
-        </Box>
-
-        <Button
-          fullWidth
-          variant="contained"
-          sx={{
-            bgcolor: "#22C55E",
-            color: "white",
-            fontWeight: "bold",
-            textTransform: "none",
-            py: 1.5,
-            borderRadius: "30px",
-            "&:hover": { bgcolor: "#16A34A" },
-          }}
-          onClick={onPaySuccess}
-        >
-          Pay Now
-        </Button>
-      </Box>
-    </Dialog>
-  );
-};
-
-const modalInputStyle = {
-  "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(0,0,0,0.2)",
-    color: "white",
-    fontSize: "13px",
-    "& fieldset": { borderColor: "rgba(255,255,255,0.1)" },
-    "&:hover fieldset": { borderColor: "rgba(255,255,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#A905BC" },
-  },
-  "& .MuiOutlinedInput-input": { padding: "10px 14px" },
-};
-
 // --- 3. Main Component ---
 const PlayerInfo = ({
   selectedStation,
   selectedDateTime,
   onPlayerInfoChange,
   amount,
+  onBookingSubmit,
 }) => {
   const [formData, setFormData] = useState({
     players: 1,
@@ -404,12 +148,8 @@ const PlayerInfo = ({
   const showVRPlay =
     selectedStation?.pricing?.some((p) => p.vrPrice && p.vrPrice > 0) || false;
   // State to control Modals
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
@@ -420,6 +160,7 @@ const PlayerInfo = ({
             firstName: user.firstName || "",
             lastName: user.lastName || "",
             contactNumber: user.phone || "",
+            email: user.email || "",
             vrPlay: "yes",
           },
         ],
@@ -455,9 +196,66 @@ const PlayerInfo = ({
       return { ...prev, playerDetails: updated };
     });
   };
-  const handlePaymentSuccess = () => {
-    setIsCheckoutOpen(false); // Close checkout
-    setIsReceiptOpen(true); // Open receipt
+
+  const handlePaymentSuccess = async () => {
+    try {
+      const orderId = `ORDER_${Date.now()}`;
+      const amountValue = amount.toFixed(2);
+
+      const token = localStorage.getItem("authToken");
+      const res = await axios.post(
+        `${API_BASE_URL}/api/payhere/hash`,
+        {
+          order_id: orderId,
+          amount: amountValue,
+          currency: "LKR",
+        },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+
+      const { hash, merchant_id } = res.data;
+
+      const payment = {
+        sandbox: true,
+        merchant_id,
+        return_url: window.location.href,
+        cancel_url: window.location.href,
+        notify_url: `${API_BASE_URL}/api/payhere/notify`,
+        order_id: orderId,
+        items: "Gaming Session Booking",
+        amount: amountValue,
+        currency: "LKR",
+        hash,
+        first_name: formData.playerDetails[0]?.firstName || "N/A",
+        last_name: formData.playerDetails[0]?.lastName || "N/A",
+        email: formData.playerDetails[0].email || "N/A",
+        phone: formData.playerDetails[0]?.contactNumber || "N/A",
+        address: "N/A",
+        city: "N/A",
+        country: "Sri Lanka",
+      };
+
+      window.payhere.onCompleted = function (orderId) {
+        console.log("Payment completed:", orderId);
+        onBookingSubmit(orderId);
+        setIsReceiptOpen(true);
+      };
+
+      window.payhere.onDismissed = function () {
+        console.log("Payment dismissed");
+        alert("Payment was cancelled.");
+      };
+
+      window.payhere.onError = function (error) {
+        console.error("PayHere Error:", error);
+        alert("Payment error occurred!");
+      };
+
+      window.payhere.startPayment(payment);
+    } catch (err) {
+      console.error("Failed to start payment:", err);
+      alert("Failed to initiate payment.");
+    }
   };
 
   useEffect(() => {
@@ -629,33 +427,70 @@ const PlayerInfo = ({
           }}
         />
 
-        {/* <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 3 }}>
-          <Box><Typography sx={{ fontSize: "25px", fontWeight: "bold", mb: 1, color: "white" }}>Amount</Typography></Box>
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
-            <Typography sx={{ fontSize: "25px", fontWeight: "bold", background: "linear-gradient(to right, #A905BC, #33B2F7)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              LKR 000.00
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            gap: 3,
+          }}
+        >
+          <Box>
+            <Typography
+              sx={{
+                fontSize: "25px",
+                fontWeight: "bold",
+                mb: 1,
+                color: "white",
+              }}
+            >
+              Amount
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              gap: 2,
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "25px",
+                fontWeight: "bold",
+                background: "linear-gradient(to right, #A905BC, #33B2F7)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              LKR {amount}
             </Typography>
             <Button
-              onClick={handleBookingClick}
+              onClick={handlePaymentSuccess}
               sx={{
-                px: 8, py: 1.8, borderRadius: "30px", fontWeight: "bold", fontSize: "18px", textTransform: "none", color: "#fff",
-                background: "linear-gradient(to right, #33B2F7, #A905BC)", boxShadow: "0 4px 15px rgba(51, 178, 247, 0.4)",
-                "&:hover": { background: "linear-gradient(to right, #A905BC, #33B2F7)", boxShadow: "0 6px 20px rgba(169, 5, 188, 0.5)" },
+                px: 8,
+                py: 1.8,
+                borderRadius: "30px",
+                fontWeight: "bold",
+                fontSize: "18px",
+                textTransform: "none",
+                color: "#fff",
+                background: "linear-gradient(to right, #33B2F7, #A905BC)",
+                boxShadow: "0 4px 15px rgba(51, 178, 247, 0.4)",
+                "&:hover": {
+                  background: "linear-gradient(to right, #A905BC, #33B2F7)",
+                  boxShadow: "0 6px 20px rgba(169, 5, 188, 0.5)",
+                },
               }}
             >
               Booking Session
             </Button>
           </Box>
-        </Box> */}
+        </Box>
       </Box>
-
-      {/* Modals */}
-      <CheckoutModal
-        open={isCheckoutOpen}
-        onClose={() => setIsCheckoutOpen(false)}
-        onPaySuccess={handlePaymentSuccess}
-        amount={amount?.toFixed(2)}
-      />
 
       <BookingDetailsModal
         open={isReceiptOpen}
@@ -663,7 +498,10 @@ const PlayerInfo = ({
         data={{
           ...formData,
           station: selectedStation,
-          // You can pass real date/time props here if available
+          date: selectedDateTime?.date,
+          startTime: selectedDateTime?.time,
+          duration: selectedDateTime?.duration,
+          amount: amount,
         }}
       />
     </Box>

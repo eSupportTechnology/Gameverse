@@ -54,7 +54,7 @@ const Booking = () => {
 
   const handlePlayerInfoChange = (data) => setPlayerInfo(data);
 
-  const handleBookingSubmit = async () => {
+  const handleBookingSubmit = async (orderId) => {
     const token = localStorage.getItem("authToken");
 
     if (!bookingData.station || !bookingData.dateTime) {
@@ -79,6 +79,8 @@ const Booking = () => {
           amount: totalAmount,
           vr_play: player.vrPlay,
           number_of_players: 1,
+          payment_method: "PayHere",
+          order_id: orderId, // optional: store order ID
         };
 
         await axios.post(`${API_BASE_URL}/api/bookings`, payload, {
@@ -244,6 +246,7 @@ const Booking = () => {
           selectedDateTime={bookingData.dateTime}
           onPlayerInfoChange={handlePlayerInfoChange}
           amount={totalAmount}
+          onBookingSubmit={handleBookingSubmit}
         />
 
         {/* Submit Button */}
@@ -255,7 +258,7 @@ const Booking = () => {
             gap: 2,
           }}
         >
-          <Button
+          {/* <Button
             onClick={handleBookingSubmit}
             sx={{
               px: { xs: 4, sm: 8 },
@@ -274,7 +277,7 @@ const Booking = () => {
             }}
           >
             Booking Session
-          </Button>
+          </Button> */}
         </Box>
       </Box>
     </>
