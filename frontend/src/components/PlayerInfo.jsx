@@ -385,11 +385,18 @@ const PlayerInfo = ({
               />
 
               {showVRPlay && (
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box 
+                  sx={{ 
+                    display: "flex", 
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
                   <Typography
                     sx={{
                       fontSize: { xs: "8px", sm: "10px" },
                       color: "gray.400",
+                      mb: { xs: 0, sm: 0.5 },
                     }}
                   >
                     VR Play
@@ -400,17 +407,54 @@ const PlayerInfo = ({
                     onChange={(e) =>
                       handlePlayerChange(idx, "vrPlay", e.target.value)
                     }
-                    sx={{ gap: 2 }}
+                    sx={{ 
+                      gap: { xs: 0.2, sm: 2 },
+                      alignItems: "center",
+                    }}
                   >
                     <FormControlLabel
                       value="yes"
-                      control={<Radio sx={{ color: "#33B2F7" }} />}
+                      control={
+                        <Radio 
+                          sx={{ 
+                            color: "#33B2F7",
+                            padding: { xs: "4px", sm: "9px" },
+                            "& .MuiSvgIcon-root": {
+                              fontSize: { xs: "18px", sm: "24px" },
+                            },
+                          }} 
+                        />
+                      }
                       label="Yes"
+                      sx={{
+                        "& .MuiFormControlLabel-label": {
+                          fontSize: { xs: "12px", sm: "14px" },
+                          color: "white",
+                        },
+                        margin: 0,
+                      }}
                     />
                     <FormControlLabel
                       value="no"
-                      control={<Radio sx={{ color: "#33B2F7" }} />}
+                      control={
+                        <Radio 
+                          sx={{ 
+                            color: "#33B2F7",
+                            padding: { xs: "4px", sm: "9px" },
+                            "& .MuiSvgIcon-root": {
+                              fontSize: { xs: "18px", sm: "24px" },
+                            },
+                          }} 
+                        />
+                      }
                       label="No"
+                      sx={{
+                        "& .MuiFormControlLabel-label": {
+                          fontSize: { xs: "12px", sm: "14px" },
+                          color: "white",
+                        },
+                        margin: 0,
+                      }}
                     />
                   </RadioGroup>
                 </Box>
