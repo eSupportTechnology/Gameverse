@@ -17,7 +17,18 @@ class BookingController extends Controller
      */
     public function index(): JsonResponse
     {
-        $bookings = Booking::orderBy('created_at', 'desc')->get();
+        $user = request()->user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $bookings = Booking::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return response()->json([
             'success' => true,

@@ -51,6 +51,19 @@ const BookingDetailsModal = ({ open, onClose, data, downloadReceipts }) => {
         },
       }}
     >
+      <IconButton
+        onClick={onClose}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: "white",
+          bgcolor: "rgba(255,255,255,0.1)",
+          "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
       {data.playerDetails?.map((player, idx) => (
         <Box
           key={idx}
@@ -324,7 +337,10 @@ const PlayerInfo = ({
   useEffect(() => {
     if (onPlayerInfoChange) onPlayerInfoChange(formData);
   }, [formData, onPlayerInfoChange]);
-
+  const handleReceiptClose = () => {
+    setIsReceiptOpen(false);
+    navigate("/");
+  };
   return (
     <Box sx={{ color: "white", mb: 8 }}>
       <Typography
@@ -601,7 +617,7 @@ const PlayerInfo = ({
 
       <BookingDetailsModal
         open={isReceiptOpen}
-        onClose={() => setIsReceiptOpen(false)}
+        onClose={handleReceiptClose}
         data={receiptData}
         downloadReceipts={downloadSeparateReceipts}
       />
