@@ -87,6 +87,9 @@ const Booking = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
       }
+
+      alert("Bookings created successfully!");
+      navigate("/");
     } catch (err) {
       console.error(err);
       alert("Failed to create bookings");

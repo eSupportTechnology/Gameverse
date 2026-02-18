@@ -19,11 +19,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import LockIcon from "@mui/icons-material/Lock";
 import { API_BASE_URL } from "../apiConfig";
 import axios from "axios";
-import jsPDF from "jspdf";
-import { useNavigate } from "react-router-dom";
 
 // --- 1. Booking Details (Receipt) Modal ---
-const BookingDetailsModal = ({ open, onClose, data, downloadReceipts }) => {
+const BookingDetailsModal = ({ open, onClose, data, amount }) => {
+  // Helper to render a single row
   const DetailRow = ({ label, value }) => (
     <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1.5 }}>
       <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
@@ -51,67 +50,67 @@ const BookingDetailsModal = ({ open, onClose, data, downloadReceipts }) => {
         },
       }}
     >
-      {data.playerDetails?.map((player, idx) => (
-        <Box
-          key={idx}
-          sx={{
-            mb: 3,
-            p: 2,
-            border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: 2,
-          }}
-        >
-          <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
-            Player {idx + 1}
-          </Typography>
+      {/* Header */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
+        <Typography variant="h6" fontWeight="bold">
+          Booking Details
+        </Typography>
+        <IconButton onClick={onClose} sx={{ color: "gray" }}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
 
-          <DetailRow
-            label="Player Name"
-            value={`${player.firstName} ${player.lastName}`}
-          />
-          <DetailRow
-            label="Phone Number"
-            value={player.contactNumber || "N/A"}
-          />
-          <DetailRow label="Station" value={data.station?.name || "N/A"} />
-          <DetailRow label="Station Type" value={data.station?.type || "-"} />
-          {player.vrPlay && (
-            <DetailRow
-              label="VR Play"
-              value={player.vrPlay === "yes" ? "Yes" : "No"}
-            />
-          )}
+      {/* Details List */}
+      <Box sx={{ mb: 2 }}>
+        <DetailRow
+          label="Player Name"
+          value={`${data.playerDetails?.[0]?.firstName || ""} ${
+            data.playerDetails?.[0]?.lastName || ""
+          }`}
+        />
+        <DetailRow
+          label="Phone Number"
+          value={data.playerDetails?.[0]?.contactNumber || "N/A"}
+        />
+        <DetailRow label="Station" value={data.station?.name || "N/A"} />
+        <DetailRow label="Station Type" value={data.station?.type || "-"} />
+        <DetailRow
+          label="VR Play"
+          value={data.playerDetails?.[0]?.vrPlay === "yes" ? "Yes" : "No"}
+        />
+        <DetailRow label="Date" value={data.date || "N/A"} />
+        <DetailRow label="Start Time" value={data.startTime || "N/A"} />
+        <DetailRow label="Duration" value={data.duration || "N/A"} />
+      </Box>
 
-          <DetailRow label="Date" value={data.date || "N/A"} />
-          <DetailRow label="Start Time" value={data.startTime || "N/A"} />
-          <DetailRow label="Duration" value={data.duration || "N/A"} />
-          {/* Divider & Payment Total */}
-          <Box
-            sx={{
-              borderTop: "1px solid rgba(255,255,255,0.1)",
-              pt: 2,
-              mb: 3,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="body1" fontWeight="bold">
-              Payment :
-            </Typography>
-            <Typography
-              variant="body1"
-              fontWeight="bold"
-              sx={{ color: "#A905BC" }}
-            >
-              LKR {player.amount?.toFixed(2) || "0.00"}
-            </Typography>
-          </Box>
-        </Box>
-      ))}
+      {/* Divider & Payment Total */}
+      <Box
+        sx={{
+          borderTop: "1px solid rgba(255,255,255,0.1)",
+          pt: 2,
+          mb: 3,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="body1" fontWeight="bold">
+          Payment :
+        </Typography>
+        <Typography variant="body1" fontWeight="bold" sx={{ color: "#A905BC" }}>
+          LKR {data.amount?.toFixed(2) || "0.00"}
+        </Typography>
+      </Box>
 
+      {/* Download Button */}
       <Button
-        type="button"
         fullWidth
         variant="contained"
         sx={{
@@ -123,9 +122,9 @@ const BookingDetailsModal = ({ open, onClose, data, downloadReceipts }) => {
           borderRadius: "30px",
           "&:hover": { bgcolor: "#16A34A" },
         }}
-        onClick={downloadReceipts}
+        onClick={onClose}
       >
-        Download Receipts
+        Download Receipt
       </Button>
     </Dialog>
   );
@@ -148,10 +147,8 @@ const PlayerInfo = ({
 
   const showVRPlay =
     selectedStation?.pricing?.some((p) => p.vrPrice && p.vrPrice > 0) || false;
-
+  // State to control Modals
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
-  const [receiptData, setReceiptData] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -202,21 +199,15 @@ const PlayerInfo = ({
 
   const handlePaymentSuccess = async () => {
     try {
-      const playersWithAmounts = calculatePlayerAmounts();
-
-      const totalAmount = playersWithAmounts.reduce(
-        (sum, p) => sum + p.amount,
-        0,
-      );
-
       const orderId = `ORDER_${Date.now()}`;
-      const token = localStorage.getItem("authToken");
+      const amountValue = amount.toFixed(2);
 
+      const token = localStorage.getItem("authToken");
       const res = await axios.post(
         `${API_BASE_URL}/api/payhere/hash`,
         {
           order_id: orderId,
-          amount: totalAmount.toFixed(2),
+          amount: amountValue,
           currency: "LKR",
         },
         { headers: { Authorization: `Bearer ${token}` } },
@@ -232,93 +223,39 @@ const PlayerInfo = ({
         notify_url: `${API_BASE_URL}/api/payhere/notify`,
         order_id: orderId,
         items: "Gaming Session Booking",
-        amount: totalAmount.toFixed(2),
+        amount: amountValue,
         currency: "LKR",
         hash,
         first_name: formData.playerDetails[0]?.firstName || "N/A",
         last_name: formData.playerDetails[0]?.lastName || "N/A",
-        email: formData.playerDetails[0]?.email || "N/A",
+        email: formData.playerDetails[0].email || "N/A",
         phone: formData.playerDetails[0]?.contactNumber || "N/A",
         address: "N/A",
         city: "N/A",
         country: "Sri Lanka",
       };
 
-      window.payhere.onCompleted = function () {
+      window.payhere.onCompleted = function (orderId) {
+        console.log("Payment completed:", orderId);
         onBookingSubmit(orderId);
-
-        setReceiptData({
-          orderId: orderId,
-          playerDetails: playersWithAmounts,
-          station: selectedStation,
-          date: selectedDateTime?.date,
-          startTime: selectedDateTime?.time,
-          duration: selectedDateTime?.duration,
-        });
-
         setIsReceiptOpen(true);
       };
 
       window.payhere.onDismissed = function () {
+        console.log("Payment dismissed");
         alert("Payment was cancelled.");
       };
 
-      window.payhere.onError = function () {
+      window.payhere.onError = function (error) {
+        console.error("PayHere Error:", error);
         alert("Payment error occurred!");
       };
 
       window.payhere.startPayment(payment);
     } catch (err) {
+      console.error("Failed to start payment:", err);
       alert("Failed to initiate payment.");
-      console.error(err);
     }
-  };
-
-  const calculatePlayerAmounts = () => {
-    if (!selectedStation?.pricing?.length)
-      return formData.playerDetails.map((p) => ({ ...p, amount: 0 }));
-
-    const pricing = selectedStation.pricing[0];
-    return formData.playerDetails.map((player) => {
-      let playerAmount = pricing.price || 0;
-      if (player.vrPlay === "yes") {
-        playerAmount += pricing.vrPrice || 0;
-      }
-      return { ...player, amount: playerAmount };
-    });
-  };
-
-  const downloadSeparateReceipts = () => {
-    if (!receiptData?.playerDetails?.length) return;
-
-    receiptData.playerDetails.forEach((player, index) => {
-      const doc = new jsPDF();
-
-      doc.setFontSize(18);
-      doc.text("Gaming Session Receipt", 20, 20);
-
-      doc.setFontSize(12);
-      doc.text(`Order ID: ${receiptData.orderId || "N/A"}`, 20, 35);
-      doc.text(`Date: ${receiptData.date}`, 20, 45);
-      doc.text(`Station: ${receiptData.station?.name}`, 20, 55);
-
-      doc.line(20, 60, 190, 60);
-
-      doc.text(`Player Name: ${player.firstName} ${player.lastName}`, 20, 75);
-      doc.text(`Email: ${player.email}`, 20, 85);
-      doc.text(`Contact: ${player.contactNumber}`, 20, 95);
-      doc.text(`VR Play: ${player.vrPlay}`, 20, 105);
-
-      doc.line(20, 110, 190, 110);
-
-      doc.setFontSize(14);
-      doc.text(`Amount Paid: LKR ${player.amount}`, 20, 125);
-
-      doc.save(
-        `Receipt_${player.firstName}_${receiptData.orderId || index + 1}.pdf`,
-      );
-    });
-    navigate("/");
   };
 
   useEffect(() => {
@@ -448,9 +385,9 @@ const PlayerInfo = ({
               />
 
               {showVRPlay && (
-                <Box
-                  sx={{
-                    display: "flex",
+                <Box 
+                  sx={{ 
+                    display: "flex", 
                     flexDirection: "column",
                     justifyContent: "center",
                   }}
@@ -470,7 +407,7 @@ const PlayerInfo = ({
                     onChange={(e) =>
                       handlePlayerChange(idx, "vrPlay", e.target.value)
                     }
-                    sx={{
+                    sx={{ 
                       gap: { xs: 0.2, sm: 2 },
                       alignItems: "center",
                     }}
@@ -478,14 +415,14 @@ const PlayerInfo = ({
                     <FormControlLabel
                       value="yes"
                       control={
-                        <Radio
-                          sx={{
+                        <Radio 
+                          sx={{ 
                             color: "#33B2F7",
                             padding: { xs: "4px", sm: "9px" },
                             "& .MuiSvgIcon-root": {
                               fontSize: { xs: "18px", sm: "24px" },
                             },
-                          }}
+                          }} 
                         />
                       }
                       label="Yes"
@@ -500,14 +437,14 @@ const PlayerInfo = ({
                     <FormControlLabel
                       value="no"
                       control={
-                        <Radio
-                          sx={{
+                        <Radio 
+                          sx={{ 
                             color: "#33B2F7",
                             padding: { xs: "4px", sm: "9px" },
                             "& .MuiSvgIcon-root": {
                               fontSize: { xs: "18px", sm: "24px" },
                             },
-                          }}
+                          }} 
                         />
                       }
                       label="No"
@@ -602,8 +539,14 @@ const PlayerInfo = ({
       <BookingDetailsModal
         open={isReceiptOpen}
         onClose={() => setIsReceiptOpen(false)}
-        data={receiptData}
-        downloadReceipts={downloadSeparateReceipts}
+        data={{
+          ...formData,
+          station: selectedStation,
+          date: selectedDateTime?.date,
+          startTime: selectedDateTime?.time,
+          duration: selectedDateTime?.duration,
+          amount: amount,
+        }}
       />
     </Box>
   );
