@@ -19,8 +19,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import LockIcon from "@mui/icons-material/Lock";
 import { API_BASE_URL } from "../apiConfig";
 import axios from "axios";
-import jsPDF from "jspdf";
 import { useNavigate } from "react-router-dom";
+import jsPDF from "jspdf";
 
 // --- 1. Booking Details (Receipt) Modal ---
 const BookingDetailsModal = ({ open, onClose, data, downloadReceipts }) => {
