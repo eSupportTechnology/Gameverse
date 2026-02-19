@@ -288,15 +288,42 @@ const PlayerInfo = ({
   };
 
   const calculatePlayerAmounts = () => {
-    if (!selectedStation?.pricing?.length)
+    if (!selectedStation?.pricing?.length || !selectedDateTime) {
       return formData.playerDetails.map((p) => ({ ...p, amount: 0 }));
+    }
 
-    const pricing = selectedStation.pricing[0];
+    const pricingArray = selectedStation.pricing || [];
+    const price30 = pricingArray.find((p) => Number(p.duration) === 30);
+    const price60 = pricingArray.find((p) => Number(p.duration) === 60);
+
+    const selectedDuration =
+      Number(selectedDateTime?.durationMinutes || selectedDateTime?.duration) ||
+      0;
+    if (!price30 || !price60 || !selectedDuration) {
+      return formData.playerDetails.map((p) => ({ ...p, amount: 0 }));
+    }
+
     return formData.playerDetails.map((player) => {
-      let playerAmount = pricing.price || 0;
-      if (player.vrPlay === "yes") {
-        playerAmount += pricing.vrPrice || 0;
+      const isVR = player.vrPlay === "yes";
+      const hours = Math.floor(selectedDuration / 60);
+      const remainingMinutes = selectedDuration % 60;
+
+      let playerAmount = 0;
+
+      if (hours > 0) {
+        const baseHour = isVR
+          ? parseFloat(price60.vrPrice || 0)
+          : parseFloat(price60.price || 0);
+        playerAmount += hours * baseHour;
       }
+
+      if (remainingMinutes === 30) {
+        const base30 = isVR
+          ? parseFloat(price30.vrPrice || 0)
+          : parseFloat(price30.price || 0);
+        playerAmount += base30;
+      }
+
       return { ...player, amount: playerAmount };
     });
   };
