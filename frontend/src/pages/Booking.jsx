@@ -93,42 +93,47 @@ const Booking = () => {
     }
   };
 
-const calculateAmount = () => {
-  if (!bookingData.station || !bookingData.dateTime) return 0;
+  const calculateAmount = () => {
+    if (!bookingData.station || !bookingData.dateTime) return 0;
 
-  const selectedDuration =
-    Number(bookingData.dateTime?.durationMinutes || bookingData.dateTime?.duration) || 0;
-  if (!selectedDuration) return 0;
+    const selectedDuration =
+      Number(
+        bookingData.dateTime?.durationMinutes || bookingData.dateTime?.duration,
+      ) || 0;
+    if (!selectedDuration) return 0;
 
-  const pricingArray = bookingData.station.pricing || [];
+    const pricingArray = bookingData.station.pricing || [];
 
-  const price30 = pricingArray.find((p) => Number(p.duration) === 30);
-  const price60 = pricingArray.find((p) => Number(p.duration) === 60);
+    const price30 = pricingArray.find((p) => Number(p.duration) === 30);
+    const price60 = pricingArray.find((p) => Number(p.duration) === 60);
 
-  if (!price30 || !price60) return 0;
+    if (!price30 || !price60) return 0;
 
-  let total = 0;
+    let total = 0;
 
-  playerInfo.playerDetails?.forEach((player) => {
-    const isVR = player.vrPlay === "yes";
+    playerInfo.playerDetails?.forEach((player) => {
+      const isVR = player.vrPlay === "yes";
 
-    const hours = Math.floor(selectedDuration / 60);
-    const remainingMinutes = selectedDuration % 60;
+      const hours = Math.floor(selectedDuration / 60);
+      const remainingMinutes = selectedDuration % 60;
 
-    if (hours > 0) {
-      const baseHour = isVR ? parseFloat(price60.vrPrice || 0) : parseFloat(price60.price || 0);
-      total += hours * baseHour;
-    }
+      if (hours > 0) {
+        const baseHour = isVR
+          ? parseFloat(price60.vrPrice || 0)
+          : parseFloat(price60.price || 0);
+        total += hours * baseHour;
+      }
 
-    if (remainingMinutes === 30) {
-      const base30 = isVR ? parseFloat(price30.vrPrice || 0) : parseFloat(price30.price || 0);
-      total += base30;
-    }
-  });
+      if (remainingMinutes === 30) {
+        const base30 = isVR
+          ? parseFloat(price30.vrPrice || 0)
+          : parseFloat(price30.price || 0);
+        total += base30;
+      }
+    });
 
-  return total;
-};
-
+    return total;
+  };
 
   const totalAmount = calculateAmount();
 
