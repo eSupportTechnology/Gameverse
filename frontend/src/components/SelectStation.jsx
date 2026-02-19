@@ -417,55 +417,38 @@ const SelectStation = ({ onNext, selectedStation, stations = [] }) => {
                     {station.name}
                   </Typography>
                   {/* Prices in same line, centered */}
-                  {(station.price || station.vrPrice) && (
+                  {station.pricing && station.pricing.length > 0 && (
                     <Box
                       sx={{
                         display: "flex",
+                        flexDirection: "column",
                         gap: 2,
                         justifyContent: "center",
                         alignItems: "center",
                         mb: 0.5,
-                        flexWrap: "wrap",
                       }}
                     >
-                      {station.price && station.vrPrice ? (
-                        // Both Normal and VR prices
-                        <Typography
-                          sx={{
-                            fontSize: { xs: "12px", md: "10px" },
-                            fontWeight: "bold",
-                            color: "#fff",
-                          }}
-                        >
-                          Price: Rs. {station.price} /{" "}
-                          {formatTime(station.time)} & VR: Rs. {station.vrPrice}{" "}
-                          / {formatTime(station.vrTime)}
-                        </Typography>
-                      ) : station.price ? (
-                        // Only normal price
-                        <Typography
-                          sx={{
-                            fontSize: { xs: "13px", md: "14px" },
-                            fontWeight: "bold",
-                            color: "#fff",
-                          }}
-                        >
-                          Price: Rs. {station.price} /{" "}
-                          {formatTime(station.time)}
-                        </Typography>
-                      ) : station.vrPrice ? (
-                        // Only VR price
-                        <Typography
-                          sx={{
-                            fontSize: { xs: "13px", md: "14px" },
-                            fontWeight: "bold",
-                            color: "#fff",
-                          }}
-                        >
-                          VR: Rs. {station.vrPrice} /{" "}
-                          {formatTime(station.vrTime)}
-                        </Typography>
-                      ) : null}
+                      {station.pricing
+                        .sort((a, b) => a.duration - b.duration)
+                        .map((p, idx) => (
+                          <Typography
+                            key={idx}
+                            sx={{
+                              fontSize: { xs: "12px", md: "14px" },
+                              fontWeight: "bold",
+                              color: "#fff",
+                              textAlign: "center",
+                            }}
+                          >
+                            {p.price != null && p.vrPrice != null
+                              ? `Rs. ${p.price} / ${formatTime(p.duration)} | VR: Rs. ${p.vrPrice} / ${formatTime(p.duration)}`
+                              : p.price != null
+                                ? `Rs. ${p.price} / ${formatTime(p.duration)}`
+                                : p.vrPrice != null
+                                  ? `VR: Rs. ${p.vrPrice} / ${formatTime(p.duration)}`
+                                  : null}
+                          </Typography>
+                        ))}
                     </Box>
                   )}
 
