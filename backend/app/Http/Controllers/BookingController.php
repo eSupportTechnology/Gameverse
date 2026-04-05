@@ -166,20 +166,16 @@ class BookingController extends Controller
 
             if ($totalPoints >= 10) {
 
-                $existingRewards = array_filter($gift, function ($g) use ($type) {
-                    return isset($g['type']) && $g['type'] === "$type Reward";
-                });
+                $key = "$type Reward";
 
-                $rewardCount = count($existingRewards) + 1;
+                if (!isset($gift[$key])) {
+                    $gift[$key] = [
+                        'count' => 0,
+                        'rewards' => $rule['rewards']
+                    ];
+                }
 
-                $gift[] = [
-                    'id' => uniqid(),
-                    'type' => "$type Reward",
-                    'rewards' => $rule['rewards'],
-                    'reward_count' => $rewardCount,
-                    'used' => false,
-                    'used_reward' => null
-                ];
+                $gift[$key]['count'] += 1;
 
                 foreach ($rule['stations'] as $s) {
                     $points[$s] = 0;
