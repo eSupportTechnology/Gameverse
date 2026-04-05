@@ -8,7 +8,7 @@ import bookingIcon from "../assets/booking.png";
 const menu = [
   { key: "personal", label: "Personal Information", icon: personalIcon },
   { key: "security", label: "Sign-in & Security", icon: securityIcon },
-  { key: "payment", label: "Payment Methods", icon: paymentIcon },
+  // { key: "payment", label: "Payment Methods", icon: paymentIcon },
   { key: "booking", label: "Booking Details", icon: bookingIcon },
 ];
 

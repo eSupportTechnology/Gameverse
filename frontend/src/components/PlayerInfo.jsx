@@ -155,7 +155,13 @@ const PlayerInfo = ({
   const [formData, setFormData] = useState({
     players: 1,
     playerDetails: [
-      { firstName: "", lastName: "", contactNumber: "", vrPlay: "yes" },
+      {
+        firstName: "",
+        lastName: "",
+        contactNumber: "",
+        email: "",
+        vrPlay: "yes",
+      },
     ],
   });
 
@@ -194,6 +200,7 @@ const PlayerInfo = ({
           firstName: "",
           lastName: "",
           contactNumber: "",
+          email: "",
           vrPlay: "yes",
         });
       }
@@ -468,6 +475,24 @@ const PlayerInfo = ({
                 disabled={idx === 0}
                 onChange={(e) =>
                   handlePlayerChange(idx, "lastName", e.target.value)
+                }
+                sx={mainInputStyle}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "1fr",
+                gap: 2,
+                mt: 2,
+              }}
+            >
+              <TextField
+                placeholder="Email"
+                value={player.email || ""}
+                disabled={idx === 0} // logged user read-only
+                onChange={(e) =>
+                  handlePlayerChange(idx, "email", e.target.value)
                 }
                 sx={mainInputStyle}
               />

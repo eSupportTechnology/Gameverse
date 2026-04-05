@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\NfcUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -45,6 +46,7 @@ class BookingController extends Controller
             'nfc_card_number' => 'nullable|string|max:255',
             'customer_name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
+            'email' => 'nullable|email',
             'station' => 'required|string|max:255',
             'booking_date' => 'required|date',
             'start_time' => 'required|string|max:10',
@@ -66,13 +68,29 @@ class BookingController extends Controller
 
         try {
             $bookingData = $validator->validated();
-
-            // Attach logged-in user ID
             $bookingData['user_id'] = $request->user()->id;
+
+            $cardNo = null;
+
+            // ✅ Check NFC user by email
+            if ($request->has('email') && $request->email) {
+                $cardNo = NfcUser::where('email', $request->email)
+                    ->value('card_no');
+
+                if ($cardNo) {
+                    $bookingData['nfc_card_number'] = $cardNo;
+                }
+            }
 
             $bookingData['is_paid'] = $bookingData['is_paid'] ?? 0;
 
+            // ✅ Create booking
             $booking = Booking::create($bookingData);
+
+            // ✅ AFTER BOOKING → Update NFC Points
+            if ($cardNo) {
+                $this->updateNfcPointsAndGifts($cardNo, $bookingData['station']);
+            }
 
             return response()->json([
                 'success' => true,
@@ -88,6 +106,98 @@ class BookingController extends Controller
         }
     }
 
+    private function updateNfcPointsAndGifts($cardNumber, $station)
+    {
+        $nfcUser = NfcUser::where('card_no', $cardNumber)->first();
+        if (!$nfcUser) return;
+
+        $points = $nfcUser->points ?? [];
+        $gift = $nfcUser->gift ?? [];
+
+        if (!is_array($points)) $points = [];
+        if (!is_array($gift)) $gift = [];
+
+        if (!$station) return;
+
+        // ✅ FIX (important)
+        $station = trim($station);
+
+        $points[$station] = ($points[$station] ?? 0) + 1;
+
+        $rewardRules = [
+            'PlayStation' => [
+                'stations' => ['PS5 Station 1', 'PS5 Station 2', 'PS5 Station 3', 'PS5 Station 4', 'PS5 Station 5'],
+                'rewards' => [
+                    '1 hour free PlayStation (VR not included)',
+                    '1 hour free Racing Simulator (VR not included)'
+                ]
+            ],
+            'Racing Simulator' => [
+                'stations' => ['Racing Simulator 1', 'Racing Simulator 2', 'Racing Simulator 3', 'Racing Simulator 4'],
+                'rewards' => [
+                    '1 hour free Racing Simulator (VR not included)',
+                    '1 hour free PlayStation (VR not included)'
+                ]
+            ],
+            'Supreme Billiard' => [
+                'stations' => ['Supreme Billiard 1', 'Supreme Billiard 2'],
+                'rewards' => [
+                    '1 hour free Billiards (Supreme zones) (Free coffee/drinks not included)',
+                    '1 hour free PlayStation (VR not included)',
+                    '1 hour free Racing Simulator (VR not included)'
+                ]
+            ],
+            'Premium Billiard' => [
+                'stations' => ['Premium Billiard 1', 'Premium Billiard 2', 'Premium Billiard 3'],
+                'rewards' => [
+                    '1 hour free Billiards (Premium zones)',
+                    '1 hour free PlayStation (VR not included)',
+                    '30 min free Racing Simulator (VR not included)'
+                ]
+            ]
+        ];
+
+        foreach ($rewardRules as $type => $rule) {
+            $totalPoints = 0;
+
+            foreach ($rule['stations'] as $s) {
+                $totalPoints += $points[$s] ?? 0;
+            }
+
+            if ($totalPoints >= 10) {
+
+                $existingRewards = array_filter($gift, function ($g) use ($type) {
+                    return isset($g['type']) && $g['type'] === "$type Reward";
+                });
+
+                $rewardCount = count($existingRewards) + 1;
+
+                $gift[] = [
+                    'id' => uniqid(),
+                    'type' => "$type Reward",
+                    'rewards' => $rule['rewards'],
+                    'reward_count' => $rewardCount,
+                    'used' => false,
+                    'used_reward' => null
+                ];
+
+                foreach ($rule['stations'] as $s) {
+                    $points[$s] = 0;
+                }
+            }
+        }
+
+        // ✅ SAVE (NO json_encode)
+        $nfcUser->points = $points;
+        $nfcUser->gift = $gift;
+        $nfcUser->save();
+
+        Log::info("NFC UPDATED", [
+            'card' => $cardNumber,
+            'points' => $points,
+            'gift' => $gift
+        ]);
+    }
     public function getBookingCounts(Request $request)
     {
         try {

@@ -72,6 +72,7 @@ const Booking = () => {
           nfc_card_number: null,
           customer_name: `${player.firstName} ${player.lastName}`,
           phone_number: player.contactNumber,
+          email: player.email,
           station: bookingData.station.name,
           booking_date: date,
           start_time: time,
