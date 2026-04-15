@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Box, Avatar, Typography, Button } from "@mui/material";
 import personalIcon from "../assets/personal.png";
 import securityIcon from "../assets/security.png";
-import paymentIcon from "../assets/payment.png";
+// import paymentIcon from "../assets/payment.png";
 import bookingIcon from "../assets/booking.png";
+import giftIcon from "../assets/giftIcon.png";
 
 const menu = [
   { key: "personal", label: "Personal Information", icon: personalIcon },
   { key: "security", label: "Sign-in & Security", icon: securityIcon },
-  // { key: "payment", label: "Payment Methods", icon: paymentIcon },
+  { key: "gifts", label: "Gifts & Rewards", icon: giftIcon },
   { key: "booking", label: "Booking Details", icon: bookingIcon },
 ];
 

@@ -5,6 +5,7 @@ import PaymentMethods from "../components/PaymentMethods";
 import PersonalInfo from "../components/PersonalInfo";
 import ProfileSidebar from "../components/ProfileSidebar";
 import Security from "../components/Security";
+import GiftsRewards from "../components/GiftsRewards";
 
 export default function MyAccount() {
   const [activeTab, setActiveTab] = useState("personal");
@@ -13,10 +14,12 @@ export default function MyAccount() {
     switch (activeTab) {
       case "security":
         return <Security />;
-      case "payment":
-        return <PaymentMethods />;
+      // case "payment":
+      //   return <PaymentMethods />;
       case "booking":
         return <BookingDetails />;
+      case "gifts":
+        return <GiftsRewards />;
       case "personal":
       default:
         return <PersonalInfo />;

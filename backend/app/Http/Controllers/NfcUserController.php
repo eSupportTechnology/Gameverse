@@ -33,6 +33,9 @@ class NfcUserController extends Controller
                 'profileImage' => $nfcUser->avatar
                     ? $adminBaseUrl . '/storage/' . ltrim($nfcUser->avatar, '/')
                     : null,
+                'gift' => $nfcUser->gift ?? [],
+                'used_rewards' => $nfcUser->used_rewards ?? [],
+                'points' => $nfcUser->points ?? [],
             ],
         ]);
     }

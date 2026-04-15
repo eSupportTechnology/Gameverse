@@ -20,12 +20,14 @@ class NfcUser extends Model
         'points',
         'gift',
         'status',
-        'avatar'
+        'avatar',
+        'used_rewards'
     ];
 
     protected $casts = [
         'points' => 'array',
         'gift'   => 'array',
+        'used_rewards' => 'array',
     ];
 
     /**
