@@ -6,12 +6,11 @@ import { API_BASE_URL } from "../apiConfig";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import Pagination from "@mui/material/Pagination";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 
 export default function GiftsRewards() {
   const [nfcUser, setNfcUser] = useState(null);
   const token = localStorage.getItem("authToken");
+
   const [openToast, setOpenToast] = useState(false);
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;
@@ -27,7 +26,6 @@ export default function GiftsRewards() {
         const userData = res.data;
         const email = userData.email;
 
-        console.log("first", email);
         // 2. Fetch NFC user using email
         const nfcRes = await axios.get(
           `${API_BASE_URL}/api/nfc-user-by-email`,
@@ -38,15 +36,18 @@ export default function GiftsRewards() {
 
         if (nfcRes.data.success) {
           setNfcUser(nfcRes.data.data);
+        } else {
+          setNfcUser(null);
         }
       } catch (err) {
         console.error("Error fetching user/NFC:", err);
+        setNfcUser(null);
       }
     };
 
     if (token) fetchUserAndNfc();
   }, [token]);
-  console.log(nfcUser);
+
   const sortedRewards = [...(nfcUser?.used_rewards || [])].sort(
     (a, b) => new Date(b.used_at) - new Date(a.used_at),
   );
@@ -57,14 +58,14 @@ export default function GiftsRewards() {
   );
 
   const totalPages = Math.ceil(sortedRewards.length / itemsPerPage);
+
   const handleGetRewards = () => {
     setOpenToast(true);
   };
+
   return (
     <Box sx={{ pl: { xs: 0, md: 12 } }}>
-      <Typography
-        sx={{ color: "#fff", fontSize: { xs: 18, md: 22 }, fontWeight: 600 }}
-      >
+      <Typography sx={{ color: "#fff", fontSize: 22, fontWeight: 600 }}>
         My Gifts & Rewards
       </Typography>
       <Typography
@@ -77,8 +78,28 @@ export default function GiftsRewards() {
         See all your gifts and rewards.
       </Typography>
 
-      {nfcUser && (
+      {/* ================= EMPTY STATE ================= */}
+      {!nfcUser ? (
+        <Box
+          sx={{
+            mt: 8,
+            textAlign: "center",
+            color: "#9CA3AF",
+          }}
+        >
+          <RedeemIcon sx={{ fontSize: 50, color: "#6B7280", mb: 1 }} />
+
+          <Typography sx={{ fontSize: 18, fontWeight: 600, mb: 1 }}>
+            No NFC Customer Found
+          </Typography>
+
+          <Typography sx={{ fontSize: 14 }}>
+            You are not registered as an NFC customer yet.
+          </Typography>
+        </Box>
+      ) : (
         <Box sx={{ mb: 3 }}>
+          {/* ================= HEADER ================= */}
           <Box
             sx={{
               display: "flex",
@@ -99,16 +120,14 @@ export default function GiftsRewards() {
                 textTransform: "none",
                 borderRadius: 2,
                 fontWeight: 600,
-                "&:hover": {
-                  background: "#a855f7",
-                },
+                "&:hover": { background: "#a855f7" },
               }}
             >
               Get Rewards
             </Button>
           </Box>
 
-          {/* 🎁 GIFTS */}
+          {/* ================= GIFTS ================= */}
           <Typography sx={{ color: "#9CA3AF", fontSize: 14, mb: 1 }}>
             Available Gifts
           </Typography>
@@ -129,23 +148,20 @@ export default function GiftsRewards() {
                     boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
                   }}
                 >
-                  {/* Header */}
                   <Box
                     sx={{
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      mb: 1,
                     }}
                   >
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Box sx={{ display: "flex", gap: 1 }}>
                       <RedeemIcon sx={{ color: "#C084FC" }} />
                       <Typography sx={{ color: "#fff", fontWeight: 600 }}>
                         {type}
                       </Typography>
                     </Box>
 
-                    {/* Count Badge */}
                     <Box
                       sx={{
                         px: 1.5,
@@ -161,7 +177,6 @@ export default function GiftsRewards() {
                     </Box>
                   </Box>
 
-                  {/* Rewards */}
                   {data.rewards.map((reward, idx) => (
                     <Typography
                       key={idx}
@@ -184,6 +199,7 @@ export default function GiftsRewards() {
             </Typography>
           )}
 
+          {/* ================= USED REWARDS ================= */}
           <Typography sx={{ color: "#9CA3AF", fontSize: 14, mt: 3, mb: 1 }}>
             Used Rewards
           </Typography>
@@ -229,7 +245,6 @@ export default function GiftsRewards() {
                 );
               })}
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
                   <Pagination
@@ -249,6 +264,7 @@ export default function GiftsRewards() {
             <Typography sx={{ color: "#6B7280" }}>No used rewards</Typography>
           )}
 
+          {/* ================= TOAST ================= */}
           {openToast && (
             <Box
               sx={{
