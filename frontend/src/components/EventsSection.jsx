@@ -144,7 +144,7 @@ const EventsSection = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
-  console.log(API_BASE_URL);
+
   useEffect(() => {
     axios
       .get(`${API_BASE_URL}/api/events`)
